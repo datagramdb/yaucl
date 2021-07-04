@@ -24,10 +24,13 @@
 // Created by giacomo on 26/08/19.
 //
 
-#include <locale>
-#include <algorithm>
-#include <codecvt>
 #include <yaucl/strings/stringutils.h>
+#include <string>
+#include <locale> //wstring_convert
+#include <algorithm>
+#include <codecvt> //codecvt_utf8
+#include <streambuf>
+#include <regex>
 
 using namespace yaucl::strings;
 
@@ -60,9 +63,7 @@ std::string yaucl::strings::utf8_tolower(const std::string &src) {
 
 
 
-#include <string>
-#include <algorithm>
-#include <regex>
+
 
 
 

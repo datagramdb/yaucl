@@ -12,6 +12,7 @@
 extern "C" {
 #include <string.h>
 };
+#include <sstream>
 
 namespace yaucl {
     namespace strings {
@@ -59,7 +60,7 @@ namespace yaucl {
 
         /* http://www.cplusplus.com/articles/D9j2Nwbp/ */
 
-        #include <sstream>
+
 
         template <typename T> std::string NumberToString (T Number ) {
             std::ostringstream ss;
