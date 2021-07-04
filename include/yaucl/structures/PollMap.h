@@ -45,7 +45,7 @@ namespace yaucl {
             std::map<K, std::set<V>> poll;
             std::unordered_map<V, K> valueScore;
             bool sanitize = false;
-            int topK;
+            size_t topK;
 
             void addKeyValue(K key, V value) {
                 sanitize = false;
@@ -79,8 +79,30 @@ namespace yaucl {
              * TopK map initialization.
              * @param topK  If the integer is negative, then we preserve all the possible results
              */
-            PollMap(int topK) {
+            PollMap(size_t topK = std::numeric_limits<int>::max()) {
                 this->topK = (topK <= 0) ? std::numeric_limits<int>::max() : topK;
+            }
+
+            PollMap(const PollMap& x) : poll{x.poll}, valueScore{x.valueScore}, sanitize{x.sanitize}, topK{x.topK} {}
+            PollMap& operator=(const PollMap& x) {
+                poll = x.poll;
+                valueScore = x.valueScore;
+                sanitize = x.sanitize;
+                topK = x.topK;
+            }
+
+            size_t size() const {
+                return valueScore.size();
+            }
+
+            void resize(size_t topK) {
+                this->topK = (topK <= 0) ? std::numeric_limits<int>::max() : topK;
+                const size_t originalSize = poll.size();
+                auto eraseIter = poll.begin();
+                auto realNumToRemove = std::max(((int)originalSize)-((int)topK), 0);
+                if (!realNumToRemove) return;
+                std::advance(eraseIter, realNumToRemove);
+                poll.erase(poll.begin(), eraseIter);
             }
 
             void add(K key, V value) {
@@ -88,15 +110,94 @@ namespace yaucl {
                     addKeyValue(key, value);
                 } else {
                     typename std::map<K, std::set<V>>::iterator cmpPtr = poll.begin();
-                    if (cmpPtr->first < key) {
+                    /*if (cmpPtr->first < key) {
                         poll.erase(cmpPtr);
                         addKeyValue(key, value);
-                    }
+                    }*/
+                    K first = cmpPtr->first;
+                    if (first < key) {
+                        poll.erase(cmpPtr);
+                    } else if (first > key)
+                        return;
+                    addKeyValue(key, value);
                 }
+            }
+
+            std::vector<K> getTopKKeys() {
+                std::vector<K> elements;
+                size_t limitK = 0;
+                for (auto x = poll.rbegin(); x != poll.rend(); x++) {
+                    size_t current = x->second.size();
+                    if (elements.empty()) {
+                        elements.emplace_back(x->first);
+                        if (current >= topK)
+                            return elements;
+                    } else {
+                        /*if (current + limitK >= topK)
+                            return elements;*/
+                        elements.emplace_back(x->first);
+                    }
+                    limitK += current;
+                    if (limitK >= topK)
+                        return elements;
+                }
+                return elements;
             }
 
             // Please note that the multimap won't be in reversed order, and therefore we have to reversely scan it
             void getPoll(std::multimap<K, V>& toretMap) {
+                doSanitize();
+                toretMap.clear();
+                //typename std::map<K, std::set<V>>::iterator it;
+                for (const auto& it : poll) {
+                    for (V value : it.second) {
+                        toretMap.emplace(it.first, value);
+                    }
+                }
+            }
+
+            const std::map<K, std::set<V>>& getPoll() const {
+                //doSanitize();
+                return poll;
+            }
+
+            void getRankedPoll(std::map<V, size_t>& rankingMap) {
+                doSanitize();
+                rankingMap.clear();
+                size_t currentPos = 1;
+                for (auto ls = poll.rbegin(); ls != poll.rend(); ls++) {
+                    for (const V& x : ls->second) {
+                        rankingMap[x] = currentPos;
+                    }
+                    currentPos++;
+                }
+            }
+
+            void getNarrowRankedPoll(std::map<V, size_t>& rankingMap) {
+                doSanitize();
+                rankingMap.clear();
+                size_t currentPos = 1;
+                for (auto lsx : getTopKKeys()) {
+                    for (const V& x : poll[lsx]) {
+                        rankingMap[x] = currentPos;
+                    }
+                    currentPos++;
+                }
+            }
+
+            void printNarrow() {
+                doSanitize();
+                for (K k : getTopKKeys()) {
+                    std::cout << k << " = {";
+                    for (const V& x : poll[k]) {
+                        std::cout << x << " ";
+                    }
+                    std::cout << "}" << std::endl;
+                }
+            }
+
+        private:
+            void doSanitize() {
                 if (!sanitize) {
                     valueScore.clear();
                     std::multimap<K, V> map{};
@@ -123,13 +224,6 @@ namespace yaucl {
                         }
                     }
                     sanitize = true;
-                }
-                toretMap.clear();
-                typename std::map<K, std::set<V>>::iterator it;
-                for ( it = poll.begin(); it != poll.end(); it++ ) {
-                    for (V value : it->second) {
-                        toretMap.emplace(it->first, value);
-                    }
                 }
             }
         };
