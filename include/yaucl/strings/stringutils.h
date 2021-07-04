@@ -5,6 +5,7 @@
 #ifndef INCONSISTENCY_STRINGUITLS_H
 #define INCONSISTENCY_STRINGUITLS_H
 
+#include <vector>
 #include <cstring>
 #include <string>
 #include <iostream>
@@ -58,10 +59,12 @@ namespace yaucl {
         std::string unrectify(std::string& x);
         std::string extract_basic_id(std::string& generic_id);
 
+        std::vector<std::string> string_split_to_stringvector(const std::string& str, const std::string& delim);
+        std::vector<size_t> string_split_to_sizetvector(const std::string &str, const std::string &delim = "_");
+        std::string size_vector_to_string(const std::vector<size_t>& vector);
+        std::vector<std::vector<size_t>> generateAllPossibleSubpaths(const std::vector<size_t>& x);;
+
         /* http://www.cplusplus.com/articles/D9j2Nwbp/ */
-
-
-
         template <typename T> std::string NumberToString (T Number ) {
             std::ostringstream ss;
             ss << Number;

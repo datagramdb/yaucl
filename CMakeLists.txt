@@ -26,7 +26,7 @@ add_library(yaucl_hashing STATIC include/yaucl/hashing/evaluateHashes.h
                                  src/hashing/evaluateHashes.c)
 target_include_directories(yaucl_hashing PUBLIC ${CMAKE_SOURCE_DIR}/include/yaucl/hashing/ ${CMAKE_CURRENT_BINARY_DIR})
 
-add_library(yaucl_strings STATIC include/yaucl/strings/stringutils.h src/strings/stringutils.cpp)
+add_library(yaucl_strings STATIC include/yaucl/strings/stringutils.h src/strings/stringutils.cpp include/yaucl/strings/StringBuilder.h)
 target_include_directories(yaucl_strings PUBLIC ${CMAKE_SOURCE_DIR}/include/yaucl/strings/ ${CMAKE_CURRENT_BINARY_DIR})
 
 add_executable(yaucl_test main.cpp )
