@@ -50,6 +50,17 @@ namespace yaucl {
             size_t size = 0;
 
         public:
+            fixed_bimap() = default;
+            fixed_bimap(const fixed_bimap& ) = default;
+            fixed_bimap(fixed_bimap&& ) = default;
+            fixed_bimap& operator=(const fixed_bimap&) = default;
+
+            void clear() {
+                map.clear();
+                elements.clear();
+                size = 0;
+            }
+
             /**
              * Always assumes that the key and the value are always with a bimap.
              * This method is implemented to reduce the amounts of checks for a boolean variable.
@@ -78,12 +89,15 @@ namespace yaucl {
                 oss << "k_" << key;
                 std::string keyS = oss.str();
                 std::unordered_map<std::string, size_t>::iterator it = map.find(keyS);
-                if ( it != map.cend()) { // =>
+                if ( it == map.cend()) { // =>
                     elements.push_back(std::make_pair(key, value));
                     vos << "v_" << value;
                     map[keyS] = size;
                     map[vos.str()] = size;
                     size++;
+                    return value;
+                } else {
+                    return getValue(key);
                 }
             }
 
@@ -96,7 +110,7 @@ namespace yaucl {
             K getKey(V value) {
                 std::ostringstream vos{};
                 vos << "v_" << value;
-                return elements[map[vos.str()]].first;
+                return elements.at(map.at(vos.str())).first;
             }
 
         };
