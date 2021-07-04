@@ -19,7 +19,7 @@ target_include_directories(yaucl_fs PUBLIC ${CMAKE_SOURCE_DIR}/include/yaucl/fs/
 add_library(yaucl_memory STATIC include/yaucl/memory/new_iovec.h
                                 src/memory/new_iovec.cpp
                                 include/yaucl/memory/smart_malloc.h
-                                src/memory/smart_malloc.cpp src/memory/memory_utils.cpp)
+                                src/memory/smart_malloc.cpp src/memory/memory_utils.cpp include/yaucl/memory/smart_index_pointer.h src/memory/smart_index_pointer.cpp src/memory/index.cpp include/yaucl/memory/index.h)
 target_include_directories(yaucl_memory PUBLIC ${CMAKE_SOURCE_DIR}/include/yaucl/memory/ ${CMAKE_CURRENT_BINARY_DIR})
 
 add_library(yaucl_hashing STATIC include/yaucl/hashing/evaluateHashes.h
