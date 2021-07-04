@@ -27,7 +27,7 @@
 #define GRAPHSAMPLER_BINSEARCH_H
 
 #include <vector>
-#include <serializers/commons/structure.h>
+//#include <serializers/commons/structure.h>
 
 namespace yaucl {
     namespace algorithms {
@@ -57,6 +57,8 @@ namespace yaucl {
             }
             return false;
         }
+
+#include <yaucl/java/legacy_graph_algo_names.h>
 
 /**
  * Performs the binary search over a fixed element of Ts
@@ -107,5 +109,14 @@ namespace yaucl {
     }
 }
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+void compareU_Int(unsigned int left, unsigned int right, int *toret);
+void  compareUL_Int(unsigned long, unsigned long, int *);
+void pairCompare(std::pair<unsigned long, unsigned long> left, std::pair<unsigned long, unsigned long> right, int *toret);
+#ifdef __cplusplus
+}
+#endif
 
 #endif //GRAPHSAMPLER_BINSEARCH_H
