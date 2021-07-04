@@ -51,7 +51,7 @@ wchar_t yaucl::strings::lowcase(wchar_t ch) {
 }
 
 std::string yaucl::strings::utf8_tolower(const std::string &src) {
-    static std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> yaucl::strings::converterX;
+    static std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converterX;
     std::wstring wsTmp(src.begin(), src.end());
     std::wstring result;
     std::transform( src.begin(), src.end(), std::back_inserter( result ), lowcase );
@@ -65,8 +65,8 @@ std::string yaucl::strings::utf8_tolower(const std::string &src) {
 #include <regex>
 
 
-std::regex yaucl::strings::spaceRegex("\\s");
-std::string yaucl::strings::slash{"/"};
+
+
 
 /**
  * Provides the expected representation for the string in Concepts
@@ -75,8 +75,9 @@ std::string yaucl::strings::slash{"/"};
  * @return
  */
 std::string yaucl::strings::rectify(std::string& x) {
+    static std::regex spaceRegex("\\s");
     std::string s{x};
-    std::regex_replace (s, yaucl::strings::spaceRegex, "_");
+    std::regex_replace (s, spaceRegex, "_");
     std::replace( s.begin(), s.end(), '-', '_');
     return s;
 }
@@ -109,9 +110,10 @@ std::string yaucl::strings::splitOnce(std::string& s, std::string& delimiter, in
 }
 
 std::string yaucl::strings::unrectify(std::string& x) {
+    static std::string slash{"/"};
     std::string s{x};
     if (s.rfind("/c/", 0) == 0) {
-        std::string split = splitOnce(x, yaucl::strings::slash, 2);
+        std::string split = splitOnce(x, slash, 2);
         return unrectify(split);
     } else {
         std::replace( s.begin(), s.end(), '_', ' ');
@@ -120,10 +122,70 @@ std::string yaucl::strings::unrectify(std::string& x) {
 }
 
 std::string yaucl::strings::extract_basic_id(std::string &generic_id) {
+    static std::string slash{"/"};
     long pos = strpos((char*)generic_id.c_str(), (char*)slash.c_str(),4);
     if (pos >=  0) {
         return generic_id.substr(0, pos);
     } else {
         return generic_id;
     }
+}
+
+
+/*
+ * trimmers.cpp
+ * This file is part of fuzzyStringMatching
+ *
+ * Copyright (C) 2018 - Giacomo Bergami
+ *
+ * fuzzyStringMatching is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * fuzzyStringMatching is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with fuzzyStringMatching. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+//
+// Created by giacomo on 11/12/18.
+//
+
+std::string yaucl::strings::ltrim(const std::string &s) {
+    static std::string WHITESPACE = " \n\r\t\f\v";
+    size_t start = s.find_first_not_of(WHITESPACE);
+    return (start == std::string::npos) ? "" : s.substr(start);
+}
+
+std::string yaucl::strings::rtrim(const std::string &s) {
+    static std::string WHITESPACE = " \n\r\t\f\v";
+    size_t end = s.find_last_not_of(WHITESPACE);
+    return (end == std::string::npos) ? "" : s.substr(0, end + 1);
+}
+
+std::string yaucl::strings::trim(const std::string &s) {
+    return rtrim(ltrim(s));
+}
+
+int yaucl::strings::strpos(char *haystack, char *needle, int nth) {
+    char *res = haystack;
+    for(int i = 1; i <= nth; i++)
+    {
+        res = strstr(res, needle);
+        if (!res)
+            return -1;
+        else if(i != nth)
+            res++;
+    }
+    return res - haystack;
+}
+
+std::string yaucl::strings::to_string(const std::string &value) {
+    return value;
 }
