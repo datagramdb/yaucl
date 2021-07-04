@@ -107,7 +107,7 @@ namespace yaucl {
                 return elements[map[oss.str()]].second;
             }
 
-            K getKey(V value) {
+            K getKey(V value) const {
                 std::ostringstream vos{};
                 vos << "v_" << value;
                 return elements.at(map.at(vos.str())).first;
