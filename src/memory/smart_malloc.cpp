@@ -24,13 +24,13 @@
 
 using namespace yaucl::memory;
 
-void memory_copy(char *dest, const char *src, size_t n) {
+void yaucl::memory::memory_copy(char *dest, const char *src, size_t n) {
     size_t i;
     for (i = 0; i < n; i++)
         dest[i] = src[i];
 }
 
-void *smart_malloc::domalloc(size_t size) {
+void *yaucl::memory::smart_malloc::domalloc(size_t size) {
     if (malloced_iovec.iov_base == nullptr) {
         malloced_iovec.iov_base = malloc(size);
         memset(malloced_iovec.iov_base, 0, size);
@@ -45,7 +45,7 @@ void *smart_malloc::domalloc(size_t size) {
     return malloced_iovec.iov_base;
 }
 
-smart_malloc::~smart_malloc() {
+yaucl::memory::smart_malloc::~smart_malloc() {
     if ((!moved) && (malloced_iovec.iov_len && malloced_iovec.iov_base)) {
         free(malloced_iovec.iov_base);
     }
@@ -53,17 +53,17 @@ smart_malloc::~smart_malloc() {
     malloced_iovec.iov_len = 0;
 }
 
-void smart_malloc::docopy(struct iovec &toCopy) {
+void yaucl::memory::smart_malloc::docopy(struct iovec &toCopy) {
     domalloc(toCopy.iov_len);
     memory_copy((char*)malloced_iovec.iov_base, (char*)toCopy.iov_base, toCopy.iov_len);
 }
 
-void smart_malloc::docopy(struct iovec *toCopy) {
+void yaucl::memory::smart_malloc::docopy(struct iovec *toCopy) {
     domalloc(toCopy->iov_len);
     memory_copy((char*)malloced_iovec.iov_base, (char*)toCopy->iov_base, toCopy->iov_len);
 }
 
-smart_malloc::smart_malloc() {
+yaucl::memory::smart_malloc::smart_malloc() {
     moved = false;
     malloced_iovec.iov_len = 0;
     malloced_iovec.iov_base = nullptr;
@@ -98,7 +98,7 @@ smart_malloc &smart_malloc::operator=(smart_malloc const &rhs) {
     return *this;
 }*/
 
-void swap(smart_malloc &lhs, smart_malloc &rhs) {
+void swap(yaucl::memory::smart_malloc &lhs, yaucl::memory::smart_malloc &rhs) {
     void* tmp = lhs.malloced_iovec.iov_base;
     lhs.malloced_iovec.iov_base = rhs.malloced_iovec.iov_base;
     rhs.malloced_iovec.iov_base = tmp;
