@@ -61,6 +61,10 @@ namespace yaucl {
                 size = 0;
             }
 
+            const std::vector<std::pair<K, V>>& getEntryPoints() const {
+                return elements;
+            }
+
             /**
              * Always assumes that the key and the value are always with a bimap.
              * This method is implemented to reduce the amounts of checks for a boolean variable.
