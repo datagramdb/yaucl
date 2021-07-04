@@ -30,7 +30,7 @@
 
 namespace yaucl {
     namespace structures  {
-        namespace rbtre {
+        namespace rbtree {
 
 /**
  * Defines the node of a RBtree. Each node contains a list of elements

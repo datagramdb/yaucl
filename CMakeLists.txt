@@ -3,7 +3,7 @@ project(yaucl)
 include_directories(include)
 set(CMAKE_CXX_STANDARD 20)
 
-add_library(yaucl_algorithms STATIC src/algorithms/binsearch.cpp include/yaucl/fs/fwrite.h)
+add_library(yaucl_algorithms STATIC src/algorithms/binsearch.cpp)
 
 add_library(yaucl_fs STATIC include/yaucl/fs/mmapFile.h
                             src/fs/mmapFile.cpp include/yaucl/java/legacy_graph_algo_names.h src/fs/frwite.cpp)

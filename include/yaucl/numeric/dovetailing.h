@@ -31,7 +31,6 @@
 #ifndef PROJECT_DOVETAILING_H
 #define PROJECT_DOVETAILING_H
 
-#include "../commons/structure.h"
 
 /*
  * It can be showed that, in order to represent in secondary memory matrices with truncated files
