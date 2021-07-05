@@ -15,6 +15,7 @@ add_library(yaucl_fs STATIC include/yaucl/fs/mmapFile.h
                             src/fs/mmapFile.cpp include/yaucl/java/legacy_graph_algo_names.h src/fs/frwite.cpp)
 target_include_directories(yaucl_fs PUBLIC ${CMAKE_SOURCE_DIR}/include/yaucl/fs/ ${CMAKE_CURRENT_BINARY_DIR})
 
+add_library(yaucl_graphs src/graphs/primary_memory_graph.cpp include/yaucl/graphs/primary_memory_graph.h src/graphs/adjacency_list_entry.cpp include/yaucl/graphs/adjacency_list_entry.h src/graphs/algorithms/tarjan.cpp include/yaucl/graphs/algorithms/tarjan.h nesting.cpp nesting.h)
 
 add_library(yaucl_memory STATIC include/yaucl/memory/new_iovec.h
                                 src/memory/new_iovec.cpp
@@ -23,7 +24,7 @@ add_library(yaucl_memory STATIC include/yaucl/memory/new_iovec.h
 target_include_directories(yaucl_memory PUBLIC ${CMAKE_SOURCE_DIR}/include/yaucl/memory/ ${CMAKE_CURRENT_BINARY_DIR})
 
 add_library(yaucl_hashing STATIC include/yaucl/hashing/evaluateHashes.h
-                                 src/hashing/evaluateHashes.c)
+                                 src/hashing/evaluateHashes.c src/hashing/hash_combine.cpp include/yaucl/hashing/hash_combine.h src/hashing/hashing.cpp include/yaucl/hashing/hashing.h include/yaucl/hashing/pair_hash.h include/yaucl/hashing/vector_hash.h include/yaucl/hashing/uset_hash.h)
 target_include_directories(yaucl_hashing PUBLIC ${CMAKE_SOURCE_DIR}/include/yaucl/hashing/ ${CMAKE_CURRENT_BINARY_DIR})
 
 add_library(yaucl_strings STATIC include/yaucl/strings/stringutils.h src/strings/stringutils.cpp include/yaucl/strings/StringBuilder.h)
