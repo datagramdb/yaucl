@@ -101,9 +101,41 @@ namespace yaucl {
                     size++;
                     return value;
                 } else {
-                    return getValue(key);
+                    return elements.at(it->second);
                 }
             }
+
+
+            std::pair<K,V>* putWithRefKeyCheck(K key, V value) {
+                std::ostringstream oss{}, vos{};
+                oss << "k_" << key;
+                std::string keyS = oss.str();
+                std::unordered_map<std::string, size_t>::iterator it = map.find(keyS);
+                if ( it == map.cend()) { // =>
+                    elements.push_back(std::make_pair(key, value));
+                    vos << "v_" << value;
+                    map[keyS] = size;
+                    map[vos.str()] = size;
+                    size++;
+                    return (elements.empty()) ? nullptr : &elements[elements.size()-1];
+
+                } else {
+                    return &elements[it->second];
+                }
+            }
+
+            std::optional<const std::pair<K, V>*> hasKey(K key) {
+                std::ostringstream oss{};
+                oss << "k_" << key;
+                const auto it = map.find(oss.str());
+                if (it == map.end()) {
+                    return {};
+                } else {
+                    return {elements.at(it->second)};
+                }
+            }
+
+
 
             V getValue(K key) {
                 std::ostringstream oss{};
