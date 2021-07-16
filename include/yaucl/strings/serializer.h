@@ -21,6 +21,9 @@
 #ifndef YAUCL_SERIALIZER_H
 #define YAUCL_SERIALIZER_H
 
+#include <utility>
+#include <ostream>
+
 template <typename K, typename V>
 std::ostream& operator<< (std::ostream& out, const std::pair<K, V>& v) {
     return out << "«" << v.first << ", " << v.second << "»";
