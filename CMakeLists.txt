@@ -17,6 +17,10 @@ target_include_directories(yaucl_fs PUBLIC ${CMAKE_SOURCE_DIR}/include/yaucl/fs/
 
 add_library(yaucl_graphs src/graphs/primary_memory_graph.cpp include/yaucl/graphs/primary_memory_graph.h src/graphs/adjacency_list_entry.cpp include/yaucl/graphs/adjacency_list_entry.h src/graphs/algorithms/tarjan.cpp include/yaucl/graphs/algorithms/tarjan.h nesting.cpp nesting.h)
 
+find_package (Eigen3 3.3 REQUIRED NO_MODULE)
+add_library(yaucl_numeric src/numeric/eigen_sparse.cpp)
+target_link_libraries(yaucl_numeric Eigen3::Eigen)
+
 add_library(yaucl_memory STATIC include/yaucl/memory/new_iovec.h
                                 src/memory/new_iovec.cpp
                                 include/yaucl/memory/smart_malloc.h

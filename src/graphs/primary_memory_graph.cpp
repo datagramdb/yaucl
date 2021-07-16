@@ -161,3 +161,70 @@ bool yaucl::graphs::primary_memory_graph::removeAllEdges_unsafe(size_t src, size
     return false;
 }
 
+void primary_memory_graph::removeAllNodes(std::vector<size_t> &nodes) {
+    //std::queue<size_t> elements;
+    std::set<size_t> set;
+    for (const size_t& x : nodes) {
+        auto y = id_to_vector_offset.at(x);
+        //elements.emplace(y);
+        set.emplace(y);
+    }
+
+    // Setting all the edges to remove
+    std::set<std::pair<size_t, size_t>> edgesToRemove;
+    for (const size_t& v : nodes) {
+        auto& vv = vertices[id_to_vector_offset.at(v)];
+        for (const auto& dst : vv.outgoing) {
+            edgesToRemove.emplace(v, dst.first);
+        }
+        for (const auto& dst : vv.ingoing) {
+            edgesToRemove.emplace(dst.first, v);
+        }
+    }
+
+    // Removing all the vertices
+    size_t k = 0;
+    for (const size_t& x: set) {
+        vertices.erase(vertices.begin() + x - k);
+        k++;
+    }
+    for (const size_t& x : nodes) {
+        id_to_vector_offset.erase(id_to_vector_offset.find(x));
+    }
+
+    // Restructuring the ids
+    size_t j = 0;
+    auto it = set.begin();
+    if (it != set.end()) {
+        size_t array_offset_start = *it;
+        size_t n = vertices.size();
+        if (array_offset_start < vertices.size()) {
+            for ( ; array_offset_start<n; array_offset_start++) {
+                id_to_vector_offset[vertices[array_offset_start].id] = array_offset_start;
+            }
+        }
+    }
+    /*while (!set.empty()) {
+        size_t val = elements.front();
+        elements.pop();
+        j++;
+        size_t max;
+        if (elements.empty()) {
+            max = vertices.size();
+        } else {
+            max = elements.front();
+        }
+        for (size_t i = val; i<max; i++) {
+            size_t id = vertices[val - j].id;
+            id_to_vector_offset[id] = id_to_vector_offset[id]-j;
+        }
+    }*/
+
+    // Removing all the edges
+    for (const std::pair<size_t, size_t>& cp : edgesToRemove) {
+        removeAllEdges_unsafe(cp.first, cp.second);
+    }
+
+    n -= set.size();
+}
+
