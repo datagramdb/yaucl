@@ -131,7 +131,7 @@ namespace yaucl {
                 if (it == map.end()) {
                     return {};
                 } else {
-                    return {elements.at(it->second)};
+                    return {&elements[it->second]};
                 }
             }
 
@@ -142,7 +142,7 @@ namespace yaucl {
                 if (it == map.end()) {
                     return {};
                 } else {
-                    return {elements.at(it->second)};
+                    return {&elements[(it->second)]};
                 }
             }
 
