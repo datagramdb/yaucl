@@ -135,6 +135,17 @@ namespace yaucl {
                 }
             }
 
+            std::optional<const std::pair<K, V>*> hasValue(V key) {
+                std::ostringstream oss{};
+                oss << "v_" << key;
+                const auto it = map.find(oss.str());
+                if (it == map.end()) {
+                    return {};
+                } else {
+                    return {elements.at(it->second)};
+                }
+            }
+
 
 
             V getValue(K key) {
