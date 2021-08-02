@@ -64,6 +64,9 @@ namespace yaucl {
         std::string size_vector_to_string(const std::vector<size_t>& vector);
         std::vector<std::vector<size_t>> generateAllPossibleSubpaths(const std::vector<size_t>& x);;
 
+        /* https://stackoverflow.com/a/24315631/1376095 */
+        std::string ReplaceAll(std::string str, const std::string& from, const std::string& to);
+
         /* http://www.cplusplus.com/articles/D9j2Nwbp/ */
         template <typename T> std::string NumberToString (T Number ) {
             std::ostringstream ss;
