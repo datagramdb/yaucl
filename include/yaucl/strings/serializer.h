@@ -23,10 +23,40 @@
 
 #include <utility>
 #include <ostream>
+#include <unordered_map>
+#include <map>
+#include <utility>
+#include <vector>
 
-template <typename K, typename V>
-std::ostream& operator<< (std::ostream& out, const std::pair<K, V>& v) {
-    return out << "«" << v.first << ", " << v.second << "»";
+template<typename T, typename V>
+std::ostream &operator<<(std::ostream &os, const std::unordered_map<T,V> &insertion) {
+    for (const auto& cp : insertion) {
+        os << "{" << cp.first << ": " << cp.second << "}";
+    }
+    return os;
+}
+
+template<typename T, typename V>
+std::ostream &operator<<(std::ostream &os, const std::map<T,V> &insertion) {
+    for (const auto& cp : insertion) {
+        os << "{" << cp.first << ": " << cp.second << "}";
+    }
+    return os;
+}
+
+template<typename T, typename V>
+std::ostream &operator<<(std::ostream &os, const std::pair<T,V> &insertion) {
+    return os << "⟪" << insertion.first << ", " << insertion.second << "⟫";
+}
+
+template<typename T>
+std::ostream &operator<<(std::ostream &os, const std::vector<T> &insertion) {
+    os << '{';
+    for (size_t i = 0, N = insertion.size(); i<N; i++) {
+        os << insertion.at(i);
+        if (i < (N-1)) os << ", ";
+    }
+    return os << '}';
 }
 
 #endif //YAUCL_SERIALIZER_H

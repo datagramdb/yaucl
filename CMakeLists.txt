@@ -5,8 +5,16 @@ set(MY_LIBRARY_VERSION_MAJOR 0 CACHE STRING "major version" FORCE)
 set(MY_LIBRARY_VERSION_MINOR 1 CACHE STRING "minor version" FORCE)
 set(MY_LIBRARY_VERSION ${MY_LIBRARY_VERSION_MAJOR}.${MY_LIBRARY_VERSION_MINOR} CACHE STRING "version" FORCE)
 
+add_library(rapidxml INTERFACE)
+find_package(Threads REQUIRED)
+find_package(Boost REQUIRED regex)
+include_directories(${BOOST_INCLUDE_DIRS})
+message("boost lib: ${Boost_LIBRARIES}")
+message("boost inc:${Boost_INCLUDE_DIR}")
 
 include_directories(include)
+include_directories(submodules/date/include)
+
 set(CMAKE_CXX_STANDARD 20)
 
 add_library(yaucl_algorithms STATIC src/algorithms/binsearch.cpp)
@@ -15,10 +23,10 @@ add_library(yaucl_fs STATIC include/yaucl/fs/mmapFile.h
                             src/fs/mmapFile.cpp include/yaucl/java/legacy_graph_algo_names.h src/fs/frwite.cpp)
 target_include_directories(yaucl_fs PUBLIC ${CMAKE_SOURCE_DIR}/include/yaucl/fs/ ${CMAKE_CURRENT_BINARY_DIR})
 
-add_library(yaucl_graphs src/graphs/primary_memory_graph.cpp include/yaucl/graphs/primary_memory_graph.h src/graphs/adjacency_list_entry.cpp include/yaucl/graphs/adjacency_list_entry.h src/graphs/algorithms/tarjan.cpp include/yaucl/graphs/algorithms/tarjan.h nesting.cpp nesting.h)
+add_library(yaucl_graphs src/graphs/primary_memory_graph.cpp include/yaucl/graphs/primary_memory_graph.h src/graphs/adjacency_list_entry.cpp include/yaucl/graphs/adjacency_list_entry.h src/graphs/algorithms/tarjan.cpp include/yaucl/graphs/algorithms/tarjan.h nesting.cpp nesting.h )
 
 find_package (Eigen3 3.3 REQUIRED NO_MODULE)
-add_library(yaucl_numeric src/numeric/eigen_sparse.cpp)
+add_library(yaucl_numeric src/numeric/eigen_sparse.cpp numeric_base.cpp include/yaucl/numeric/numeric_base.h)
 target_link_libraries(yaucl_numeric Eigen3::Eigen)
 
 add_library(yaucl_memory STATIC include/yaucl/memory/new_iovec.h
@@ -34,8 +42,16 @@ target_include_directories(yaucl_hashing PUBLIC ${CMAKE_SOURCE_DIR}/include/yauc
 add_library(yaucl_strings STATIC include/yaucl/strings/stringutils.h src/strings/stringutils.cpp include/yaucl/strings/StringBuilder.h)
 target_include_directories(yaucl_strings PUBLIC ${CMAKE_SOURCE_DIR}/include/yaucl/strings/ ${CMAKE_CURRENT_BINARY_DIR})
 
+add_library(yaucl_data STATIC src/data/xml.cpp include/yaucl/data/xml.h)
+target_link_libraries(yaucl_data rapidxml)
+
+add_library(yaucl_bpm STATIC src/bpm/bpm_log.cpp include/yaucl/bpm/bpm_log.h src/bpm/bpm_serializers.cpp include/yaucl/bpm/bpm_serializers.h)
+target_include_directories(yaucl_bpm PUBLIC ${CMAKE_SOURCE_DIR}/include/yaucl/bpm/ ${CMAKE_CURRENT_BINARY_DIR})
+target_link_libraries(yaucl_bpm {Boost_LIBRARIES} Threads::Threads  yaucl_numeric yaucl_data)
+
 add_executable(yaucl_test main.cpp )
 target_link_libraries(yaucl_test yaucl_fs yaucl_memory)
+
 
 
 INSTALL (
@@ -72,6 +88,13 @@ install (TARGETS yaucl_hashing
         )
 
 install (TARGETS yaucl_strings
+        RUNTIME DESTINATION bin
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib
+        PUBLIC_HEADER DESTINATION include
+        )
+
+install (TARGETS yaucl_bpm
         RUNTIME DESTINATION bin
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib
