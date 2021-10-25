@@ -15,6 +15,9 @@ extern "C" {
 };
 #include <sstream>
 
+#include <nlohmann/json.hpp>
+#define UNESCAPE(x)                  nlohmann::json::parse(x).get<std::string>()
+
 namespace yaucl {
     namespace strings {
 
