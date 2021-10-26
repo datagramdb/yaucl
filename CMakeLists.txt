@@ -5,7 +5,9 @@ set(MY_LIBRARY_VERSION_MAJOR 0 CACHE STRING "major version" FORCE)
 set(MY_LIBRARY_VERSION_MINOR 1 CACHE STRING "minor version" FORCE)
 set(MY_LIBRARY_VERSION ${MY_LIBRARY_VERSION_MAJOR}.${MY_LIBRARY_VERSION_MINOR} CACHE STRING "version" FORCE)
 
-
+include_directories(include)
+include_directories(submodules/date/include)
+include_directories(submodules/json/include)
 add_library(rapidxml INTERFACE)
 find_package(Threads REQUIRED)
 find_package(Boost 1.74.0 REQUIRED regex)
@@ -16,8 +18,7 @@ add_subdirectory(submodules/antlr4/runtime/Cpp)
 include_directories(submodules/antlr4/runtime/Cpp/runtime/src)
 include_directories(antlr4/cpp/antlr4)
 
-include_directories(include)
-include_directories(submodules/date/include)
+
 
 set(CMAKE_CXX_STANDARD 20)
 

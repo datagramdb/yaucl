@@ -45,11 +45,12 @@ class TraceParser;
 namespace yaucl {
     namespace bpm {
         class DataTraceParse : public TracesBaseVisitor {
+
         public:
             DataTraceParse() {}
             ~DataTraceParse() {}
 
-            log load(std::ifstream& stream);
+            log load(const std::string& stream_name, std::istream& stream);
             antlrcpp::Any visitLog(TracesParser::LogContext *ctx) override;
             antlrcpp::Any visitTrace(TracesParser::TraceContext *ctx) override;
             antlrcpp::Any visitEvent(TracesParser::EventContext *ctx) override;

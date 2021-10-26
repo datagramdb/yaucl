@@ -21,7 +21,7 @@ grammar Traces;
 
 log : (trace ';')* trace;
 
-trace: INTNUMBER data_part ':' event*;
+trace: data_part ':' event*;
 event : LABEL data_part?;
 data_part: '{' field* '}';
 field : VAR '=' (NUMBER | STRING) ;

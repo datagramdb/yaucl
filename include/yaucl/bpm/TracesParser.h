@@ -56,7 +56,6 @@ public:
   public:
     TraceContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    antlr4::tree::TerminalNode *INTNUMBER();
     Data_partContext *data_part();
     std::vector<EventContext *> event();
     EventContext* event(size_t i);

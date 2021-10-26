@@ -27,43 +27,54 @@
 #include <yaucl/bpm/TracesLexer.h>
 #include <yaucl/bpm/TracesParser.h>
 
-using namespace yaucl::bpm;
+//using namespace yaucl::bpm;
 
-log DataTraceParse::load(std::ifstream &stream) {
+yaucl::bpm::log yaucl::bpm::DataTraceParse::load(const std::string& stream_name, std::istream& stream) {
+
     antlr4::ANTLRInputStream input(stream);
     TracesLexer lexer(&input);
     antlr4::CommonTokenStream tokens(&lexer);
     TracesParser parser(&tokens);
-    return visit(parser.log()).as<std::vector<std::vector<std::pair<std::string, std::unordered_map<std::string, std::variant<std::string, double>>>>>>();
+    return visitLog(parser.log()).as<yaucl::bpm::log>();
 }
 
-antlrcpp::Any DataTraceParse::visitLog(TracesParser::LogContext *ctx) {
-    std::vector<std::vector<std::pair<std::string, std::unordered_map<std::string, std::variant<std::string, double>>>>> log;
+antlrcpp::Any yaucl::bpm::DataTraceParse::visitLog(TracesParser::LogContext *ctx) {
+    yaucl::bpm::log log;
     if (ctx) {
+        size_t trace_id = 1;
         for (const auto& ptr : ctx->trace()) {
             auto it = visitTrace(ptr);
             if (it.isNotNull()) {
-                log.emplace_back(it.as<std::vector<std::pair<std::string, std::unordered_map<std::string, std::variant<std::string, double>>>>>());
+                auto t = it.as<yaucl::bpm::trace>();
+                t.event_label_or_name = std::to_string(trace_id);
+                log.traces.emplace_back(t);
+                trace_id++;
             }
         }
     }
     return {log};
 }
 
-antlrcpp::Any DataTraceParse::visitTrace(TracesParser::TraceContext *ctx) {
+antlrcpp::Any yaucl::bpm::DataTraceParse::visitTrace(TracesParser::TraceContext *ctx) {
     yaucl::bpm::trace trace;
     if (ctx) {
+        size_t event_count = 1;
+        trace.payload = visitData_part(ctx->data_part()).as<std::unordered_map<std::string, std::variant<std::string, double>>>();
         for (const auto& ptr : ctx->event()) {
             auto it = visitEvent(ptr);
             if (it.isNotNull()) {
-                trace.trace_events.emplace_back(it.as<yaucl::bpm::event>());
+                auto e = it.as<yaucl::bpm::event>();
+                e.epoch_time_and_event_id = {event_count, event_count};
+                event_count++;
+                trace.trace_events.emplace_back(e);
             }
         }
+
     }
     return {trace};
 }
 
-antlrcpp::Any DataTraceParse::visitEvent(TracesParser::EventContext *ctx) {
+antlrcpp::Any yaucl::bpm::DataTraceParse::visitEvent(TracesParser::EventContext *ctx) {
     if (ctx) {
         yaucl::bpm::event event;
         event.event_label_or_name = ctx->LABEL()->getText();
@@ -74,7 +85,7 @@ antlrcpp::Any DataTraceParse::visitEvent(TracesParser::EventContext *ctx) {
     return {};
 }
 
-antlrcpp::Any DataTraceParse::visitData_part(TracesParser::Data_partContext *ctx) {
+antlrcpp::Any yaucl::bpm::DataTraceParse::visitData_part(TracesParser::Data_partContext *ctx) {
     std::unordered_map<std::string, std::variant<std::string, double>> map;
     if (ctx) {
         for (const auto& ptr : ctx->field()) {
@@ -85,9 +96,9 @@ antlrcpp::Any DataTraceParse::visitData_part(TracesParser::Data_partContext *ctx
     return {map};
 }
 
-#include <yaucl/strings/stringutils.h>
+#include "yaucl/strings/stringutils.h"
 
-antlrcpp::Any DataTraceParse::visitField(TracesParser::FieldContext *ctx) {
+antlrcpp::Any yaucl::bpm::DataTraceParse::visitField(TracesParser::FieldContext *ctx) {
     std::unordered_map<std::string, std::variant<std::string, double>> map;
     if (ctx) {
         if (ctx->NUMBER()) {
