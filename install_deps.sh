@@ -3,7 +3,7 @@
 #mkdir -p antlr4/cpp
 
 # Installing the required packages for antlr4
-sudo apt-get install -y uuid-dev maven
+sudo apt-get install -y uuid-dev maven libblas-dev liblapack-dev
 
 ## Pulling the repositories
 git submodule update --init --recursive

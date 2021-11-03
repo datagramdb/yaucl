@@ -14,10 +14,10 @@ std::vector <size_t> yaucl::numeric::numberToBase(size_t n, size_t b) {
     return digits;
 }
 
-#include <date/date.h>
+//#include <date/date.h>
 
 long long int yaucl::numeric::parse8601(const std::string &save) {
-    std::istringstream in{save};
+    /*std::istringstream in{save};
     date::sys_time<std::chrono::milliseconds> tp;
     in >> date::parse("%FT%TZ", tp);
     if (in.fail())
@@ -27,5 +27,6 @@ long long int yaucl::numeric::parse8601(const std::string &save) {
         in.str(save);
         in >> date::parse("%FT%T%Ez", tp);
     }
-    return std::chrono::duration_cast<std::chrono::milliseconds>(tp.time_since_epoch()).count();
+    return std::chrono::duration_cast<std::chrono::milliseconds>(tp.time_since_epoch()).count();*/
+    return 0;
 }
