@@ -23,7 +23,8 @@
  * along with graphSampler. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdint-gcc.h>
+//#include <stdint-gcc.h>
+#include <stdint.h>
 
 typedef uint_fast64_t
         LONG_NUMERIC;

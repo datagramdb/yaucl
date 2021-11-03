@@ -10,14 +10,10 @@ include_directories(submodules/date/include)
 include_directories(submodules/json/include)
 add_library(rapidxml INTERFACE)
 find_package(Threads REQUIRED)
-
-
-set(BOOST_REGEX_STANDALONE ON)
-add_subdirectory(submodules/boost77/libs/regex)
-#find_package(Boost 1.74.0 REQUIRED regex)
-#include_directories(${BOOST_INCLUDE_DIRS})
-#message("boost lib: ${Boost_LIBRARIES}")
-#message("boost inc:${Boost_INCLUDE_DIR}")
+find_package(Boost 1.71.0 REQUIRED regex)
+include_directories(${BOOST_INCLUDE_DIRS})
+message("boost lib: ${Boost_LIBRARIES}")
+message("boost inc:${Boost_INCLUDE_DIR}")
 add_subdirectory(submodules/antlr4/runtime/Cpp)
 include_directories(submodules/antlr4/runtime/Cpp/runtime/src)
 include_directories(antlr4/cpp/antlr4)
@@ -34,9 +30,10 @@ target_include_directories(yaucl_fs PUBLIC ${CMAKE_SOURCE_DIR}/include/yaucl/fs/
 
 add_library(yaucl_graphs src/graphs/primary_memory_graph.cpp include/yaucl/graphs/primary_memory_graph.h src/graphs/adjacency_list_entry.cpp include/yaucl/graphs/adjacency_list_entry.h src/graphs/algorithms/tarjan.cpp include/yaucl/graphs/algorithms/tarjan.h nesting.cpp nesting.h )
 
-find_package (Eigen3 3.3 REQUIRED NO_MODULE)
+include_directories(submodules/eigen)
+#find_package (Eigen3 3.3 REQUIRED NO_MODULE)
 add_library(yaucl_numeric src/numeric/eigen_sparse.cpp src/numeric/numeric_base.cpp include/yaucl/numeric/numeric_base.h)
-target_link_libraries(yaucl_numeric Eigen3::Eigen)
+#target_link_libraries(yaucl_numeric )
 
 add_library(yaucl_memory STATIC include/yaucl/memory/new_iovec.h
                                 src/memory/new_iovec.cpp
@@ -56,8 +53,8 @@ target_link_libraries(yaucl_data rapidxml)
 
 add_library(yaucl_bpm STATIC src/bpm/bpm_log.cpp include/yaucl/bpm/bpm_log.h src/bpm/bpm_serializers.cpp include/yaucl/bpm/bpm_serializers.h DataTraceParse.cpp include/yaucl/bpm/DataTraceParse.h)
 target_include_directories(yaucl_bpm PUBLIC ${CMAKE_SOURCE_DIR}/include/yaucl/bpm/ ${CMAKE_CURRENT_BINARY_DIR})
-target_link_libraries(yaucl_bpm Threads::Threads antlr4_static yaucl_numeric yaucl_data)
-add_dependencies(yaucl_bpm Threads::Threads antlr4_static yaucl_numeric yaucl_data)
+target_link_libraries(yaucl_bpm ${Boost_LIBRARIES} Threads::Threads antlr4_static yaucl_numeric yaucl_data)
+add_dependencies(yaucl_bpm ${Boost_LIBRARIES} Threads::Threads antlr4_static yaucl_numeric yaucl_data)
 
 add_executable(yaucl_test main.cpp )
 target_link_libraries(yaucl_test yaucl_fs yaucl_memory)

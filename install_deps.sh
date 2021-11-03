@@ -3,7 +3,11 @@
 #mkdir -p antlr4/cpp
 
 # Installing the required packages for antlr4
-sudo apt-get install -y uuid-dev maven libblas-dev liblapack-dev
+sudo apt-get install -y uuid-dev maven libblas-dev liblapack-dev clang-tools-12 clang-12
+if [ ! -f /usr/bin/gmake ]; then
+     sudo ln -s /usr/bin/make /usr/bin/gmake
+fi
+
 
 ## Pulling the repositories
 git submodule update --init --recursive
