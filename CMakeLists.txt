@@ -3,7 +3,7 @@ project(knobab_server)
 set(CMAKE_CXX_STANDARD 20)
 
 include_directories(include)
-
+include_directories(submodules/httplib)
 include_directories(submodules/magic_enum/include)
 include_directories(submodules/date/include)
 include_directories(submodules/json/include)

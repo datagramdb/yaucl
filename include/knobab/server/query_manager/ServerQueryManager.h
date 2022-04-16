@@ -32,8 +32,16 @@ inline LeafType decleare_leaf_determine(KnoBABQueryParser::Declare_act_targetCon
 
 class ServerQueryManager : public KnoBABQueryBaseVisitor {
     bool asConjunctiveModel;
+    size_t trace_count = 0;
+    bool isPayloadTrace = false;
+    size_t event_count = 0;
+    bool load_also_data = true;
 public:
     double parsing_time_ms = -1.0;
+
+    /// Server entry point
+    void run(const std::string& host, int port);
+    std::pair<std::string,std::string> runQuery(const std::string& query);
 
     /// Plan Visitor
     bool fromNowOnTimed = false;
@@ -88,7 +96,10 @@ public:
 
     /// HRF Parser
     std::any visitField(KnoBABQueryParser::FieldContext *context) override;
-
+    std::any visitLog(KnoBABQueryParser::LogContext *ctx) override;
+    antlrcpp::Any visitTrace(KnoBABQueryParser::TraceContext *ctx)override;
+    antlrcpp::Any visitEvent(KnoBABQueryParser::EventContext *ctx) override;
+    antlrcpp::Any visitData_part(KnoBABQueryParser::Data_partContext *ctx);
 };
 
 

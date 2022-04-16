@@ -278,7 +278,7 @@ std::any ServerQueryManager::visitLoad_data_query(KnoBABQueryParser::Load_data_q
     if (context) {
         std::string filename = UNESCAPE(context->file->getText());
         bool oldLoading = true;
-        bool isWithData = (context->with_data());
+        load_also_data = (context->with_data());
         bool doStats = !(context->no_stats());
         bool index_missing_data = (context->with_missing());
         std::string env_name = UNESCAPE(context->env_name->getText());
@@ -309,7 +309,7 @@ std::any ServerQueryManager::visitLoad_data_query(KnoBABQueryParser::Load_data_q
             auto t1 = high_resolution_clock::now();
             if (oldLoading) {
                 std::ifstream input_stream{filename};
-                load_into_knowledge_base(format, isWithData, input_stream, env.db, filename);
+                load_into_knowledge_base(format, load_also_data, input_stream, env.db, filename);
             } else {
                 tv = &env.db;
                 visitLog(context->log());
@@ -382,6 +382,58 @@ std::any ServerQueryManager::visitField(KnoBABQueryParser::FieldContext *ctx) {
             DEBUG_ASSERT(ctx->STRING());
             tv->visitField(
                     UNESCAPE(ctx->var()->STRING()->getText()), UNESCAPE(ctx->STRING()->getText()));
+        }
+    }
+    return {};
+}
+
+antlrcpp::Any ServerQueryManager::visitLog(KnoBABQueryParser::LogContext *ctx) {
+    trace_count = 0;
+    isPayloadTrace = false;
+    if (ctx) {
+        for (const auto& ptr : ctx->trace()) {
+            visitTrace(ptr);
+        }
+    }
+    return {};
+}
+
+antlrcpp::Any ServerQueryManager::visitTrace(KnoBABQueryParser::TraceContext *ctx) {
+    if (ctx) {
+        size_t event_count = 1;
+        size_t traceId = tv->enterTrace(std::to_string(trace_count));
+        isPayloadTrace = true;
+        visitData_part(ctx->data_part());
+        isPayloadTrace = false;
+        event_count = 0;
+        for (const auto& ptr : ctx->event()) {
+            visitEvent(ptr);
+        }
+        event_count = 0;
+        tv->exitTrace(traceId);
+        trace_count++;
+    }
+    return {};
+}
+
+antlrcpp::Any ServerQueryManager::visitEvent(KnoBABQueryParser::EventContext *ctx) {
+    if (ctx) {
+        const auto p1 = std::chrono::system_clock::now();
+        unsigned long long int timestamp = std::chrono::duration_cast<std::chrono::hours>(p1.time_since_epoch()).count();
+        size_t eid = tv->enterEvent(timestamp,ctx->LABEL()->getText());
+        isPayloadTrace = false;
+        visitData_part(ctx->data_part());
+        isPayloadTrace = false;
+        tv->exitEvent(eid);
+        event_count++;
+    }
+    return {};
+}
+
+antlrcpp::Any ServerQueryManager::visitData_part(KnoBABQueryParser::Data_partContext *ctx) {
+    if (ctx && load_also_data) {
+        for (const auto& ptr : ctx->field()) {
+            visitField(ptr);
         }
     }
     return {};
@@ -628,4 +680,62 @@ antlrcpp::Any ServerQueryManager::visitAnd_globally(KnoBABQueryParser::And_globa
     fromNowOnTimedStack.pop();
 
     return {LTLfQuery::qANDGLOBALLY(lhs, rhs, true, context->THETA() != nullptr)};
+}
+
+#include <httplib.h>
+#include <sstream>
+#include <nlohmann/json.hpp>
+
+void ServerQueryManager::run(const std::string& host, int port) {
+    using namespace httplib;
+    Server svr;
+    svr.Get("/stop", [&](const Request& req, Response& res) {
+        svr.stop();
+    });
+    svr.Post("/query",
+             [&](const Request &req, Response &res, const ContentReader &content_reader) {
+                 if (req.is_multipart_form_data()) {
+                     // NOTE: `content_reader` is blocking until every form data field is read
+                     MultipartFormDataItems files;
+                     nlohmann::json data;
+                     content_reader(
+                             [&](const MultipartFormData &file) {
+                                 files.push_back(file);
+                                 return true;
+                             },
+                             [&](const char *data, size_t data_length) {
+                                 files.back().content.append(data, data_length);
+                                 return true;
+                             });
+                     for (const auto& query : files) {
+                         nlohmann::json query_out;
+                         const std::string& body = query.content;
+                         auto cp = runQuery(body);
+                         query_out["result"] = cp.first;
+                         query_out["result-type"] = cp.second;
+                         data[query.name+"-"+query.filename] = query_out;
+                     }
+                     res.set_content(data.dump(), "text/json");
+                 } else {
+                     std::string body;
+                     content_reader([&](const char *data, size_t data_length) {
+                         body.append(data, data_length);
+                         return true;
+                     });
+                     auto cp = runQuery(body);
+                     res.set_content(cp.first, cp.second.c_str());
+                 }
+             });
+}
+
+#include <knobab/server/query_manager/KnoBABQueryParser.h>
+#include <knobab/server/query_manager/KnoBABQueryLexer.h>
+
+std::pair<std::string,std::string> ServerQueryManager::runQuery(const std::string &query) {
+    antlr4::ANTLRInputStream input(query);
+    KnoBABQueryLexer lexer(&input);
+    antlr4::CommonTokenStream tokens(&lexer);
+    KnoBABQueryParser parser(&tokens);
+    visit(parser.queries());
+    return {"todo", "todo"};
 }
