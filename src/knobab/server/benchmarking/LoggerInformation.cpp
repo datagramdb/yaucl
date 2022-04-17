@@ -35,7 +35,7 @@ std::ostream& operator<<(std::ostream& os, const LoggerInformation &information)
     return os;
 }
 
-void LoggerInformation::log_csv_file(std::ostream &csv_log) {
+void LoggerInformation::log_csv_file(std::ostream &csv_log) const {
     csv_log << log_filename << ","
             << (with_data ? "T," : "F,")
             << log_loading_and_parsing_ms  << ","
@@ -83,4 +83,38 @@ void LoggerInformation::log_csv_file_header(std::ostream &csv_log) {
             << "model_ltlf_query_time" << ","
             << ("is_multithreaded") << ","
             << "no_threads" << std::endl;
+}
+
+#include <nlohmann/json.hpp>
+
+
+void LoggerInformation::log_json_file(nlohmann::json& object) const {
+    object["log_filename"] = log_filename;
+    object["with_data"] = with_data;
+    object["log_loading_and_parsing_ms"] = log_loading_and_parsing_ms;
+    object["log_indexing_ms"] = log_indexing_ms;
+    object["n_traces"] = n_traces;
+    object["n_acts"] = n_acts;
+    object["log_trace_average_length"] = log_trace_average_length;
+    object["log_trace_variance"] = log_trace_variance;
+    object["most_frequent_trace_length"] = most_frequent_trace_length;
+    object["trace_length_frequency"] = trace_length_frequency;
+    object["atomization_conf"] = atomization_conf;
+    object["model_filename"] = model_filename;
+    object["queries_plan"] = queries_plan;
+    object["operators_version"] = operators_version;
+    object["model_parsing_ms"] = model_parsing_ms;
+    object["model_size"] = model_size;
+    object["model_data_decomposition_time"] = model_data_decomposition_time;
+    object["model_atomization_time"] = model_atomization_time;
+    object["model_declare_to_ltlf"] = model_declare_to_ltlf;
+    object["model_ltlf_query_time"] = model_ltlf_query_time;
+    object["is_multithreaded"] = is_multithreaded;
+    object["no_threads"] = no_threads;
+}
+
+void LoggerInformation::log_json_file(std::ostream& json_log) const {
+    nlohmann::json object;
+    log_json_file(object);
+    json_log << object.dump();
 }

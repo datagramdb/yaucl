@@ -82,7 +82,7 @@ add_library(yaucl_bpm STATIC
 target_link_libraries(yaucl_bpm antlr4_static yaucl_numeric yaucl_data yaucl_graph yaucl_hashing) #aaltaf)
 
 
-
+add_executable(knobab_client src/knobab/client/client.cpp)
 
 add_executable(knobab_server src/knobab/server/server.cpp
                              src/knobab/server/query_manager/KnoBABQueryBaseListener.cpp

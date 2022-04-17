@@ -293,3 +293,44 @@ LTLfQuery *LTLfQueryManager::simplify(const LTLfQuery &q) {
         return ptr;
     }
 }
+
+nlohmann::json LTLfQueryManager::generateJSONGraph() const {
+    std::map<LTLfQuery*, std::vector<LTLfQuery*>> ref;
+    std::map<LTLfQuery*,size_t> layerId;
+    nlohmann::json json;
+    json["nodes"] = {};
+    json["edges"] = {};
+    if (Q.empty()) return json;
+    auto it = Q.begin();
+    ref[nullptr] = it->second;
+    layerId[nullptr] = 0;
+    for (; it != Q.end(); it++) {
+        for (const auto& arg : it->second) {
+            layerId[arg] = 1+it->first;
+            generateGraph(ref, arg);
+        }
+    }
+
+    auto& nodes = json["nodes"];
+    auto& edges = json["edges"];
+    for (const auto& cp : ref) {
+        nlohmann::json node;
+        node["id"] = cp.first ?(size_t)cp.first : 0;
+        node["group"] = layerId[cp.first];
+        if ((cp.first) && (!cp.first->atom.empty())) {
+            std::stringstream aa;
+            aa << *cp.first;
+            node["label"] = aa.str();
+        } else {
+            node["label"] = cp.first ? ((cp.first->fields.id.parts.is_timed ? "t" : "") + std::string(magic_enum::enum_name(cp.first->t))) : "Ensemble";
+        }
+        nodes.push_back(node);
+        for (const auto& out : cp.second) {
+            nlohmann::json edge;
+            edge["from"] = cp.first ? (size_t)cp.first : 0;
+            edge["to"] = (size_t)out;
+            edges.push_back(edge);
+        }
+    }
+    return json;
+}

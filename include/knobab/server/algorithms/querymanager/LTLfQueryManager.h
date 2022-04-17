@@ -10,7 +10,7 @@
 #include <knobab/server/algorithms/atomization/AtomizingPipeline.h>
 #include <unordered_map>
 #include <knobab/server/operators/LTLfQuery.h>
-
+#include <nlohmann/json.hpp>
 
 struct LTLfQueryManager {
     std::unordered_map<LTLfQuery, LTLfQuery*> conversion_map_for_subexpressions;
@@ -22,6 +22,7 @@ struct LTLfQueryManager {
 
     void generateGraph(std::map<LTLfQuery*, std::vector<LTLfQuery*>>& ref, LTLfQuery*q) const;
     std::string generateGraph() const;
+    nlohmann::json generateJSONGraph() const;
 
     /**
      * Clears the manager, so to get ready with another query plan to be analysed

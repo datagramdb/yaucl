@@ -202,6 +202,9 @@ public:
                                   GroundingStrategyConf::pruning_strategy ps = GroundingStrategyConf::ALWAYS_EXPAND_LESS_TOTAL_VALUES
     );
 
+    void set_maxsat_parameters(size_t nThreads = 1,
+                               EnsembleMethods e = EnsembleMethods::TraceIntersection,
+                               OperatorQueryPlan ops = OperatorQueryPlan::AbidingLogic);
     void set_maxsat_parameters(const std::filesystem::path &atomization_conf);
 
     /**

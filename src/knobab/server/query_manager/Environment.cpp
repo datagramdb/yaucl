@@ -634,3 +634,13 @@ void Environment::clearModel() {
     conjunctive_model.clear();
 }
 
+void Environment::set_maxsat_parameters(size_t nThreads, EnsembleMethods e, OperatorQueryPlan ops) {
+    script_for_decomposition = "scripts/logic_plan.queryplan";
+    preferred_plan = "efficient";
+    experiment_logger.no_threads = noThreads = nThreads;
+    operators = AbidingLogic;
+    experiment_logger.no_threads = noThreads = nThreads;
+    strategy = e;
+    operators = ops;
+}
+

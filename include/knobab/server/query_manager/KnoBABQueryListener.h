@@ -5,7 +5,7 @@
 
 
 #include "antlr4-runtime.h"
-#include "knobab/server/query_manager/KnoBABQueryParser.h"
+#include "KnoBABQueryParser.h"
 
 
 /**

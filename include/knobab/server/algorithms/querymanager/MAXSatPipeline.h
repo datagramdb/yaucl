@@ -105,6 +105,7 @@ struct MAXSatPipeline {
 
 
     std::string generateGraph() const { return qm.generateGraph(); }
+    std::string generateJSONGraph() const { return qm.generateJSONGraph(); }
 
 private:
     void data_chunk(CNFDeclareDataAware* model, const AtomizingPipeline& atomization, const KnowledgeBase& kb);

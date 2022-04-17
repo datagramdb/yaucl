@@ -36,15 +36,28 @@ class ServerQueryManager : public KnoBABQueryBaseVisitor {
     bool isPayloadTrace = false;
     size_t event_count = 0;
     bool load_also_data = true;
+    std::stringstream content;
+    std::string format;
+    std::vector<LoggerInformation> infos;
+    Environment* tmpEnv = nullptr;
+    std::unordered_map<std::string, LTLfQuery>* plans = nullptr;
 public:
     double parsing_time_ms = -1.0;
 
     /// Server entry point
     void run(const std::string& host, int port);
     std::pair<std::string,std::string> runQuery(const std::string& query);
+    std::any visitLoad_data_query(KnoBABQueryParser::Load_data_queryContext *context) override;
+    std::any visitDisplay(KnoBABQueryParser::DisplayContext *ctx) override;
+    std::any visitSet_benchmarking_file(KnoBABQueryParser::Set_benchmarking_fileContext *ctx) override;
+
+    std::any visitModel_query(KnoBABQueryParser::Model_queryContext *ctx) override;
 
     /// Plan Visitor
     bool fromNowOnTimed = false;
+
+    std::any visitList(KnoBABQueryParser::ListContext *ctx) override;
+
     bool isAutoTimed = false;
     std::stack<bool> fromNowOnTimedStack;
     unsigned char max_aspect;
@@ -74,7 +87,6 @@ public:
 
     trace_visitor* tv = nullptr;
     std::unordered_map<std::string, Environment> multiple_logs;
-    std::any visitLoad_data_query(KnoBABQueryParser::Load_data_queryContext *context) override;
 
     /// DECLARE DATA AWARE PARSING
     std::any visitData_aware_declare(KnoBABQueryParser::Data_aware_declareContext *context) override;
@@ -93,6 +105,12 @@ public:
     std::any visitGeq(KnoBABQueryParser::GeqContext *ctx) override;
     std::any visitEq(KnoBABQueryParser::EqContext *ctx) override;
     std::any visitNeq(KnoBABQueryParser::NeqContext *ctx) override;
+
+    /// Model loader
+    std::any visitFile_model(KnoBABQueryParser::File_modelContext *ctx) override;
+    std::any visitDeclares(KnoBABQueryParser::DeclaresContext *ctx) override;
+
+    std::any visitTopn(KnoBABQueryParser::TopnContext *ctx) override;
 
     /// HRF Parser
     std::any visitField(KnoBABQueryParser::FieldContext *context) override;

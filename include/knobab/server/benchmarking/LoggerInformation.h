@@ -9,6 +9,8 @@
 #include <string>
 #include <yaucl/structures/default_constructors.h>
 #include <ostream>
+#include <nlohmann/json.hpp>
+
 
 struct LoggerInformation {
     std::string log_filename;
@@ -46,8 +48,10 @@ struct LoggerInformation {
     void clear();
 
     friend std::ostream& operator<<(std::ostream& os, const LoggerInformation &information);
-    void log_csv_file_header(std::ostream &csv_log);
-    void log_csv_file(std::ostream& csv_log);
+    static void log_csv_file_header(std::ostream &csv_log);
+    void log_csv_file(std::ostream& csv_log) const;
+    void log_json_file(std::ostream& json_log) const;
+    void log_json_file(nlohmann::json& json_log) const;
 };
 
 

@@ -367,10 +367,16 @@ std::any ServerQueryManager::visitLoad_data_query(KnoBABQueryParser::Load_data_q
             env.experiment_logger.most_frequent_trace_length = previousLength;
             env.experiment_logger.trace_length_frequency = frequency_of_trace_length;
         }
+        content.str(std::string());
+        env.experiment_logger.log_json_file(content);
+        infos.emplace_back(env.experiment_logger);
+        this->format = "text/json";
+    } else {
+        content.str(std::string());
+        content << "{}";
+        this->format = "text/json";
     }
-
-
-
+    return {};
 }
 
 std::any ServerQueryManager::visitField(KnoBABQueryParser::FieldContext *ctx) {
@@ -726,16 +732,239 @@ void ServerQueryManager::run(const std::string& host, int port) {
                      res.set_content(cp.first, cp.second.c_str());
                  }
              });
+    svr.listen(host.c_str(), port);
 }
 
 #include <knobab/server/query_manager/KnoBABQueryParser.h>
 #include <knobab/server/query_manager/KnoBABQueryLexer.h>
+#include <magic_enum.hpp>
 
 std::pair<std::string,std::string> ServerQueryManager::runQuery(const std::string &query) {
     antlr4::ANTLRInputStream input(query);
     KnoBABQueryLexer lexer(&input);
     antlr4::CommonTokenStream tokens(&lexer);
     KnoBABQueryParser parser(&tokens);
-    visit(parser.queries());
-    return {"todo", "todo"};
+    format.clear();
+    content.str(std::string());
+    parser.queries()->children[0]->accept(this);
+    return {content.str(), format};
+}
+
+std::any ServerQueryManager::visitDisplay(KnoBABQueryParser::DisplayContext *ctx) {
+    if (ctx) {
+        std::string env;
+        std::string attr;
+        int i = 0;
+        if (ctx->ACT_TABLE()) {
+            i = 1;
+            env = UNESCAPE(ctx->STRING(0)->getText());
+        } else if (ctx->CNT_TABLE()) {
+            i = 2;
+            env = UNESCAPE(ctx->STRING(0)->getText());
+        } else if (ctx->ATT_TABLE()) {
+            i = 3;
+            attr = UNESCAPE(ctx->STRING(0)->getText());
+            env = UNESCAPE(ctx->STRING(1)->getText());
+        }
+        auto it = multiple_logs.find(env);
+        if (it != multiple_logs.end()) {
+            if (i == 1) {
+                it->second.print_act_table(content);
+            } else if (i == 2) {
+                it->second.print_count_table(content);
+            } else if (i == 3) {
+                auto& ref = it->second.db.attribute_name_to_table;
+                auto it2 = ref.find(attr);
+                if (it2 != ref.end()) {
+                    content << it2->second;
+                }
+            }
+        }
+    }
+    format = "text/csv";
+    return {};
+}
+
+std::any ServerQueryManager::visitList(KnoBABQueryParser::ListContext *ctx) {
+    if (ctx) {
+        std::string env;
+        env = UNESCAPE(ctx->STRING()->getText());
+        auto it = multiple_logs.find(env);
+        if (it != multiple_logs.end()) {
+            if (ctx->ATT()) {
+                for (auto itx = it->second.db.attribute_name_to_table.begin(), en = it->second.db.attribute_name_to_table.end(); itx != en; ) {
+                    content << itx->first;
+                    itx++;
+                    if (itx != en) content << std::endl;
+                }
+            } else if (ctx->ACTIVITYLABEL()) {
+                for (auto itx =
+                        it->second.db.event_label_mapper.int_to_T.begin(),
+                        en = it->second.db.event_label_mapper.int_to_T.end(); itx != en; ) {
+                    content << *itx;
+                    itx++;
+                    if (itx != en) content << std::endl;
+                }
+            }
+        }
+    }
+    format  = "text/csv";
+    return {};
+}
+
+std::any ServerQueryManager::visitSet_benchmarking_file(KnoBABQueryParser::Set_benchmarking_fileContext *ctx) {
+    if (ctx) {
+        std::filesystem::path path{UNESCAPE(ctx->file->getText())};
+        bool filePreexists = std::filesystem::exists(path);
+        std::ofstream log(path, std::ios_base::app | std::ios_base::out);
+        if (!filePreexists) {
+            LoggerInformation::log_csv_file_header(log);
+        }
+        if (!log) {
+            content << "Error on opening the file";
+        } else {
+            try {
+                for (const auto& ref : infos) {
+                    log << std::endl;
+                    ref.log_csv_file(log);
+                }
+                content << "File correctly dumped";
+            } catch (...) {
+                content << "Error on opening the file";
+            }
+        }
+    }
+    format  = "text/plain";
+    return {};
+}
+
+std::any ServerQueryManager::visitModel_query(KnoBABQueryParser::Model_queryContext *ctx) {
+    bool none = true;
+    if (ctx) {
+        auto env = UNESCAPE(ctx->ensemble->getText());
+        auto it = multiple_logs.find(env);
+        if (it != multiple_logs.end()) {
+            auto plan = UNESCAPE(ctx->plan->getText());
+            auto it2 = planname_to_declare_to_ltlf.find(plan);
+            if (it2 != planname_to_declare_to_ltlf.end()) {
+                it->second.clearModel(); // initializing the model pipeline
+
+                tmpEnv = &it->second;
+                plans = &it2->second;
+                visit(ctx->model());
+                none = false;
+
+                /// GROUNDING
+                bool doPreliminaryFill = true;
+                bool ignoreActForAttributes = false;
+                bool creamOffSingleValues = true;
+                GroundingStrategyConf::pruning_strategy grounding_strategy = GroundingStrategyConf::NO_EXPANSION;
+                if (ctx->grounding()) {
+                    auto ground = ctx->grounding();
+                    if (ground->no_preliminary_fill()) doPreliminaryFill = false;
+                    if (ground->act_for_attributes()) ignoreActForAttributes = true;
+                    if (ground->no_cream_off()) creamOffSingleValues = false;
+                    if (ground->strategy) {
+                        grounding_strategy = magic_enum::enum_cast<GroundingStrategyConf::pruning_strategy>(UNESCAPE(ground->strategy->getText())).value_or(grounding_strategy);
+                    }
+                }
+                it->second.set_grounding_parameters(doPreliminaryFill, ignoreActForAttributes, creamOffSingleValues, grounding_strategy);
+                it->second.doGrounding();
+
+                /// ATOMIZATION
+                std::string atomj{"p"};
+                AtomizationStrategy atom_strategy = AtomizationStrategy::AtomizeOnlyOnDataPredicates;
+                size_t n = 3;
+                if (ctx->atomization()) {
+                    auto atom = ctx->atomization();
+                    if (atom->label) atomj = UNESCAPE(atom->label->getText());
+                    if (atom->strlen) n = std::stoull(atom->strlen->getText());
+                    if (atom->strategy) atom_strategy = magic_enum::enum_cast<AtomizationStrategy>(UNESCAPE(atom->strategy->getText())).value_or(atom_strategy);
+                }
+                it->second.set_atomization_parameters(atomj, n , atom_strategy);
+                it->second.init_atomize_tables();
+                it->second.first_atomize_model();
+
+                /// Init Query
+                size_t nThreads = 1;
+                EnsembleMethods em = EnsembleMethods::TraceIntersection;
+                em = magic_enum::enum_cast<EnsembleMethods>(UNESCAPE(ctx->ensemble->getText())).value_or(em);
+                OperatorQueryPlan op = AbidingLogic;
+                if (ctx->nothreads) {
+                    nThreads = std::stoull(ctx->nothreads->getText());
+                }
+                if (ctx->operators) {
+                    op = magic_enum::enum_cast<OperatorQueryPlan>(UNESCAPE(ctx->operators->getText())).value_or(op);
+                }
+                it->second.set_maxsat_parameters(nThreads, em, op);
+                auto ref = it->second.query_model();
+
+                nlohmann::json result;
+                if (ctx->display_qp())
+                    result["query_plan"] = ref.generateJSONGraph();
+                it->second.experiment_logger.log_json_file(result["benchmark"]);
+                switch (ref.final_ensemble) {
+                    case PerDeclareSupport:
+                        for (size_t i = 0; i < ref.support_per_declare.size(); i++) {
+                            result["PerDeclareSupport"][i] = ref.support_per_declare.at(i);
+                        }
+                        break;
+
+                    case TraceMaximumSatisfiability:
+                        for (size_t i = 0; i < ref.max_sat_per_trace.size(); i++) {
+                            result["TraceMaximumSatisfiability"][i] = ref.max_sat_per_trace.at(i);
+                        }
+                        break;
+
+                    case TraceIntersection:
+                        for (size_t i = 0, N = ref.result.size(); i<N; i++) {
+                            result["TraceIntersection"][i]["trace_id"] = ref.result.at(i).first.first;
+                            result["TraceIntersection"][i]["event_id"] = ref.result.at(i).first.second;
+                            result["TraceIntersection"][i]["probability"] = ref.result.at(i).second.first;
+                            std::vector<std::string> ATC;
+                            std::stringstream s;
+                            for (const auto& res : ref.result.at(i).second.second) {
+                                s.str(std::string());
+                                s << res;
+                                ATC.emplace_back(s.str());
+                            }
+                            result["TraceIntersection"][i]["conditions"] = ATC;
+                        }
+                        break;
+                }
+                content << result.dump();
+            }
+        }
+    }
+    format  = "text/json";
+    if (none) {
+        content << "{}";
+    }
+    return {};
+}
+
+std::any ServerQueryManager::visitFile_model(KnoBABQueryParser::File_modelContext *ctx) {
+    std::filesystem::path declare_file{UNESCAPE(ctx->STRING()->getText())};
+    tmpEnv->load_model(declare_file);
+    return {};
+}
+
+std::any ServerQueryManager::visitDeclares(KnoBABQueryParser::DeclaresContext *ctx) {
+    if (ctx) {
+        auto v = std::any_cast<std::vector<DeclareDataAware>>(visitData_aware_declare(ctx->data_aware_declare()));
+        tmpEnv->load_model(v.begin(), v.end());
+    }
+    return {};
+}
+
+std::any ServerQueryManager::visitTopn(KnoBABQueryParser::TopnContext *ctx) {
+    if (ctx) {
+        auto topN = std::stoull(ctx->INTNUMBER()->getText());
+        auto template_name = UNESCAPE(ctx->STRING()->getText());
+        auto v = tmpEnv->generateTopBinaryClauses(template_name,
+                                                  topN,
+                                                  "");
+        tmpEnv->load_model(v.begin(), v.end(), template_name + std::to_string(topN * topN));
+    }
+    return {};
 }
