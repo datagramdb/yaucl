@@ -1,10 +1,9 @@
 //
-// Created by giacomo on 16/04/2022.
+// Created by giacomo on 11/03/2022.
 //
 
-#ifndef KNOBAB_SERVER_FAST_LTLF_OPERATORS_H
-#define KNOBAB_SERVER_FAST_LTLF_OPERATORS_H
-
+#ifndef KNOBAB_FAST_LTLF_OPERATORS_H
+#define KNOBAB_FAST_LTLF_OPERATORS_H
 
 /**
  * @author Samuel 'Sam' Appleby, Giacomo Bergami
@@ -488,6 +487,7 @@ inline void negated_fast_untimed(const Result &section, Result& result, const st
                 rc.first.first = first1++;
                 result.emplace_back(rc);
             }
+            break;
         }
         if (first1 > first2->first.first) {
             first2++;
@@ -515,6 +515,7 @@ inline void negated_fast_timed(const Result &section, Result& result, const std:
                     rc.first.second = 0;
                 }
             }
+            break;
         }
         if (rc.first > first2->first) {
             first2++;
@@ -929,4 +930,4 @@ inline void implies_fast_untimed(const Result &aSection, const Result &bSection,
     or_fast_untimed(aTrue, notaSection, result, nullptr, lengths);
 }
 
-#endif //KNOBAB_SERVER_FAST_LTLF_OPERATORS_H
+#endif //KNOBAB_FAST_LTLF_OPERATORS_H

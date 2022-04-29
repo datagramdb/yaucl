@@ -27,6 +27,7 @@
 
 enum EnsembleMethods {
     PerDeclareSupport,
+    PerDeclareConfidence,
     TraceMaximumSatisfiability,
     TraceIntersection,
     Nothing

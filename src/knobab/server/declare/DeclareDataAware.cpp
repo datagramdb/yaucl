@@ -177,6 +177,9 @@ bool DeclareDataAware::operator==(const DeclareDataAware &rhs) const {
            n == rhs.n &&
            left_act == rhs.left_act &&
            right_act == rhs.right_act;
+    right_act == rhs.right_act &&
+    left_decomposed_atoms == rhs.left_decomposed_atoms &&
+    right_decomposed_atoms == rhs.right_decomposed_atoms;
 }
 
 bool DeclareDataAware::operator!=(const DeclareDataAware &rhs) const {

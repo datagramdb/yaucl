@@ -915,6 +915,12 @@ std::any ServerQueryManager::visitModel_query(KnoBABQueryParser::Model_queryCont
                         }
                         break;
 
+                    case PerDeclareConfidence:
+                        for (size_t i = 0; i < ref.support_per_declare.size(); i++) {
+                            result["PerDeclareConfidence"][i] = ref.support_per_declare.at(i);
+                        }
+                        break;
+
                     case TraceMaximumSatisfiability:
                         for (size_t i = 0; i < ref.max_sat_per_trace.size(); i++) {
                             result["TraceMaximumSatisfiability"][i] = ref.max_sat_per_trace.at(i);
