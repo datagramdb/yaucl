@@ -3,8 +3,8 @@
 //
 
 #include <yaucl/graphs/graph_join_pm_algorithms.h>
-
 #include <stack>
+#include <algorithm>
 
 void approximated_topo_sort(graph_join_pm &g, std::vector<size_t> &order) {
     size_t N = g.V_size;

@@ -420,4 +420,5 @@ graph_join_pm replace_labels(const graph_join_pm &g, const std::unordered_map<st
     elementi.starting_point = g.starting_point;
     elementi.V_size = g.V_size;
     elementi.E_size = g.E_size;
+    return elementi;
 }

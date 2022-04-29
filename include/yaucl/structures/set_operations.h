@@ -138,6 +138,7 @@ std::ostream& operator<<(std::ostream& os, const std::vector<T> &s)
 
 #include <map>
 #include <functional>
+#include <algorithm>
 #include <yaucl/functional/assert.h>
 
 template <typename Iterator, typename Key, typename Value>

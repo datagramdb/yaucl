@@ -65,13 +65,10 @@ std::pair<const uint32_t, const uint32_t> CountTemplate::resolve_primary_index(c
 }
 
 std::ostream &operator<<(std::ostream &os, const CountTemplate &aTemplate) {
-    //os << "          CountTemplate" << std::endl << "-------------------------------" << std::endl;
-    size_t i = 0;
-    os << "RowId,Act,TraceId,EventId" << std::endl;
+    os << "Act,TraceId,Count" << std::endl;
     for (const auto& ref : aTemplate.table) {
-        os << (i++) << "," <<  ref.id.parts.act << "," << ref.id.parts.trace_id << "," << ref.id.parts.event_id << std::endl;
+        os <<  ref.id.parts.act << "," << ref.id.parts.trace_id << "," << ref.id.parts.event_id << std::endl;
     }
-    //os << std::endl << "-------------------------------" << std::endl;
     return os;
 }
 

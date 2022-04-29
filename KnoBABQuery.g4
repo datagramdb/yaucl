@@ -10,7 +10,8 @@ queries : load_data_query
 set_benchmarking_file: 'benchmarking-log' file=STRING;
 load_data_query: 'load' (HRF|TAB|XES|log) file=STRING with_data? no_stats? with_missing? 'as' env_name=STRING ;
 display_data: 'display' (ACT_TABLE|CNT_TABLE|(ATT_TABLE attr=STRING)) 'for' STRING #display
-            | 'list'    (ATT|ACTIVITYLABEL)                                         'for' STRING #list
+            | 'list'    (ATT|ACTIVITYLABEL|LOGS)                                         'for' STRING #list
+            | 'droplog' env_name=STRING #droplog
             ;
 
 log : 'log' LPAREN (trace ';')* trace RPAREN ;
@@ -108,6 +109,7 @@ ACT_TABLE: 'ACTTABLE';
 CNT_TABLE: 'COUNTTABLE';
 ATT_TABLE: 'ATTRIBUTETABLE';
 ACTIVITYLABEL: 'ACTIVITYLABEL';
+LOGS: 'LOGS';
 ATT: 'ATTRIBUTES';
 ACTIVATION: 'activation';
 TARGET: 'target';

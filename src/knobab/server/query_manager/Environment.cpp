@@ -207,7 +207,7 @@ void Environment::first_atomize_model() {
 semantic_atom_set Environment::evaluate_easy_prop_to_atoms(const easy_prop &prop,
         //const std::unordered_map<std::string, std::string> &bogus_act_to_atom,
                                                            const std::unordered_map<std::string, semantic_atom_set> &bogus_act_to_set) {
-    ::evaluate_easy_prop_to_atoms(prop, bogus_act_to_set, getSigmaAll());
+    return ::evaluate_easy_prop_to_atoms(prop, bogus_act_to_set, getSigmaAll());
 }
 
 

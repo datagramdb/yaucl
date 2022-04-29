@@ -64,6 +64,8 @@ void adjacency_graph::DFSUtil(size_t src, std::unordered_set<size_t> &visited) {
     }
 }
 
+#include <string>
+
 void adjacency_graph::dot(std::ostream &os) {
     os << "digraph finite_state_machine {\n"
           "    rankdir=LR;\n"

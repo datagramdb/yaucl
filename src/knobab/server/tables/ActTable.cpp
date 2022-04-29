@@ -141,16 +141,17 @@ std::pair<const uint32_t, const uint32_t> ActTable::resolve_index(act_t id) cons
     }
 }
 
+
 std::ostream &operator<<(std::ostream &os, const ActTable &table) {
     const double at16 = std::pow(2, 16);
     //os << "          ActTable" << std::endl << "-------------------------------" << std::endl;
     size_t i = 0;
     auto ptr = table.table.data();
-    os << "RowId,Act,TraceId,EventId,PREVPTR,NEXTPTR" << std::endl;
+    os << "Act,TraceId,EventId,PREVPTR,NEXTPTR" << std::endl;
     for (const auto& ref : table.table) {
-        os << (i++) << "," << ref.entry.id.parts.act << "," << ref.entry.id.parts.trace_id << "," << /*std::trunc((((double)ref.entry.id.parts.event_id)/at16)*table.trace_length[ ref.entry.id.parts.trace_id])*/ref.entry.id.parts.event_id  << ","<< (
-                ref.prev == nullptr ? "NULL" : "+"+std::to_string((ref.prev-ptr)))<<","<< (
-                   ref.next == nullptr ? "NULL" : "+"+std::to_string((ref.next-ptr))) << std::endl;
+        os <<  ref.entry.id.parts.act << "," << ref.entry.id.parts.trace_id << "," << /*std::trunc((((double)ref.entry.id.parts.event_id)/at16)*table.trace_length[ ref.entry.id.parts.trace_id])*/ref.entry.id.parts.event_id  << ","<< (
+                ref.prev == nullptr ? "-1" : "+"+std::to_string((ref.prev-ptr)))<<","<< (
+                   ref.next == nullptr ? "-1" : "+"+std::to_string((ref.next-ptr))) << std::endl;
     }
     //os << std::endl << "-------------------------------" << std::endl;
     return os;

@@ -15,6 +15,10 @@
 #include <knobab/server/dataStructures/TraceData.h>
 #include <knobab/server/dataStructures/marked_event.h>
 
+#ifdef max
+#undef max
+#endif 
+
 constexpr event_t max = std::numeric_limits<event_t>::max();
 static const MarkedEventsVector maxVec(max,MAX_MARKED_EVENT());
 

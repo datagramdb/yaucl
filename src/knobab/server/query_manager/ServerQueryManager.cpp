@@ -688,7 +688,8 @@ antlrcpp::Any ServerQueryManager::visitAnd_globally(KnoBABQueryParser::And_globa
     return {LTLfQuery::qANDGLOBALLY(lhs, rhs, true, context->THETA() != nullptr)};
 }
 
-#include <httplib.h>
+
+
 #include <sstream>
 #include <nlohmann/json.hpp>
 
@@ -790,7 +791,13 @@ std::any ServerQueryManager::visitList(KnoBABQueryParser::ListContext *ctx) {
         std::string env;
         env = UNESCAPE(ctx->STRING()->getText());
         auto it = multiple_logs.find(env);
-        if (it != multiple_logs.end()) {
+        if (ctx->LOGS()) {
+            for (auto itx = multiple_logs.begin(), en = multiple_logs.end(); itx != en; ) {
+                content << itx->first;
+                itx++;
+                if (itx != en) content << std::endl;
+            }
+        } else if (it != multiple_logs.end()) {
             if (ctx->ATT()) {
                 for (auto itx = it->second.db.attribute_name_to_table.begin(), en = it->second.db.attribute_name_to_table.end(); itx != en; ) {
                     content << itx->first;
@@ -798,9 +805,7 @@ std::any ServerQueryManager::visitList(KnoBABQueryParser::ListContext *ctx) {
                     if (itx != en) content << std::endl;
                 }
             } else if (ctx->ACTIVITYLABEL()) {
-                for (auto itx =
-                        it->second.db.event_label_mapper.int_to_T.begin(),
-                        en = it->second.db.event_label_mapper.int_to_T.end(); itx != en; ) {
+                for (auto itx = it->second.db.event_label_mapper.int_to_T.begin(), en = it->second.db.event_label_mapper.int_to_T.end(); itx != en; ) {
                     content << *itx;
                     itx++;
                     if (itx != en) content << std::endl;
@@ -965,6 +970,17 @@ std::any ServerQueryManager::visitTopn(KnoBABQueryParser::TopnContext *ctx) {
                                                   topN,
                                                   "");
         tmpEnv->load_model(v.begin(), v.end(), template_name + std::to_string(topN * topN));
+    }
+    return {};
+}
+
+std::any ServerQueryManager::visitDroplog(KnoBABQueryParser::DroplogContext *ctx) {
+    if (ctx) {
+        auto env = UNESCAPE(ctx->env_name->getText());
+        auto it = multiple_logs.find(env);
+        if (!(it == multiple_logs.end())) {
+            multiple_logs.erase(it);
+        }
     }
     return {};
 }

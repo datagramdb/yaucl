@@ -35,6 +35,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual std::any visitDroplog(KnoBABQueryParser::DroplogContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual std::any visitLog(KnoBABQueryParser::LogContext *ctx) override {
     return visitChildren(ctx);
   }

@@ -50,11 +50,20 @@
 #define REVERSE1(N,...) EXPAND(REVERSE_ ## N(__VA_ARGS__))
 #define REVERSE(N, ...) REVERSE1(N, __VA_ARGS__)
 
+#ifdef __GNUC__
+#define PACK( __Declaration__ ) __Declaration__ __attribute__((__packed__))
+#endif
+
+#ifdef _MSC_VER
+#define PACK( __Declaration__ ) __pragma( pack(push, 1) ) __Declaration__ __pragma( pack(pop))
+#endif
+
+
 #ifdef IS_LITTLE_ENDIAN
 
-#define TAGGED_UNION(type, name, N, ...)  union _ ## name { type data; struct S {\
+#define TAGGED_UNION(type, name, N, ...)  union _ ## name { type data; PACK(struct S {\
 REVERSE(N, __VA_ARGS__)                                                                 \
- } __attribute__((packed)) parts;                                     \
+ }); S parts;                                     \
 };                                                                       \
 
 #else

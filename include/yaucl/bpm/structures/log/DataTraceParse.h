@@ -26,6 +26,16 @@
 #ifndef BPM21_DATATRACEPARSE_H
 #define BPM21_DATATRACEPARSE_H
 
+#ifdef ERROR
+#undef ERROR
+#endif 
+#ifdef min
+#undef min
+#endif 
+#ifdef max
+#undef max
+#endif 
+
 namespace antlr4 {
     class ANTLRInputStream;
     class CommonTokenStream;

@@ -29,6 +29,8 @@ public:
 
     virtual std::any visitList(KnoBABQueryParser::ListContext *context) = 0;
 
+    virtual std::any visitDroplog(KnoBABQueryParser::DroplogContext *context) = 0;
+
     virtual std::any visitLog(KnoBABQueryParser::LogContext *context) = 0;
 
     virtual std::any visitTrace(KnoBABQueryParser::TraceContext *context) = 0;

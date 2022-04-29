@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <cassert>
 #include <ostream>
+#include <unordered_map>
 
 struct CountTemplate {
     std::vector<oid>    table;

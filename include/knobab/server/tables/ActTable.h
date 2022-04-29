@@ -10,6 +10,7 @@
 #include <tuple>
 #include <vector>
 #include <ostream>
+#include <string>
 
 
 uint16_t cast_to_float(size_t x, size_t l);

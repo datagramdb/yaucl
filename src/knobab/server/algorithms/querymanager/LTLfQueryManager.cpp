@@ -103,6 +103,13 @@ void LTLfQueryManager::clear() {
     counter.clear();
 }
 
+#ifdef min
+#undef min
+#endif 
+#ifdef max
+#undef max
+#endif
+
 void LTLfQueryManager::finalize_unions(const AtomizingPipeline& ap, std::vector<LTLfQuery*>& W, KnowledgeBase* ptr) {
     std::vector<std::set<std::string>> unionToDecompose;
     for (const auto& x : atomsToDecomposeInUnion)

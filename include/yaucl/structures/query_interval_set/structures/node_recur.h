@@ -28,6 +28,11 @@
 
 #include <yaucl/strings/serializers.h>
 #include <yaucl/hashing/uset_hash.h>
+#include <algorithm>
+
+#ifdef min 
+#undef min
+#endif 
 
 template <typename T> struct node_recur {
     T min, max;         //<@ Storing the interval information

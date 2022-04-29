@@ -5,6 +5,23 @@
 #ifndef KNOBAB_SERVER_SERVERQUERYMANAGER_H
 #define KNOBAB_SERVER_SERVERQUERYMANAGER_H
 
+#ifdef _MSC_VER
+#include <WinSock2.h>
+#include <WS2tcpip.h>
+#include <Windows.h>
+#endif
+#include <httplib.h>
+
+#ifdef min
+#undef min
+#endif 
+#ifdef max
+#undef max
+#endif
+#ifdef ERROR
+#undef ERROR
+#endif
+
 #include <knobab/server/query_manager/KnoBABQueryVisitor.h>
 #include <unordered_map>
 #include <string>
@@ -12,6 +29,7 @@
 
 #include "Environment.h"
 #include "KnoBABQueryBaseVisitor.h"
+
 
 inline unsigned char decleare_templates_determine(KnoBABQueryParser::Declare_argumentsContext* ptr) {
     if (!ptr) return DECLARE_TYPE_NONE;
@@ -50,8 +68,9 @@ public:
     std::any visitLoad_data_query(KnoBABQueryParser::Load_data_queryContext *context) override;
     std::any visitDisplay(KnoBABQueryParser::DisplayContext *ctx) override;
     std::any visitSet_benchmarking_file(KnoBABQueryParser::Set_benchmarking_fileContext *ctx) override;
-
     std::any visitModel_query(KnoBABQueryParser::Model_queryContext *ctx) override;
+
+    std::any visitDroplog(KnoBABQueryParser::DroplogContext *ctx) override;
 
     /// Plan Visitor
     bool fromNowOnTimed = false;

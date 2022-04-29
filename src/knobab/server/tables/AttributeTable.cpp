@@ -362,11 +362,10 @@ bool AttributeTable::range_query(size_t actId,
 std::ostream &operator<<(std::ostream &os, const AttributeTable &table) {
     const double at16 = std::pow(2, 16);
     //os << "          AttributeTable[" << table.attr_name << " : " << magic_enum::enum_name(table.type) << ']' << std::endl << "-------------------------------" << std::endl;
-    size_t i = 0;
-    os << "RowId,Act,Value,TableOffset" << std::endl;
+    os << "Act,Value,TableOffset" << std::endl;
     for (const auto& ref : table.table) {
         auto v = table.resolve(ref);
-        os << (i++) << "," << ref.act << ",";
+        os <<  ref.act << ",";
         switch (table.type) {
             case DoubleAtt:
                 os << std::get<double>(v);
@@ -384,9 +383,8 @@ std::ostream &operator<<(std::ostream &os, const AttributeTable &table) {
                 os << std::get<bool>(v) ? "TRUE" : "FALSE";
                 break;
         }
-        os << ", +" << ref.act_table_offset << std::endl;
+        os << "," << ref.act_table_offset << std::endl;
     }
-    //os << std::endl << "-------------------------------" << std::endl;
     return os;
 }
 

@@ -31,6 +31,9 @@ public:
   virtual void enterList(KnoBABQueryParser::ListContext * /*ctx*/) override { }
   virtual void exitList(KnoBABQueryParser::ListContext * /*ctx*/) override { }
 
+  virtual void enterDroplog(KnoBABQueryParser::DroplogContext * /*ctx*/) override { }
+  virtual void exitDroplog(KnoBABQueryParser::DroplogContext * /*ctx*/) override { }
+
   virtual void enterLog(KnoBABQueryParser::LogContext * /*ctx*/) override { }
   virtual void exitLog(KnoBABQueryParser::LogContext * /*ctx*/) override { }
 

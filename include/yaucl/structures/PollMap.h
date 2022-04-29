@@ -33,6 +33,10 @@
 #include <set>
 #include <limits>
 
+#ifdef max
+#undef max
+#endif
+
 namespace yaucl {
     namespace structures {
         /**
@@ -79,6 +83,9 @@ namespace yaucl {
              * TopK map initialization.
              * @param topK  If the integer is negative, then we preserve all the possible results
              */
+
+
+
             PollMap(size_t topK = std::numeric_limits<int>::max()) {
                 this->topK = (topK <= 0) ? std::numeric_limits<int>::max() : topK;
             }

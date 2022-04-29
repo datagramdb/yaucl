@@ -5,6 +5,7 @@
 #include <locale>
 #include <codecvt>
 #include "yaucl/strings/string_utils.h"
+#include <algorithm>
 
 wchar_t yaucl::strings::lowcase(wchar_t ch) {
     static auto& t = std::use_facet<std::ctype<wchar_t>>(std::locale());

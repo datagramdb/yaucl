@@ -310,7 +310,7 @@ OutputIt setIntersectionUntimed(InputIt1 first1, InputIt1 last1, InputIt2 first2
 #define SCAN_MIN_MAX(traceId, startEventId, min, max, lower, upper, section) RESULT_RECORD_MIN(min, traceId, startEventId); RESULT_RECORD_MIN(max, traceId, startEventId); auto lower = std::lower_bound(section.begin(), section.end(), min); auto upper = std::upper_bound(lower, section.end(), max);
 
 template<typename TableSection> inline
-Result next(const uint32_t &traceId, const uint16_t &startEventId, const uint16_t& endEventId, const TableSection &section) {
+Result rnext(const uint32_t &traceId, const uint16_t &startEventId, const uint16_t& endEventId, const TableSection &section) {
     SCAN_MIN_MAX(traceId, startEventId, min, max, lower, upper, section)
     ResultIndex idx{traceId, 0};
     Result temp {};
@@ -327,7 +327,7 @@ Result next(const uint32_t &traceId, const uint16_t &startEventId, const uint16_
 }
 
 template<typename TableSection> inline
-Result next(const TableSection &section) {
+Result rnext(const TableSection &section) {
     Result temp;
     ResultIndex idx;
 

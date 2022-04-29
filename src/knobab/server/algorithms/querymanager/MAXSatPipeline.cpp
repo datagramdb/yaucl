@@ -773,7 +773,7 @@ void MAXSatPipeline::abidinglogic_query_running(const std::vector<PartialResult>
                             break;
 
                         case LTLfQuery::NEXT_QP:
-                            formula->result = next(formula->args.at(0)->result);
+                            formula->result = rnext(formula->args.at(0)->result);
                             break;
 
                         case LTLfQuery::OR_QP:
@@ -1139,7 +1139,7 @@ void MAXSatPipeline::fast_v1_query_running(const std::vector<PartialResult>& res
                             break;
 
                         case LTLfQuery::NEXT_QP:
-                            formula->result = next(formula->args.at(0)->result);
+                            formula->result = rnext(formula->args.at(0)->result);
                             break;
 
                         case LTLfQuery::OR_QP:

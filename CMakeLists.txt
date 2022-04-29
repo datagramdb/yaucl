@@ -11,11 +11,11 @@ add_subdirectory(submodules/antlr4/runtime/Cpp)
 include_directories(submodules/antlr4/runtime/Cpp/runtime/src)
 include_directories(antlr4/cpp/antlr4)
 
-add_library(yaucl_numeric STATIC
+add_library(yaucl_numeric OBJECT
         src/yaucl/numeric/numeric_base.cpp
         include/yaucl/numeric/numeric_base.h)
 
-add_library(yaucl_hashing STATIC
+add_library(yaucl_hashing OBJECT
         include/yaucl/hashing/evaluateHashes.h
         src/yaucl/hashing/evaluateHashes.c
         src/yaucl/hashing/hash_combine.cpp
@@ -27,7 +27,7 @@ add_library(yaucl_hashing STATIC
         include/yaucl/hashing/uset_hash.h)
 target_include_directories(yaucl_hashing PUBLIC ${CMAKE_SOURCE_DIR}/include/yaucl/hashing/ ${CMAKE_CURRENT_BINARY_DIR})
 
-add_library(yaucl_graph STATIC
+add_library(yaucl_graph OBJECT
         src/yaucl/graphs/adjacency_graph.cpp
         include/yaucl/graphs/adjacency_graph.h
         include/yaucl/graphs/FlexibleGraph.h
@@ -43,15 +43,15 @@ add_library(yaucl_graph STATIC
         src/yaucl/graphs/graph_join_pm_conversion.cpp
         src/yaucl/graphs/graph_join_pm_algorithms.cpp src/yaucl/graphs/minimizeDFA.cpp include/yaucl/graphs/algorithms/minimizeDFA.h)
 
-add_library(yaucl_stringutils STATIC
+add_library(yaucl_stringutils OBJECT
         src/yaucl/strings/string_utils.cpp include/yaucl/strings/string_utils.h)
 
-add_library(yaucl_data STATIC
+add_library(yaucl_data OBJECT
         src/yaucl/data/xml.cpp include/yaucl/data/json.h)
 
-add_library(yaucl_structures STATIC src/yaucl/structures/StringPrevNext.cpp include/yaucl/structures/StringPrevNext.h src/yaucl/structures/DoublePrevNext.cpp include/yaucl/structures/DoublePrevNext.h)
+add_library(yaucl_structures OBJECT src/yaucl/structures/StringPrevNext.cpp include/yaucl/structures/StringPrevNext.h src/yaucl/structures/DoublePrevNext.cpp include/yaucl/structures/DoublePrevNext.h)
 
-add_library(yaucl_bpm STATIC
+add_library(yaucl_bpm OBJECT
         #src/yaucl/bpm/structures/ltlf/ltlf.cpp
         #include/yaucl/bpm/structures/ltlf/ltlf.h
         src/knobab/server/declare/CNFDeclareDataAware.cpp
@@ -79,7 +79,7 @@ add_library(yaucl_bpm STATIC
         #src/yaucl/bpm/algos/transformations/declare_to_dfa/TemplateCollectResult.cpp
         #include/yaucl/bpm/algos/transformations/declare_to_dfa/TemplateCollectResult.h
          src/yaucl/bpm/structures/commons/testing_predicates.cpp include/yaucl/bpm/structures/commons/testing_predicates.h src/yaucl/bpm/structures/ltlf/easy_prop.cpp include/yaucl/bpm/structures/commons/easy_prop.h)
-target_link_libraries(yaucl_bpm antlr4_static yaucl_numeric yaucl_data yaucl_graph yaucl_hashing) #aaltaf)
+#target_link_libraries(yaucl_bpm antlr4_shared yaucl_numeric yaucl_data yaucl_graph yaucl_hashing) #aaltaf)
 
 
 add_executable(knobab_client src/knobab/client/client.cpp)
@@ -106,5 +106,6 @@ add_executable(knobab_server src/knobab/server/server.cpp
         ./src/yaucl/bpm/structures/log/TracesBaseVisitor.cpp
         ./src/yaucl/bpm/structures/log/TracesListener.cpp
         ./src/yaucl/bpm/structures/log/TracesVisitor.cpp
-        src/knobab/server/declare/DisjunctiveDeclareDataAware.cpp include/knobab/server/declare/DisjunctiveDeclareDataAware.h src/knobab/server/dataStructures/oid.cpp include/knobab/server/dataStructures/oid.h include/knobab/server/tables/ActTable.h include/knobab/server/tables/AttributeTable.h include/knobab/server/tables/CountTemplate.h src/knobab/server/tables/CountTable.cpp src/knobab/server/tables/ActTable.cpp src/knobab/server/tables/AttributeTable.cpp include/knobab/server/dataStructures/DataQuery.h src/knobab/server/dataStructures/DataQuery.cpp src/knobab/server/dataStructures/marked_event.cpp include/knobab/server/dataStructures/marked_event.h include/knobab/server/dataStructures/TraceData.h src/knobab/server/tables/KnowledgeBase.cpp include/knobab/server/tables/KnowledgeBase.h include/knobab/server/query_manager/Environment.h include/knobab/server/algorithms/grounding/kb_grounding.h src/knobab/server/algorithms/grounding/kb_grounding.cpp src/knobab/server/query_manager/Environment.cpp include/knobab/server/dataStructures/atomization_structures.h include/knobab/server/algorithms/atomization/AtomizingPipeline.h src/knobab/server/algorithms/atomization/AtomizingPipeline.cpp include/knobab/server/benchmarking/LoggerInformation.h src/knobab/server/benchmarking/LoggerInformation.cpp include/knobab/server/algorithms/querymanager/MAXSatPipeline.h src/knobab/server/algorithms/querymanager/MAXSatPipeline.cpp include/knobab/server/operators/LTLfQuery.h src/knobab/server/operators/LTLfQuery.cpp include/knobab/server/operators/simple_ltlf_operators.h include/knobab/server/operators/fast_ltlf_operators.h include/knobab/server/algorithms/querymanager/LTLfQueryManager.h src/knobab/server/algorithms/querymanager/LTLfQueryManager.cpp include/knobab/server/operators/ltlf_operators.h)
-target_link_libraries(knobab_server antlr4_static yaucl_bpm yaucl_structures)
+        src/knobab/server/declare/DisjunctiveDeclareDataAware.cpp include/knobab/server/declare/DisjunctiveDeclareDataAware.h src/knobab/server/dataStructures/oid.cpp include/knobab/server/dataStructures/oid.h include/knobab/server/tables/ActTable.h include/knobab/server/tables/AttributeTable.h include/knobab/server/tables/CountTemplate.h src/knobab/server/tables/CountTable.cpp src/knobab/server/tables/ActTable.cpp src/knobab/server/tables/AttributeTable.cpp include/knobab/server/dataStructures/DataQuery.h src/knobab/server/dataStructures/DataQuery.cpp src/knobab/server/dataStructures/marked_event.cpp include/knobab/server/dataStructures/marked_event.h include/knobab/server/dataStructures/TraceData.h src/knobab/server/tables/KnowledgeBase.cpp include/knobab/server/tables/KnowledgeBase.h include/knobab/server/query_manager/Environment.h include/knobab/server/algorithms/grounding/kb_grounding.h src/knobab/server/algorithms/grounding/kb_grounding.cpp src/knobab/server/query_manager/Environment.cpp include/knobab/server/dataStructures/atomization_structures.h include/knobab/server/algorithms/atomization/AtomizingPipeline.h src/knobab/server/algorithms/atomization/AtomizingPipeline.cpp include/knobab/server/benchmarking/LoggerInformation.h src/knobab/server/benchmarking/LoggerInformation.cpp include/knobab/server/algorithms/querymanager/MAXSatPipeline.h src/knobab/server/algorithms/querymanager/MAXSatPipeline.cpp include/knobab/server/operators/LTLfQuery.h src/knobab/server/operators/LTLfQuery.cpp include/knobab/server/operators/simple_ltlf_operators.h include/knobab/server/operators/fast_ltlf_operators.h include/knobab/server/algorithms/querymanager/LTLfQueryManager.h src/knobab/server/algorithms/querymanager/LTLfQueryManager.cpp include/knobab/server/operators/ltlf_operators.h )
+target_link_libraries(knobab_server antlr4_shared yaucl_bpm yaucl_structures
+        yaucl_numeric yaucl_data yaucl_graph yaucl_hashing)

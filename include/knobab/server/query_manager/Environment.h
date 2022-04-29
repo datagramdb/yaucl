@@ -172,14 +172,14 @@ public:
     void load_log(log_data_format format, bool loadData, const std::string &filename, bool setMaximumStrLen);
 
 
-    void cache_declare_templates_as_graphs();
+    [[deprecated]] void cache_declare_templates_as_graphs();
 
     /**
      * Loading the Declare model in the Extended format
      * @param model_file
      */
-    void load_model(const std::filesystem::path &model_file);
-    void load_model(const std::string &model);
+    [[deprecated]] void load_model(const std::filesystem::path &model_file);
+    [[deprecated]] void load_model(const std::string &model);
     template <typename T> void load_model(T begin, T end, const std::string& generatedName = "Generated") {
         conjunctive_model.clear();
         for (auto it = begin; it != end; it++) {

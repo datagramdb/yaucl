@@ -37,6 +37,7 @@ TAGGED_UNION_WITH_ENCAPSULATION_BEGIN(unsigned char, bit_fields, 0, 8, bool has_
 TAGGED_UNION_ENCAPSULATOR_END
 
 struct LTLfQuery {
+#ifndef _MSC_VER
     enum __attribute__((__packed__)) type {
         INIT_QP = 0,
         END_QP = 1,
@@ -58,6 +59,29 @@ struct LTLfQuery {
         LAST_QP = 17,
         FALSEHOOD_QP = 18
     };
+#else
+    enum type {
+        INIT_QP = 0,
+            END_QP = 1,
+            EXISTS_QP = 2,
+            ABSENCE_QP = 3,
+            NEXT_QP = 4,
+            OR_QP = 5,
+            AND_QP = 6,
+            IMPL_QP = 7,
+            IFTE_QP = 8,
+            U_QP = 9,
+            G_QP = 10,
+            F_QP = 11,
+            NOT_QP = 12,
+            AF_QPT = 13,
+            AXG_QPT = 14,
+            AG_QPT = 15,
+            FIRST_QP = 16,
+            LAST_QP = 17,
+            FALSEHOOD_QP = 18
+    };
+#endif
     type t;
     declare_type_t declare_arg = 0; // Representation of a specific argument providing data/label condition
     LeafType       isLeaf;           // Marking whether the query is going to be an activation or a target condition

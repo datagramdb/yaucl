@@ -29,6 +29,9 @@ public:
   virtual void enterList(KnoBABQueryParser::ListContext *ctx) = 0;
   virtual void exitList(KnoBABQueryParser::ListContext *ctx) = 0;
 
+  virtual void enterDroplog(KnoBABQueryParser::DroplogContext *ctx) = 0;
+  virtual void exitDroplog(KnoBABQueryParser::DroplogContext *ctx) = 0;
+
   virtual void enterLog(KnoBABQueryParser::LogContext *ctx) = 0;
   virtual void exitLog(KnoBABQueryParser::LogContext *ctx) = 0;
 
