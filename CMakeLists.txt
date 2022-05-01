@@ -47,6 +47,8 @@ add_library(yaucl_stringutils OBJECT
         src/yaucl/strings/string_utils.cpp include/yaucl/strings/string_utils.h)
 
 add_library(yaucl_data OBJECT
+        src/yaucl/data/MemoryMappingFile.cpp
+        src/yaucl/data/mmapFile.cpp
         src/yaucl/data/xml.cpp include/yaucl/data/json.h)
 
 add_library(yaucl_structures OBJECT src/yaucl/structures/StringPrevNext.cpp include/yaucl/structures/StringPrevNext.h src/yaucl/structures/DoublePrevNext.cpp include/yaucl/structures/DoublePrevNext.h)
@@ -63,7 +65,7 @@ add_library(yaucl_bpm OBJECT
 
 add_executable(knobab_client src/knobab/client/client.cpp)
 
-add_executable(knobab_server src/knobab/server/server.cpp
+add_library(knobab OBJECT
                              src/knobab/server/query_manager/KnoBABQueryBaseListener.cpp
         src/SimplifiedFuzzyStringMatching.cpp
         src/knobab/server/query_manager/KnoBABQueryBaseVisitor.cpp
@@ -98,13 +100,24 @@ add_executable(knobab_server src/knobab/server/server.cpp
         src/knobab/server/benchmarking/LoggerInformation.cpp
         src/knobab/server/algorithms/querymanager/MAXSatPipeline.cpp
         src/knobab/server/operators/LTLfQuery.cpp
+        src/knobab/server/ndp/KnowledgeBaseNDPLoader.cpp
         src/knobab/server/algorithms/querymanager/LTLfQueryManager.cpp
         )
 
+add_executable(knobab_server src/knobab/server/server.cpp)
+add_executable(tests_main src/knobab/tests/main.cpp)
+
+add_library(knobab_ndp src/knobab/server/ndp/count_table_rcx.cpp src/knobab/server/ndp/KnowledgeBaseNDPLoader.cpp include/yaucl/data/FixedSizeNDPSorter.h src/knobab/server/ndp/attribute_table_rcx.cpp include/knobab/server/ndp/attribute_table_rcx.h)
+
+
 if(MSVC OR MSYS OR MINGW)
     target_link_libraries(knobab_server antlr4_shared yaucl_bpm yaucl_structures
-            yaucl_numeric yaucl_data yaucl_graph yaucl_hashing)
+            yaucl_numeric yaucl_data yaucl_graph yaucl_hashing knobab knobab_ndp)
+    target_link_libraries(tests_main antlr4_shared yaucl_bpm yaucl_structures
+            yaucl_numeric yaucl_data yaucl_graph yaucl_hashing knobab knobab_ndp)
 else()
     target_link_libraries(knobab_server antlr4_static yaucl_bpm yaucl_structures
-            yaucl_numeric yaucl_data yaucl_graph yaucl_hashing)
+            yaucl_numeric yaucl_data yaucl_graph yaucl_hashing knobab knobab_ndp)
+    target_link_libraries(tests_main antlr4_static yaucl_bpm yaucl_structures
+            yaucl_numeric yaucl_data yaucl_graph yaucl_hashing knobab knobab_ndp)
 endif()
