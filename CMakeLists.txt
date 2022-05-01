@@ -107,7 +107,14 @@ add_library(knobab OBJECT
 add_executable(knobab_server src/knobab/server/server.cpp)
 add_executable(tests_main src/knobab/tests/main.cpp)
 
-add_library(knobab_ndp src/knobab/server/ndp/count_table_rcx.cpp src/knobab/server/ndp/KnowledgeBaseNDPLoader.cpp include/yaucl/data/FixedSizeNDPSorter.h src/knobab/server/ndp/attribute_table_rcx.cpp include/knobab/server/ndp/attribute_table_rcx.h)
+add_library(knobab_ndp
+        src/knobab/server/ndp/count_table_rcx.cpp
+        src/knobab/server/ndp/KnowledgeBaseNDPLoader.cpp
+        include/yaucl/data/FixedSizeNDPSorter.h
+        src/knobab/server/ndp/act_table_rcx.cpp
+        include/knobab/server/ndp/act_table_rcx.h
+        src/knobab/server/ndp/KnowledgeBaseNDPReader.cpp
+        src/knobab/server/ndp/VariadicSizeArrayElements.cpp include/yaucl/data/VariadicSizeArrayElements.h)
 
 
 if(MSVC OR MSYS OR MINGW)

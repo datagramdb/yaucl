@@ -34,6 +34,7 @@ class KnowledgeBaseNDPLoader : public trace_visitor {
     //    Per definire l'indice primario, conto quante volte occorre globalmente ciascun evento
 
     void finalize_count_table();
+    void finalize_act_table();
 
 public:
     KnowledgeBaseNDPLoader(const std::filesystem::path& folder);
@@ -58,7 +59,6 @@ public:
 
     size_t nTraces() const { return noTraces; }
 
-    void finalize_att_table();
 };
 
 

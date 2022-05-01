@@ -14,15 +14,16 @@ namespace yaucl {
             unsigned long size;
             int file_descriptor;
             void* memory;
+            bool doClose;
 
         public:
             MemoryMappedFile(const std::filesystem::path& file);
             MemoryMappedFile();
             ~MemoryMappedFile();
-            MemoryMappedFile(const MemoryMappedFile&) = default;
-            MemoryMappedFile(MemoryMappedFile&&) = default;
-            MemoryMappedFile& operator=(const MemoryMappedFile&) = default;
-            MemoryMappedFile& operator=(MemoryMappedFile&&) = default;
+            MemoryMappedFile(const MemoryMappedFile& x);
+            MemoryMappedFile(MemoryMappedFile&& x);
+            MemoryMappedFile& operator=(const MemoryMappedFile& x);
+            MemoryMappedFile& operator=(MemoryMappedFile&& x);
 
             void open(const std::filesystem::path& file);
             void close();

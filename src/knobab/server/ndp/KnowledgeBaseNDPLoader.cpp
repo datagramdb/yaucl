@@ -28,11 +28,12 @@ void KnowledgeBaseNDPLoader::exitLog(const std::string &source, const std::strin
     status = FinishParsing;
 
     finalize_count_table();
-    finalize_att_table();
+    finalize_act_table();
 }
 
 size_t KnowledgeBaseNDPLoader::enterTrace(const std::string &trace_label) {
     actId = 0;
+    att_table_primary_index_from_second_element.clear();
     att_table_primary_index_from_second_element.resize(event_label_mapper.int_to_T.size(), 0);
     currentEventId = 0;
 //    counting_reference.clear();
@@ -177,7 +178,7 @@ KnowledgeBaseNDPLoader::KnowledgeBaseNDPLoader(const std::filesystem::path &fold
 
 #include <yaucl/data/FixedSizeNDPSorter.h>
 #include <knobab/server/ndp/count_table_rcx.h>
-#include <knobab/server/ndp/attribute_table_rcx.h>
+#include <knobab/server/ndp/act_table_rcx.h>
 
 void KnowledgeBaseNDPLoader::finalize_count_table() {
     // Adding the data that was missed before
@@ -216,9 +217,15 @@ void KnowledgeBaseNDPLoader::finalize_count_table() {
 //    }
 }
 
-void KnowledgeBaseNDPLoader::finalize_att_table() {
+void KnowledgeBaseNDPLoader::finalize_act_table() {
     act_table_tmp.flush();
     act_table_tmp.close();
+
+    {
+        // sorting the table
+        FixedSizeNDPSorter<act_table_rcx> file{availableMemory() / 4};
+        file.sort(folder / "act.table", std::filesystem::temp_directory_path());
+    }
 
     // Writing the primary index for the attributes table, that is, stating where each attribute will start
     {
@@ -253,14 +260,6 @@ void KnowledgeBaseNDPLoader::finalize_att_table() {
         }
     }
 
-
-    {
-        // sorting the table
-        FixedSizeNDPSorter<count_table_rcx> file{availableMemory() / 4};
-        file.sort(folder / "act.table", std::filesystem::temp_directory_path());
-    }
-
-
     {
         std::fstream trace_file = std::fstream(folder/"act.traces", std::ios::out | std::ios::binary);
 
@@ -271,14 +270,14 @@ void KnowledgeBaseNDPLoader::finalize_att_table() {
         size_t traceOffset = 0;
         for (size_t i = 0; i<noTraces; i++) {
             trace_file.write((char*)&traceOffset, sizeof(traceOffset));
-            traceOffset+=traceLengthCount.at(i);
+            traceOffset+=traceLengthCount.at(i) * sizeof(size_t);
         }
 
         // Assumption: the whole traces will fit in primary memory as ids.
         yaucl::data::MemoryMappedFile file{folder / "act.table"};
-        std::vector<size_t> posFile(file.cast_size<count_table_rcx>());
-        for (size_t i = 0, N = file.cast_size<attribute_table_rcx>(); i<N; i++) {
-            auto& ref = file.at<attribute_table_rcx>(i);
+        std::vector<size_t> posFile(file.cast_size<act_table_rcx>());
+        for (size_t i = 0, N = file.cast_size<act_table_rcx>(); i<N; i++) {
+            auto& ref = file.at<act_table_rcx>(i);
             posFile[ref.absolute_sequence] = i;
         }
         for (size_t i = 0, N = posFile.size(); i<N; i++) {
