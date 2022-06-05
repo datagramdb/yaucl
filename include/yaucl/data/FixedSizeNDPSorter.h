@@ -13,26 +13,47 @@
 template <typename T> class FixedSizeNDPSorter {
 
     size_t runs_size;
-    int partition(std::vector<T> &arr, const int left, const int right) {
-        T& pivotElement = arr[right];
-        uint_fast64_t i = left - 1;
-        for (uint_fast64_t j = left; j < right; j++) {
-            if ((arr[j] < pivotElement)) {
+    int partition(std::vector<T> &array, const int low, const int high) {
+        // select the rightmost element as pivot
+        T& pivot = array[high];
+
+        // pointer for greater element
+        int i = (low - 1);
+
+        // traverse each element of the array
+        // compare them with the pivot
+        for (int j = low; j < high; j++) {
+            if (array[j] <= pivot) {
+
+                // if element smaller than pivot is found
+                // swap it with the greater element pointed by i
                 i++;
-                std::swap(arr[i],arr[j]);
+
+                // swap element at i with element at j
+                std::swap(array[i], array[j]);
             }
         }
-        if ((arr[right] < arr[i+1])) {
-            std::swap(arr[(i+1)],arr[right]);
-        }
-        return i+1;
+
+        // swap pivot with the greater element at i
+        std::swap(array[i + 1], array[high]);
+
+        // return the partition point
+        return (i + 1);
     }
 
-    void do_quicksort(std::vector<T> &arr, const int left, const int right) {
-        if (left < right) {
-            uint_fast64_t part = partition(arr, left, right);
-            if (part > 0) do_quicksort(arr, left, part - 1);
-            do_quicksort(arr, part + 1, right);
+    void do_quicksort(std::vector<T> &array, const int low, const int high) {
+        if (low < high) {
+
+            // find the pivot element such that
+            // elements smaller than pivot are on left of pivot
+            // elements greater than pivot are on righ of pivot
+            int pi = partition(array, low, high);
+
+            // recursive call on the left of pivot
+            do_quicksort(array, low, pi - 1);
+
+            // recursive call on the right of pivot
+            do_quicksort(array, pi + 1, high);
         }
     }
 

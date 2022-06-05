@@ -5,7 +5,7 @@
 #ifndef KNOBAB_SERVER_MINIHEAP_IOVEC_H
 #define KNOBAB_SERVER_MINIHEAP_IOVEC_H
 
-#include <knobab/server/ndp/new_iovec.h>
+#include <yaucl/data/new_iovec.h>
 #include <cstdint>
 
 /**

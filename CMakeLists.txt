@@ -47,9 +47,10 @@ add_library(yaucl_stringutils OBJECT
         src/yaucl/strings/string_utils.cpp include/yaucl/strings/string_utils.h)
 
 add_library(yaucl_data OBJECT
+        src/yaucl/data/new_iovec.cpp
         src/yaucl/data/MemoryMappingFile.cpp
         src/yaucl/data/mmapFile.cpp
-        src/yaucl/data/xml.cpp include/yaucl/data/json.h)
+        src/yaucl/data/xml.cpp include/yaucl/data/json.h src/yaucl/data/VarSizeNDPSorter.cpp)
 
 add_library(yaucl_structures OBJECT src/yaucl/structures/StringPrevNext.cpp include/yaucl/structures/StringPrevNext.h src/yaucl/structures/DoublePrevNext.cpp include/yaucl/structures/DoublePrevNext.h)
 
@@ -114,7 +115,7 @@ add_library(knobab_ndp
         src/knobab/server/ndp/act_table_rcx.cpp
         include/knobab/server/ndp/act_table_rcx.h
         src/knobab/server/ndp/KnowledgeBaseNDPReader.cpp
-        src/knobab/server/ndp/VariadicSizeArrayElements.cpp include/yaucl/data/VariadicSizeArrayElements.h)
+        src/knobab/server/ndp/VariadicSizeArrayElements.cpp include/yaucl/data/VariadicSizeArrayElements.h KnowledgeBaseNDP.cpp KnowledgeBaseNDP.h)
 
 
 if(MSVC OR MSYS OR MINGW)

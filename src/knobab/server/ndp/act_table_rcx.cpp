@@ -17,7 +17,6 @@ bool act_table_rcx::operator<(const act_table_rcx &rhs) const {
         return true;
     if (rhs.event_id < event_id)
         return false;
-    return absolute_sequence < rhs.absolute_sequence;
 }
 
 bool act_table_rcx::operator>(const act_table_rcx &rhs) const {
@@ -35,8 +34,7 @@ bool act_table_rcx::operator>=(const act_table_rcx &rhs) const {
 bool act_table_rcx::operator==(const act_table_rcx &rhs) const {
     return act_id == rhs.act_id &&
            trace_id == rhs.trace_id &&
-           event_id == rhs.event_id &&
-           absolute_sequence == rhs.absolute_sequence;
+           event_id == rhs.event_id;
 }
 bool act_table_rcx::operator!=(const act_table_rcx &rhs) const {
     return !(rhs == *this);

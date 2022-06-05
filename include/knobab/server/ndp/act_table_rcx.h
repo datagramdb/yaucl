@@ -8,9 +8,9 @@
 #include <string>
 
 struct act_table_rcx {
-    size_t act_id, trace_id, event_id, absolute_sequence;
+    size_t act_id, trace_id, event_id;
 
-    act_table_rcx() : act_id(0), trace_id(0), event_id(0), absolute_sequence(0) {};
+    act_table_rcx() : act_id(0), trace_id(0), event_id(0){};
     act_table_rcx(const act_table_rcx&) = default;
     act_table_rcx(act_table_rcx&& ) = default;
     act_table_rcx& operator=(const act_table_rcx&) = default;

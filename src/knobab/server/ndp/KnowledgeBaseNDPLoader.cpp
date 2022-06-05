@@ -10,6 +10,8 @@
 
 void KnowledgeBaseNDPLoader::enterLog(const std::string &source, const std::string &name) {
     std::ios_base::sync_with_stdio(false);
+    count_table_tmp = std::fstream(folder / "count.table", std::ios::out | std::ios::binary);
+    act_table_tmp = std::fstream(folder / "act.table", std::ios::out | std::ios::binary);
     maxActPerTrace.clear();
     DEBUG_ASSERT(!this->alreadySet);
     this->source = source;
@@ -17,8 +19,6 @@ void KnowledgeBaseNDPLoader::enterLog(const std::string &source, const std::stri
     this->alreadySet = true;
     status = LogParsing;
     noTraces = 0;
-    globalEventId = 0;
-//    count_table.table.clear();
 }
 
 void KnowledgeBaseNDPLoader::exitLog(const std::string &source, const std::string &name) {
@@ -33,7 +33,8 @@ void KnowledgeBaseNDPLoader::exitLog(const std::string &source, const std::strin
 
 size_t KnowledgeBaseNDPLoader::enterTrace(const std::string &trace_label) {
     actId = 0;
-    att_table_primary_index_from_second_element.clear();
+    att_table_counting.clear();
+    att_table_counting.resize(event_label_mapper.int_to_T.size(), 0);
     att_table_primary_index_from_second_element.resize(event_label_mapper.int_to_T.size(), 0);
     currentEventId = 0;
 //    counting_reference.clear();
@@ -48,10 +49,10 @@ void KnowledgeBaseNDPLoader::exitTrace(size_t traceId) {
     DEBUG_ASSERT(noTraces == (traceId+1));
     status = LogParsing;
 
-    for (size_t i = 0, N = att_table_primary_index_from_second_element.size(); i < N; i++) {
+    for (size_t i = 0, N = att_table_counting.size(); i < N; i++) {
         count_table_tmp.write((char*)&i, sizeof(size_t));
         count_table_tmp.write((char*)&traceId, sizeof(size_t));
-        count_table_tmp.write((char*)&att_table_primary_index_from_second_element[i], sizeof(size_t));
+        count_table_tmp.write((char*)&att_table_counting[i], sizeof(size_t));
     }
 }
 
@@ -60,12 +61,15 @@ size_t KnowledgeBaseNDPLoader::enterEvent(size_t chronos_tick, const std::string
     actId = event_label_mapper.put(event_label).first;
     if (actId >= att_table_primary_index_from_second_element.size()) {
         att_table_primary_index_from_second_element.emplace_back(1);
-    } else
+        att_table_counting.emplace_back(1);
+    } else {
         att_table_primary_index_from_second_element[actId]++;
+        att_table_counting[actId]++;
+    }
     act_table_tmp.write((char*)&actId, sizeof(actId));
     act_table_tmp.write((char*)&currentTrace, sizeof(currentTrace));
     act_table_tmp.write((char*)&currentEventId, sizeof(currentEventId));
-    act_table_tmp.write((char*)&globalEventId, sizeof(globalEventId));
+
 //    auto it = counting_reference.emplace(actId, 1UL);
 //    if (!it.second) {
 //        // Existing key, increment the count val
@@ -90,7 +94,6 @@ void KnowledgeBaseNDPLoader::exitEvent(size_t event_id) {
 //    for (const auto& it : cp)
 //        count_table.load_record(it.first, noTraces-1, it.second);
     status = TraceParsing;
-    globalEventId++;
 }
 
 void KnowledgeBaseNDPLoader::enterData_part(bool isEvent) {
@@ -170,10 +173,9 @@ void KnowledgeBaseNDPLoader::visitField(const std::string &key, size_t value) {
 //    fillInAtGivenStep(key, value, type, ptr, ptr2, noTraces-1, currentEventId-1, currentEventLabel, actId);
 }
 
-KnowledgeBaseNDPLoader::KnowledgeBaseNDPLoader(const std::filesystem::path &folder) : folder{folder} {
+KnowledgeBaseNDPLoader::KnowledgeBaseNDPLoader(const std::filesystem::path &folder) : folder{folder}, status{FinishParsing} {
     DEBUG_ASSERT(std::filesystem::is_directory(folder));
-    count_table_tmp = std::fstream(folder / "count.table", std::ios::out | std::ios::binary);
-    act_table_tmp = std::fstream(folder / "act.table", std::ios::out | std::ios::binary);
+    alreadySet = false;
 }
 
 #include <yaucl/data/FixedSizeNDPSorter.h>
@@ -197,24 +199,8 @@ void KnowledgeBaseNDPLoader::finalize_count_table() {
     count_table_tmp.flush();
     count_table_tmp.close();
 
-//    {
-//        yaucl::data::MemoryMappedFile file{"/home/giacomo/test/count.table"};
-//        for (size_t i = 0, N = file.cast_size<count_table_rcx>(); i<N; i++) {
-//            auto& ref = file.at<count_table_rcx>(i);
-//            std::cout << ref.act_id << "@" << ref.trace_id << "#" << ref.count << std::endl;
-//        }
-//    }
-
     FixedSizeNDPSorter<count_table_rcx> file{availableMemory() / 4};
     file.sort(folder / "count.table", std::filesystem::temp_directory_path());
-
-//    {
-//        yaucl::data::MemoryMappedFile file{"/home/giacomo/test/count.table"};
-//        for (size_t i = 0, N = file.cast_size<count_table_rcx>(); i<N; i++) {
-//            auto& ref = file.at<count_table_rcx>(i);
-//            std::cout << ref.act_id << "@" << ref.trace_id << "#" << ref.count << std::endl;
-//        }
-//    }
 }
 
 void KnowledgeBaseNDPLoader::finalize_act_table() {
@@ -268,8 +254,10 @@ void KnowledgeBaseNDPLoader::finalize_act_table() {
 
         // For each trace, writing their displacement
         size_t traceOffset = 0;
+        std::vector<size_t> totalTraceLengthCount;
         for (size_t i = 0; i<noTraces; i++) {
             trace_file.write((char*)&traceOffset, sizeof(traceOffset));
+            totalTraceLengthCount.emplace_back(traceOffset/ sizeof(size_t));
             traceOffset+=traceLengthCount.at(i) * sizeof(size_t);
         }
 
@@ -278,7 +266,8 @@ void KnowledgeBaseNDPLoader::finalize_act_table() {
         std::vector<size_t> posFile(file.cast_size<act_table_rcx>());
         for (size_t i = 0, N = file.cast_size<act_table_rcx>(); i<N; i++) {
             auto& ref = file.at<act_table_rcx>(i);
-            posFile[ref.absolute_sequence] = i;
+            std::cout << totalTraceLengthCount[ref.trace_id] + ref.event_id << std::endl;
+            posFile[totalTraceLengthCount[ref.trace_id] + ref.event_id] = i;
         }
         for (size_t i = 0, N = posFile.size(); i<N; i++) {
             trace_file.write((char*)&posFile[i], sizeof(size_t));
@@ -286,4 +275,32 @@ void KnowledgeBaseNDPLoader::finalize_act_table() {
         posFile.clear();
     }
 
+}
+
+void KnowledgeBaseNDPLoader::reloadFromFiles(KnowledgeBaseNDPReader &file_storage) {
+    source.clear(); name.clear(); currentEventLabel.clear();
+    alreadySet = false; status = FinishParsing;
+    noTraces = file_storage.get_n_traces();
+    currentEventId = 0;
+    actId = 0;
+    currentTrace = 0;
+    traceLengthCount.clear();
+    event_label_mapper.clear();
+    size_t N = file_storage.get_n_activity_labels();
+    maxActPerTrace.resize(noTraces, N);
+    att_table_primary_index_from_second_element.resize(N, 0);
+    std::vector<bool> bitsetVec(noTraces, false);
+    size_t noMetMax = 0;
+    for (size_t i = 0; i<N; i++) {
+        event_label_mapper.put(file_storage.get_ith_activity_label(i));
+        {
+            auto cp = file_storage.act_table_scan(N-i-1);
+            att_table_primary_index_from_second_element[N-i-1] = cp.second-cp.first;
+        }
+    }
+    for (size_t i =0; i<noTraces; i++) {
+        traceLengthCount.emplace_back(file_storage.get_ith_trace_length(i));
+        att_table_counting.clear();
+    }
+//    editedTraces.resize(noTraces, false);
 }

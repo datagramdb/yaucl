@@ -11,30 +11,24 @@
 #include <knobab/server/tables/KnowledgeBase.h>
 #include <filesystem>
 #include <fstream>
+#include "KnowledgeBaseNDPReader.h"
+
 #include <array>
 
 class KnowledgeBaseNDPLoader : public trace_visitor {
     std::string source, name, currentEventLabel;
     bool alreadySet;
     ParsingState status;
-    size_t noTraces, currentEventId, actId, currentTrace, globalEventId;
-    std::vector<oid> counting_table;
+    size_t noTraces, currentEventId, actId, currentTrace;
     yaucl::structures::any_to_uint_bimap<std::string> event_label_mapper;
     std::vector<uint64_t> maxActPerTrace;
     std::vector<uint64_t> traceLengthCount;
-    std::vector<uint64_t> att_table_primary_index_from_second_element; // after sorting, the displacement where to get the next act id
+    std::vector<uint64_t> att_table_counting, att_table_primary_index_from_second_element; // after sorting, the displacement where to get the next act id
     std::filesystem::path folder;
-
     std::fstream count_table_tmp, act_table_tmp;
-
-    // 1. Qualora si inizi con una tracccia, svuotare la tabella temporanea di conteggio,
-    //    e pre-alloca tanto spazio quanto i massimi identificativi finora incontrati
-    // 3. Per ogni traccia, conto quanto è lunga
-    // 2. Per ogni evento incontrato, salva direttamente l'act table in memoria secondaria,
-    //    Per definire l'indice primario, conto quante volte occorre globalmente ciascun evento
-
     void finalize_count_table();
     void finalize_act_table();
+    std::unordered_set<size_t> editedTraces;
 
 public:
     KnowledgeBaseNDPLoader(const std::filesystem::path& folder);
@@ -52,13 +46,43 @@ public:
     void visitField(const std::string &key, const std::string &value) override;
     void visitField(const std::string &key, size_t value) override;
 
-//    void load_record(act_t act, trace_t trace_id, event_t event_pos) {
-//        sparseTable[act][trace_id] = event_pos;
-//        //table.emplace_back(act, trace_id, event_pos);
-//    }
+    void startAppendToExistingTrace(size_t append, KnowledgeBaseNDPReader& file_storage) {
+        editedTraces.insert(append);
+        DEBUG_ASSERT(append < noTraces);
+        std::ios_base::sync_with_stdio(false);
+        count_table_tmp = std::fstream(folder / "count.table", std::ios::out | std::ios::binary | std::ios_base::app);
+        act_table_tmp = std::fstream(folder / "act.table", std::ios::out | std::ios::binary | std::ios_base::app);
+        DEBUG_ASSERT(!this->alreadySet);
+        this->alreadySet = true;
+        status = LogParsing;
+        size_t N = file_storage.get_n_activity_labels();
+        att_table_counting.resize(N, 0);
+        currentTrace = append;
+        for (size_t i = 0; i<N; i++) att_table_counting[i] = file_storage.count_table_per_trace(append, i);
+        currentEventId = file_storage.get_ith_trace_length(append);
+    }
+    void stopAppendToExistingTrace(size_t append, KnowledgeBaseNDPReader& file_storage) {
+        traceLengthCount[append] = (currentEventId);
+        maxActPerTrace[append] = (event_label_mapper.int_to_T.size());
+        DEBUG_ASSERT(noTraces == (traceId+1));
+        status = LogParsing;
+        size_t N = file_storage.get_n_activity_labels();
+        for (size_t i = 0; i < N; i++) {
+            file_storage.update_event_count(append, i, att_table_counting[i]);
+        }
+        for (size_t i = N; i<maxActPerTrace[append]; i++) {
+
+        }
+
+        for (size_t i : editedTraces) {
+            for (size_t j = 0; j<att_table_counting.size(); j++) {
+
+            }
+        }
+    }
 
     size_t nTraces() const { return noTraces; }
-
+    void reloadFromFiles(KnowledgeBaseNDPReader& file_storage);
 };
 
 

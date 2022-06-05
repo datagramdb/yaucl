@@ -1,0 +1,14 @@
+//
+// Created by giacomo on 01/05/2022.
+//
+
+#ifndef KNOBAB_SERVER_KNOWLEDGEBASENDP_H
+#define KNOBAB_SERVER_KNOWLEDGEBASENDP_H
+
+
+class KnowledgeBaseNDP {
+
+};
+
+
+#endif //KNOBAB_SERVER_KNOWLEDGEBASENDP_H

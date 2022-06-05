@@ -18,6 +18,7 @@ namespace yaucl {
         public:
             VariadicSizeArrayElements(const std::filesystem::path& path);
 
+
             size_t size() const;
             const char* operator[](size_t i) const;
             template<class T> const T* get(size_t i) const { return  (T*)((i >= _size) ? nullptr : payload+offsets[i]); }
@@ -35,8 +36,10 @@ namespace yaucl {
                 payload = (T*)file.data();
             }
 
+            const char* end() const { return file.data()+file.file_size(); }
             size_t size() const { return _size; }
             T& operator[](size_t i) const { return *&payload[i]; }
+            T* update(size_t i) { return &payload[i]; }
             size_t representation_size(size_t i) const { return sizeof(T); }
         };
     }
