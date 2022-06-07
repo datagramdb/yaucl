@@ -9,6 +9,8 @@
 #include <filesystem>
 #include <algorithm>
 #include <queue>
+#include "new_iovec.h"
+
 
 template <typename T> class FixedSizeNDPSorter {
 
@@ -139,6 +141,70 @@ public:
         tmpSort.close();
         std::filesystem::remove(filename);
         std::filesystem::rename(out, filename);
+    }
+};
+
+template <typename T> class FixedSizeReaderWriter {
+    std::fstream file;
+    std::filesystem::path filename;
+    bool isWrite, isRead;
+    yaucl::data::FixedSizeArrayElements<T> reader;
+
+    void prepareWrite() {
+        if (isRead) {
+            reader.close();
+            isRead = false;
+        }
+        if (!isWrite) {
+            file = std::fstream(filename, std::ios::out | std::ios::binary);
+            isWrite = true;
+        }
+    }
+    void prepareRead() {
+        if (isWrite) {
+            file.close();
+            isWrite = false;
+        }
+        if (!isRead) {
+            reader.open(filename);
+            isRead = true;
+        }
+    }
+
+
+public:
+    FixedSizeReaderWriter(const std::filesystem::path& file) : filename{file}, isWrite{false}, isRead{false}{}
+
+    void put(const T& data) {
+        prepareWrite();
+        file.write((char*)&data, sizeof(T));
+    }
+    void put(const new_iovec& data) {
+        prepareWrite();
+        file.write((char*)data.iov_base, data.iov_len);
+    }
+    size_t size() {
+        prepareRead();
+        return reader.size();
+    }
+    T get(size_t i) {
+        prepareRead();
+        return reader[i];
+    }
+    void sort(size_t size_runs, const std::filesystem::path& tmp_path) {
+        close();
+        FixedSizeNDPSorter<T> sorter(size_runs);
+        sorter.sort(filename, tmp_path);
+    }
+    void close() {
+        if (isWrite) {
+            file.close();
+            isWrite = false;
+        }
+        if (isRead) {
+            reader.close();
+            isRead = false;
+        }
     }
 };
 

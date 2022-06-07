@@ -142,16 +142,7 @@ template <typename T> class VarSizeNDPReaderWriter {
             isRead = true;
         }
     }
-    void close() {
-        if (isWrite) {
-            writer.close();
-            isWrite = false;
-        }
-        if (isRead) {
-            reader.close();
-            isRead = false;
-        }
-    }
+
 
 public:
     VarSizeNDPReaderWriter(const std::filesystem::path& file,
@@ -188,6 +179,16 @@ public:
         };
         VarSizeNDPSorter sorter(size_runs, f);
         sorter.sort(filename, tmp_path);
+    }
+    void close() {
+        if (isWrite) {
+            writer.close();
+            isWrite = false;
+        }
+        if (isRead) {
+            reader.close();
+            isRead = false;
+        }
     }
 };
 

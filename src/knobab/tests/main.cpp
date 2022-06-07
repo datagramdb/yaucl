@@ -131,6 +131,24 @@ void loader() {
     }
 }
 
+#include <yaucl/data/FixedSizeNDPSorter.h>
+
+void fixed_size() {
+    FixedSizeReaderWriter<size_t> W{"/home/giacomo/numbers.bin"};
+    W.put(10);
+    W.put(2);
+    W.put(5);
+    W.put(3);
+    W.put(18);
+    for (size_t i = 0, N = W.size(); i<N; i++) {
+        std::cout << W.get(i) << std::endl;
+    }
+    W.sort(sizeof(size_t)*2, "/home/giacomo/tmp");
+    for (size_t i = 0, N = W.size(); i<N; i++) {
+        std::cout << W.get(i) << std::endl;
+    }
+}
+
 int main(void) {
-    external_var_readwriter();
+    fixed_size();
 }

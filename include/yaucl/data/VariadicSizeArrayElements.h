@@ -29,17 +29,39 @@ namespace yaucl {
             yaucl::data::MemoryMappedFile file;
             size_t _size;
             T* payload;
+            bool opened;
 
         public:
+            FixedSizeArrayElements() {
+                _size = 0;
+                payload = nullptr;
+                opened = false;
+            }
             FixedSizeArrayElements(const std::filesystem::path& path) : file{path} {
                 _size = file.file_size() / sizeof(T);
                 payload = (T*)file.data();
+                opened = true;
             }
 
-            const char* end() const { return file.data()+file.file_size(); }
-            size_t size() const { return _size; }
+            void open(const std::filesystem::path& path) {
+                close();
+                file.open(path);
+                opened = true;
+                _size = file.file_size() / sizeof(T);
+                payload = (T*)file.data();
+            }
+            void close() {
+                if (opened) {
+                    file.close();
+                    opened = false;
+                    _size = 0;
+                    payload = nullptr;
+                }
+            }
+            const char* end() const { return opened ? file.data()+file.file_size() : nullptr; }
+            size_t size() const { return opened ? _size : 0; }
             T& operator[](size_t i) const { return *&payload[i]; }
-            T* update(size_t i) { return &payload[i]; }
+            T* update(size_t i) { return opened ? &payload[i] : nullptr; }
             size_t representation_size(size_t i) const { return sizeof(T); }
         };
     }
