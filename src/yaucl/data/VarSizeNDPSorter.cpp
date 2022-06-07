@@ -51,7 +51,7 @@ void VarSizeNDPSorter::sort(const std::filesystem::path &f, const std::filesyste
         {
             std::fstream toSort = std::fstream(tmpFile, std::ios::out | std::ios::binary);
             for (size_t pos = 0, O = in_memory_file_copy.size(); pos<O; pos++) {
-                auto valu = data+(size_t)in_memory_file_copy[pos].iov_base;
+//                auto valu = data+(size_t)in_memory_file_copy[pos].iov_base;
                 toSort.write((char*)&in_memory_file_copy[pos].iov_base, sizeof (size_t));
                 toSort.write((char*)&in_memory_file_copy[pos].iov_len, sizeof (size_t));
             }
@@ -77,7 +77,7 @@ void VarSizeNDPSorter::sort(const std::filesystem::path &f, const std::filesyste
     std::pair<new_iovec, size_t> cp{{nullptr,0}, 0};
     for (i = 0; i < k; i++){
         auto& val = externalFiles.at(i).at<idx_record>(0);
-        auto valu = data+val.offset;
+//        auto valu = data+val.offset;
         cp.first.iov_base = (void*)val.offset;
         cp.first.iov_len = val.len;
         cp.second = i;

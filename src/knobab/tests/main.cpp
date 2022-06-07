@@ -43,7 +43,32 @@ void external_var_sorter() {
     }
 }
 
-int main(void) {
+#include <string>
+
+void external_var_readwriter() {
+    VarSizeNDPReaderWriter<std::string> W{"/home/giacomo/strings.bin",
+                                          [](const std::string& w,new_iovec& out) {
+                                            out.iov_len = w.size()+1;
+                                            out.iov_base = (void*)w.data();
+                                          },
+                                          [](const new_iovec& memo) {
+                                              return std::string((char*)memo.iov_base, memo.iov_len);
+    }};
+    W.put("hello");
+    W.put("wor");
+    W.put("ciao");
+    W.put("aakward");
+    W.put("fo");
+    for (size_t i = 0, N = W.size(); i<N; i++) {
+        std::cout << W.get(i) << std::endl;
+    }
+    W.sort(20, "/home/giacomo/tmp");
+    for (size_t i = 0, N = W.size(); i<N; i++) {
+        std::cout << W.get(i) << std::endl;
+    }
+}
+
+void loader() {
     if (true) {
         KnowledgeBaseNDPLoader loader{"/home/giacomo/test"};
         loader.enterLog("s", "s");
@@ -104,4 +129,8 @@ int main(void) {
             }
         }
     }
+}
+
+int main(void) {
+    external_var_readwriter();
 }

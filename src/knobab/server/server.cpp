@@ -1,8 +1,6 @@
 #include <iostream>
 #include <knobab/server/query_manager/ServerQueryManager.h>
 
-#include <yaucl/data/VarSizeNDPSorter.h>
-
 int main(int argc, char** argv) {
     ServerQueryManager mgr;
     std::string host{"localhost"};
