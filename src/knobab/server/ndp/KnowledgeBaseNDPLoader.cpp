@@ -266,7 +266,7 @@ void KnowledgeBaseNDPLoader::finalize_act_table() {
         std::vector<size_t> posFile(file.cast_size<act_table_rcx>());
         for (size_t i = 0, N = file.cast_size<act_table_rcx>(); i<N; i++) {
             auto& ref = file.at<act_table_rcx>(i);
-            std::cout << totalTraceLengthCount[ref.trace_id] + ref.event_id << std::endl;
+//            std::cout << totalTraceLengthCount[ref.trace_id] + ref.event_id << std::endl;
             posFile[totalTraceLengthCount[ref.trace_id] + ref.event_id] = i;
         }
         for (size_t i = 0, N = posFile.size(); i<N; i++) {

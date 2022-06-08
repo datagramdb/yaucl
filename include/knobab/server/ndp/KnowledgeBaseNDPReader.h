@@ -10,9 +10,9 @@
 
 class KnowledgeBaseNDPReader {
     std::filesystem::path path;
-    yaucl::data::VariadicSizeArrayElements act_array;
+    yaucl::data::VariadicSizeArrayElementsReader act_array;
     yaucl::data::FixedSizeArrayElements<count_table_rcx> count_table;
-    yaucl::data::VariadicSizeArrayElements act_traces;
+    yaucl::data::VariadicSizeArrayElementsReader act_traces;
     yaucl::data::FixedSizeArrayElements<act_table_rcx> act_table;
     yaucl::data::FixedSizeArrayElements<size_t> act_primary_index;
     std::unordered_map<std::string, size_t> act_name_to_id;

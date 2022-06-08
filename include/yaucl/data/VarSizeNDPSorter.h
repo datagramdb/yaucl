@@ -10,6 +10,7 @@
 #include <yaucl/data/new_iovec.h>
 #include "MemoryMappingFile.h"
 #include <fstream>
+#include <unordered_set>
 
 template <typename T> class VarSizeNDPWriter {
     std::ofstream p, idx;
@@ -103,6 +104,9 @@ public:
             return {file.data()+var.offset, var.len};
         }
     }
+    const idx_record& getOffset(size_t i) const {
+        return idx.at<idx_record>(i);
+    }
     void close() {
         file.close();
         idx.close();
@@ -121,6 +125,7 @@ template <typename T> class VarSizeNDPReaderWriter {
     bool isWrite, isRead;
     VarSizeNDPReader reader;
     VarSizeNDPWriter<T> writer;
+    std::filesystem::path tmp_path;
 
     void prepareWrite() {
         if (isRead) {
@@ -145,9 +150,9 @@ template <typename T> class VarSizeNDPReaderWriter {
 
 
 public:
-    VarSizeNDPReaderWriter(const std::filesystem::path& file,
+    VarSizeNDPReaderWriter(const std::filesystem::path& file, const std::filesystem::path& tmp_path,
                            std::function<void(const T&,new_iovec&)> w,
-                           std::function<T(const new_iovec&)> u) : writer{w}, u{u}, filename{file}, isWrite{false}, isRead{false}{}
+                           std::function<T(const new_iovec&)> u) : tmp_path{tmp_path}, writer{w}, u{u}, filename{file}, isWrite{false}, isRead{false}{}
 
     void put(const T& data) {
         prepareWrite();
@@ -165,7 +170,40 @@ public:
         prepareRead();
         return u(reader.get(i));
     }
-    void sort(size_t size_runs, const std::filesystem::path& tmp_path) {
+    void removeById(const std::unordered_set<size_t>& ids) {
+        size_t N = size(); // prepareRead
+        auto tmpFile = tmp_path / (filename.filename().string()+"_idx");
+        {
+            auto cpy = std::fstream(tmpFile, std::ios::out | std::ios::binary);
+            for (size_t i = 0; i<N; i++) {
+                if (!ids.contains(i)) {
+                    const auto& idxRecord = reader.getOffset(i);
+                    cpy.write((char*)&idxRecord, sizeof(idxRecord));
+                }
+            }
+        }
+        std::filesystem::remove(filename.string()+"_idx");
+        std::filesystem::rename(tmpFile, filename.string()+"_idx");
+        close();
+    }
+    void removeByValue(const std::unordered_set<T>& ids) {
+        size_t N = size(); // prepareRead
+        auto tmpFile = tmp_path / (filename.filename().string()+"_idx");
+        {
+            auto cpy = std::fstream(tmpFile, std::ios::out | std::ios::binary);
+            for (size_t i = 0; i<N; i++) {
+                auto ref = get(i);
+                if (!ids.contains(ref)) {
+                    const auto& idxRecord = reader.getOffset(i);
+                    cpy.write((char*)&idxRecord, sizeof(idxRecord));
+                }
+            }
+        }
+        std::filesystem::remove(filename.string()+"_idx");
+        std::filesystem::rename(tmpFile, filename.string()+"_idx");
+        close();
+    }
+    void sort(size_t size_runs) {
         close();
         std::function<bool(const new_iovec&, const new_iovec&, char*)> f =
                 [this](const new_iovec& l, const new_iovec& r, char* data) {

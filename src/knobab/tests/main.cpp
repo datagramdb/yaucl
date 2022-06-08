@@ -47,8 +47,9 @@ void external_var_sorter() {
 
 void external_var_readwriter() {
     VarSizeNDPReaderWriter<std::string> W{"/home/giacomo/strings.bin",
+                                          "/home/giacomo/tmp",
                                           [](const std::string& w,new_iovec& out) {
-                                            out.iov_len = w.size()+1;
+                                            out.iov_len = w.size();
                                             out.iov_base = (void*)w.data();
                                           },
                                           [](const new_iovec& memo) {
@@ -59,10 +60,12 @@ void external_var_readwriter() {
     W.put("ciao");
     W.put("aakward");
     W.put("fo");
+    W.removeByValue({"ciao"});
+    W.removeById({0});
     for (size_t i = 0, N = W.size(); i<N; i++) {
         std::cout << W.get(i) << std::endl;
     }
-    W.sort(20, "/home/giacomo/tmp");
+    W.sort(20);
     for (size_t i = 0, N = W.size(); i<N; i++) {
         std::cout << W.get(i) << std::endl;
     }
@@ -133,8 +136,42 @@ void loader() {
 
 #include <yaucl/data/FixedSizeNDPSorter.h>
 
+void array_updater() {
+    yaucl::data::VariadicSizeArrayElementsReaderWriter updater{"/home/giacomo/updatable.bin"};
+    {
+        std::string S{"hello"};
+        updater.put({(void*)S.c_str(), S.size()+1});
+    }
+    {
+        std::string S{"world"};
+        updater.put({(void*)S.c_str(), S.size()+1});
+    }
+    {
+        std::string S{"foca"};
+        updater.update(1, {(void*)S.c_str(), S.size()+1});
+    }
+    size_t N = updater.size();
+    for (size_t i = 0; i<N; i++) {
+        std::cout << updater.get<char>(i) << std::endl;
+    }
+
+    std::cout << "~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
+    {
+        std::string S{"ciao"};
+        updater.update(0, {(void*)S.c_str(), S.size()+1});
+    }
+    {
+        std::string S{"monaca"};
+        updater.put({(void*)S.c_str(), S.size()+1});
+    }
+    N = updater.size();
+    for (size_t i = 0; i<N; i++) {
+        std::cout << updater.get<char>(i) << std::endl;
+    }
+}
+
 void fixed_size() {
-    FixedSizeReaderWriter<size_t> W{"/home/giacomo/numbers.bin"};
+    FixedSizeReaderWriter<size_t> W{"/home/giacomo/numbers.bin", "/home/giacomo/tmp"};
     W.put(10);
     W.put(2);
     W.put(5);
@@ -143,12 +180,12 @@ void fixed_size() {
     for (size_t i = 0, N = W.size(); i<N; i++) {
         std::cout << W.get(i) << std::endl;
     }
-    W.sort(sizeof(size_t)*2, "/home/giacomo/tmp");
+    W.sort(sizeof(size_t)*2);
     for (size_t i = 0, N = W.size(); i<N; i++) {
         std::cout << W.get(i) << std::endl;
     }
 }
 
 int main(void) {
-    fixed_size();
+    array_updater();
 }

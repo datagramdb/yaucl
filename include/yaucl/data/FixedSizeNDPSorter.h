@@ -149,6 +149,7 @@ template <typename T> class FixedSizeReaderWriter {
     std::filesystem::path filename;
     bool isWrite, isRead;
     yaucl::data::FixedSizeArrayElements<T> reader;
+    std::filesystem::path tmp_path;
 
     void prepareWrite() {
         if (isRead) {
@@ -173,7 +174,8 @@ template <typename T> class FixedSizeReaderWriter {
 
 
 public:
-    FixedSizeReaderWriter(const std::filesystem::path& file) : filename{file}, isWrite{false}, isRead{false}{}
+    FixedSizeReaderWriter(const std::filesystem::path& file,
+                          const std::filesystem::path& tmp_path) : tmp_path{tmp_path}, filename{file}, isWrite{false}, isRead{false}{}
 
     void put(const T& data) {
         prepareWrite();
@@ -191,7 +193,38 @@ public:
         prepareRead();
         return reader[i];
     }
-    void sort(size_t size_runs, const std::filesystem::path& tmp_path) {
+    void removeById(const std::unordered_set<size_t>& ids) {
+        size_t N = size(); // prepareRead
+        auto tmpFile = tmp_path / filename.filename();
+        {
+            auto cpy = std::fstream(tmpFile, std::ios::out | std::ios::binary);
+            for (size_t i = 0; i<N; i++) {
+                if (!ids.contains(i)) {
+                    cpy.write((char*)&reader[i], sizeof(T));
+                }
+            }
+        }
+        std::filesystem::remove(filename);
+        std::filesystem::rename(tmpFile, filename);
+        close();
+    }
+    void removeByValue(const std::unordered_set<T>& values) {
+        size_t N = size(); // prepareRead
+        auto tmpFile = tmp_path / filename.filename();
+        {
+            auto cpy = std::fstream(tmpFile, std::ios::out | std::ios::binary);
+            for (size_t i = 0; i<N; i++) {
+                T& ref = reader[i];
+                if (!values.contains(ref)) {
+                    cpy.write((char*)&ref, sizeof(T));
+                }
+            }
+        }
+        std::filesystem::remove(filename);
+        std::filesystem::rename(tmpFile, filename);
+        close();
+    }
+    void sort(size_t size_runs) {
         close();
         FixedSizeNDPSorter<T> sorter(size_runs);
         sorter.sort(filename, tmp_path);
