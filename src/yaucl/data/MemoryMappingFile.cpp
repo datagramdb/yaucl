@@ -11,6 +11,7 @@ MemoryMappedFile::MemoryMappedFile(const std::filesystem::path &file) : file{fil
 #ifndef __MSC_VER
     this->memory = mmapFile(file.string(), &size, &file_descriptor);
 #endif
+    if (!memory) size = 0;
 }
 
 MemoryMappedFile::~MemoryMappedFile() {
@@ -42,6 +43,7 @@ void MemoryMappedFile::open(const std::filesystem::path &file) {
     this->file = file;
     this->memory = mmapFile(file.string(), &size, &file_descriptor);
 #endif
+    if (!memory) size = 0;
 }
 
 MemoryMappedFile::MemoryMappedFile() : file{}, size{0}, file_descriptor{-1}, memory{nullptr}, doClose{false} {}

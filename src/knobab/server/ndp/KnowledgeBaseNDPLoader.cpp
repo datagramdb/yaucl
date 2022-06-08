@@ -10,8 +10,11 @@
 
 void KnowledgeBaseNDPLoader::enterLog(const std::string &source, const std::string &name) {
     std::ios_base::sync_with_stdio(false);
-    count_table_tmp = std::fstream(folder / "count.table", std::ios::out | std::ios::binary);
-    act_table_tmp = std::fstream(folder / "act.table", std::ios::out | std::ios::binary);
+//    act_table_tmp = std::fstream(folder / "act.table", std::ios::out | std::ios::binary);
+    act_table.open(folder / "act.table", std::filesystem::temp_directory_path());
+//    count_table_tmp = std::fstream(folder / "count.table", std::ios::out | std::ios::binary);
+    count_table.open(folder / "count.table", std::filesystem::temp_directory_path());
+
     maxActPerTrace.clear();
     DEBUG_ASSERT(!this->alreadySet);
     this->source = source;
@@ -50,9 +53,13 @@ void KnowledgeBaseNDPLoader::exitTrace(size_t traceId) {
     status = LogParsing;
 
     for (size_t i = 0, N = att_table_counting.size(); i < N; i++) {
-        count_table_tmp.write((char*)&i, sizeof(size_t));
-        count_table_tmp.write((char*)&traceId, sizeof(size_t));
-        count_table_tmp.write((char*)&att_table_counting[i], sizeof(size_t));
+//        count_table_tmp.write((char*)&i, sizeof(size_t));
+//        count_table_tmp.write((char*)&traceId, sizeof(size_t));
+//        count_table_tmp.write((char*)&att_table_counting[i], sizeof(size_t));
+        record2.trace_id = traceId;
+        record2.act_id = i;
+        record2.count = att_table_counting[i];
+        count_table.put(record2);
     }
 }
 
@@ -66,9 +73,16 @@ size_t KnowledgeBaseNDPLoader::enterEvent(size_t chronos_tick, const std::string
         att_table_primary_index_from_second_element[actId]++;
         att_table_counting[actId]++;
     }
-    act_table_tmp.write((char*)&actId, sizeof(actId));
-    act_table_tmp.write((char*)&currentTrace, sizeof(currentTrace));
-    act_table_tmp.write((char*)&currentEventId, sizeof(currentEventId));
+
+    record1.act_id = actId;
+    record1.trace_id = currentTrace;
+    record1.event_id = currentEventId;
+    act_table.put(record1);
+
+/// OLD
+//    act_table_tmp.write((char*)&actId, sizeof(actId));
+//    act_table_tmp.write((char*)&currentTrace, sizeof(currentTrace));
+//    act_table_tmp.write((char*)&currentEventId, sizeof(currentEventId));
 
 //    auto it = counting_reference.emplace(actId, 1UL);
 //    if (!it.second) {
@@ -188,62 +202,78 @@ void KnowledgeBaseNDPLoader::finalize_count_table() {
     size_t N =event_label_mapper.int_to_T.size();
     for (size_t i = 0; i<noTraces; i++) {
         for (size_t j = maxActPerTrace.at(i); j<N; j++) {
-            count_table_tmp.write((char*)&j, sizeof(size_t));
-            count_table_tmp.write((char*)&i, sizeof(size_t));
-            count_table_tmp.write((char*)&noData, sizeof(size_t));
+            record2.trace_id = i;
+            record2.act_id = j;
+            record2.count = noData;
+            count_table.put(record2);
+//            count_table_tmp.write((char*)&j, sizeof(size_t));
+//            count_table_tmp.write((char*)&i, sizeof(size_t));
+//            count_table_tmp.write((char*)&noData, sizeof(size_t));
         }
     }
     maxActPerTrace.clear();
 
     // Finalizing the file
-    count_table_tmp.flush();
-    count_table_tmp.close();
+//    count_table_tmp.flush();
+//    count_table_tmp.close();
 
-    FixedSizeNDPSorter<count_table_rcx> file{availableMemory() / 4};
-    file.sort(folder / "count.table", std::filesystem::temp_directory_path());
+    count_table.sort(availableMemory() / 4);
+//    FixedSizeNDPSorter<count_table_rcx> file{availableMemory() / 4};
+//    file.sort(folder / "count.table", std::filesystem::temp_directory_path());
 }
 
 void KnowledgeBaseNDPLoader::finalize_act_table() {
-    act_table_tmp.flush();
-    act_table_tmp.close();
+//    act_table_tmp.flush();
+//    act_table_tmp.close();
 
-    {
-        // sorting the table
-        FixedSizeNDPSorter<act_table_rcx> file{availableMemory() / 4};
-        file.sort(folder / "act.table", std::filesystem::temp_directory_path());
-    }
+//    {
+//
+//        FixedSizeNDPSorter<act_table_rcx> file{availableMemory() / 4};
+//        file.sort(folder / "act.table", std::filesystem::temp_directory_path());
+//    }
+// sorting the table
+    act_table.sort(availableMemory() / 4);
 
     // Writing the primary index for the attributes table, that is, stating where each attribute will start
     {
         size_t primaryIndexOffset = 0;
-        std::fstream att_primary = std::fstream(folder/"act.primary", std::ios::out | std::ios::binary);
+        //std::fstream att_primary = std::fstream(folder/"act.primary", std::ios::out | std::ios::binary);
+        att_primary.open(folder/"act.primary",  std::filesystem::temp_directory_path());
         for (size_t i = 0; i<att_table_primary_index_from_second_element.size(); i++) {
-            att_primary.write((char*)&primaryIndexOffset, sizeof(i));
+            att_primary.put(primaryIndexOffset);
+//            att_primary.write((char*)&primaryIndexOffset, sizeof(i));
             primaryIndexOffset += att_table_primary_index_from_second_element.at(i);
         }
+        att_primary.close();
     }
 
     // Writing all the attributes
     {
-        std::fstream attribute_list = std::fstream(folder/"act.array", std::ios::out | std::ios::binary);
+//        std::fstream attribute_list = std::fstream(folder/"act.array", std::ios::out | std::ios::binary);
 
-        // writing the total number of strings in the array
-        size_t totalOffset = event_label_mapper.int_to_T.size();
-        attribute_list.write((char*)&totalOffset, sizeof(size_t));
+//        // writing the total number of strings in the array
+//        size_t totalOffset = event_label_mapper.int_to_T.size();
+//        attribute_list.write((char*)&totalOffset, sizeof(size_t));
+//
+//        // writing the offsets containing the strings
+//        totalOffset = 0;
+//        for (auto& ref : event_label_mapper.int_to_T) {
+//            attribute_list.write((char*)&totalOffset, sizeof(size_t));
+//            totalOffset += ref.size() + 1;
+//        }
 
-        // writing the offsets containing the strings
-        totalOffset = 0;
-        for (auto& ref : event_label_mapper.int_to_T) {
-            attribute_list.write((char*)&totalOffset, sizeof(size_t));
-            totalOffset += ref.size() + 1;
-        }
-
+        attribute_list.open(folder/"act.array");
         // writing the actual strings
         char ec = 0;
+        new_iovec memo;
         for (auto & ref : event_label_mapper.int_to_T) {
-            attribute_list.write((char*)ref.c_str(), ref.size());
-            attribute_list.write(&ec, sizeof(char));
+            memo.iov_len = ref.size()+1;
+            memo.iov_base = (void*)ref.c_str();
+            attribute_list.put(memo);
+//            attribute_list.write((char*)ref.c_str(), ref.size());
+//            attribute_list.write(&ec, sizeof(char));
         }
+        attribute_list.close();
     }
 
     {
@@ -262,10 +292,14 @@ void KnowledgeBaseNDPLoader::finalize_act_table() {
         }
 
         // Assumption: the whole traces will fit in primary memory as ids.
-        yaucl::data::MemoryMappedFile file{folder / "act.table"};
-        std::vector<size_t> posFile(file.cast_size<act_table_rcx>());
-        for (size_t i = 0, N = file.cast_size<act_table_rcx>(); i<N; i++) {
-            auto& ref = file.at<act_table_rcx>(i);
+//        yaucl::data::MemoryMappedFile file{folder / "act.table"};
+
+//        std::vector<size_t> posFile(file.cast_size<act_table_rcx>());
+
+        std::vector<size_t> posFile(act_table.size());
+        size_t N = act_table.size(); // file.cast_size<act_table_rcx>()
+        for (size_t i = 0; i<N; i++) {
+            auto& ref = act_table.get(i);//file.at<act_table_rcx>(i);
 //            std::cout << totalTraceLengthCount[ref.trace_id] + ref.event_id << std::endl;
             posFile[totalTraceLengthCount[ref.trace_id] + ref.event_id] = i;
         }
@@ -303,4 +337,28 @@ void KnowledgeBaseNDPLoader::reloadFromFiles(KnowledgeBaseNDPReader &file_storag
         att_table_counting.clear();
     }
 //    editedTraces.resize(noTraces, false);
+}
+
+bool three_fields::operator<(const three_fields &rhs) const {
+    if (actId < rhs.actId)
+        return true;
+    if (rhs.actId < actId)
+        return false;
+    if (currentTrace < rhs.currentTrace)
+        return true;
+    if (rhs.currentTrace < currentTrace)
+        return false;
+    return currentEventId < rhs.currentEventId;
+}
+
+bool three_fields::operator>(const three_fields &rhs) const {
+    return rhs < *this;
+}
+
+bool three_fields::operator<=(const three_fields &rhs) const {
+    return !(rhs < *this);
+}
+
+bool three_fields::operator>=(const three_fields &rhs) const {
+    return !(*this < rhs);
 }

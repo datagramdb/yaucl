@@ -7,20 +7,20 @@
 using namespace yaucl::data;
 
 VariadicSizeArrayElementsReader::VariadicSizeArrayElementsReader(const std::filesystem::path &path) : file{path} {
-    _size = file.at<size_t>(0);
+    _size = file.file_size() == 0 ? 0 : file.at<size_t>(0);
     offsets = (size_t*)(file.data()+sizeof(size_t));
     payload = file.data()+sizeof(size_t)*(_size+1);
     opened = true;
 }
 
-size_t VariadicSizeArrayElementsReader::size() const { return (!opened) ? 0 : file.at<size_t>(0); }
+size_t VariadicSizeArrayElementsReader::size() const { return ((!opened) || (file.file_size() == 0)) ? 0 : file.at<size_t>(0); }
 
 const char *VariadicSizeArrayElementsReader::operator[](size_t i) const {
-    return (!opened) || (i >= _size) ? nullptr : payload + (offsets[i]);
+    return (!opened) || (file.file_size() == 0) || (i >= _size) ? nullptr : payload + (offsets[i]);
 }
 
 size_t VariadicSizeArrayElementsReader::representation_size(size_t i) const {
-    if ((!opened) || (i >= _size)) return 0;
+    if ((!opened) || (file.file_size() == 0) || (i >= _size)) return 0;
     else if (i == (_size-1)) {
         return (file.data()+file.file_size())-(payload+(offsets[i]));
     } else {
@@ -39,7 +39,7 @@ VariadicSizeArrayElementsReader::VariadicSizeArrayElementsReader() {
 void VariadicSizeArrayElementsReader::open(const std::filesystem::path &p) {
     close();
     file.open(p);
-    _size = file.at<size_t>(0);
+    _size = file.file_size() == 0 ? 0 : file.at<size_t>(0);
     offsets = (size_t*)(file.data()+sizeof(size_t));
     payload = file.data()+sizeof(size_t)*(_size+1);
     opened = true;
@@ -65,9 +65,11 @@ void VariadicSizeArrayElementsWriter::put(const new_iovec &mem) {
 #include <fstream>
 
 void VariadicSizeArrayElementsWriter::open(const std::filesystem::path &p) {
-    close();
+    if (isOpen)
+        close();
     path = p;
     isOpen = true;
+    ssize = 0;
     idxTmpFile = std::fstream(path.string()+"_idx", std::ios::out | std::ios::binary);
     dataTmpFile = std::fstream(path.string()+"_dat", std::ios::out | std::ios::binary);
 }
@@ -87,6 +89,8 @@ void VariadicSizeArrayElementsWriter::close() {
         auto f = std::fstream(path.string()+"_dat", std::ios_base::in | std::ios::binary);
         sol << f.rdbuf();
     }
+    sol.flush();
+    sol.close();
 
     std::filesystem::remove(path.string()+"_dat");
     std::filesystem::remove(path.string()+"_idx");

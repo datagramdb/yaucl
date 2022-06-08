@@ -103,7 +103,7 @@ add_library(knobab OBJECT
         src/knobab/server/operators/LTLfQuery.cpp
         src/knobab/server/ndp/KnowledgeBaseNDPLoader.cpp
         src/knobab/server/algorithms/querymanager/LTLfQueryManager.cpp
-        )
+        NDPFuzzyStringMatching.cpp include/knobab/server/query_manager/NDPFuzzyStringMatching.h)
 
 add_executable(knobab_server src/knobab/server/server.cpp)
 add_executable(tests_main src/knobab/tests/main.cpp)
@@ -115,7 +115,7 @@ add_library(knobab_ndp
         src/knobab/server/ndp/act_table_rcx.cpp
         include/knobab/server/ndp/act_table_rcx.h
         src/knobab/server/ndp/KnowledgeBaseNDPReader.cpp
-        src/knobab/server/ndp/VariadicSizeArrayElements.cpp include/yaucl/data/VariadicSizeArrayElements.h KnowledgeBaseNDP.cpp KnowledgeBaseNDP.h)
+        src/knobab/server/ndp/VariadicSizeArrayElements.cpp include/yaucl/data/VariadicSizeArrayElements.h)
 
 
 if(MSVC OR MSYS OR MINGW)

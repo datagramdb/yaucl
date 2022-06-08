@@ -12,6 +12,7 @@
 #include <yaucl/structures/PollMap.h>
 #include <unordered_set>
 
+std::vector<std::string> compareString_wordLetterPairs(const std::string& strMixed);
 
 class SimplifiedFuzzyStringMatching {
     static_assert(sizeof(short) == sizeof(char)*2, "Chars should be double the size than chars");

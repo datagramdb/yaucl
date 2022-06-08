@@ -9,6 +9,7 @@
 #include <filesystem>
 #include <algorithm>
 #include <queue>
+#include <cmath>
 #include "new_iovec.h"
 
 
@@ -176,7 +177,24 @@ template <typename T> class FixedSizeReaderWriter {
 public:
     FixedSizeReaderWriter(const std::filesystem::path& file,
                           const std::filesystem::path& tmp_path) : tmp_path{tmp_path}, filename{file}, isWrite{false}, isRead{false}{}
+    FixedSizeReaderWriter() : isWrite{false}, isRead{false}{}
+    ~FixedSizeReaderWriter() { close(); }
 
+    const T* begin() {
+        prepareRead();
+        return reader.begin();
+    }
+    const T* end() {
+        prepareRead();
+        return reader.end();
+    }
+    void open(const std::filesystem::path& f,
+              const std::filesystem::path& t)  {
+        filename = f;
+        tmp_path = t;
+        isWrite = false;
+        isRead = false;
+    }
     void put(const T& data) {
         prepareWrite();
         file.write((char*)&data, sizeof(T));
@@ -189,7 +207,7 @@ public:
         prepareRead();
         return reader.size();
     }
-    T get(size_t i) {
+    T& get(size_t i) {
         prepareRead();
         return reader[i];
     }
@@ -229,6 +247,7 @@ public:
         FixedSizeNDPSorter<T> sorter(size_runs);
         sorter.sort(filename, tmp_path);
     }
+
     void close() {
         if (isWrite) {
             file.close();

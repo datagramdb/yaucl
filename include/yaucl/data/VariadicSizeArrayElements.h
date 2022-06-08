@@ -65,6 +65,7 @@ namespace yaucl {
             std::vector<bool> actuallyAdded;
             size_t actually_added;
             size_t reader_size;
+            bool hasMovedSomeData;
 
             void prepareWrite() {
                 if (isRead) {
@@ -76,12 +77,9 @@ namespace yaucl {
                     isWrite = true;
                 }
             }
-            void prepareRead() {
-                if (isWrite) {
-                    writer.close();
-                    isWrite = false;
-                }
-                size_t size = actually_added-removed;
+
+            void finalizeWritingToFile() {
+                size_t size = actually_added - removed;
                 if (!isRead) {
                     if (std::filesystem::exists(filename)) {
                         reader.open(filename);
@@ -91,9 +89,9 @@ namespace yaucl {
                     }
                 }
                 VariadicSizeArrayElementsReader readingWriter;
-                readingWriter.open(filename.string()+"_w");
+                readingWriter.open(filename.string() + "_w");
 
-                auto sol = std::fstream(filename.string()+"_tmp", std::ios_base::binary | std::ios::out);
+                auto sol = std::fstream(filename.string() + "_tmp", std::ios_base::binary | std::ios::out);
                 sol.write((char*)&size, sizeof(size_t));
 
                 // Writing the offsets
@@ -149,9 +147,9 @@ namespace yaucl {
 
                 sol.close();
                 readingWriter.close();
-                std::filesystem::remove(filename.string()+"_w");
+                std::filesystem::remove(filename.string() + "_w");
                 std::filesystem::remove(filename);
-                std::filesystem::rename(filename.string()+"_tmp", filename);
+                std::filesystem::rename(filename.string() + "_tmp", filename);
 
                 doIgnore.clear();
                 updates.clear();
@@ -165,6 +163,22 @@ namespace yaucl {
                 reader.open(filename);
                 reader_size = reader.size();
                 isRead = true;
+                hasMovedSomeData = false;
+            }
+
+            void prepareRead() {
+                if (isWrite) {
+                    writer.close();
+                    isWrite = false;
+                }
+                if (hasMovedSomeData)
+                    finalizeWritingToFile();
+                else if (!isRead) {
+                    reader.open(filename);
+                    reader_size = reader.size();
+                    isRead = true;
+                }
+                isRead = true;
             }
 
         public:
@@ -173,13 +187,54 @@ namespace yaucl {
                 isWrite = false;
                 removed = 0;
                 actually_added = 0;
+                hasMovedSomeData = false;
                 if (std::filesystem::exists(filename)) {
                     reader.open(filename);
                     reader_size = reader.size();
                     reader.close();
-                }
+                } else
+                    reader_size = 0;
             }
+            VariadicSizeArrayElementsReaderWriter() {
+                isRead = false;
+                isWrite = false;
+                removed = 0;
+                actually_added = 0;
+                hasMovedSomeData = false;
+                reader_size = 0;
+                actually_added = 0;
+                removed = 0;
+            }
+            ~VariadicSizeArrayElementsReaderWriter() { close(); }
 
+            void open(const std::filesystem::path& path) {
+                close();
+                isRead = false;
+                isWrite = false;
+                removed = 0;
+                actually_added = 0;
+                filename = path;
+                if (std::filesystem::exists(filename)) {
+                    reader.open(filename);
+                    reader_size = reader.size();
+                    reader.close();
+                } else
+                    reader_size = 0;
+            }
+            void close() {
+                if (isWrite) {
+                    writer.close();
+                    isWrite = false;
+                }
+                if (hasMovedSomeData) {
+                    finalizeWritingToFile();
+                }
+                if (isRead) {
+                    reader.close();
+                    isRead = false;
+                }
+                isRead = false;
+            }
             size_t size() {
                 return actually_added+reader_size-removed;
             }
@@ -197,6 +252,7 @@ namespace yaucl {
             }
 
             void put(const new_iovec& mem) {
+                hasMovedSomeData = true;
                 prepareWrite();
                 writer.put(mem);
                 settedAt[size()] = actuallyAdded.size();
@@ -207,6 +263,7 @@ namespace yaucl {
             bool update(size_t i, const new_iovec& mem) {
                 toRemove.erase(i); // If I want to update i, then I do not want to remove it anymore!
                 if (i < size()) {  // I can only update an existing value
+                    hasMovedSomeData = true;
                     if (i > reader_size) {
                         actuallyAdded[i - reader_size] = false;
                     }
@@ -238,6 +295,7 @@ namespace yaucl {
             }
             void removeById(const std::unordered_set<size_t>& ids) {
                 for (const auto& id : ids) {
+                    hasMovedSomeData = true;
                     if (reader_size <= id) { // If the element has been newly inserted
                         doIgnore[id] = true; // Simply ignore the newly-inserted data
                         actually_added--;
@@ -283,7 +341,8 @@ namespace yaucl {
                     payload = nullptr;
                 }
             }
-            const char* end() const { return opened ? file.data()+file.file_size() : nullptr; }
+            T* begin() const { return opened ? (T*)file.data() : nullptr; }
+            T* end() const { return opened ? (T*)(file.data()+file.file_size()) : nullptr; }
             size_t size() const { return opened ? _size : 0; }
             T& operator[](size_t i) const { return *&payload[i]; }
             T* update(size_t i) { return opened ? &payload[i] : nullptr; }

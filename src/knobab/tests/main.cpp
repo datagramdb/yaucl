@@ -135,6 +135,7 @@ void loader() {
 }
 
 #include <yaucl/data/FixedSizeNDPSorter.h>
+#include <knobab/server/query_manager/NDPFuzzyStringMatching.h>
 
 void array_updater() {
     yaucl::data::VariadicSizeArrayElementsReaderWriter updater{"/home/giacomo/updatable.bin"};
@@ -186,6 +187,20 @@ void fixed_size() {
     }
 }
 
+void string_fuzzy_matching() {
+    NDPFuzzyStringMatching matching{"/home/giacomo/fuzzyStringTest"};
+//    matching.put("hello");
+//    matching.put("cello");
+//    matching.put("hell");
+//    matching.put("bell");
+//    matching.put("cellulare");
+matching.put("organo");
+    std::multimap<double, std::string> result;
+    matching.fuzzyMatch(0.0, 100, "organello", result);
+    for (const auto& cp : result)
+        std::cout << cp << std::endl;
+}
+
 int main(void) {
-    array_updater();
+    string_fuzzy_matching();
 }
