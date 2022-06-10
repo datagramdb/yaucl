@@ -69,11 +69,25 @@ class NDPFuzzyStringMatching {
 
 public:
     NDPFuzzyStringMatching(const std::filesystem::path& path): path{path} {
+        newlyInputtedData = false;
         if (!std::filesystem::exists(path))
             std::filesystem::create_directories(path);
         open();
     }
 
+    NDPFuzzyStringMatching() { newlyInputtedData = false; }
+    NDPFuzzyStringMatching(const NDPFuzzyStringMatching&) = default;
+    NDPFuzzyStringMatching(NDPFuzzyStringMatching&&) = default;
+    NDPFuzzyStringMatching& operator=(const NDPFuzzyStringMatching&) = default;
+    NDPFuzzyStringMatching& operator=(NDPFuzzyStringMatching&&) = default;
+
+    void open(const std::filesystem::path& p) {
+        close();
+        if (!std::filesystem::exists(p))
+            std::filesystem::create_directories(p);
+        this->path = p;
+        open();
+    }
     void open();
     std::string get(size_t i) const;
     std::pair<size_t, bool> put(const std::string &str);

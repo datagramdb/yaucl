@@ -132,11 +132,8 @@ struct AttributeTable {
             : attr_name(attr), type{type} {}
 
     AttributeTable(const AttributeTable &) = default;
-
     AttributeTable(AttributeTable &&) = default;
-
     AttributeTable &operator=(const AttributeTable &) = default;
-
     AttributeTable &operator=(AttributeTable &&) = default;
 
     const record *resolve_record_if_exists(size_t actTableOffset) const;

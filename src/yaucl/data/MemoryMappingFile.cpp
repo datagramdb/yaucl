@@ -59,6 +59,7 @@ MemoryMappedFile &MemoryMappedFile::operator=(MemoryMappedFile &&x) {
     x.file_descriptor = -1;
     doClose = x.doClose;
     x.doClose = false;
+    return *this;
 }
 
 MemoryMappedFile::MemoryMappedFile(MemoryMappedFile &&x) {

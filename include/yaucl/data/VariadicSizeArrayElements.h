@@ -24,6 +24,10 @@ namespace yaucl {
         public:
             VariadicSizeArrayElementsReader(const std::filesystem::path& path);
             VariadicSizeArrayElementsReader();
+            VariadicSizeArrayElementsReader(const VariadicSizeArrayElementsReader&) = default;
+            VariadicSizeArrayElementsReader(VariadicSizeArrayElementsReader&&) = default;
+            VariadicSizeArrayElementsReader& operator=(const VariadicSizeArrayElementsReader&) = default;
+            VariadicSizeArrayElementsReader& operator=(VariadicSizeArrayElementsReader&&) = default;
 
             void open(const std::filesystem::path& p);
             void close();
@@ -43,6 +47,10 @@ namespace yaucl {
             size_t ssize;
         public:
             VariadicSizeArrayElementsWriter() : isOpen{false}, offset{0} {}
+            VariadicSizeArrayElementsWriter(const VariadicSizeArrayElementsWriter&) = default;
+            VariadicSizeArrayElementsWriter(VariadicSizeArrayElementsWriter&&) = default;
+            VariadicSizeArrayElementsWriter& operator=(const VariadicSizeArrayElementsWriter&) = default;
+            VariadicSizeArrayElementsWriter& operator=(VariadicSizeArrayElementsWriter&&) = default;
             void put(const new_iovec& mem);
             void open(const std::filesystem::path& p);
             void close();
@@ -325,6 +333,10 @@ namespace yaucl {
                 payload = (T*)file.data();
                 opened = true;
             }
+            FixedSizeArrayElements(const FixedSizeArrayElements&) = default;
+            FixedSizeArrayElements(FixedSizeArrayElements&&) = default;
+            FixedSizeArrayElements& operator=(const FixedSizeArrayElements&) = default;
+            FixedSizeArrayElements& operator=(FixedSizeArrayElements&&) = default;
 
             void open(const std::filesystem::path& path) {
                 close();

@@ -35,8 +35,8 @@ static inline double similarityFunction(const union_type& lhs, const union_type&
         return 1.0 / ( ((double)(((l > r) ? (l-r) : (r-l))))/c + 1.0);
     } else if (std::holds_alternative<long long>(lhs)) {
         return 1.0 / ( (std::abs((double)std::get<long long>(lhs)- (double)std::get<long long>(rhs)))/c + 1.0);
-    }
-
+    } else
+        return 0.0;
 }
 
 union_type AttributeTable::resolve(const AttributeTable::record &x) const {
@@ -133,8 +133,9 @@ void AttributeTable::index(const std::vector<std::vector<size_t>> &trace_id_to_e
                     secondary_index[refx] = table.size();
                     table.emplace_back(act_id, val, refx);
                 }
-                it = valueToOffsetInTable.erase(it);
+//                it = valueToOffsetInTable.erase(it);
             }
+            valueToOffsetInTable.clear();
             ref.clear();
         }
         size_t end = table.size();

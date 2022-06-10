@@ -3,6 +3,7 @@
 //
 
 #include "knobab/server/ndp/KnowledgeBaseNDPLoader.h"
+#include "../../../NDPAttributeTable.h"
 #include <yaucl/data/MemoryMappingFile.h>
 #include <knobab/server/ndp/count_table_rcx.h>
 #include <yaucl/data/VariadicSizeArrayElements.h>
@@ -201,6 +202,27 @@ matching.put("organo");
         std::cout << cp << std::endl;
 }
 
+
+void attribute_table() {
+    NDPAttributeTable test{"/home/giacomo/testing", "x", SizeTAtt};
+    test.record_load(10, 10UL, 0);
+    test.record_load(2, 20UL, 1);
+    test.record_load(2, 30UL, 2);
+    test.record_load(2, 20UL, 3);
+    test.record_load(5, 40UL, 4);
+    test.index();
+}
+
+void attribute_table_string() {
+    NDPAttributeTable test{"/home/giacomo/testing", "x", StringAtt};
+    test.record_load(10, "ciao", 0);
+    test.record_load(2, "hello", 1);
+    test.record_load(2, "bello", 2);
+    test.record_load(2, "wello", 3);
+    test.record_load(5, "bullo", 4);
+    test.index();
+}
+
 int main(void) {
-    string_fuzzy_matching();
+    attribute_table_string();
 }

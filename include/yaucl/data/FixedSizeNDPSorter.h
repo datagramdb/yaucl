@@ -13,9 +13,10 @@
 #include "new_iovec.h"
 
 
-template <typename T> class FixedSizeNDPSorter {
-
+template <typename T, typename Comparator = std::less<T>> class FixedSizeNDPSorter {
     size_t runs_size;
+    Comparator Tcomp;
+
     int partition(std::vector<T> &array, const int low, const int high) {
         // select the rightmost element as pivot
         T& pivot = array[high];
@@ -26,7 +27,7 @@ template <typename T> class FixedSizeNDPSorter {
         // traverse each element of the array
         // compare them with the pivot
         for (int j = low; j < high; j++) {
-            if (array[j] <= pivot) {
+            if (!Tcomp(pivot, array[j])) { // array[j] <= pivot
 
                 // if element smaller than pivot is found
                 // swap it with the greater element pointed by i
@@ -67,6 +68,7 @@ template <typename T> class FixedSizeNDPSorter {
 public:
 
     FixedSizeNDPSorter(size_t size_runs) : runs_size{size_runs} {}
+    FixedSizeNDPSorter(size_t size_runs, Comparator less) : runs_size{size_runs}, Tcomp{less} {}
 
     void sort(const std::filesystem::path& filename, const std::filesystem::path& tmp_path) {
         constexpr size_t Tsize = sizeof(T);
@@ -178,6 +180,10 @@ public:
     FixedSizeReaderWriter(const std::filesystem::path& file,
                           const std::filesystem::path& tmp_path) : tmp_path{tmp_path}, filename{file}, isWrite{false}, isRead{false}{}
     FixedSizeReaderWriter() : isWrite{false}, isRead{false}{}
+    FixedSizeReaderWriter(const FixedSizeReaderWriter&) = default;
+    FixedSizeReaderWriter(FixedSizeReaderWriter&&) = default;
+    FixedSizeReaderWriter& operator=(const FixedSizeReaderWriter&) = default;
+    FixedSizeReaderWriter& operator=(FixedSizeReaderWriter&&) = default;
     ~FixedSizeReaderWriter() { close(); }
 
     const T* begin() {
@@ -245,6 +251,16 @@ public:
     void sort(size_t size_runs) {
         close();
         FixedSizeNDPSorter<T> sorter(size_runs);
+        sorter.sort(filename, tmp_path);
+    }
+    template <typename Comparator> void sort(size_t size_runs, Comparator less) {
+        close();
+        FixedSizeNDPSorter<T, Comparator> sorter(size_runs, less);
+        sorter.sort(filename, tmp_path);
+    }
+    template <typename Comparator> void sort(size_t size_runs) {
+        close();
+        FixedSizeNDPSorter<T, Comparator> sorter(size_runs);
         sorter.sort(filename, tmp_path);
     }
 
