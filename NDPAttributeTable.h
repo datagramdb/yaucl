@@ -53,7 +53,7 @@ struct NDPAttributeTable {
         if (!isRead) {
             {
                 if (!doTestLoadOtherwise) {
-                    attr_name = p.filename();
+                    attr_name = p.filename().string();
                 } else if (p.filename() != attr_name) {
                     std::cerr << "ERROR: folder name does not match with the initialization filename!"<< std::endl;
                     exit(1);

@@ -33,10 +33,27 @@ extern "C" {
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+}
+#ifdef _MSC_VER
+#include <windows.h>
+#else
+#include <unistd.h>
 #include <sys/mman.h>
 #include <unistd.h>
+#endif
 
-}
+struct mmap_file {
+    unsigned long len;
+#ifdef _MSC_VER
+    mmap_file() : len{0}, lpBasePtr{nullptr} {};
+    HANDLE hFile;
+    HANDLE hMap;
+    LPVOID lpBasePtr;
+#else
+    int fd;
+    mmap_file() : len{0}, fd{-1} {};
+#endif
+};
 
 /**
  * Opens a file using the memory-mapping technique, and also getting the file size information. 
@@ -46,7 +63,10 @@ extern "C" {
  * @param fd    Non-null pointer that will be set to the filedescriptor
  * @return	The virtual memory containing the memory-mapped file
  */
-void* mmapFile(std::string file, unsigned long* size, int* fd);
+void* mmapFile(std::string file, unsigned long* size, mmap_file* fd);
+
+void mmapClose(void* ptr, mmap_file* fd);
+
 
 size_t availableMemory();
 

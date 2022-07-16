@@ -6,13 +6,14 @@
 #define VARSORTER_MEMORYMAPPINGFILE_H
 
 #include <filesystem>
+#include "mmapFile.h"
 
 namespace yaucl {
     namespace data {
         class MemoryMappedFile {
             std::filesystem::path file;
             unsigned long size;
-            int file_descriptor;
+            mmap_file file_descriptor;
             void* memory;
             bool doClose;
 

@@ -189,13 +189,13 @@ void fixed_size() {
 }
 
 void string_fuzzy_matching() {
-    NDPFuzzyStringMatching matching{"/home/giacomo/fuzzyStringTest"};
-//    matching.put("hello");
-//    matching.put("cello");
-//    matching.put("hell");
-//    matching.put("bell");
-//    matching.put("cellulare");
-matching.put("organo");
+    NDPFuzzyStringMatching matching{"fuzzyStringTest"};
+    matching.put("hello");
+matching.put("cello");
+    matching.put("hell");
+    matching.put("bell");
+    matching.put("cellulare");
+    matching.put("organo");
     std::multimap<double, std::string> result;
     matching.fuzzyMatch(0.0, 100, "organello", result);
     for (const auto& cp : result)
@@ -204,17 +204,17 @@ matching.put("organo");
 
 
 void attribute_table() {
-    NDPAttributeTable test{"/home/giacomo/testing", "x", SizeTAtt};
-    test.record_load(10, 10UL, 0);
-    test.record_load(2, 20UL, 1);
-    test.record_load(2, 30UL, 2);
-    test.record_load(2, 20UL, 3);
-    test.record_load(5, 40UL, 4);
+    NDPAttributeTable test{"testing", "x", SizeTAtt};
+    test.record_load(10, {10ULL}, 0);
+    test.record_load(2, {20ULL}, 1);
+    test.record_load(2, {30ULL}, 2);
+    test.record_load(2, {20ULL}, 3);
+    test.record_load(5, {40ULL}, 4);
     test.index();
 }
 
 void attribute_table_string() {
-    NDPAttributeTable test{"/home/giacomo/testing", "x", StringAtt};
+    NDPAttributeTable test{"testing", "x", StringAtt};
     test.record_load(10, "ciao", 0);
     test.record_load(2, "hello", 1);
     test.record_load(2, "bello", 2);
@@ -224,5 +224,5 @@ void attribute_table_string() {
 }
 
 int main(void) {
-    attribute_table_string();
+    string_fuzzy_matching();
 }

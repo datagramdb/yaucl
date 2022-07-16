@@ -11,7 +11,12 @@
 #include <queue>
 #include <cmath>
 #include "new_iovec.h"
-
+#ifdef min
+#undef min
+#endif
+#ifdef max
+#undef max
+#endif
 
 template <typename T, typename Comparator = std::less<T>> class FixedSizeNDPSorter {
     size_t runs_size;
@@ -83,7 +88,8 @@ public:
         std::vector<size_t> externalFileCounter;
         std::vector<T> in_memory_file_copy;
 
-        for (size_t i = 0; i<num_ways; i++) {
+        size_t i = 0;
+        for (i = 0; i<num_ways; i++) {
             size_t M = (((i+1)*Nblock) > N) ? (N)-i*Nblock : Nblock;
             for (size_t j = 0; j<M; j++) {
                 auto& ref = file.at<T>(i*Nblock+j);
@@ -109,7 +115,6 @@ public:
                             std::vector<std::pair<T, size_t>>,
                             std::greater<std::pair<T, size_t>>> minheap;
         auto k = externalFiles.size();
-        size_t i;
         for (i = 0; i < k; i++){
             auto count = externalFileCounter.at(i);
             auto& val = externalFiles.at(i).at<T>(count);
@@ -142,6 +147,7 @@ public:
         }
 
         tmpSort.close();
+        file.close();
         std::filesystem::remove(filename);
         std::filesystem::rename(out, filename);
     }

@@ -297,6 +297,7 @@ namespace yaucl {
                         updates.push_back(i);         // Remembering which position I am referring to
                         doIgnore.emplace_back(false); // Remembering the new value
                     }
+                    return true;
                 } else {
                     return false;
                 }

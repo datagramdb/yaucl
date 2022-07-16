@@ -26,24 +26,92 @@
 #include <iostream>
 #include <yaucl/data/mmapFile.h>
 
-void* mmapFile(std::string file, unsigned long* size, int* fd) {
+
+void* mmapFile(std::string file, unsigned long* size, mmap_file* fd) {
+#ifdef _MSC_VER
+    TCHAR *lpFileName = file.data();
+    LPVOID lpBasePtr;
+    LARGE_INTEGER liFileSize;
+
+    fd->hFile = CreateFile(lpFileName,
+                       GENERIC_READ,                          // dwDesiredAccess
+                       0,                                     // dwShareMode
+                       NULL,                                  // lpSecurityAttributes
+                       OPEN_EXISTING,                         // dwCreationDisposition
+                       FILE_ATTRIBUTE_NORMAL,                 // dwFlagsAndAttributes
+                       0);                                    // hTemplateFile
+    if (fd->hFile == INVALID_HANDLE_VALUE) {
+        fprintf(stderr, "CreateFile failed with error %d\n", GetLastError());
+        return nullptr;
+    }
+
+    if (!GetFileSizeEx(fd->hFile, &liFileSize)) {
+        fprintf(stderr, "GetFileSize failed with error %d\n", GetLastError());
+        CloseHandle(fd->hFile);
+        return nullptr;
+    }
+
+    if (liFileSize.QuadPart == 0) {
+        fprintf(stderr, "File is empty\n");
+        CloseHandle(fd->hFile);
+        return nullptr;
+    }
+
+    fd->hMap = CreateFileMapping(
+            fd->hFile,
+            NULL,                          // Mapping attributes
+            PAGE_READONLY,                 // Protection flags
+            0,                             // MaximumSizeHigh
+            0,                             // MaximumSizeLow
+            NULL);                         // Name
+    if (fd->hMap == 0) {
+        fprintf(stderr, "CreateFileMapping failed with error %d\n", GetLastError());
+        CloseHandle(fd->hFile);
+        return nullptr;
+    }
+
+    lpBasePtr = MapViewOfFile(
+            fd->hMap,
+            FILE_MAP_READ,         // dwDesiredAccess
+            0,                     // dwFileOffsetHigh
+            0,                     // dwFileOffsetLow
+            0);                    // dwNumberOfBytesToMap
+    if (lpBasePtr == NULL) {
+        fprintf(stderr, "MapViewOfFile failed with error %d\n", GetLastError());
+        CloseHandle(fd->hMap);
+        CloseHandle(fd->hFile);
+        return nullptr;
+    }
+    char *ptr = (char *)lpBasePtr;
+    fd->len = *size = liFileSize.QuadPart;
+    return ptr;
+#else
     struct stat filestatus;
     stat( file.c_str(), &filestatus );
     *size = filestatus.st_size;
-    *fd = open(file.c_str(),O_RDWR);
+    fd->len = *size;
+    fd->fd = open(file.c_str(),O_RDWR);
     void* addr = mmap(NULL,*size, PROT_READ | PROT_WRITE, MAP_SHARED, *fd, 0 );
     if (addr == MAP_FAILED) {
         std::cout << strerror(errno) << std::endl;
         return nullptr;
     }
     return addr;
+#endif
 }
 
+
+void mmapClose(void* ptr, mmap_file* fd) {
 #ifdef _MSC_VER
-#include <windows.h>
+    UnmapViewOfFile(ptr);
+    CloseHandle(fd->hMap);
+    CloseHandle(fd->hFile);
+
 #else
-#include <unistd.h>
+    munmap(ptr, fd->len);
+    close(fd->fd);
 #endif
+}
 
 size_t availableMemory() {
 #ifdef _MSC_VER

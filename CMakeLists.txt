@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
 project(knobab_server)
 set(CMAKE_CXX_STANDARD 20)
-
+set(WITH_DEMO false)
 include_directories(include)
 include_directories(submodules/httplib)
 include_directories(submodules/magic_enum/include)

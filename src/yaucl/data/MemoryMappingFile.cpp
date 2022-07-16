@@ -7,7 +7,7 @@
 
 using namespace yaucl::data;
 
-MemoryMappedFile::MemoryMappedFile(const std::filesystem::path &file) : file{file}, memory{nullptr}, file_descriptor{0}, size{0}, doClose{true} {
+MemoryMappedFile::MemoryMappedFile(const std::filesystem::path &file) : file{file}, memory{nullptr}, file_descriptor{}, size{0}, doClose{true} {
 #ifndef __MSC_VER
     this->memory = mmapFile(file.string(), &size, &file_descriptor);
 #endif
@@ -21,6 +21,9 @@ MemoryMappedFile::~MemoryMappedFile() {
         ::close(file_descriptor);
         memory = nullptr;
 #else
+        mmapClose(this->memory, &file_descriptor);
+        memory = nullptr;
+        doClose = false;
 #endif
     }
 }
@@ -31,9 +34,12 @@ void MemoryMappedFile::close() {
         munmap(memory, size);
         ::close(file_descriptor);
         memory = nullptr;
-        file.clear();
 #else
+        mmapClose(this->memory, &file_descriptor);
+        memory = nullptr;
+        doClose = false;
 #endif
+        file.clear();
     }
 }
 
@@ -46,7 +52,7 @@ void MemoryMappedFile::open(const std::filesystem::path &file) {
     if (!memory) size = 0;
 }
 
-MemoryMappedFile::MemoryMappedFile() : file{}, size{0}, file_descriptor{-1}, memory{nullptr}, doClose{false} {}
+MemoryMappedFile::MemoryMappedFile() : file{}, size{0}, file_descriptor{}, memory{nullptr}, doClose{false} {}
 
 MemoryMappedFile &MemoryMappedFile::operator=(MemoryMappedFile &&x) {
     file = x.file;
@@ -56,7 +62,6 @@ MemoryMappedFile &MemoryMappedFile::operator=(MemoryMappedFile &&x) {
     x.memory = nullptr;
     x.file.clear();
     x.size = 0;
-    x.file_descriptor = -1;
     doClose = x.doClose;
     x.doClose = false;
     return *this;
@@ -70,7 +75,6 @@ MemoryMappedFile::MemoryMappedFile(MemoryMappedFile &&x) {
     x.memory = nullptr;
     x.file.clear();
     x.size = 0;
-    x.file_descriptor = -1;
     doClose = x.doClose;
     x.doClose = false;
 }

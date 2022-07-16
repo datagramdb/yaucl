@@ -6,6 +6,12 @@
 #include <cmath>
 #include <fstream>
 #include <queue>
+#ifdef min
+#undef min
+#endif
+#ifdef max
+#undef max
+#endif
 
 VarSizeNDPSorter::VarSizeNDPSorter(size_t size_runs, const std::function<bool(const new_iovec&, const new_iovec&, char*)>& p) : runs_size{size_runs}, pred{p} {}
 
