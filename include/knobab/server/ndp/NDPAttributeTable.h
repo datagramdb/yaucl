@@ -8,10 +8,13 @@
 
 #include <filesystem>
 #include <string>
-#include <knobab/server/query_manager/NDPFuzzyStringMatching.h>
-#include <knobab/server/tables/AttributeTable.h>
-#include <magic_enum.hpp>
+#include "knobab/server/query_manager/NDPFuzzyStringMatching.h"
+#include "knobab/server/tables/AttributeTable.h"
+#include "magic_enum.hpp"
 #include <variant>
+#include <optional>
+
+
 
 struct attribute_table_record {
     size_t act;
@@ -46,8 +49,14 @@ struct NDPAttributeTable {
         bool operator()(const attribute_table_record &lhs, const attribute_table_record &rhs) const;
     };
 
-    size_t storeLoad(const std::variant<double, size_t, long long int, std::string, bool> &x);
+    size_t value_to_storage_format(const std::variant<double, size_t, long long int, std::string, bool> &x);
+
+
+
+    attribute_table_record* resolve_record_if_exists(size_t i);
+    std::optional<attribute_table_record> resolve_record_if_exists2(size_t actTableOffset);
     union_type resolve(const attribute_table_record &x) const;
+
 
     void prepareRead(bool doTestLoadOtherwise) {
         if (!isRead) {
@@ -103,13 +112,14 @@ struct NDPAttributeTable {
      * @param type
      */
     NDPAttributeTable(const std::filesystem::path& p, const std::string &attr, AttributeTableType type);
-
     /**
      * This table has the aim of predominantly load the data that was aleady written in secondary memory
      * @param p
      * @param attr
      */
     NDPAttributeTable(const std::filesystem::path& p, const std::string &attr);
+    NDPAttributeTable() : p{}, attr_name{""}, type{BoolAtt} {}
+
     NDPAttributeTable(const NDPAttributeTable&) = default;
     NDPAttributeTable(NDPAttributeTable&&) = default;
     NDPAttributeTable& operator=(const NDPAttributeTable&) = default;
@@ -117,8 +127,8 @@ struct NDPAttributeTable {
 
     bool assertVariant(const std::variant<double, size_t, long long int, std::string, bool> &val);
     void record_load(size_t act_id, const union_type &val, size_t totalEventId);
-    void index();
+    void index(const std::vector<size_t>& v);
 };
 
-
+union_minimal resolveUnionMinimal(const NDPAttributeTable &table, const attribute_table_record &x) ;
 #endif //KNOBAB_SERVER_NDPATTRIBUTETABLE_H

@@ -12,6 +12,7 @@
 #include <filesystem>
 #include <fstream>
 #include "KnowledgeBaseNDPReader.h"
+#include "NDPAttributeTable.h"
 
 #include <array>
 
@@ -44,8 +45,10 @@ class KnowledgeBaseNDPLoader : public trace_visitor {
     std::filesystem::path folder;
     //std::fstream count_table_tmp /*, act_table_tmp*/;
     void finalize_count_table();
-    void finalize_act_table();
+    void finalize_act_and_attributes_tables();
     std::unordered_set<size_t> editedTraces;
+    std::unordered_map<std::string, std::unordered_set<std::string>> registerEventLabelSchema;
+    std::unordered_map<std::string, NDPAttributeTable> attribute_name_to_table, approximate_attribute_to_table;
 
     //NEW
     FixedSizeReaderWriter<act_table_rcx> act_table;
@@ -54,6 +57,7 @@ class KnowledgeBaseNDPLoader : public trace_visitor {
     FixedSizeReaderWriter<size_t> att_primary;
     act_table_rcx record1;
     count_table_rcx record2;
+    size_t total_events;
 
 public:
     KnowledgeBaseNDPLoader(const std::filesystem::path& folder);

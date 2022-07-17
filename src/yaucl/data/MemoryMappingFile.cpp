@@ -18,7 +18,7 @@ MemoryMappedFile::~MemoryMappedFile() {
     if (memory && doClose) {
 #ifndef _MSC_VER
         munmap(memory, size);
-        ::close(file_descriptor);
+        ::close(file_descriptor.fd);
         memory = nullptr;
 #else
         mmapClose(this->memory, &file_descriptor);
@@ -32,7 +32,7 @@ void MemoryMappedFile::close() {
     if (memory && doClose) {
 #ifndef _MSC_VER
         munmap(memory, size);
-        ::close(file_descriptor);
+        ::close(file_descriptor.fd);
         memory = nullptr;
 #else
         mmapClose(this->memory, &file_descriptor);

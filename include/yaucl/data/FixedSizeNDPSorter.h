@@ -186,9 +186,21 @@ public:
     FixedSizeReaderWriter(const std::filesystem::path& file,
                           const std::filesystem::path& tmp_path) : tmp_path{tmp_path}, filename{file}, isWrite{false}, isRead{false}{}
     FixedSizeReaderWriter() : isWrite{false}, isRead{false}{}
-    FixedSizeReaderWriter(const FixedSizeReaderWriter&) = default;
+    FixedSizeReaderWriter(const FixedSizeReaderWriter&x) {
+        if ((!x.isRead) && (!x.isWrite)) {
+            isWrite = isRead = false;
+            tmp_path = x.tmp_path;
+            filename = x.filename;
+        } else throw std::runtime_error("ERROR: cannot copy a FixedSizeReaderWriter when opened!");
+    }
     FixedSizeReaderWriter(FixedSizeReaderWriter&&) = default;
-    FixedSizeReaderWriter& operator=(const FixedSizeReaderWriter&) = default;
+    FixedSizeReaderWriter& operator=(const FixedSizeReaderWriter&x ) {
+        if ((!x.isRead) && (!x.isWrite)) {
+            isWrite = isRead = false;
+            tmp_path = x.tmp_path;
+            filename = x.filename;
+        } else throw std::runtime_error("ERROR: cannot copy a FixedSizeReaderWriter when opened!");
+    }
     FixedSizeReaderWriter& operator=(FixedSizeReaderWriter&&) = default;
     ~FixedSizeReaderWriter() { close(); }
 

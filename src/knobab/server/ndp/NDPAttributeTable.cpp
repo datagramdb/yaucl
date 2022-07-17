@@ -2,8 +2,26 @@
 // Created by giacomo on 08/06/2022.
 //
 
-#include <yaucl/data/mmapFile.h>
-#include "NDPAttributeTable.h"
+#include "yaucl/data/mmapFile.h"
+#include "knobab/server/ndp/NDPAttributeTable.h"
+
+
+union_minimal resolveUnionMinimal(const NDPAttributeTable &table, const attribute_table_record &x) {
+    switch (table.type) {
+        case DoubleAtt:
+            return *(double*)(&x.value);
+        case LongAtt:
+            return (double)(*(long long*)(&x.value));
+        case StringAtt:
+            return table.ptr.get(x.value);
+        case BoolAtt:
+            return (x.value != 0 ? 0.0 : 1.0);
+            //case SizeTAtt:
+        default:
+            // TODO: hierarchical types!, https://dl.acm.org/doi/10.1145/3410566.3410583
+            return (double)x.value;
+    }
+}
 
 NDPAttributeTable::NDPAttributeTable(const std::filesystem::path &p, const std::string &attr, AttributeTableType type)
         : attr_name(attr), type{type}, p{p/ "attributes" / attr},
@@ -20,7 +38,7 @@ NDPAttributeTable::NDPAttributeTable(const std::filesystem::path &p, const std::
     }
 }
 
-size_t NDPAttributeTable::storeLoad(const std::variant<double, size_t, long long int, std::string, bool> &x) {
+size_t NDPAttributeTable::value_to_storage_format(const std::variant<double, size_t, long long int, std::string, bool> &x) {
     switch (type) {
         case DoubleAtt: {
             double tmp = std::get<double>(x);
@@ -84,12 +102,12 @@ void NDPAttributeTable::record_load(size_t act_id, const union_type &val, size_t
     static attribute_table_record record;
     DEBUG_ASSERT(assertVariant(val));
     record.act = act_id;
-    record.value = storeLoad(val);
+    record.value = value_to_storage_format(val);
     record.act_table_offset = totalEventId;
     table.put(record);
 }
 
-void NDPAttributeTable::index() {
+void NDPAttributeTable::index(const std::vector<size_t>& total_event_to_offset) {
     comparator comp{*this};
     table.sort<comparator>(availableMemory()/4, comp); // Sorting the tables
 
@@ -97,13 +115,25 @@ void NDPAttributeTable::index() {
     primary_act_value_index.open(p / "table.bin_primaryActValue", std::filesystem::temp_directory_path());
     std::pair<size_t, size_t> actOffset;
     attribute_table_record actValueOffset;
+    // TODO: even better, use a clustered index! This will reduce the
+    // scan time over duplicated data!
     for (size_t i = 0, N = table.size(); i<N; i++) {
         if (i == 0) {
             auto& curr = table.get(i);
+            // In order to avoid accessing multiple files in memory
+            // mapping, we might change the third component so to
+            // directly jump to the offset where the event is stored
+            // in the act table
+            curr.act_table_offset = total_event_to_offset.at(i);
             actOffset = {curr.act, 0};
             actValueOffset = {curr.act, curr.value, 0};
         } else {
             auto& curr = table.get(i);
+            // In order to avoid accessing multiple files in memory
+            // mapping, we might change the third component so to
+            // directly jump to the offset where the event is stored
+            // in the act table
+            curr.act_table_offset = total_event_to_offset.at(i);
             if (curr.act != actOffset.first) {
                 primary_act_index.put(actOffset);
                 actOffset = {curr.act, i};
@@ -122,11 +152,21 @@ void NDPAttributeTable::index() {
     primary_act_value_index.put(actValueOffset);
     primary_act_index.close();
     primary_act_value_index.close();
-    // In order to avoid accessing multiple files in memory mapping, we might change the third component after finishing to load the acttable
+
 }
 
 NDPAttributeTable::NDPAttributeTable(const std::filesystem::path &p, const std::string &attr) : attr_name(attr), ptr{p / "attributes" / attr}, p{p/ "attributes" / attr},
                                                                                                 isRead{false}, isWrite{false}, table{p/ "attributes" / attr / "table.bin", std::filesystem::temp_directory_path()} { prepareRead(false); }
+
+attribute_table_record *NDPAttributeTable::resolve_record_if_exists(size_t i) {
+    return table.size() >= i ? nullptr : &table.get(i);
+}
+
+std::optional<attribute_table_record> NDPAttributeTable::resolve_record_if_exists2(size_t actTableOffset) {
+    auto ptr = resolve_record_if_exists(actTableOffset);
+    if (!ptr) return {};
+    else return {*ptr};
+}
 
 //////////////////////// attribute_table_record
 

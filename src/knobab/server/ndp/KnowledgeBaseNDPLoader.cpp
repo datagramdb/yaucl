@@ -3,12 +3,36 @@
 //
 
 #include "knobab/server/ndp/KnowledgeBaseNDPLoader.h"
+#include "knobab/server/ndp/NDPAttributeTable.h"
 #include <iostream>
 #include <yaucl/functional/assert.h>
 #include <yaucl/data/mmapFile.h>
 
+static inline void fillInAtGivenStep(const std::filesystem::path& p,
+                                     const std::string &key,
+                                     const std::variant<double, size_t, long long int, std::string, bool>& value,
+                                     const AttributeTableType &type,
+                                     std::unordered_map<std::string, NDPAttributeTable>* ptr,
+                                     std::unordered_map<std::string, std::unordered_set<std::string>> *ptr2,
+//                                     size_t TraceId,
+                                     size_t total_events,
+                                     const std::string &EventLabel,
+                                     size_t ActId)  {
+    auto it = ptr->find(key);
+    if (it == ptr->end()) {
+        it = ptr->emplace(key, NDPAttributeTable{p, key, type}).first;
+    } else if (it->second.type != type) {
+        std::string s{magic_enum::enum_name(it->second.type)};
+        std::string currentType{magic_enum::enum_name(type)};
+        throw std::runtime_error(key+" was already associated to " + s+", now it also have "+currentType+": FATAL ERROR!");
+    }
+    if (ptr2) ptr2->operator[](EventLabel).insert(key);
+    // size_t act_id, const union_type &val, size_t totalEventId
+    it->second.record_load(ActId, value, total_events);
+}
 
 void KnowledgeBaseNDPLoader::enterLog(const std::string &source, const std::string &name) {
+    total_events = 0;
     std::ios_base::sync_with_stdio(false);
 //    act_table_tmp = std::fstream(folder / "act.table", std::ios::out | std::ios::binary);
     act_table.open(folder / "act.table", std::filesystem::temp_directory_path());
@@ -31,7 +55,7 @@ void KnowledgeBaseNDPLoader::exitLog(const std::string &source, const std::strin
     status = FinishParsing;
 
     finalize_count_table();
-    finalize_act_table();
+    finalize_act_and_attributes_tables();
 }
 
 size_t KnowledgeBaseNDPLoader::enterTrace(const std::string &trace_label) {
@@ -65,6 +89,7 @@ void KnowledgeBaseNDPLoader::exitTrace(size_t traceId) {
 
 size_t KnowledgeBaseNDPLoader::enterEvent(size_t chronos_tick, const std::string &event_label) {
     currentEventLabel = event_label;
+    total_events++;
     actId = event_label_mapper.put(event_label).first;
     if (actId >= att_table_primary_index_from_second_element.size()) {
         att_table_primary_index_from_second_element.emplace_back(1);
@@ -126,65 +151,64 @@ void KnowledgeBaseNDPLoader::exitData_part(bool isEvent) {
 
 void KnowledgeBaseNDPLoader::visitField(const std::string &key, bool value) {
     constexpr AttributeTableType type = BoolAtt;
-    std::unordered_map<std::string, AttributeTable>* ptr = nullptr;
+    std::unordered_map<std::string, NDPAttributeTable>* ptr = nullptr;
     std::unordered_map<std::string, std::unordered_set<std::string>>* ptr2 = nullptr;
     bool isEventParsing = (status == EventParsing);
-//    if (isEventParsing) {
-//        ptr2 = &registerEventLabelSchema;
-//        ptr = &attribute_name_to_table;
-//    } else if (status == MissingDataParsing)
-//        ptr = &approximate_attribute_to_table;
-//    else
-//        return;
-//    fillInAtGivenStep(key, value, type, ptr, ptr2, noTraces-1, currentEventId-1, currentEventLabel, actId);
+    if (isEventParsing) {
+        ptr2 = &registerEventLabelSchema;
+        ptr = &attribute_name_to_table;
+    } else if (status == MissingDataParsing)
+        ptr = &approximate_attribute_to_table;
+    else
+        return;
+
+    fillInAtGivenStep(folder, key, value, type, ptr, ptr2, total_events, currentEventLabel, actId);
 }
 
 
 
 void KnowledgeBaseNDPLoader::visitField(const std::string &key, double value) {
-    constexpr AttributeTableType type = DoubleAtt;
-    std::unordered_map<std::string, AttributeTable>* ptr = nullptr;
+    std::unordered_map<std::string, NDPAttributeTable>* ptr = nullptr;
     std::unordered_map<std::string, std::unordered_set<std::string>>* ptr2 = nullptr;
     bool isEventParsing = (status == EventParsing);
-//    if (isEventParsing) {
-//        ptr2 = &registerEventLabelSchema;
-//        ptr = &attribute_name_to_table;
-//    } else if (status == MissingDataParsing)
-//        ptr = &approximate_attribute_to_table;
-//    else
-//        return;
-//    fillInAtGivenStep(key, value, type, ptr, ptr2, noTraces-1, currentEventId-1, currentEventLabel, actId);
+    if (isEventParsing) {
+        ptr2 = &registerEventLabelSchema;
+        ptr = &attribute_name_to_table;
+    } else if (status == MissingDataParsing)
+        ptr = &approximate_attribute_to_table;
+    else
+        return;
+    fillInAtGivenStep(folder, key, value, DoubleAtt, ptr, ptr2, total_events, currentEventLabel, actId);
 }
 
 void KnowledgeBaseNDPLoader::visitField(const std::string &key, const std::string &value) {
     constexpr AttributeTableType type = StringAtt;
-    std::unordered_map<std::string, AttributeTable>* ptr = nullptr;
+    std::unordered_map<std::string, NDPAttributeTable>* ptr = nullptr;
     std::unordered_map<std::string, std::unordered_set<std::string>>* ptr2 = nullptr;
     bool isEventParsing = (status == EventParsing);
-//    if (isEventParsing) {
-//        ptr2 = &registerEventLabelSchema;
-//        ptr = &attribute_name_to_table;
-//    } else if (status == MissingDataParsing)
-//        ptr = &approximate_attribute_to_table;
-//    else
-//        return;
-//    maximumStringLength = std::max(maximumStringLength, value.size());
-//    fillInAtGivenStep(key, value, type, ptr, ptr2, noTraces-1, currentEventId-1, currentEventLabel, actId);
+    if (isEventParsing) {
+        ptr2 = &registerEventLabelSchema;
+        ptr = &attribute_name_to_table;
+    } else if (status == MissingDataParsing)
+        ptr = &approximate_attribute_to_table;
+    else
+        return;
+    fillInAtGivenStep(folder, key, value, StringAtt, ptr, ptr2, total_events, currentEventLabel, actId);
 }
 
 void KnowledgeBaseNDPLoader::visitField(const std::string &key, size_t value) {
     constexpr AttributeTableType type = SizeTAtt;
-    std::unordered_map<std::string, AttributeTable>* ptr = nullptr;
+    std::unordered_map<std::string, NDPAttributeTable>* ptr = nullptr;
     std::unordered_map<std::string, std::unordered_set<std::string>>* ptr2 = nullptr;
     bool isEventParsing = (status == EventParsing);
-//    if (isEventParsing) {
-//        ptr2 = &registerEventLabelSchema;
-//        ptr = &attribute_name_to_table;
-//    } else if (status == MissingDataParsing)
-//        ptr = &approximate_attribute_to_table;
-//    else
-//        return;
-//    fillInAtGivenStep(key, value, type, ptr, ptr2, noTraces-1, currentEventId-1, currentEventLabel, actId);
+    if (isEventParsing) {
+        ptr2 = &registerEventLabelSchema;
+        ptr = &attribute_name_to_table;
+    } else if (status == MissingDataParsing)
+        ptr = &approximate_attribute_to_table;
+    else
+        return;
+    fillInAtGivenStep(folder, key, value, SizeTAtt, ptr, ptr2, total_events, currentEventLabel, actId);
 }
 
 KnowledgeBaseNDPLoader::KnowledgeBaseNDPLoader(const std::filesystem::path &folder) : folder{folder}, status{FinishParsing} {
@@ -222,7 +246,7 @@ void KnowledgeBaseNDPLoader::finalize_count_table() {
 //    file.sort(folder / "count.table", std::filesystem::temp_directory_path());
 }
 
-void KnowledgeBaseNDPLoader::finalize_act_table() {
+void KnowledgeBaseNDPLoader::finalize_act_and_attributes_tables() {
 //    act_table_tmp.flush();
 //    act_table_tmp.close();
 
@@ -305,6 +329,12 @@ void KnowledgeBaseNDPLoader::finalize_act_table() {
         }
         for (size_t i = 0, N = posFile.size(); i<N; i++) {
             trace_file.write((char*)&posFile[i], sizeof(size_t));
+        }
+        for (auto& attr_table : attribute_name_to_table) {
+            attr_table.second.index(posFile);
+        }
+        for (auto& attr_table : approximate_attribute_to_table) {
+            attr_table.second.index(posFile);
         }
         posFile.clear();
     }

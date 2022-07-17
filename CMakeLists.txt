@@ -103,7 +103,7 @@ add_library(knobab OBJECT
         src/knobab/server/operators/LTLfQuery.cpp
         src/knobab/server/ndp/KnowledgeBaseNDPLoader.cpp
         src/knobab/server/algorithms/querymanager/LTLfQueryManager.cpp
-        src/knobab/server/ndp/NDPFuzzyStringMatching.cpp include/knobab/server/query_manager/NDPFuzzyStringMatching.h NDPAttributeTable.cpp NDPAttributeTable.h)
+        src/knobab/server/ndp/NDPFuzzyStringMatching.cpp include/knobab/server/query_manager/NDPFuzzyStringMatching.h src/knobab/server/ndp/NDPAttributeTable.cpp include/knobab/server/ndp/NDPAttributeTable.h)
 
 add_executable(knobab_server src/knobab/server/server.cpp)
 add_executable(tests_main src/knobab/tests/main.cpp)

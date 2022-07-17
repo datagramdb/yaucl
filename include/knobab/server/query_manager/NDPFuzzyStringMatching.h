@@ -81,6 +81,10 @@ public:
     NDPFuzzyStringMatching& operator=(const NDPFuzzyStringMatching&) = default;
     NDPFuzzyStringMatching& operator=(NDPFuzzyStringMatching&&) = default;
 
+    /**
+     * Opens a string repository contained within a given folder
+     * @param p
+     */
     void open(const std::filesystem::path& p) {
         close();
         if (!std::filesystem::exists(p))
@@ -88,10 +92,40 @@ public:
         this->path = p;
         open();
     }
+
+    /**
+     * Opens the path that was either previously provided or given
+     * in the constructor
+     */
     void open();
+
+    /**
+     * Returns the i-th string contained in such a folder, under the
+     * assumption that all of the possible strings fit in primary memory
+     * @param i
+     * @return
+     */
     std::string get(size_t i) const;
+
+    /**
+     * Adds a string to the repository
+     * @param str   The string to be added
+     * @return Returns a pair, where the first element returns the unique
+     *         id associated to the string, and the second one returns whether
+     *         the element already existed or not
+     */
     std::pair<size_t, bool> put(const std::string &str);
+    /**
+     * Closes the files, if opened
+     */
     void close();
+    /**
+     * Performs the fuzzy string maching
+     * @param threshold     Minimum threshold for the match
+     * @param topk          Maximum number of unique scores associated to the string that we tolerate
+     * @param objectString  String to be approximately matched
+     * @param result        Association between the score and the string of interest
+     */
     void fuzzyMatch(double threshold, size_t topk, const std::string &objectString,
                                                    std::multimap<double, std::string> &result);
 };

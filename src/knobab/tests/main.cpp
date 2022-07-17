@@ -3,7 +3,7 @@
 //
 
 #include "knobab/server/ndp/KnowledgeBaseNDPLoader.h"
-#include "../../../NDPAttributeTable.h"
+#include "knobab/server/ndp/NDPAttributeTable.h"
 #include <yaucl/data/MemoryMappingFile.h>
 #include <knobab/server/ndp/count_table_rcx.h>
 #include <yaucl/data/VariadicSizeArrayElements.h>
@@ -210,7 +210,7 @@ void attribute_table() {
     test.record_load(2, {30ULL}, 2);
     test.record_load(2, {20ULL}, 3);
     test.record_load(5, {40ULL}, 4);
-    test.index();
+    test.index({0,1,2,3,4});
 }
 
 void attribute_table_string() {
@@ -220,7 +220,7 @@ void attribute_table_string() {
     test.record_load(2, "bello", 2);
     test.record_load(2, "wello", 3);
     test.record_load(5, "bullo", 4);
-    test.index();
+    test.index({0,1,2,3,4});
 }
 
 int main(void) {

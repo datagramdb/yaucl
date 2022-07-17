@@ -47,9 +47,27 @@ namespace yaucl {
             size_t ssize;
         public:
             VariadicSizeArrayElementsWriter() : isOpen{false}, offset{0} {}
-            VariadicSizeArrayElementsWriter(const VariadicSizeArrayElementsWriter&) = default;
+            VariadicSizeArrayElementsWriter(const VariadicSizeArrayElementsWriter& x) {
+                if (!isOpen) {
+                    isOpen = x.isOpen;
+                    path = x.path;
+                    offset = x.offset;
+                    ssize = x.ssize;
+                } else {
+                    throw std::runtime_error("ERROR: cannot copy a VariadicSizeArrayElementsWriter when opened");
+                }
+            }
             VariadicSizeArrayElementsWriter(VariadicSizeArrayElementsWriter&&) = default;
-            VariadicSizeArrayElementsWriter& operator=(const VariadicSizeArrayElementsWriter&) = default;
+            VariadicSizeArrayElementsWriter& operator=(const VariadicSizeArrayElementsWriter& x) {
+                if (!isOpen) {
+                    isOpen = x.isOpen;
+                    path = x.path;
+                    offset = x.offset;
+                    ssize = x.ssize;
+                } else {
+                    throw std::runtime_error("ERROR: cannot copy a VariadicSizeArrayElementsWriter when opened");
+                }
+            }
             VariadicSizeArrayElementsWriter& operator=(VariadicSizeArrayElementsWriter&&) = default;
             void put(const new_iovec& mem);
             void open(const std::filesystem::path& p);
