@@ -1,3 +1,4 @@
+src/knobab/knobab-gui-java/target/*
 cmake-build-debug/
 cmake-build-debug/*
 dist/
@@ -13,3 +14,5 @@ dist/*
 .idea
 .idea/*
 /cmake-build-release/
+/cmake-build-release-linux/
+/cmake-build-debug-linux/
