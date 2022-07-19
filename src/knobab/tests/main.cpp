@@ -191,7 +191,7 @@ void fixed_size() {
 void string_fuzzy_matching() {
     NDPFuzzyStringMatching matching{"fuzzyStringTest"};
     matching.put("hello");
-matching.put("cello");
+    matching.put("cello");
     matching.put("hell");
     matching.put("bell");
     matching.put("cellulare");

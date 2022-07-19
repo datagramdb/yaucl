@@ -98,3 +98,10 @@ void VariadicSizeArrayElementsWriter::close() {
     offset = 0;
     ssize = 0;
 }
+
+void VariadicSizeArrayElementsWriter::flush() {
+    if (isOpen) {
+        idxTmpFile.flush();
+        dataTmpFile.flush();
+    }
+}

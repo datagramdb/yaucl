@@ -34,7 +34,9 @@ namespace yaucl {
             size_t size() const;
             const char* operator[](size_t i) const;
             template<class T>
-            const T *get(size_t i) const { return  ((!opened) || (T*)((i >= _size)) ? nullptr : payload + offsets[i]); }
+            T *get(size_t i) const { return  ((!opened) || (T*)((i >= _size)) ? nullptr : (T*)(payload + offsets[i])); }
+            template<class T>
+            const T *at(size_t i) const { return  ((!opened) || (T*)((i >= _size)) ? nullptr : (const T*)(payload + offsets[i])); }
             size_t representation_size(size_t i) const;
             const size_t* getOffsets() const { return offsets; }
         };
@@ -70,6 +72,7 @@ namespace yaucl {
             }
             VariadicSizeArrayElementsWriter& operator=(VariadicSizeArrayElementsWriter&&) = default;
             void put(const new_iovec& mem);
+            void flush();
             void open(const std::filesystem::path& p);
             void close();
             size_t size() const { return ssize; }
@@ -331,6 +334,12 @@ namespace yaucl {
                     }
                 }
                 removed = toRemove.size();
+            }
+
+            void flush() {
+                if (isWrite) {
+                    writer.flush();
+                }
             }
         };
 

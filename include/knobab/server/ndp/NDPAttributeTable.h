@@ -33,14 +33,21 @@ struct attribute_table_record {
     bool operator>=(const attribute_table_record &rhs) const;
 };
 
+std::pair<size_t, size_t> first_project_attrTableRecord(const attribute_table_record& x);
+
+size_t second_project_attrTableRecord(const attribute_table_record& x);
+
 struct NDPAttributeTable {
     std::string attr_name;
     NDPFuzzyStringMatching ptr;
     AttributeTableType type;
     std::filesystem::path p;
-    FixedSizeReaderWriter<attribute_table_record> table;
+    FixedSizeReaderWriter<attribute_table_record> tmp_table;
+    FixedSizeReaderWriter<std::pair<size_t, size_t>> value_clustered_table;
+    yaucl::data::VariadicSizeArrayElementsReader     value_clustered_table_cluster_index;
+    FixedSizeReaderWriter<std::pair<size_t, size_t>> indexed_aggr_table;
     FixedSizeReaderWriter<std::pair<size_t, size_t>> primary_act_index;
-    FixedSizeReaderWriter<attribute_table_record> primary_act_value_index;
+//    FixedSizeReaderWriter<attribute_table_record> primary_act_value_index;
     bool isRead, isWrite;
 
     struct comparator {
