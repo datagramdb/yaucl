@@ -117,6 +117,12 @@ void NDPAttributeTable::record_load(size_t act_id, const union_type &val, size_t
 
 void NDPAttributeTable::index(const std::vector<size_t>& total_event_to_offset) {
     comparator comp{*this};
+    /*
+     * Now, the value_clustered_table just provides the <act,value> k-th record determining the existence
+     * of an act-labelled event j from a trace i which field attr_name is associated to a value "value".
+     * All the distinct occurring events and traces for which this condition holds are then stored
+     * in the k-th slot of the value_clustered_table_cluster_index.
+     */
     std::tie(value_clustered_table,value_clustered_table_cluster_index) = tmp_table.sortAndGroupViaClusteredIndex<comparator, std::pair<size_t, size_t>, size_t>(availableMemory() / 4,
                                                                                            comp,
                                                                                            first_project_attrTableRecord,

@@ -6,6 +6,7 @@
 #define KNOBAB_SERVER_FIXEDSIZENDPSORTER_H
 
 #include <yaucl/data/MemoryMappingFile.h>
+#include <functional>
 #include <filesystem>
 #include <algorithm>
 #include <queue>
