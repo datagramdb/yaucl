@@ -1,9 +1,9 @@
 //
-// Created by giacomo on 16/04/2022.
+// Created by giacomo on 26/12/20.
 //
 
-#ifndef KNOBAB_SERVER_KNOWLEDGEBASE_H
-#define KNOBAB_SERVER_KNOWLEDGEBASE_H
+#ifndef BZDB_SMALLDATABASE_H
+#define BZDB_SMALLDATABASE_H
 
 #include <vector>
 #include <string>
@@ -19,7 +19,6 @@
 #include <SimplifiedFuzzyStringMatching.h>
 #include <yaucl/bpm/structures/commons/DataPredicate.h>
 #include <variant>
-#include <knobab/server/dataStructures/TraceData.h>
 
 enum ParsingState {
     LogParsing,
@@ -30,14 +29,52 @@ enum ParsingState {
 };
 
 #include <bitset>
-#include <knobab/server/dataStructures/DataQuery.h>
+#include "knobab/dataStructures/CountTableFPTree.h"
+#include "knobab/algorithms/mining/DataMiningMetrics.h"
+#include "knobab/algorithms/mining/RulesFromFrequentItemset.h"
+#include "yaucl/functional/iterators.h"
+#include <ostream>
+
 
 using trace_set = std::bitset<sizeof(uint32_t)>;
 using act_set = std::bitset<sizeof(uint16_t)>;
 
 //union_minimal resolveUnionMinimal(const AttributeTable &table, const AttributeTable::record &x);
 const uint16_t MAX_UINT16 = std::pow(2, 16) - 1;
+const size_t HYBRID_QUERY_THRESHOLD = std::pow(10, 2) / 2;
+const size_t HYBRID_LOG_QUERY_THRESHOLD = std::pow(10, 3) / 2;
 
+template <typename T>
+struct pattern_mining_result {
+    T clause;
+    double           support_generating_original_pattern;
+    double           support_declarative_pattern;
+    double           confidence_declarative_pattern;
+
+    pattern_mining_result(double support,
+                          const T &clause) : pattern_mining_result(clause, support, support, -1.0) {}
+    pattern_mining_result(const T &clause,
+                          double supportGeneratingOriginalPattern,
+                          double supportDeclarativePattern,
+                          double confidenceDeclarativePattern) : clause(clause),
+                                                                 support_generating_original_pattern(
+                                                                         supportGeneratingOriginalPattern),
+                                                                 support_declarative_pattern(
+                                                                         supportDeclarativePattern),
+                                                                 confidence_declarative_pattern(confidenceDeclarativePattern) {}
+
+
+    DEFAULT_CONSTRUCTORS(pattern_mining_result);
+    friend std::ostream &operator<<(std::ostream &os, const pattern_mining_result &result){
+        os << "Clause: " << result.clause << std::endl
+           << "\t - Pattern Maching Support: " << result.support_generating_original_pattern << std::endl;
+        if (result.support_declarative_pattern >= 0.0)
+            os << "\t - Declarative Pattern's Support: " << result.support_declarative_pattern << std::endl;
+        if (result.confidence_declarative_pattern >= 0.0)
+            os << "\t - Declarative Pattern's Confidence: " << result.confidence_declarative_pattern << std::endl;
+        return os << std::endl;
+    }
+};
 
 class KnowledgeBase : public trace_visitor {
     CountTemplate                                   count_table;
@@ -56,6 +93,7 @@ class KnowledgeBase : public trace_visitor {
     size_t maximumStringLength = 0;
 
 public:
+    size_t average_trace_length;
     size_t noTraces;
     size_t actId;
     static constexpr double    default_double   = 0.0;
@@ -71,7 +109,7 @@ public:
         std::multimap<size_t, std::string> Result;
         for (size_t i = 0, N = res.size(); i<N; i++)
             Result.emplace(res.at(i), event_label_mapper.get(i));
-        Result.size();
+        //Result.size();
         return Result;
     }
 
@@ -91,6 +129,9 @@ public:
     void clear();
 
 
+    uint32_t nTraces() const { return count_table.nTraces(); }
+    uint16_t nAct() const { return count_table.nAct(); }
+    CountTemplate getCountTable() const { return count_table; }
 
 
     /***************************
@@ -198,8 +239,8 @@ public:
     PartialResult range_query(DataPredicate prop, double min_threshold = 1.0, const double c = 2.0) const;
 
     // Second part of the pipeline
-    PartialResult exists(const std::pair<const uint32_t, const uint32_t>& indexes, const uint16_t& amount) const;
-    PartialResult absence(const std::pair<const uint32_t, const uint32_t>& indexes, const uint16_t& amount) const;
+    PartialResult untimed_dataless_exists(const std::pair<const uint32_t, const uint32_t>& indexes, const uint16_t& amount) const;
+    PartialResult untimed_dataless_absence(const std::pair<const uint32_t, const uint32_t>& indexes, const uint16_t& amount) const;
 
 
     PartialResult exists(const std::pair<const uint32_t, const uint32_t>& indexes) const {
@@ -212,7 +253,20 @@ public:
 
     Result init(const std::string& act, bool doExtractEvent, const double minThreshold = 1) const;
     Result ends(const std::string& act, bool doExtractEvent, const double minThreshold = 1) const;
-    std::vector<std::pair<std::pair<trace_t, event_t>, double>> exists(const std::string& act) const;
+    std::vector<std::pair<std::pair<trace_t, event_t>, double>> timed_dataless_exists(const std::string& act) const;
+
+    std::pair<ActTable::record*, ActTable::record*> timed_dataless_exists(uint16_t mappedVal) const {
+        std::pair<ActTable::record*, ActTable::record*> foundData{nullptr, nullptr};
+        auto indexes = act_table_by_act_id.resolve_index(mappedVal);
+        if(indexes.first < 0){
+            return {nullptr, nullptr};
+        }
+#ifdef _MSC_VER
+        return {((ActTable::record*)&(*act_table_by_act_id.table.begin())+ indexes.first), ((ActTable::record*)&(*act_table_by_act_id.table.begin())+ indexes.second+1)};
+#else
+        return {((ActTable::record*)act_table_by_act_id.table.begin().base()+ indexes.first), ((ActTable::record*)act_table_by_act_id.table.begin().base()+ indexes.second+1)};
+#endif
+    }
 
     /**
      *
@@ -221,9 +275,9 @@ public:
      * @param isFirst
      * @return
      */
-    PartialResult getFirstOrLastElements(const bool isFirst) const;
+    PartialResult getFirstLastOtherwise(const bool isFirst) const;
 
-    [[deprecated]] Result exists(const std::string& act, LeafType markEventsForMatch) const;
+    [[deprecated]] Result timed_dataless_exists(const std::string& act, LeafType leafType) const;
 
     //template <typename traceIdentifier, typename traceValue>
     PartialResult initOrig(const std::string& act, const double minThreshold = 1) const{
@@ -265,11 +319,10 @@ public:
 
     std::vector<std::pair<trace_t, event_t>> exact_range_query(DataPredicate prop) const;
 
-    void exact_range_query(const std::string &var,
-                           const std::unordered_map<std::string, std::vector<size_t>> &actToPredId,
+    void exact_range_query(const std::string &field_name,
+                           const std::unordered_map<std::string, std::vector<size_t>> &ActNameToPredicates,
                            std::vector<std::pair<DataQuery, PartialResult>> &Qs,
-                           const std::optional<uint16_t> &temporalTimeMatch = std::optional<uint16_t>{},
-                           double minApproxTime = 1)  const;
+                           const std::optional<uint16_t> &temporalTimeMatch = std::optional<uint16_t>{})  const;
 private:
     void collectValuesAmongTraces(std::set<union_type> &S, size_t trace_id, act_t acts, bool HasNoAct,
                                   const std::string &attribute_name, bool hasNoAttribute) const;
@@ -293,4 +346,5 @@ private:
 
 
 
-#endif //KNOBAB_SERVER_KNOWLEDGEBASE_H
+
+#endif //BZDB_SMALLDATABASE_H

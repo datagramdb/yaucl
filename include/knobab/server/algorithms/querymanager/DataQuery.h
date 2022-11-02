@@ -1,16 +1,18 @@
 //
-// Created by giacomo on 16/04/2022.
+// Created by giacomo on 20/01/2022.
 //
 
-#ifndef KNOBAB_SERVER_DATAQUERY_H
-#define KNOBAB_SERVER_DATAQUERY_H
+#ifndef KNOBAB_DATAQUERY_H
+#define KNOBAB_DATAQUERY_H
 
 #include <string>
 #include <variant>
-#include <yaucl/hashing/hashing.h>
-#include <yaucl/hashing/hash_combine.h>
-#include <yaucl/structures/default_constructors.h>
-#include <knobab/server/operators/semantics.h>
+#include "yaucl/hashing/hashing.h"
+#include "yaucl/hashing/hash_combine.h"
+#include "yaucl/structures/default_constructors.h"
+#include "knobab/server/operators/semantics.h"
+
+
 
 enum DataQueryType {
     ExistsQuery,
@@ -69,4 +71,4 @@ namespace std {
 }
 
 
-#endif //KNOBAB_SERVER_DATAQUERY_H
+#endif //KNOBAB_DATAQUERY_H

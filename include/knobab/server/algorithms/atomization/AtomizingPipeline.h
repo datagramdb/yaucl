@@ -5,16 +5,28 @@
 #ifndef KNOBAB_SERVER_ATOMIZINGPIPELINE_H
 #define KNOBAB_SERVER_ATOMIZINGPIPELINE_H
 
-#include <string>
+#include    <string>
+#include    <unordered_map>
+#include    <unordered_set>
 #include <knobab/server/dataStructures/atomization_structures.h>
-#include <yaucl/structures/DoublePrevNext.h>
+#include <yaucl/bpm/structures/commons/DataPredicate.h>
+#include <knobab/server/declare/CNFDeclareDataAware.h>
+#include <yaucl/structures/query_interval_set.h>
 #include <yaucl/structures/StringPrevNext.h>
+#include <yaucl/structures/DoublePrevNext.h>
+#include <yaucl/structures/set_operations.h>
+#include <ostream>
+#include <yaucl/bpm/structures/commons/easy_prop.h>
 #include <yaucl/structures/query_interval_set/structures/segment_partition_tree.h>
 
+
+using label_var_atoms_map_t = std::unordered_map<std::string, std::unordered_map<std::string, std::unordered_set<DataPredicate>>>;
 using double_bulk_map_t = std::unordered_map<std::string, std::unordered_map<std::string, spt_bulk_insertion<double>>>;
 using string_bulk_map_t = std::unordered_map<std::string, std::unordered_map<std::string, spt_bulk_insertion<std::string>>>;
 using double_map_t = std::unordered_map<std::string, std::unordered_map<std::string, segment_partition_tree<double, DoublePrevNext>>>;
 using string_map_t = std::unordered_map<std::string, std::unordered_map<std::string, segment_partition_tree<std::string, StringPrevNext>>>;
+using label_set_t = std::unordered_set<std::string>;
+using semantic_atom_set = std::unordered_set<std::string>;
 
 enum AtomizationStrategy {
     AtomizeEverythingIfAnyDataPredicate,
@@ -34,6 +46,7 @@ struct AtomizingPipeline {
     label_set_t           act_universe;
     label_set_t           act_atoms;
     semantic_atom_set      atom_universe;
+    semantic_atom_set      data_query_atoms;
 
     double_bulk_map_t     double_bulk_map;
     double_map_t          double_map;

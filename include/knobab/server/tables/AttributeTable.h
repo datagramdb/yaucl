@@ -1,9 +1,9 @@
 //
-// Created by giacomo on 16/04/2022.
+// Created by giacomo on 26/12/20.
 //
 
-#ifndef KNOBAB_SERVER_ATTRIBUTETABLE_H
-#define KNOBAB_SERVER_ATTRIBUTETABLE_H
+#ifndef BZDB_ATTRIBUTETABLE_H
+#define BZDB_ATTRIBUTETABLE_H
 
 #include <string>
 #include <knobab/server/dataStructures/oid.h>
@@ -21,14 +21,16 @@ enum AttributeTableType {
     // TODO: hierarchical types!, https://dl.acm.org/doi/10.1145/3410566.3410583
 };
 
+using union_type = std::variant<double, size_t, long long, std::string, bool>;
 
 #include <vector>
 #include <map>
 #include <unordered_map>
 #include <ostream>
 #include <SimplifiedFuzzyStringMatching.h>
-#include <knobab/server/dataStructures/DataQuery.h>
+#include <knobab/server/operators/semantics.h>
 #include <yaucl/numeric/ssize_t.h>
+#include "knobab/server/algorithms/querymanager/DataQuery.h"
 
 struct AttributeTable {
     std::string attr_name;
@@ -132,8 +134,11 @@ struct AttributeTable {
             : attr_name(attr), type{type} {}
 
     AttributeTable(const AttributeTable &) = default;
+
     AttributeTable(AttributeTable &&) = default;
+
     AttributeTable &operator=(const AttributeTable &) = default;
+
     AttributeTable &operator=(AttributeTable &&) = default;
 
     const record *resolve_record_if_exists(size_t actTableOffset) const;
@@ -166,7 +171,12 @@ struct AttributeTable {
     std::pair<const record *, const record *>
     exact_range_query(size_t actId, const DataPredicate &propList) const;
 
-    std::vector<std::pair<const record *, const record *>>
+    /**
+     *
+     * @param propList  for each table name
+     * @return
+     */
+    std::vector<std::vector<std::pair<const record *, const record *>>>
     exact_range_query(const std::vector<std::pair<size_t, std::vector<DataQuery*>>>& propList) const;
 
 
@@ -206,5 +216,4 @@ private:
 
 union_minimal resolveUnionMinimal(const AttributeTable &table, const AttributeTable::record &x);
 
-
-#endif //KNOBAB_SERVER_ATTRIBUTETABLE_H
+#endif //BZDB_ATTRIBUTETABLE_H

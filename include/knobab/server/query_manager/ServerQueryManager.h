@@ -25,7 +25,7 @@
 #include <knobab/server/query_manager/KnoBABQueryVisitor.h>
 #include <unordered_map>
 #include <string>
-#include <knobab/server/operators/LTLfQuery.h>
+#include <knobab/server/operators/base_ltlf.h>
 
 #include "Environment.h"
 #include "KnoBABQueryBaseVisitor.h"
@@ -58,7 +58,6 @@ class ServerQueryManager : public KnoBABQueryBaseVisitor {
     std::string format;
     std::vector<LoggerInformation> infos;
     Environment* tmpEnv = nullptr;
-    std::unordered_map<std::string, LTLfQuery>* plans = nullptr;
 public:
     double parsing_time_ms = -1.0;
 
@@ -69,7 +68,6 @@ public:
     std::any visitDisplay(KnoBABQueryParser::DisplayContext *ctx) override;
     std::any visitSet_benchmarking_file(KnoBABQueryParser::Set_benchmarking_fileContext *ctx) override;
     std::any visitModel_query(KnoBABQueryParser::Model_queryContext *ctx) override;
-
     std::any visitDroplog(KnoBABQueryParser::DroplogContext *ctx) override;
 
     /// Plan Visitor
@@ -128,7 +126,6 @@ public:
     /// Model loader
     std::any visitFile_model(KnoBABQueryParser::File_modelContext *ctx) override;
     std::any visitDeclares(KnoBABQueryParser::DeclaresContext *ctx) override;
-
     std::any visitTopn(KnoBABQueryParser::TopnContext *ctx) override;
 
     /// HRF Parser

@@ -1,9 +1,8 @@
 //
-// Created by giacomo on 16/04/2022.
+// Created by giacomo on 26/12/20.
 //
 
-#include <knobab/server/tables/AttributeTable.h>
-
+#include "knobab/server/tables/AttributeTable.h"
 #include "SimplifiedFuzzyStringMatching.h"
 #include <cassert>
 
@@ -35,8 +34,8 @@ static inline double similarityFunction(const union_type& lhs, const union_type&
         return 1.0 / ( ((double)(((l > r) ? (l-r) : (r-l))))/c + 1.0);
     } else if (std::holds_alternative<long long>(lhs)) {
         return 1.0 / ( (std::abs((double)std::get<long long>(lhs)- (double)std::get<long long>(rhs)))/c + 1.0);
-    } else
-        return 0.0;
+    }
+
 }
 
 union_type AttributeTable::resolve(const AttributeTable::record &x) const {
@@ -363,10 +362,11 @@ bool AttributeTable::range_query(size_t actId,
 std::ostream &operator<<(std::ostream &os, const AttributeTable &table) {
     const double at16 = std::pow(2, 16);
     //os << "          AttributeTable[" << table.attr_name << " : " << magic_enum::enum_name(table.type) << ']' << std::endl << "-------------------------------" << std::endl;
-    os << "Act,Value,TableOffset" << std::endl;
+    size_t i = 0;
+    os << "RowId,Act,Value,TableOffset" << std::endl;
     for (const auto& ref : table.table) {
         auto v = table.resolve(ref);
-        os <<  ref.act << ",";
+        os << (i++) << "," << ref.act << ",";
         switch (table.type) {
             case DoubleAtt:
                 os << std::get<double>(v);
@@ -384,8 +384,9 @@ std::ostream &operator<<(std::ostream &os, const AttributeTable &table) {
                 os << std::get<bool>(v) ? "TRUE" : "FALSE";
                 break;
         }
-        os << "," << ref.act_table_offset << std::endl;
+        os << ", +" << ref.act_table_offset << std::endl;
     }
+    //os << std::endl << "-------------------------------" << std::endl;
     return os;
 }
 
@@ -466,13 +467,14 @@ AttributeTable::exact_range_query(size_t actId, const DataPredicate &prop) const
     return thisResult;
 }
 
-std::vector<std::pair<const AttributeTable::record *, const AttributeTable::record *>>
+std::vector<std::vector<std::pair<const AttributeTable::record *, const AttributeTable::record *>>>
 AttributeTable::exact_range_query(const std::vector<std::pair<size_t, std::vector<DataQuery*>>>& propList) const {
-    std::vector<std::pair<const AttributeTable::record *, const AttributeTable::record *>> actualResult;
+    std::vector<std::vector<std::pair<const AttributeTable::record *, const AttributeTable::record *>>> finalResult;
     //std::pair<const AttributeTable::record *, const AttributeTable::record *> thisResult{nullptr, nullptr};
     for (const auto& cps : propList) {
+        auto& actualResult = finalResult.emplace_back();
         size_t actId = cps.first;
-        if (/*(cps.second->empty()) ||*/ (actId > primary_index.size())) {
+        if ((actId > primary_index.size())) {
             for (size_t i = 0, N = cps.second.size(); i<N; i++)
                 actualResult.emplace_back(nullptr, nullptr);
         }
@@ -522,6 +524,6 @@ AttributeTable::exact_range_query(const std::vector<std::pair<size_t, std::vecto
             } while (propRef != propEnd);
         }
     }
-    return actualResult;
+    return finalResult;
 }
 

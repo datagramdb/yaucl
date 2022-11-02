@@ -10,7 +10,7 @@
 #include <yaucl/structures/default_constructors.h>
 #include <ostream>
 #include <nlohmann/json.hpp>
-
+#include <fstream>
 
 struct LoggerInformation {
     std::string log_filename;
@@ -35,7 +35,9 @@ struct LoggerInformation {
     double model_data_decomposition_time = -1.0;
     double model_atomization_time = -1.0;
     double model_declare_to_ltlf = -1.0;
-    double model_ltlf_query_time = -1.0;
+    double model_ltlf_query_time = -1.0;\
+
+    std::string strategyForScheduling;
 
 #ifdef MAXSatPipeline_PARALLEL
     bool is_multithreaded = true;
@@ -46,7 +48,6 @@ struct LoggerInformation {
     DEFAULT_CONSTRUCTORS(LoggerInformation)
 
     void clear();
-
     friend std::ostream& operator<<(std::ostream& os, const LoggerInformation &information);
     static void log_csv_file_header(std::ostream &csv_log);
     void log_csv_file(std::ostream& csv_log) const;

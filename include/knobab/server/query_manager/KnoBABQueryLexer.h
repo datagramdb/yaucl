@@ -1,5 +1,5 @@
 
-// Generated from KnoBABQuery.g4 by ANTLR 4.10.1
+// Generated from .\KnoBABQuery.g4 by ANTLR 4.10.1
 
 #pragma once
 
@@ -26,9 +26,10 @@ public:
     TARGET = 67, INIT = 68, END = 69, EXISTS = 70, ABSENCE = 71, NEXT = 72, 
     OR = 73, AND = 74, FIRST = 75, LAST = 76, IF = 77, THEN = 78, ELSE = 79, 
     UNTIL = 80, BOX = 81, DIAMOND = 82, AUTO_TIMED = 83, LPAREN = 84, RPAREN = 85, 
-    PRESERVE = 86, TIMED = 87, THETA = 88, LEFT = 89, RIGHT = 90, MIDDLE = 91, 
-    NEGATED = 92, HRF = 93, TAB = 94, XES = 95, LABEL = 96, INTNUMBER = 97, 
-    NUMBER = 98, STRING = 99, SPACE = 100, COMMENT = 101, LINE_COMMENT = 102
+    PRESERVE = 86, TIMED = 87, THETA = 88, LEFT = 89, INV = 90, RIGHT = 91, 
+    MIDDLE = 92, NEGATED = 93, HRF = 94, TAB = 95, XES = 96, LABEL = 97, 
+    INTNUMBER = 98, NUMBER = 99, STRING = 100, SPACE = 101, COMMENT = 102, 
+    LINE_COMMENT = 103
   };
 
   explicit KnoBABQueryLexer(antlr4::CharStream *input);

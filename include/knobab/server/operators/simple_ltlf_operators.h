@@ -5,6 +5,10 @@
 #ifndef KNOBAB_SERVER_SIMPLE_LTLF_OPERATORS_H
 #define KNOBAB_SERVER_SIMPLE_LTLF_OPERATORS_H
 
+#include <knobab/server/operators/semantics.h>
+#include "knobab/server/declare/DeclareDataAware.h"
+
+
 /**
  * @author Samuel 'Sam' Appleby, Giacomo Bergami
  *
@@ -13,7 +17,7 @@
  * @param out
  * @param manager
  */
-inline void or_logic_timed(const Result &lhs, const Result &rhs, Result &out, const DeclareDataAware *manager = nullptr,
+inline void or_logic_timed(const Result &lhs, const Result &rhs, Result &out, const PredicateManager *manager = nullptr,
                            const std::vector<size_t> &lengths = {}) {
     auto first1 = lhs.begin(), first2 = rhs.begin(),
             last1 = lhs.end(), last2 = rhs.end();
@@ -94,7 +98,7 @@ inline void or_logic_timed(const Result &lhs, const Result &rhs, Result &out, co
  */
 inline void or_logic_untimed(const Result &lhs, const Result &rhs,
                              Result &out,
-                             const DeclareDataAware *manager = nullptr, const std::vector<size_t> &lengths = {}) {
+                             const PredicateManager *manager = nullptr, const std::vector<size_t> &lengths = {}) {
     auto first1 = lhs.begin(), first2 = rhs.begin(),
             last1 = lhs.end(), last2 = rhs.end();
     std::map<uint32_t, Result> group1 = GroupByKeyExtractor<decltype(first1), uint32_t, ResultRecord>(
@@ -239,7 +243,7 @@ inline void or_logic_untimed(const Result &lhs, const Result &rhs,
  */
 inline void and_logic_timed(const Result &lhs, const Result &rhs,
                             Result &out,
-                            const DeclareDataAware *manager = nullptr, const std::vector<size_t> &lengths = {}) {
+                            const PredicateManager *manager = nullptr, const std::vector<size_t> &lengths = {}) {
     auto first1 = lhs.begin(), first2 = rhs.begin(),
             last1 = lhs.end(), last2 = rhs.end();
     env e1, e2;
@@ -311,7 +315,7 @@ inline void and_logic_timed(const Result &lhs, const Result &rhs,
  */
 inline void and_logic_untimed(const Result &lhs, const Result &rhs,
                               Result &out,
-                              const DeclareDataAware *manager = nullptr, const std::vector<size_t> &lengths = {}) {
+                              const PredicateManager *manager = nullptr, const std::vector<size_t> &lengths = {}) {
     auto first1 = lhs.begin(), first2 = rhs.begin(),
             last1 = lhs.end(), last2 = rhs.end();
     std::map<uint32_t, Result> group1 = GroupByKeyExtractor<decltype(first1), uint32_t, ResultRecord>(
@@ -510,43 +514,44 @@ inline void global_logic_timed(const Result &section, Result &result, const std:
     auto lower = section.begin(), upper = section.begin();
     auto end = section.end();
 
-    ResultIndex first;
-    ResultRecordSemantics second{1.0, 0.0};
-    ResultRecord cp{{0,   0},
-                    {1.0, {}}};
+    ResultIndex first_g;
+    ResultRecordSemantics second_g{1.0, 0.0};
+    ResultRecord cp_g{{0,   0},
+                      {1.0, {}}};
 
     while (upper != end) {
         uint32_t currentTraceId = upper->first.first;
-        first.first = cp.first.first = currentTraceId;
-        cp.first.second = lengths.at(currentTraceId);
-        first.second = 0;
+        first_g.first = cp_g.first.first = currentTraceId;
+        second_g.first = 1.0;
+        cp_g.first.second = lengths.at(currentTraceId);
+        first_g.second = 0;
 
         lower = upper;
-        upper = std::upper_bound(lower, section.end(), cp);
+        upper = std::upper_bound(lower, section.end(), cp_g);
 
         Result toBeReversed;
-        auto it = lower + std::distance(lower, upper) - 1;
+        auto it = (lower == upper) ? (lower-1) : ( lower + std::distance(lower, upper) - 1);
         for (int64_t i = (upper - 1)->first.second; i >= 0; i--) {
-            first.second = i;
+            first_g.second = i;
             const uint32_t dist = std::distance(it, upper);
 
-            if ((cp.first.first == it->first.first) && (dist == (cp.first.second - it->first.second))) {
-                second.first = std::min(it->second.first, second.first);
-                second.second.insert(second.second.begin(), it->second.second.begin(), it->second.second.end());
-                remove_duplicates(second.second);
+            if ((it >= lower) && (cp_g.first.first == it->first.first) && (dist == (cp_g.first.second - it->first.second))) {
+                second_g.first = std::min(it->second.first, second_g.first);
+                second_g.second.insert(second_g.second.begin(), it->second.second.begin(), it->second.second.end());
+                remove_duplicates(second_g.second);
                 it--;
             } else {
                 break; // If after this the condition does not hold, then it means that in the remainder I will have
                 // events that are not matching the condition
             }
-            toBeReversed.emplace_back(first, second);
+            toBeReversed.emplace_back(first_g, second_g);
         }
 
         // Inserting the elements in reversed order
         result.insert(result.end(), std::make_move_iterator(toBeReversed.rbegin()),
                       std::make_move_iterator(toBeReversed.rend()));
 
-        second.second.clear();
+        second_g.second.clear();
     }
 }
 
@@ -563,26 +568,26 @@ inline void global_logic_untimed(const Result &section, Result &result, const st
     auto end = section.end();
     result.clear();
 
-    ResultIndex first{0, 0};
-    ResultRecordSemantics second{1.0, {}};
-    ResultRecord cp{{0,   0},
-                    {1.0, {}}};
-
+    ResultIndex first_g{0, 0};
+    ResultRecordSemantics second_g{1.0, {}};
+    ResultRecord cp_g{{0,   0},
+                      {1.0, {}}};
     while (upper != end) {
         uint32_t currentTraceId = upper->first.first;
-        first.first = cp.first.first = currentTraceId;
-        cp.first.second = lengths.at(currentTraceId);
-        cp.second.second.clear();
-        second.second.clear();
-
+        first_g.first = cp_g.first.first = currentTraceId;
+        cp_g.first.second = lengths.at(currentTraceId);
+        cp_g.second.second.clear();
         lower = upper;
-        upper = std::upper_bound(lower, section.end(), cp);
-
-        const uint32_t dist = std::distance(lower, upper - 1);
-
-        if (dist == cp.first.second - 1) {
-            populateAndReturnEvents(lower, upper, second.second);
-            result.emplace_back(first, second);
+        second_g.second.clear();
+        upper = lower + (cp_g.first.second - 1);//std::upper_bound(lower, section.end(), cp);
+        ///const uint32_t dist = std::distance(lower, upper - 1);
+        if ((upper < end) && (upper->first.first == lower->first.first)) {
+            populateAndReturnEvents(lower, ++upper, second_g.second);
+            result.emplace_back(first_g, second_g);
+        } else {
+            cp_g.first.first = currentTraceId + 1;
+            cp_g.first.second = 0;
+            upper = std::lower_bound(lower, section.end(), cp_g);
         }
     }
 }
@@ -599,7 +604,7 @@ inline void global_logic_untimed(const Result &section, Result &result, const st
  * @param result
  */
 inline void until_logic_timed(const Result &aSection, const Result &bSection, Result &temp,
-                              const DeclareDataAware *manager = nullptr, const std::vector<size_t> &lengths = {}) {
+                              const PredicateManager *manager = nullptr, const std::vector<size_t> &lengths = {}) {
     auto bLower = bSection.begin();
     auto bLocalUpper = bLower;
     auto bUpper = bSection.end();
@@ -753,7 +758,7 @@ inline void until_logic_timed(const Result &aSection, const Result &bSection, Re
 
 
 inline void until_logic_untimed(const Result &aSection, const Result &bSection, Result &temp,
-                                const DeclareDataAware *manager = nullptr, const std::vector<size_t> &lengths = {}) {
+                                const PredicateManager *manager = nullptr, const std::vector<size_t> &lengths = {}) {
     auto bCurrent = bSection.begin();
     auto localBUpper = bCurrent;
     auto upper = bSection.end();
@@ -900,7 +905,7 @@ inline void negated_logic_timed(const Result &section, Result &result, const std
 
 inline void
 implies_logic_timed(const Result &aSection, const Result &bSection, const Result &notaSection, Result &result,
-                    const DeclareDataAware *manager = nullptr, const std::vector<size_t> &lengths = {}) {
+                    const PredicateManager *manager = nullptr, const std::vector<size_t> &lengths = {}) {
     Result aTrue;
     and_logic_timed(aSection, bSection, aTrue, manager, lengths);
     or_logic_timed(aTrue, notaSection, result, nullptr, lengths);
@@ -908,11 +913,10 @@ implies_logic_timed(const Result &aSection, const Result &bSection, const Result
 
 inline void
 implies_logic_untimed(const Result &aSection, const Result &bSection, const Result &notaSection, Result &result,
-                      const DeclareDataAware *manager = nullptr, const std::vector<size_t> &lengths = {}) {
+                      const PredicateManager *manager = nullptr, const std::vector<size_t> &lengths = {}) {
     Result aTrue;
     and_logic_untimed(aSection, bSection, aTrue, manager, lengths);
     or_logic_untimed(aTrue, notaSection, result, nullptr, lengths);
 }
 
-
-#endif //KNOBAB_SERVER_SIMPLE_LTLF_OPERATORS_H
+#endif //KNOBAB_SIMPLE_LTLF_OPERATORS_H

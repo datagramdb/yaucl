@@ -173,13 +173,14 @@ std::vector<DeclareDataAware> DeclareDataAware::load_simplified_declare_model(st
 }
 
 bool DeclareDataAware::operator==(const DeclareDataAware &rhs) const {
-    return casusu == rhs.casusu &&
+    bool tmp = casusu == rhs.casusu &&
            n == rhs.n &&
            left_act == rhs.left_act &&
-           right_act == rhs.right_act;
-    right_act == rhs.right_act &&
-    left_decomposed_atoms == rhs.left_decomposed_atoms &&
-    right_decomposed_atoms == rhs.right_decomposed_atoms;
+           right_act == rhs.right_act &&
+           left_decomposed_atoms == rhs.left_decomposed_atoms &&
+           right_decomposed_atoms == rhs.right_decomposed_atoms &&
+           conjunctive_map == rhs.conjunctive_map;
+    return tmp;
 }
 
 bool DeclareDataAware::operator!=(const DeclareDataAware &rhs) const {
@@ -376,14 +377,17 @@ env DeclareDataAware::GetPayloadDataFromEvent(uint32_t first, uint16_t second, b
     return environment;
 }
 
-DeclareDataAware::DeclareDataAware(const std::vector<std::vector<DataPredicate>> &predicate, const KnowledgeBase *kb) : kb{kb} {
+DeclareDataAware::DeclareDataAware(const std::vector<std::vector<DataPredicate>> &predicate,
+                                   const KnowledgeBase *kb) : kb{kb} {
     for (const auto& ref : predicate) {
         auto& res = conjunctive_map.emplace_back();
         for (const auto& x : ref) {
             res[x.var].BiVariableConditions.emplace_back(x);
-
         }
     }
+    flipped_equivalent = nullptr;
+    isFlippedComputed = false;
+    isOriginal = true;
 }
 
 DeclareDataAware DeclareDataAware::flip() const {
@@ -401,4 +405,28 @@ DeclareDataAware DeclareDataAware::flip() const {
     }
     result.kb = this->kb;
     return result;
+}
+
+DeclareDataAware *DeclareDataAware::flipLocal() {
+    if (!isFlippedComputed) {
+        DEBUG_ASSERT(isOriginal);
+        DEBUG_ASSERT(!flipped_equivalent);
+        flipped_equivalent = new DeclareDataAware();
+        flipped_equivalent->conjunctive_map.clear();
+        for (const auto& ref : conjunctive_map) {
+            auto inner = flipped_equivalent->conjunctive_map.emplace_back();
+            for (const auto& ref2 : ref) {
+                for (const auto& pred : ref2.second.BiVariableConditions) {
+                    auto cpy = ref2.second.flip();
+                    inner.emplace(cpy.var, cpy);
+                }
+            }
+        }
+        flipped_equivalent->kb = this->kb;
+        flipped_equivalent->isOriginal = false;
+        flipped_equivalent->isFlippedComputed = true;
+        flipped_equivalent->flipped_equivalent = this;
+        isFlippedComputed = true;
+    }
+    return flipped_equivalent;
 }

@@ -55,18 +55,18 @@ ltlf : INIT TIMED?                      declare_arguments? declare_act_target?  
       | EXISTS NEGATED? INTNUMBER TIMED? declare_arguments? declare_act_target?        #exists
       | ABSENCE INTNUMBER TIMED?         declare_arguments? declare_act_target?        #absence
       | NEXT ltlf                                                                     #next
-      |<assoc=right> ltlf OR TIMED? THETA? ltlf                                      #or
-      |<assoc=right> ltlf AND TIMED? THETA? ltlf                                     #and
-      |<assoc=right> ltlf '=>' TIMED? THETA? ltlf                                    #implication
-      |<assoc=right> IF TIMED? ltlf THEN ltlf THETA? ELSE ltlf                      #ifte
-      |<assoc=right> ltlf UNTIL TIMED? THETA?  ltlf                                  #until
+      |<assoc=right> ltlf OR TIMED? THETA? INV? ltlf                                      #or
+      |<assoc=right> ltlf AND TIMED? THETA? INV? ltlf                                     #and
+      |<assoc=right> ltlf '=>' TIMED? THETA? INV? ltlf                                    #implication
+      |<assoc=right> IF TIMED? ltlf THEN ltlf THETA? INV? ELSE ltlf                      #ifte
+      |<assoc=right> ltlf UNTIL TIMED? THETA? INV? ltlf                                  #until
       | BOX TIMED?  ltlf                                                              #box
       | DIAMOND TIMED?   ltlf                                                         #diamond
       | NEGATED TIMED? ltlf PRESERVE?                                                 #not
       | '(' ltlf ')'                                                                  #paren
-      |<assoc=right> ltlf '&Ft' THETA? ltlf                                          #and_future
-      |<assoc=right> ltlf '&XGt' THETA? ltlf                                         #and_next_globally
-      |<assoc=right> ltlf '&Gt' THETA? ltlf                                          #and_globally
+      |<assoc=right> ltlf '&Ft' THETA? INV? ltlf                                          #and_future
+      |<assoc=right> ltlf '&XGt' THETA? INV? ltlf                                         #and_next_globally
+      |<assoc=right> ltlf '&Gt' THETA? INV? ltlf                                          #and_globally
       ;
 
 data_aware_declare: (declare)*;
@@ -135,6 +135,7 @@ PRESERVE: 'PRESERVE';
 TIMED: 't';
 THETA: 'THETA';
 LEFT : 'L';
+INV: 'INV';
 RIGHT: 'R';
 MIDDLE: 'M';
 NEGATED: '~';

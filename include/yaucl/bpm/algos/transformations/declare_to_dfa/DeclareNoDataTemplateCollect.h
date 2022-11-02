@@ -15,7 +15,6 @@
 #include <magic_enum.hpp>
 #include <fstream>
 #include <yaucl/functional/assert.h>
-
 //#include <yaucl/bpm/structures/ltlf/ltlf.h>
 
 

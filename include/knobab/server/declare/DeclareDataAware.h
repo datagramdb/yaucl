@@ -51,7 +51,6 @@ enum declare_templates {
     NegChainSuccession
 }; */
 #include <string>
-
 using declare_templates = std::string;
 
 bool isUnaryPredicate(const std::string& type);
@@ -126,13 +125,31 @@ struct DeclareDataAware {
     size_t n;
     std::string left_act, right_act;
     const KnowledgeBase* kb = nullptr;
+    bool isFlippedComputed = false;
+    bool isOriginal = true;
+    DeclareDataAware* flipped_equivalent = nullptr;
 
     // Each map represents a conjunction among different atoms over distinct variables, while the vector represents the disjunction
     std::vector<std::unordered_map<std::string, DataPredicate>> dnf_left_map, dnf_right_map, conjunctive_map;
     std::unordered_set<std::string> left_decomposed_atoms, right_decomposed_atoms; /// TODO: generalization to the number of the possible arguments of a declare clause
 
+    bool compareAsThetaPredicate(const struct DeclareDataAware* ptr) const {
+        if (ptr == nullptr) return false;
+        return n == ptr->n
+                && left_act == ptr->left_act
+                && right_act == ptr->right_act
+                && conjunctive_map == ptr->conjunctive_map;
+    }
+
     DEFAULT_CONSTRUCTORS(DeclareDataAware)
     DeclareDataAware(const std::vector<std::vector<DataPredicate>>& predicate, const KnowledgeBase* kb);
+    ~DeclareDataAware() {
+        if (isOriginal && isFlippedComputed && flipped_equivalent) {
+            delete flipped_equivalent;
+            isFlippedComputed = false;
+            flipped_equivalent = nullptr;
+        }
+    }
 
     static DeclareDataAware unary(const declare_templates&, const std::string& argument, size_t n);
     static DeclareDataAware binary(const declare_templates& t, const std::string& left, const std::string right);
@@ -177,6 +194,7 @@ struct DeclareDataAware {
     env GetPayloadDataFromEvent(uint32_t first, uint16_t second, bool isLeft, std::unordered_set<std::string>& leftArgs) const;
 
     DeclareDataAware flip() const;
+    DeclareDataAware* flipLocal();
 
     //[[deprecated]] ltlf toFiniteSemantics(bool isForGraph = true) const;
 
@@ -273,5 +291,7 @@ namespace std {
     };
 
 }
+
+using PredicateManager = DeclareDataAware;
 
 #endif //BPM21_DECLAREDATAAWARE_H

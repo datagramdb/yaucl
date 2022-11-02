@@ -17,6 +17,8 @@ bool act_table_rcx::operator<(const act_table_rcx &rhs) const {
         return true;
     if (rhs.event_id < event_id)
         return false;
+    else
+        return true; // ???
 }
 
 bool act_table_rcx::operator>(const act_table_rcx &rhs) const {

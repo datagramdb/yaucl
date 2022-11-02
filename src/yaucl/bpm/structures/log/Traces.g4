@@ -19,7 +19,7 @@
  */
 grammar Traces;
 
-log : (trace ';')* trace;
+log : (trace ';')* trace    ;
 
 trace: data_part ':' event*;
 event : LABEL data_part?;

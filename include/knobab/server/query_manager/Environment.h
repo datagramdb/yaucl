@@ -132,11 +132,10 @@ public:
     }
 
     void exact_range_query(const std::string &var,
-                           const std::unordered_map<std::string, std::vector<size_t>> &actToPredId,
-                           std::vector<std::pair<DataQuery, PartialResult>> &Qs,
-                           const std::optional<uint16_t> &temporalTimeMatch = {},
-                           double approxConstant = 1.0) const {
-        db.exact_range_query(var, actToPredId, Qs, temporalTimeMatch, approxConstant);
+                                                                            const std::unordered_map<std::string, std::vector<size_t>> &actToPredId,
+                                                                            std::vector<std::pair<DataQuery, PartialResult>> &Qs,
+                                                                            const std::optional<uint16_t> &temporalTimeMatch = {}) const {
+        db.exact_range_query(var, actToPredId, Qs, temporalTimeMatch);
     }
 
     Environment() {}
@@ -150,7 +149,7 @@ public:
     /**
      * Performs a query over the setted model. The whole pipeline is returned as a result (e.g., debugging and server)
      */
-    MAXSatPipeline query_model();
+    //MAXSatPipeline query_model();
 
     /**
      * Clears all of the bits and pieces, thus preparing into a novel test

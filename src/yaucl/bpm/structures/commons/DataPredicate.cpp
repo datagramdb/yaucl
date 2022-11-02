@@ -143,8 +143,8 @@ std::ostream &operator<<(std::ostream &os, const DataPredicate &predicate) {
 }
 
 std::string prev_char(const std::string &val, size_t max_size) {
-    static const char MIN_CHAR = std::numeric_limits<char>::min();
-    static const char MAX_CHAR = std::numeric_limits<char>::max();
+    static const char MIN_CHAR = static_cast<char>(std::numeric_limits<unsigned char>::min()+1);
+    static const char MAX_CHAR = static_cast<char>(std::numeric_limits<unsigned char>::max());
     if (val.empty()) return val;
 
     std::string result = val;
@@ -154,14 +154,14 @@ std::string prev_char(const std::string &val, size_t max_size) {
         result.pop_back();
     } else {
         result[val.size()-1] = last_char-1;
-        result += std::string(MAXIMUM_STRING_LENGTH - result.size(), MAX_CHAR);
+        result += std::string(max_size - result.size(), MAX_CHAR);
     }
     return result;
 }
 
 std::string next_char(const std::string &val, size_t max_size) {
-    static const char MIN_CHAR = std::numeric_limits<char>::min();
-    static const char MAX_CHAR = std::numeric_limits<char>::max();
+    static const char MIN_CHAR = static_cast<char>(std::numeric_limits<unsigned char>::min()+1);
+    static const char MAX_CHAR = static_cast<char>(std::numeric_limits<unsigned char>::max());
     if (val == DataPredicate::MAX_STRING) return val;
 
     std::string next = val;
@@ -361,12 +361,14 @@ bool DataPredicate::testOverSingleVariable(double val) const {
 }
 
 bool DataPredicate::operator==(const DataPredicate &rhs) const {
-    return label == rhs.label &&
+    bool tmp= label == rhs.label &&
            var == rhs.var &&
            casusu == rhs.casusu &&
            value == rhs.value &&
            value_upper_bound == rhs.value_upper_bound &&
-           exceptions == rhs.exceptions;
+           exceptions == rhs.exceptions &&
+           BiVariableConditions == rhs.BiVariableConditions;
+    return tmp;
 }
 
 bool DataPredicate::operator!=(const DataPredicate &rhs) const {

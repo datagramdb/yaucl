@@ -85,4 +85,11 @@ template <typename T> void populateAndReturnEvents(T it1, T it2, MarkedEventsVec
     }
 }
 
+#ifdef min
+#undef min
+#endif
+#ifdef max
+#undef max
+#endif
+
 #endif //KNOBAB_SEMANTICS_H

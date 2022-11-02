@@ -108,7 +108,7 @@ void Environment::load_log(log_data_format format, bool loadData, const std::str
     experiment_logger.n_acts = db.actId;
     // Compute some more trace statistics
 
-    double trace_avg, trace_pow2, N;
+    double trace_avg = 0, trace_pow2 = 0, N;
     N = db.act_table_by_act_id.trace_length.size();
     size_t frequency_of_trace_length = 0;
     size_t previousLength = 0;
@@ -587,27 +587,13 @@ void Environment::set_atomization_parameters(const std::filesystem::path &atomiz
 #endif
 }
 
-MAXSatPipeline Environment::query_model() {
+/*MAXSatPipeline Environment::query_model() {
     throw std::runtime_error("stale method");
-    return {nullptr, 0};
+    return {};
 #if 0
 
-    MAXSatPipeline maxsat_pipeline(script_for_decomposition, preferred_plan, noThreads);
-    maxsat_pipeline.final_ensemble = strategy;
-    maxsat_pipeline.operators = operators;
-    maxsat_pipeline.pipeline(&grounding, ap, db);
-    experiment_logger.model_declare_to_ltlf = maxsat_pipeline.declare_to_ltlf_time;
-    experiment_logger.model_ltlf_query_time = maxsat_pipeline.ltlf_query_time;
-#ifdef MAXSatPipeline_PARALLEL
-    experiment_logger.is_multithreaded = true;
-        experiment_logger.no_threads = noThreads;
-#else
-    experiment_logger.is_multithreaded = false;
-    experiment_logger.no_threads = 1;
 #endif
-    return maxsat_pipeline;
-#endif
-}
+}*/
 
 void Environment::load_log(log_data_format format, bool loadData, const std::string &filename, bool setMaximumStrLen) {
     std::ifstream f{filename};

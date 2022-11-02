@@ -1,20 +1,20 @@
 //
-// Created by giacomo on 16/04/2022.
+// Created by giacomo on 12/03/2022.
 //
 
-#include <knobab/server/operators/LTLfQuery.h>
-
+#include <knobab/server/algorithms/querymanager/LTLfQuery.h>
 
 bool LTLfQuery::operator==(const LTLfQuery &rhs) const {
     return t == rhs.t &&
            declare_arg == rhs.declare_arg &&
            isLeaf == rhs.isLeaf &&
-           fields == rhs.fields &&
+           fields.id.data == rhs.fields.id.data &&
            n == rhs.n &&
            args_from_script == rhs.args_from_script &&
            args == rhs.args &&
            atom == rhs.atom &&
-           joinCondition == rhs.joinCondition;
+           ((joinCondition == nullptr) || (joinCondition->compareAsThetaPredicate(rhs.joinCondition)))
+           && ((joinCondition) || rhs.joinCondition == nullptr);
 }
 
 bool LTLfQuery::operator!=(const LTLfQuery &rhs) const {
@@ -26,7 +26,10 @@ std::ostream& operator<<(std::ostream& os, const LTLfQuery& x) {
     char H{'H'};
     char p{'p'};
     char n{'~'};
+    char top{'^'};
 
+    if (x.isTop)
+        os << top;
     switch (x.t) {
         case LTLfQuery::INIT_QP:
             os << ((x.isLeaf == ActivationLeaf)? 'A' : (x.isLeaf==TargetLeaf ? 'T' : ' '));
@@ -259,7 +262,7 @@ LTLfQuery LTLfQuery::qNOT(const LTLfQuery& arg, bool isTimed, bool preserve) {
     return q;
 }
 
-LTLfQuery LTLfQuery::qOR(const LTLfQuery& lhs, const LTLfQuery& rhs, bool isTimed, bool hasTheta) {
+LTLfQuery LTLfQuery::qOR(const LTLfQuery& lhs, const LTLfQuery& rhs, bool isTimed, bool hasTheta, bool isInv) {
     LTLfQuery q;
     q.t = OR_QP;
     q.n = 0;
@@ -275,10 +278,11 @@ LTLfQuery LTLfQuery::qOR(const LTLfQuery& lhs, const LTLfQuery& rhs, bool isTime
     q.args_from_script.emplace_back(rhs);
     q.fields.id.parts.is_queryplan = false;
     q.fields.id.parts.directly_from_cache = false;
+    q.doInvTheta = isInv;
     return q;
 }
 
-LTLfQuery LTLfQuery::qIMPLICATION(const LTLfQuery& lhs, const LTLfQuery& rhs, bool isTimed, bool hasTheta) {
+LTLfQuery LTLfQuery::qIMPLICATION(const LTLfQuery& lhs, const LTLfQuery& rhs, bool isTimed, bool hasTheta, bool isInv) {
     LTLfQuery q;
     q.t = IMPL_QP;
     q.n = 0;
@@ -294,10 +298,11 @@ LTLfQuery LTLfQuery::qIMPLICATION(const LTLfQuery& lhs, const LTLfQuery& rhs, bo
     q.args_from_script.emplace_back(rhs);
     q.fields.id.parts.is_queryplan = false;
     q.fields.id.parts.directly_from_cache = false;
+    q.doInvTheta = isInv;
     return q;
 }
 
-LTLfQuery LTLfQuery::qIFTE(const LTLfQuery& lhs, const LTLfQuery& middle, const LTLfQuery& rhs, bool isTimed, bool hasTheta) {
+LTLfQuery LTLfQuery::qIFTE(const LTLfQuery& lhs, const LTLfQuery& middle, const LTLfQuery& rhs, bool isTimed, bool hasTheta, bool isInv) {
     LTLfQuery q;
     q.t = IFTE_QP;
     q.n = 0;
@@ -314,10 +319,11 @@ LTLfQuery LTLfQuery::qIFTE(const LTLfQuery& lhs, const LTLfQuery& middle, const 
     q.args_from_script.emplace_back(rhs);
     q.fields.id.parts.is_queryplan = false;
     q.fields.id.parts.directly_from_cache = false;
+    q.doInvTheta = isInv;
     return q;
 }
 
-LTLfQuery LTLfQuery::qAND(const LTLfQuery& lhs, const LTLfQuery& rhs, bool isTimed, bool hasTheta) {
+LTLfQuery LTLfQuery::qAND(const LTLfQuery& lhs, const LTLfQuery& rhs, bool isTimed, bool hasTheta, bool isInv) {
     LTLfQuery q;
     q.t = AND_QP;
     q.n = 0;
@@ -333,11 +339,12 @@ LTLfQuery LTLfQuery::qAND(const LTLfQuery& lhs, const LTLfQuery& rhs, bool isTim
     q.args_from_script.emplace_back(rhs);
     q.fields.id.parts.is_queryplan = false;
     q.fields.id.parts.directly_from_cache = false;
+    q.doInvTheta = isInv;
     return q;
 }
 
 // qANDGLOBALLY
-LTLfQuery LTLfQuery::qANDGLOBALLY(const LTLfQuery& lhs, const LTLfQuery& rhs, bool isTimed, bool hasTheta) {
+LTLfQuery LTLfQuery::qANDGLOBALLY(const LTLfQuery& lhs, const LTLfQuery& rhs, bool isTimed, bool hasTheta, bool isInv) {
     LTLfQuery q;
     q.t = AG_QPT;
     q.n = 0;
@@ -353,10 +360,11 @@ LTLfQuery LTLfQuery::qANDGLOBALLY(const LTLfQuery& lhs, const LTLfQuery& rhs, bo
     q.args_from_script.emplace_back(rhs);
     q.fields.id.parts.is_queryplan = false;
     q.fields.id.parts.directly_from_cache = false;
+    q.doInvTheta = isInv;
     return q;
 }
 
-LTLfQuery LTLfQuery::qANDNEXTGLOBALLY(const LTLfQuery& lhs, const LTLfQuery& rhs, bool isTimed, bool hasTheta) {
+LTLfQuery LTLfQuery::qANDNEXTGLOBALLY(const LTLfQuery& lhs, const LTLfQuery& rhs, bool isTimed, bool hasTheta, bool isInv) {
     LTLfQuery q;
     q.t = AXG_QPT;
     q.n = 0;
@@ -372,10 +380,11 @@ LTLfQuery LTLfQuery::qANDNEXTGLOBALLY(const LTLfQuery& lhs, const LTLfQuery& rhs
     q.args_from_script.emplace_back(rhs);
     q.fields.id.parts.is_queryplan = false;
     q.fields.id.parts.directly_from_cache = false;
+    q.doInvTheta = isInv;
     return q;
 }
 
-LTLfQuery LTLfQuery::qANDFUTURE(const LTLfQuery& lhs, const LTLfQuery& rhs, bool isTimed, bool hasTheta) {
+LTLfQuery LTLfQuery::qANDFUTURE(const LTLfQuery& lhs, const LTLfQuery& rhs, bool isTimed, bool hasTheta, bool isInv) {
     LTLfQuery q;
     q.t = AF_QPT;
     q.n = 0;
@@ -391,10 +400,11 @@ LTLfQuery LTLfQuery::qANDFUTURE(const LTLfQuery& lhs, const LTLfQuery& rhs, bool
     q.args_from_script.emplace_back(rhs);
     q.fields.id.parts.is_queryplan = false;
     q.fields.id.parts.directly_from_cache = false;
+    q.doInvTheta = isInv;
     return q;
 }
 
-LTLfQuery LTLfQuery::qUNTIL(const LTLfQuery& lhs, const LTLfQuery& rhs, bool isTimed, bool hasTheta) {
+LTLfQuery LTLfQuery::qUNTIL(const LTLfQuery& lhs, const LTLfQuery& rhs, bool isTimed, bool hasTheta, bool isInv) {
     LTLfQuery q;
     q.t = U_QP;
     q.n = 0;
@@ -410,6 +420,7 @@ LTLfQuery LTLfQuery::qUNTIL(const LTLfQuery& lhs, const LTLfQuery& rhs, bool isT
     q.args_from_script.emplace_back(rhs);
     q.fields.id.parts.is_queryplan = false;
     q.fields.id.parts.directly_from_cache = false;
+    q.doInvTheta = isInv;
     return q;
 }
 

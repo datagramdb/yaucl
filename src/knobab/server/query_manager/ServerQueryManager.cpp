@@ -342,7 +342,7 @@ std::any ServerQueryManager::visitLoad_data_query(KnoBABQueryParser::Load_data_q
         env.experiment_logger.n_acts = env.db.actId;
         // Compute some more trace statistics
 
-        double trace_avg, trace_pow2, N;
+        double trace_avg = 0, trace_pow2 = 0, N;
         N = env.db.act_table_by_act_id.trace_length.size();
         size_t frequency_of_trace_length = 0;
         size_t previousLength = 0;
@@ -541,7 +541,8 @@ antlrcpp::Any ServerQueryManager::visitOr(KnoBABQueryParser::OrContext *context)
     fromNowOnTimedStack.pop();
     return {LTLfQuery::qOR(lhs, rhs,
                            GET_TIMING(context),
-                           context->THETA() != nullptr)};
+                           context->THETA() != nullptr,
+                           context->INV() != nullptr)};
 }
 
 antlrcpp::Any ServerQueryManager::visitAnd(KnoBABQueryParser::AndContext *context) {
@@ -554,7 +555,8 @@ antlrcpp::Any ServerQueryManager::visitAnd(KnoBABQueryParser::AndContext *contex
     return {LTLfQuery::qAND(lhs,
                             rhs,
                             GET_TIMING(context),
-                            context->THETA() != nullptr)};
+                            context->THETA() != nullptr,
+                            context->INV() != nullptr)};
 }
 
 antlrcpp::Any ServerQueryManager::visitBox(KnoBABQueryParser::BoxContext *context) {
@@ -606,7 +608,8 @@ antlrcpp::Any ServerQueryManager::visitAnd_next_globally(KnoBABQueryParser::And_
     fromNowOnTimed = fromNowOnTimedStack.top();
     fromNowOnTimedStack.pop();
 
-    return {LTLfQuery::qANDNEXTGLOBALLY(lhs, rhs, true, context->THETA() != nullptr)};
+    return {LTLfQuery::qANDNEXTGLOBALLY(lhs, rhs, true, context->THETA() != nullptr,
+                                        context->INV() != nullptr)};
 }
 
 antlrcpp::Any ServerQueryManager::visitAnd_future(KnoBABQueryParser::And_futureContext *context) {
@@ -623,7 +626,8 @@ antlrcpp::Any ServerQueryManager::visitAnd_future(KnoBABQueryParser::And_futureC
     fromNowOnTimed = fromNowOnTimedStack.top();
     fromNowOnTimedStack.pop();
 
-    return {LTLfQuery::qANDFUTURE(lhs, rhs, true, context->THETA() != nullptr)};
+    return {LTLfQuery::qANDFUTURE(lhs, rhs, true, context->THETA() != nullptr,
+                                  context->INV() != nullptr)};
 }
 
 antlrcpp::Any ServerQueryManager::visitParen(KnoBABQueryParser::ParenContext *context) {
@@ -640,7 +644,8 @@ antlrcpp::Any ServerQueryManager::visitImplication(KnoBABQueryParser::Implicatio
     return {LTLfQuery::qIMPLICATION(lhs,
                                     rhs,
                                     GET_TIMING(context),
-                                    context->THETA() != nullptr)};
+                                    context->THETA() != nullptr,
+                                    context->INV() != nullptr)};
 }
 
 antlrcpp::Any ServerQueryManager::visitUntil(KnoBABQueryParser::UntilContext *context) {
@@ -653,7 +658,8 @@ antlrcpp::Any ServerQueryManager::visitUntil(KnoBABQueryParser::UntilContext *co
     return {LTLfQuery::qUNTIL(lhs,
                               rhs,
                               GET_TIMING(context),
-                              context->THETA() != nullptr)};
+                              context->THETA() != nullptr,
+                              context->INV() != nullptr)};
 }
 
 antlrcpp::Any ServerQueryManager::visitIfte(KnoBABQueryParser::IfteContext *context) {
@@ -668,7 +674,8 @@ antlrcpp::Any ServerQueryManager::visitIfte(KnoBABQueryParser::IfteContext *cont
                              mhs,
                              rhs,
                              GET_TIMING(context),
-                             context->THETA() != nullptr)};
+                             context->THETA() != nullptr,
+                             context->INV() != nullptr)};
 }
 
 antlrcpp::Any ServerQueryManager::visitAnd_globally(KnoBABQueryParser::And_globallyContext *context) {
@@ -685,7 +692,8 @@ antlrcpp::Any ServerQueryManager::visitAnd_globally(KnoBABQueryParser::And_globa
     fromNowOnTimed = fromNowOnTimedStack.top();
     fromNowOnTimedStack.pop();
 
-    return {LTLfQuery::qANDGLOBALLY(lhs, rhs, true, context->THETA() != nullptr)};
+    return {LTLfQuery::qANDGLOBALLY(lhs, rhs, true, context->THETA() != nullptr,
+                                    context->INV() != nullptr)};
 }
 
 
@@ -855,7 +863,7 @@ std::any ServerQueryManager::visitModel_query(KnoBABQueryParser::Model_queryCont
                 it->second.clearModel(); // initializing the model pipeline
 
                 tmpEnv = &it->second;
-                plans = &it2->second;
+                std::unordered_map<std::string, LTLfQuery>* plans = &it2->second;
                 visit(ctx->model());
                 none = false;
 
@@ -902,9 +910,23 @@ std::any ServerQueryManager::visitModel_query(KnoBABQueryParser::Model_queryCont
                     op = magic_enum::enum_cast<OperatorQueryPlan>(UNESCAPE(ctx->operators->getText())).value_or(op);
                 }
                 it->second.set_maxsat_parameters(nThreads, em, op);
-                auto ref = it->second.query_model();
 
+                // TODO: set a proper muiltithreaded query plan, while extending the syntax with block, scheduling type, and number of threads
+                MAXSatPipeline ref(plans, nThreads, BLOCK_STATIC_SCHEDULE, 3);
+                ref.final_ensemble = em;
+                ref.operators = op;
+                ref.pipeline(&it->second.grounding, it->second.ap, it->second.db);
                 nlohmann::json result;
+                result["model_declare_to_ltlf"] = ref.declare_to_ltlf_time;
+                result["model_ltlf_query_time"] = ref.ltlf_query_time;
+#ifdef MAXSatPipeline_PARALLEL
+                experiment_logger.is_multithreaded = true;
+        experiment_logger.no_threads = noThreads;
+#else
+                result["is_multithreaded"] = false;
+                result["no_threads"] = 1;
+#endif
+
                 if (ctx->display_qp())
                     result["query_plan"] = ref.generateJSONGraph();
                 it->second.experiment_logger.log_json_file(result["benchmark"]);

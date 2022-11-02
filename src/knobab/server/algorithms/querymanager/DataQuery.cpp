@@ -1,9 +1,9 @@
 //
-// Created by giacomo on 16/04/2022.
+// Created by giacomo on 20/01/2022.
 //
 
-#include <knobab/server/dataStructures/DataQuery.h>
-#include <yaucl/functional/assert.h>
+#include "knobab/server/algorithms/querymanager/DataQuery.h"
+#include "yaucl/functional/assert.h"
 
 DataQuery DataQuery::ExistsQuery(const std::string &atom, size_t narg, LeafType lt) {
     DataQuery returnable;
