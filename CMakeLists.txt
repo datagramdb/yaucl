@@ -117,15 +117,33 @@ add_library(knobab_ndp
         src/knobab/server/ndp/KnowledgeBaseNDPReader.cpp
         src/yaucl/data/VariadicSizeArrayElements.cpp include/yaucl/data/VariadicSizeArrayElements.h)
 
+add_executable(benchmarking benchmarking/benchmarking.cpp benchmarking/benchmarking.cpp) #${BACKWARD_ENABLE})
 
 if(MSVC OR MSYS OR MINGW)
     target_link_libraries(knobab_server antlr4_shared yaucl_bpm yaucl_structures
             yaucl_numeric yaucl_data yaucl_graph yaucl_hashing knobab knobab_ndp)
     target_link_libraries(tests_main antlr4_shared yaucl_bpm yaucl_structures
             yaucl_numeric yaucl_data yaucl_graph yaucl_hashing knobab knobab_ndp)
+    target_link_libraries(benchmarking knobab antlr4_shared knobab_ndp
+            yaucl_stringutils yaucl_numeric yaucl_hashing yaucl_data yaucl_bpm yaucl_graph yaucl_structures)
 else()
     target_link_libraries(knobab_server antlr4_static yaucl_bpm yaucl_structures
             yaucl_numeric yaucl_data yaucl_graph yaucl_hashing knobab knobab_ndp)
     target_link_libraries(tests_main antlr4_static yaucl_bpm yaucl_structures
             yaucl_numeric yaucl_data yaucl_graph yaucl_hashing knobab knobab_ndp)
+    target_link_libraries(benchmarking knobab antlr4_static knobab_ndp
+            yaucl_stringutils yaucl_numeric yaucl_hashing yaucl_data yaucl_bpm yaucl_graph yaucl_structures)
 endif()
+
+
+
+enable_testing ()
+include(FetchContent)
+FetchContent_Declare(
+        googletest
+        URL https://github.com/google/googletest/archive/58b71c9ea2fa52a7412e2267895d016abe14a971.zip
+)
+# For Windows: Prevent overriding the parent project's compiler/linker settings
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
+add_subdirectory (src/knobab/tests)

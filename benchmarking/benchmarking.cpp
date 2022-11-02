@@ -3,10 +3,10 @@
 //
 #include <iostream>
 #include <filesystem>
-#include "knobab/Environment.h"
-#include "knobab/operators/simple_ltlf_operators.h"
-#include "knobab/operators/fast_ltlf_operators.h"
 #include <fstream>
+#include "knobab/server/query_manager/Environment.h"
+#include "knobab/server/operators/fast_ltlf_operators.h"
+
 
 const std::string file_path = "data/testing/results/benchmarking/custom_operators2.csv";
 
