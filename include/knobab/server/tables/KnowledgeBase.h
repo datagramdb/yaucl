@@ -29,7 +29,7 @@ enum ParsingState {
 };
 
 #include <bitset>
-#include "knobab/dataStructures/CountTableFPTree.h"
+#include "knobab/mining/CountTableFPTree.h"
 #include "knobab/algorithms/mining/DataMiningMetrics.h"
 #include "knobab/algorithms/mining/RulesFromFrequentItemset.h"
 #include "yaucl/functional/iterators.h"

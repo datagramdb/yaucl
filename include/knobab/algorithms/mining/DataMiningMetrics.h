@@ -12,7 +12,7 @@
 
 #include <knobab/algorithms/mining/Rule.h>
 #include <yaucl/functional/LexicographicalOrder.h>
-#include <knobab/dataStructures/CountTableFPTree.h>
+#include "knobab/mining/CountTableFPTree.h"
 
 
 using VTLexic = LexicographicalOrder<std::vector<std::string>, std::string>;

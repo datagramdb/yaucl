@@ -30,6 +30,37 @@
 namespace yaucl {
     namespace iterators {
 
+
+        template <typename Iterator1, typename Iterator2>
+        std::pair<size_t, size_t> ratio(Iterator1 iter1, Iterator1 set1_end,
+                                        Iterator2 iter2, Iterator2 set2_end)
+        {
+            size_t d1 = std::distance(iter1, set1_end),
+                    d2 = std::distance(iter2, set2_end);
+            if (((d1 == 0) || (iter1 == set1_end)) ||
+                ((d2 == 0) || (iter2 == set2_end))) {
+                return {d1+d2, 0.0};
+            }
+            int union_len = 0;
+            int intersection_len = 0;
+            while (iter1 != set1_end && iter2 != set2_end)
+            {
+                ++union_len;
+                if (*iter1 < *iter2) {
+                    ++iter1;
+                } else if (*iter2 < *iter1) {
+                    ++iter2;
+                } else { // *iter1 == *iter2
+                    ++intersection_len;
+                    ++iter1;
+                    ++iter2;
+                }
+            }
+            union_len += std::distance(iter1, set1_end);
+            union_len += std::distance(iter2, set2_end);
+            return {union_len, intersection_len};
+        }
+
         template <typename T, typename Lambda>
         std::vector<std::vector<T>> cartesian( std::vector<std::vector<T> >& v, Lambda tester ) {
             auto product = []( long long a, auto& b ) { return a*b.size(); };

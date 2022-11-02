@@ -12,6 +12,9 @@ include_directories(submodules/antlr4/runtime/Cpp/runtime/src)
 include_directories(antlr4/cpp/antlr4)
 include_directories(submodules/thread-pool)
 
+set(THREADS_PREFER_PTHREAD_FLAG TRUE)
+find_package(Threads REQUIRED)
+
 add_library(yaucl_numeric OBJECT
         src/yaucl/numeric/numeric_base.cpp
         include/yaucl/numeric/numeric_base.h)
@@ -117,20 +120,32 @@ add_library(knobab_ndp
         src/knobab/server/ndp/KnowledgeBaseNDPReader.cpp
         src/yaucl/data/VariadicSizeArrayElements.cpp include/yaucl/data/VariadicSizeArrayElements.h)
 
-add_executable(benchmarking benchmarking/benchmarking.cpp benchmarking/benchmarking.cpp) #${BACKWARD_ENABLE})
+add_executable(benchmarking benchmarking/benchmarking.cpp benchmarking/benchmarking.cpp src/knobab/mining/pattern_mining.cpp) #${BACKWARD_ENABLE})
+
+add_executable(mining
+        src/knobab/mining/pattern_mining.cpp
+        include/knobab/mining/pattern_mining.h
+        src/knobab/mining/mining.cpp
+        include/knobab/mining/pattern_mining.h
+        src/knobab/mining/CountTableFPTree.cpp)
 
 if(MSVC OR MSYS OR MINGW)
-    target_link_libraries(knobab_server antlr4_shared yaucl_bpm yaucl_structures
+    target_link_libraries(knobab_server Threads::Threads antlr4_shared yaucl_bpm yaucl_structures
             yaucl_numeric yaucl_data yaucl_graph yaucl_hashing knobab knobab_ndp)
     target_link_libraries(tests_main antlr4_shared yaucl_bpm yaucl_structures
             yaucl_numeric yaucl_data yaucl_graph yaucl_hashing knobab knobab_ndp)
     target_link_libraries(benchmarking knobab antlr4_shared knobab_ndp
             yaucl_stringutils yaucl_numeric yaucl_hashing yaucl_data yaucl_bpm yaucl_graph yaucl_structures)
+    target_link_libraries(mining Threads::Threads knobab antlr4_shared
+            yaucl_stringutils yaucl_numeric yaucl_hashing yaucl_data yaucl_bpm yaucl_graph yaucl_structures knobab_ndp)
+
 else()
-    target_link_libraries(knobab_server antlr4_static yaucl_bpm yaucl_structures
+    target_link_libraries(knobab_server Threads::Threads antlr4_static yaucl_bpm yaucl_structures
             yaucl_numeric yaucl_data yaucl_graph yaucl_hashing knobab knobab_ndp)
     target_link_libraries(tests_main antlr4_static yaucl_bpm yaucl_structures
             yaucl_numeric yaucl_data yaucl_graph yaucl_hashing knobab knobab_ndp)
+    target_link_libraries(mining Threads::Threads knobab antlr4_static
+            yaucl_stringutils yaucl_numeric yaucl_hashing yaucl_data yaucl_bpm yaucl_graph yaucl_structures knobab_ndp)
     target_link_libraries(benchmarking knobab antlr4_static knobab_ndp
             yaucl_stringutils yaucl_numeric yaucl_hashing yaucl_data yaucl_bpm yaucl_graph yaucl_structures)
 endif()

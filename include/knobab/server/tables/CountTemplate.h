@@ -47,7 +47,15 @@ struct CountTemplate {
     uint16_t nAct() const { return maxAct; }
 
     friend std::ostream &operator<<(std::ostream &os, const CountTemplate &aTemplate);
-
+    std::pair<const oid*, const oid*> resolve_primary_index2(const uint16_t actId) const {
+        if (actId < maxAct) {
+            const uint32_t start = (maxTraceId + 1) * actId;
+            const uint32_t end = start + maxTraceId;
+            return {table.data() + start, table.data() + end};       // Pointers to first and last oid from Count Table subsection
+        } else {
+            return {nullptr, nullptr};
+        }
+    }
 private:
     uint16_t maxAct;
     uint32_t maxTraceId;

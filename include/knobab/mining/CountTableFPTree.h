@@ -16,7 +16,7 @@
 #include <vector>
 #include <utility>
 #include <algorithm>
-#include <knobab/server/tables/CountTemplate.h>
+#include "knobab/server/tables/CountTemplate.h"
 
 #define ForAll(T)       template <typename T>
 
