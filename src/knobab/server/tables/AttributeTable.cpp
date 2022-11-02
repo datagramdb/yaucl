@@ -120,7 +120,7 @@ void AttributeTable::index(const std::vector<std::vector<size_t>> &trace_id_to_e
                     valueToOffsetInTable[val_offset.first].emplace_back(offset);
                 }
             }
-            for (auto it = valueToOffsetInTable.begin(); it != valueToOffsetInTable.end(); ) {
+            for (auto it = valueToOffsetInTable.begin(); it != valueToOffsetInTable.end(); it++) {
                 std::sort(it->second.begin(), it->second.end());
                 size_t val = storeLoad(it->first);
                 std::string current_string;

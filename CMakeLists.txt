@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.20)
 project(knobab_server)
 set(CMAKE_CXX_STANDARD 20)
 set(WITH_DEMO false)
+set(ANTLR_BUILD_CPP_TESTS false)
 include_directories(include)
 include_directories(submodules/httplib)
 include_directories(submodules/magic_enum/include)
@@ -109,7 +110,7 @@ add_library(knobab OBJECT
         src/knobab/server/ndp/NDPFuzzyStringMatching.cpp include/knobab/server/query_manager/NDPFuzzyStringMatching.h src/knobab/server/ndp/NDPAttributeTable.cpp include/knobab/server/ndp/NDPAttributeTable.h include/yaucl/bpm/structures/ltlf/ltlf.h include/knobab/server/algorithms/querymanager/DataQuery.h src/knobab/server/algorithms/querymanager/DataQuery.cpp include/knobab/server/algorithms/querymanager/LTLfQuery.h src/knobab/server/algorithms/querymanager/LTLfQuery.cpp)
 
 add_executable(knobab_server src/knobab/server/server.cpp)
-add_executable(tests_main src/knobab/tests/main.cpp)
+add_executable(tests_main src/knobab/tests/main.cpp src/knobab/tests/basic_operators_testing.cpp)
 
 add_library(knobab_ndp
         src/knobab/server/ndp/count_table_rcx.cpp
@@ -120,13 +121,12 @@ add_library(knobab_ndp
         src/knobab/server/ndp/KnowledgeBaseNDPReader.cpp
         src/yaucl/data/VariadicSizeArrayElements.cpp include/yaucl/data/VariadicSizeArrayElements.h)
 
-add_executable(benchmarking benchmarking/benchmarking.cpp benchmarking/benchmarking.cpp src/knobab/mining/pattern_mining.cpp) #${BACKWARD_ENABLE})
+add_executable(benchmarking benchmarking/benchmarking.cpp benchmarking/benchmarking.cpp src/knobab/mining/pattern_mining.cpp)
 
 add_executable(mining
         src/knobab/mining/pattern_mining.cpp
         include/knobab/mining/pattern_mining.h
         src/knobab/mining/mining.cpp
-        include/knobab/mining/pattern_mining.h
         src/knobab/mining/CountTableFPTree.cpp)
 
 if(MSVC OR MSYS OR MINGW)
@@ -147,10 +147,8 @@ else()
     target_link_libraries(mining Threads::Threads knobab antlr4_static
             yaucl_stringutils yaucl_numeric yaucl_hashing yaucl_data yaucl_bpm yaucl_graph yaucl_structures knobab_ndp)
     target_link_libraries(benchmarking knobab antlr4_static knobab_ndp
-            yaucl_stringutils yaucl_numeric yaucl_hashing yaucl_data yaucl_bpm yaucl_graph yaucl_structures)
+            yaucl_stringutils yaucl_numeric yaucl_hashing yaucl_data yaucl_bpm yaucl_graph yaucl_structures knobab_ndp)
 endif()
-
-
 
 enable_testing ()
 include(FetchContent)

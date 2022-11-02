@@ -234,7 +234,7 @@ public:
     const Result getLastElements(LeafType leafType = NoneLeaf) const;
     const Result getNotFirstElements(LeafType leafType);
 
-    uint16_t getMappedValueFromAction(const std::string &act) const;
+//    uint16_t getMappedValueFromAction(const std::string &act) const;
     std::pair<const uint32_t, const uint32_t> resolveCountingData(const std::string &act) const;
     PartialResult range_query(DataPredicate prop, double min_threshold = 1.0, const double c = 2.0) const;
 
@@ -294,11 +294,12 @@ public:
         PartialResult foundData;
         PartialResultRecord tracePair;
 
-        const uint16_t& mappedVal = getMappedValueFromAction(act);
-        if(mappedVal < 0){
+//        const uint16_t& mappedVal = getMappedValueFromAction(act);
+        auto it = event_label_mapper.T_to_int.find(act);
+        if(it == event_label_mapper.T_to_int.end()){
             return foundData;
         }
-        std::pair<const uint32_t , const uint32_t> indexes = act_table_by_act_id.resolve_index(mappedVal);
+        std::pair<const uint32_t , const uint32_t> indexes = act_table_by_act_id.resolve_index(it->second);
         if(indexes.first < 0){
             return foundData;
         }

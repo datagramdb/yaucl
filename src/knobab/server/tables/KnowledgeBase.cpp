@@ -586,23 +586,21 @@ void KnowledgeBase::load_data_without_antlr4(const KnowledgeBase::no_antlr_log &
     exitLog(source, name);
 }
 
-uint16_t KnowledgeBase::getMappedValueFromAction(const std::string &act) const {
-    try{
-        return event_label_mapper.get(act);
-    }
-    catch(const std::exception& e){
-        return -1;
-    }
-}
+//uint16_t KnowledgeBase::getMappedValueFromAction(const std::string &act) const {
+//    try{
+//        return event_label_mapper.get(act);
+//    }
+//    catch(const std::exception& e){
+//        return -1;
+//    }
+//}
 
 std::pair<const uint32_t, const uint32_t> KnowledgeBase::resolveCountingData(const std::string &act) const {
-    const uint16_t& mappedVal = getMappedValueFromAction(act);
-
-    if(mappedVal < 0){
-        return {-1, -1};
+    auto it = event_label_mapper.T_to_int.find(act);
+    if (it == event_label_mapper.T_to_int.end()) {
+        return {-1,-1};
     }
-
-    return count_table.resolve_primary_index(mappedVal);
+    return count_table.resolve_primary_index(it->second);
 }
 
 std::vector<std::pair<std::pair<trace_t, event_t>, double>> KnowledgeBase::untimed_dataless_exists(const std::pair<const uint32_t, const uint32_t>& indexes,
@@ -644,11 +642,12 @@ Result KnowledgeBase::timed_dataless_exists(const std::string &act, LeafType lea
             break;
     }
 
-    const uint16_t& mappedVal = getMappedValueFromAction(act);
-    if(mappedVal < 0){
+    auto it = event_label_mapper.T_to_int.find(act);
+//    const uint16_t& mappedVal = getMappedValueFromAction(act);
+    if(it == event_label_mapper.T_to_int.end()){
         return foundData;
     }
-    std::pair<const uint32_t , const uint32_t> indexes = act_table_by_act_id.resolve_index(mappedVal);
+    std::pair<const uint32_t , const uint32_t> indexes = act_table_by_act_id.resolve_index(it->second);
     if(indexes.first < 0){
         return foundData;
     }
@@ -938,16 +937,17 @@ KnowledgeBase::initOrEnds(const std::string &act, bool beginOrEnd, bool doExtrac
     Result foundData;
 
     Result tracePair;
-    const uint16_t& mappedVal = getMappedValueFromAction(act);
+    auto it = event_label_mapper.T_to_int.find(act);
+//    const uint16_t& mappedVal = getMappedValueFromAction(act);
 
-    if(mappedVal < 0){
+    if(it == event_label_mapper.T_to_int.end()){
         return foundData;
     }
 
     ResultIndex eventPair;
     ResultRecordSemantics dataPair{1.0, {}};
     if (doExtractEvent) dataPair.second.emplace_back(marked_event::left(0));
-    std::pair<const uint32_t , const uint32_t> indexes = act_table_by_act_id.resolve_index(mappedVal);
+    std::pair<const uint32_t , const uint32_t> indexes = act_table_by_act_id.resolve_index(it->second);
 
     if(indexes.first < 0){
         return foundData;
@@ -974,11 +974,12 @@ KnowledgeBase::initOrEnds(const std::string &act, bool beginOrEnd, bool doExtrac
 PartialResult KnowledgeBase::timed_dataless_exists(const std::string &act) const {
     PartialResult foundData;
     ResultIndex timePair;
-    uint16_t mappedVal = getMappedValueFromAction(act);
-    if(mappedVal == (uint16_t)-1){
+    auto it = event_label_mapper.T_to_int.find(act);
+//    uint16_t mappedVal = getMappedValueFromAction(act);
+    if(it == event_label_mapper.T_to_int.end()){
         return foundData;
     }
-    auto indexes = act_table_by_act_id.resolve_index(mappedVal);
+    auto indexes = act_table_by_act_id.resolve_index(it->second);
     if(indexes.first < 0){
         return foundData;
     }
