@@ -43,9 +43,9 @@ grounding: 'grounding!' ('with' 'strategy' strategy=STRING)?
                        act_for_attributes?
                        no_cream_off?
          ;
-display_qp : 'display' 'query-plan';
+display_qp : 'display' QUERYPLAN;
 
-query_plan : AUTO_TIMED? 'queryplan' STRING LPAREN declare_syntax+ RPAREN;
+query_plan : AUTO_TIMED? QUERYPLAN STRING LPAREN declare_syntax+ RPAREN;
 declare_syntax : 'template' STRING has_args? ':=' ltlf;
 has_args : 'args' INTNUMBER;
 ltlf : INIT TIMED?                      declare_arguments? declare_act_target?        #init
@@ -139,6 +139,7 @@ INV: 'INV';
 RIGHT: 'R';
 MIDDLE: 'M';
 NEGATED: '~';
+QUERYPLAN: 'queryplan';
 
 HRF: 'HRF';
 TAB: 'TAB';

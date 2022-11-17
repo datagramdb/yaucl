@@ -13,6 +13,8 @@
 #include <knobab/server/algorithms/querymanager/LTLfQueryManager.h>
 #include "knobab/algorithms/parallelization/scheduling_types.h"
 #include "LTLfQuery.h"
+#include "knobab/algorithms/ModelViewKnoBAB.h"
+
 //#include <knobab/queries/DeclareQueryLanguageParser.h>
 struct LTLfQueryManager;
 
@@ -59,7 +61,7 @@ struct MAXSatPipeline {
     std::unordered_map<std::string, LTLfQuery>* xtLTLfTemplates = nullptr;
     std::vector<LTLfQuery*> declare_to_query;
 
-    CNFDeclareDataAware* declare_model = nullptr;
+    ConjunctiveModelView declare_model;
 
     //std::unordered_map<declare_templates, ltlf> ltlf_semantics;
     std::unordered_map<std::string , std::vector<LTLfQuery*>> atomToFormulaId;
@@ -116,7 +118,7 @@ struct MAXSatPipeline {
     //size_t barrier_to_range_queries, barriers_to_atfo;
     std::vector<std::vector<std::pair<std::pair<trace_t, event_t>, double>>> atomicPartIntersectionResult;
 
-    void pipeline(CNFDeclareDataAware* model,
+    void pipeline(const ConjunctiveModelView& model,
                   const AtomizingPipeline& atomization,
                   const KnowledgeBase& kb);
 
@@ -128,7 +130,7 @@ struct MAXSatPipeline {
     std::string generateJSONGraph() const { return qm.generateJSONGraph(); }
 
 private:
-    void data_chunk(CNFDeclareDataAware* model, const AtomizingPipeline& atomization, const KnowledgeBase& kb);
+    void data_chunk(const ConjunctiveModelView& model, const AtomizingPipeline& atomization, const KnowledgeBase& kb);
     std::vector<PartialResult> subqueriesRunning(const KnowledgeBase &kb);
     void abidinglogic_query_running(const std::vector<PartialResult>& results_cache, const KnowledgeBase& kb);
     void fast_v1_query_running(const std::vector<PartialResult>& results_cache, const KnowledgeBase& kb);

@@ -5,7 +5,7 @@
 #include <knobab/server/query_manager/Environment.h>
 
 semantic_atom_set Environment::getSigmaAll() const {
-    semantic_atom_set S = ap.act_atoms;
+    semantic_atom_set S{ap.act_atoms.begin(), ap.act_atoms.end()};
     for (const auto& ref : ap.interval_map) {
         std::pair<std::string, size_t> cp;
         cp.first = ref.first;
@@ -155,13 +155,14 @@ Environment::set_grounding_parameters(bool doPreliminaryFill, bool ignoreActForA
 
 void Environment::init_atomize_tables() {
     ap.clear();
-    experiment_logger.model_data_decomposition_time = collect_data_from_declare_disjunctive_model(db.event_label_mapper, ap, grounding);
+    experiment_logger.model_data_decomposition_time = collect_data_from_declare_disjunctive_model(db.event_label_mapper, ap, conjunctive_model);
 }
 
 void Environment::doGrounding() {
-    grounding = GroundWhereStrategy(grounding_conf,
-                                    db,
-                                    conjunctive_model);
+    std::cerr << "TODO!" << std::endl;
+//    grounding = GroundWhereStrategy(grounding_conf,
+//                                    db,
+//                                    conjunctive_model);
 }
 
 void Environment::print_model(std::ostream &os) const {
@@ -175,9 +176,9 @@ void Environment::print_model(std::ostream &os) const {
 }
 
 void Environment::print_grounded_model(std::ostream &os) const {
-    os << "Grounded Model: " << std::endl;
+    os << "Grounded Model: [TODO] " << std::endl;
     os << "----------------------------------------" << std::endl;
-    os << grounding << std::endl;
+//    os << grounding << std::endl;
     os << "----------------------------------------" << std::endl;
     os << std::endl;
 }
@@ -199,7 +200,7 @@ void Environment::print_grounding_tables(std::ostream &os) {
 }
 
 void Environment::first_atomize_model() {
-    experiment_logger.model_atomization_time = atomize_model(ap, grounding);
+    experiment_logger.model_atomization_time = atomize_model(ap, conjunctive_model);
 }
 
 
@@ -216,7 +217,7 @@ semantic_atom_set Environment::evaluate_easy_prop_to_atoms(const easy_prop &prop
 TemplateCollectResult Environment::compute_declare_for_conjunctive(bool doPrune) {
     std::vector<graph_join_pm> distinct_graph_model;
     graph_join_pm              joined_graph_model;
-    size_t M = grounding.singleElementOfConjunction.size();
+//    size_t M = grounding.singleElementOfConjunction.size();
     return {};
 #if 0
     if (M == 0) {
@@ -615,7 +616,8 @@ void Environment::dump_log_for_sqlminer(const std::string &basicString) {
 }
 
 void Environment::clearModel() {
-    grounding.singleElementOfConjunction.clear();
+//    grounding.singleElementOfConjunction.clear();
+    conjunctive_model.clear();
     ap.clear();
     conjunctive_model.clear();
 }

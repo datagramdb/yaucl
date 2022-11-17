@@ -125,11 +125,11 @@ static inline PartialResult partialResultIntersection(const std::set<size_t> &ve
 
 
 
-void MAXSatPipeline::data_chunk(CNFDeclareDataAware *model,
+void MAXSatPipeline::data_chunk(const ConjunctiveModelView& model,
                                 const AtomizingPipeline& atomization,
                                 const KnowledgeBase& kb) {
 
-    if (!model) return;
+    if (!model.original_data) return;
     qm.current_query_id = 0;
     qm.pipeline = this;
     declare_model = model;
@@ -141,8 +141,8 @@ void MAXSatPipeline::data_chunk(CNFDeclareDataAware *model,
 
     /// Instantiating the patterns as distinct trees before generating the graph.
     /// TODO: pattern instantiation and DAG generation in one shot
-    for (auto& it : declare_model->singleElementOfConjunction) {
-        for (auto& item : it.elementsInDisjunction) {
+//    for (auto& it : declare_model->singleElementOfConjunction) {
+        for (auto& item : declare_model) {
             // Skipping already-met definitions: those will only duplicate the code to be run!
 //            declareId++;
             auto cp = declare_atomization.emplace(item, maxFormulaId);
@@ -180,7 +180,7 @@ void MAXSatPipeline::data_chunk(CNFDeclareDataAware *model,
             maxFormulaId++;
             qm.current_query_id++;
         }
-    }
+//    }
     std::vector<bool> WECTOR(declareToQuery.size(), false);
 
     qm.finalizeUnions();
@@ -1816,7 +1816,7 @@ void MAXSatPipeline::hybrid_query_running(const std::vector<PartialResult>& resu
     }
 }
 
-void MAXSatPipeline::pipeline(CNFDeclareDataAware* model,
+void MAXSatPipeline::pipeline(const ConjunctiveModelView& model,
                               const AtomizingPipeline& atomization,
                               const KnowledgeBase& kb) {
     /// Clearing the previous spurious computation values

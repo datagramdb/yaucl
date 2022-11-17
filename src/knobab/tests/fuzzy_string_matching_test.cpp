@@ -5,8 +5,8 @@
 #define CTEST_COLOR_OK
 #define CTEST_SEGFAULT
 
-#include <SimplifiedFuzzyStringMatching.h>
-#include <gtest/gtest.h>
+#include "SimplifiedFuzzyStringMatching.h"
+#include "gtest/gtest.h"
 
 #define GLOBAL_TEST(name)     CTEST_DATA(name) {   };
 

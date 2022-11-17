@@ -1,5 +1,16 @@
 cmake_minimum_required(VERSION 3.20)
 project(knobab_server)
+enable_testing()
+include(FetchContent)
+FetchContent_Declare(
+        googletest
+        URL https://github.com/google/googletest/archive/609281088cfefc76f9d0ce82e1ff6c30cc3591e5.zip
+)
+# For Windows: Prevent overriding the parent project's compiler/linker settings
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
+
+enable_testing()
 set(CMAKE_CXX_STANDARD 20)
 set(WITH_DEMO false)
 set(ANTLR_BUILD_CPP_TESTS false)
@@ -8,11 +19,38 @@ include_directories(submodules/httplib)
 include_directories(submodules/magic_enum/include)
 include_directories(submodules/date/include)
 include_directories(submodules/json/include)
-add_subdirectory(submodules/antlr4/runtime/Cpp)
-include_directories(submodules/antlr4/runtime/Cpp/runtime/src)
+
+include_directories(
+        submodules/antlr4/runtime/Cpp/runtime/src
+        submodules/antlr4/runtime/Cpp/runtime/src/atn
+        submodules/antlr4/runtime/Cpp/runtime/src/dfa
+        submodules/antlr4/runtime/Cpp/runtime/src/misc
+        submodules/antlr4/runtime/Cpp/runtime/src/support
+        submodules/antlr4/runtime/Cpp/runtime/src/tree
+        submodules/antlr4/runtime/Cpp/runtime/src/tree/pattern
+        submodules/antlr4/runtime/Cpp/runtime/src/tree/xpath
+)
+
+
+file(GLOB libantlrcpp_SRC
+        "submodules/antlr4/runtime/Cpp/runtime/src/*.cpp"
+        "submodules/antlr4/runtime/Cpp/runtime/src/atn/*.cpp"
+        "submodules/antlr4/runtime/Cpp/runtime/src/dfa/*.cpp"
+        "submodules/antlr4/runtime/Cpp/runtime/src/misc/*.cpp"
+        "submodules/antlr4/runtime/Cpp/runtime/src/support/*.cpp"
+        "submodules/antlr4/runtime/Cpp/runtime/src/tree/*.cpp"
+        "submodules/antlr4/runtime/Cpp/runtime/src/tree/pattern/*.cpp"
+        "submodules/antlr4/runtime/Cpp/runtime/src/tree/xpath/*.cpp"
+        )
+
+add_library(antlr4_shared SHARED ${libantlrcpp_SRC})
+add_library(antlr4_static STATIC ${libantlrcpp_SRC})
+
 include_directories(antlr4/cpp/antlr4)
 include_directories(submodules/thread-pool)
 
+set(ANTLR_BUILD_CPP_TESTS OFF)
+set(WITH_DEMO OFF)
 set(THREADS_PREFER_PTHREAD_FLAG TRUE)
 find_package(Threads REQUIRED)
 
@@ -72,7 +110,9 @@ add_library(yaucl_bpm OBJECT
 add_executable(knobab_client src/knobab/client/client.cpp)
 
 add_library(knobab OBJECT
-                             src/knobab/server/query_manager/KnoBABQueryBaseListener.cpp
+        QueryBuilder.cpp
+        QueryBuilder.h
+        src/knobab/server/query_manager/KnoBABQueryBaseListener.cpp
         src/SimplifiedFuzzyStringMatching.cpp
         src/knobab/server/query_manager/KnoBABQueryBaseVisitor.cpp
         src/knobab/server/declare/DeclareDataAware.cpp
@@ -107,10 +147,10 @@ add_library(knobab OBJECT
         src/knobab/server/operators/base_ltlf.cpp
         src/knobab/server/ndp/KnowledgeBaseNDPLoader.cpp
         src/knobab/server/algorithms/querymanager/LTLfQueryManager.cpp
-        src/knobab/server/ndp/NDPFuzzyStringMatching.cpp include/knobab/server/query_manager/NDPFuzzyStringMatching.h src/knobab/server/ndp/NDPAttributeTable.cpp include/knobab/server/ndp/NDPAttributeTable.h include/yaucl/bpm/structures/ltlf/ltlf.h include/knobab/server/algorithms/querymanager/DataQuery.h src/knobab/server/algorithms/querymanager/DataQuery.cpp include/knobab/server/algorithms/querymanager/LTLfQuery.h src/knobab/server/algorithms/querymanager/LTLfQuery.cpp)
+        src/knobab/server/ndp/NDPFuzzyStringMatching.cpp include/knobab/server/query_manager/NDPFuzzyStringMatching.h src/knobab/server/ndp/NDPAttributeTable.cpp include/knobab/server/ndp/NDPAttributeTable.h include/yaucl/bpm/structures/ltlf/ltlf.h include/knobab/server/algorithms/querymanager/DataQuery.h src/knobab/server/algorithms/querymanager/DataQuery.cpp include/knobab/server/algorithms/querymanager/LTLfQuery.h src/knobab/server/algorithms/querymanager/LTLfQuery.cpp src/knobab/algorithms/inference/clause_inference.cpp include/knobab/algorithms/inference/clause_inference.h)
 
 add_executable(knobab_server src/knobab/server/server.cpp)
-add_executable(tests_main src/knobab/tests/main.cpp src/knobab/tests/basic_operators_testing.cpp)
+
 
 add_library(knobab_ndp
         src/knobab/server/ndp/count_table_rcx.cpp
@@ -121,42 +161,31 @@ add_library(knobab_ndp
         src/knobab/server/ndp/KnowledgeBaseNDPReader.cpp
         src/yaucl/data/VariadicSizeArrayElements.cpp include/yaucl/data/VariadicSizeArrayElements.h)
 
-add_executable(benchmarking benchmarking/benchmarking.cpp benchmarking/benchmarking.cpp src/knobab/mining/pattern_mining.cpp)
+add_executable(benchmarking benchmarking/benchmarking.cpp benchmarking/benchmarking.cpp include/knobab/algorithms/ModelViewKnoBAB.h)
 
 add_executable(mining
         src/knobab/mining/pattern_mining.cpp
         include/knobab/mining/pattern_mining.h
         src/knobab/mining/mining.cpp
-        src/knobab/mining/CountTableFPTree.cpp)
+        src/knobab/mining/CountTableFPTree.cpp PatternMiningConfiguration.cpp PatternMiningConfiguration.h )
 
 if(MSVC OR MSYS OR MINGW)
     target_link_libraries(knobab_server Threads::Threads antlr4_shared yaucl_bpm yaucl_structures
             yaucl_numeric yaucl_data yaucl_graph yaucl_hashing knobab knobab_ndp)
-    target_link_libraries(tests_main antlr4_shared yaucl_bpm yaucl_structures
-            yaucl_numeric yaucl_data yaucl_graph yaucl_hashing knobab knobab_ndp)
     target_link_libraries(benchmarking knobab antlr4_shared knobab_ndp
             yaucl_stringutils yaucl_numeric yaucl_hashing yaucl_data yaucl_bpm yaucl_graph yaucl_structures)
-    target_link_libraries(mining Threads::Threads knobab antlr4_shared
-            yaucl_stringutils yaucl_numeric yaucl_hashing yaucl_data yaucl_bpm yaucl_graph yaucl_structures knobab_ndp)
+    target_link_libraries(mining Threads::Threads antlr4_static yaucl_bpm yaucl_structures
+            yaucl_numeric yaucl_data yaucl_graph yaucl_hashing knobab knobab_ndp)
 
 else()
     target_link_libraries(knobab_server Threads::Threads antlr4_static yaucl_bpm yaucl_structures
             yaucl_numeric yaucl_data yaucl_graph yaucl_hashing knobab knobab_ndp)
-    target_link_libraries(tests_main antlr4_static yaucl_bpm yaucl_structures
+    target_link_libraries(mining Threads::Threads antlr4_static yaucl_bpm yaucl_structures
             yaucl_numeric yaucl_data yaucl_graph yaucl_hashing knobab knobab_ndp)
-    target_link_libraries(mining Threads::Threads knobab antlr4_static
-            yaucl_stringutils yaucl_numeric yaucl_hashing yaucl_data yaucl_bpm yaucl_graph yaucl_structures knobab_ndp)
     target_link_libraries(benchmarking knobab antlr4_static knobab_ndp
             yaucl_stringutils yaucl_numeric yaucl_hashing yaucl_data yaucl_bpm yaucl_graph yaucl_structures knobab_ndp)
 endif()
 
-enable_testing ()
-include(FetchContent)
-FetchContent_Declare(
-        googletest
-        URL https://github.com/google/googletest/archive/58b71c9ea2fa52a7412e2267895d016abe14a971.zip
-)
-# For Windows: Prevent overriding the parent project's compiler/linker settings
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-FetchContent_MakeAvailable(googletest)
-add_subdirectory (src/knobab/tests)
+
+
+add_subdirectory(src/knobab/tests)

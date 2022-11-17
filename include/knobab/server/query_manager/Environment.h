@@ -21,12 +21,12 @@
 inline
 semantic_atom_set evaluate_easy_prop_to_atoms(const easy_prop &prop,
                                               const std::unordered_map<std::string, semantic_atom_set> &bogus_act_to_set,
-                                              const std::unordered_set<std::string>& sigma) {
+                                              const std::set<std::string>& sigma) {
     switch (prop.casusu) {
         case easy_prop::E_P_AND:
             DEBUG_ASSERT(prop.args.size() == 2);
             DEBUG_ASSERT(!prop.isAtomNegated);
-            return unordered_intersection(evaluate_easy_prop_to_atoms( prop.args.at(0)/*, bogus_act_to_atom*/, bogus_act_to_set, sigma),
+            return ordered_intersection(evaluate_easy_prop_to_atoms( prop.args.at(0)/*, bogus_act_to_atom*/, bogus_act_to_set, sigma),
                                           evaluate_easy_prop_to_atoms( prop.args.at(1)/*, bogus_act_to_atom*/, bogus_act_to_set, sigma) );
         case easy_prop::E_P_OR: {
             DEBUG_ASSERT(prop.args.size() == 2);
@@ -40,7 +40,7 @@ semantic_atom_set evaluate_easy_prop_to_atoms(const easy_prop &prop,
             DEBUG_ASSERT(prop.args.empty());
             DEBUG_ASSERT(bogus_act_to_set.contains(prop.single_atom_if_any));
             if (prop.isAtomNegated) {
-                return unordered_difference(sigma, bogus_act_to_set.at(prop.single_atom_if_any));
+                return ordered_difference(sigma, bogus_act_to_set.at(prop.single_atom_if_any));
             } else {
                 return bogus_act_to_set.at(prop.single_atom_if_any);
             }
@@ -58,8 +58,8 @@ struct Environment {
     KnowledgeBase db;
     AtomizingPipeline ap;
     GroundingStrategyConf grounding_conf;
-    CNFDeclareDataAware grounding;
-    std::vector<DeclareDataAware> conjunctive_model;
+//    CNFDeclareDataAware grounding;
+    ConjunctiveModel conjunctive_model;
 
     EnsembleMethods strategy = PerDeclareSupport;
     OperatorQueryPlan operators = AbidingLogic;

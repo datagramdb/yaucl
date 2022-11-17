@@ -25,6 +25,7 @@
 #ifndef INCONSISTENCY_DETECTOR_SET_OPERATIONS_H
 #define INCONSISTENCY_DETECTOR_SET_OPERATIONS_H
 
+#include <set>
 #include <unordered_set>
 
 
@@ -34,11 +35,24 @@ std::unordered_set<T> unordered_intersection(const std::unordered_set<T> &a,
     if (a.size() > b.size()) return unordered_intersection(b, a);
 
 
+
     std::unordered_set<T> v3;
     for (auto i = a.begin(); i != a.end(); i++) {
         if (b.find(*i) != b.end()) v3.insert(*i);
     }
     return v3;
+}
+
+template<typename T>
+std::set<T> ordered_intersection(const std::set<T> &a, const std::set<T> &b){
+    std::set<T> v3;
+    std::set_intersection(a.begin(), a.end(), b.begin(), b.end(), std::inserter(v3, v3.begin()));
+    return v3;
+}
+
+template<typename T>
+bool isSubsetOf(const std::set<T> &a, const std::set<T> &b) {
+    return std::includes(a.begin(), a.end(), b.begin(), b.end());
 }
 
 template<typename T>
@@ -50,6 +64,14 @@ std::unordered_set<T> unordered_difference(const std::unordered_set<T> &a,
     }
     return v3;
 }
+
+template<typename T>
+std::set<T> ordered_difference(const std::set<T> &a, const std::set<T> &b){
+    std::set<T> v3;
+    std::set_difference(a.begin(), a.end(), b.begin(), b.end(), std::inserter(v3, v3.begin()));
+    return v3;
+}
+
 
 template<typename T>
 double unodreded_distance(const std::unordered_set<T> &a,

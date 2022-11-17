@@ -222,7 +222,3 @@ void attribute_table_string() {
     test.record_load(5, "bullo", 4);
     test.index({0,1,2,3,4});
 }
-
-int main(void) {
-    string_fuzzy_matching();
-}

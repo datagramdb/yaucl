@@ -915,7 +915,8 @@ std::any ServerQueryManager::visitModel_query(KnoBABQueryParser::Model_queryCont
                 MAXSatPipeline ref(plans, nThreads, BLOCK_STATIC_SCHEDULE, 3);
                 ref.final_ensemble = em;
                 ref.operators = op;
-                ref.pipeline(&it->second.grounding, it->second.ap, it->second.db);
+
+                ref.pipeline(ConjunctiveModelView{it->second.conjunctive_model}, it->second.ap, it->second.db);
                 nlohmann::json result;
                 result["model_declare_to_ltlf"] = ref.declare_to_ltlf_time;
                 result["model_ltlf_query_time"] = ref.ltlf_query_time;
@@ -978,6 +979,9 @@ std::any ServerQueryManager::visitModel_query(KnoBABQueryParser::Model_queryCont
 
 std::any ServerQueryManager::visitFile_model(KnoBABQueryParser::File_modelContext *ctx) {
     std::filesystem::path declare_file{UNESCAPE(ctx->STRING()->getText())};
+    if (declare_file.has_filename()) {
+
+    }
     tmpEnv->load_model(declare_file);
     return {};
 }

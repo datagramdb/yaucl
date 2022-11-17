@@ -292,10 +292,10 @@ struct LTLfQueryManager {
                                           size_t formulaId,
                                           const LTLfQuery &input,
                                           const DeclareDataAware *joinCondition,
-                                        const std::unordered_set<std::string> &data_atom,
-                                          const std::unordered_set<std::string> &atom_universe,
-                                          const std::unordered_set<std::string> &left,
-                                          const std::unordered_set<std::string> &right) {
+                                        const std::set<std::string> &data_atom,
+                                          const std::set<std::string> &atom_universe,
+                                          const std::set<std::string> &left,
+                                          const std::set<std::string> &right) {
 
         bool firstOrLast = false;
         // Time assumptions on the Init and End operator!

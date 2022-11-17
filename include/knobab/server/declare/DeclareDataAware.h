@@ -120,6 +120,8 @@ void print_dnf(std::ostream &os, const std::vector<std::unordered_map<std::strin
 //ltlf map_disj(const std::vector<std::unordered_map<std::string, DataPredicate>> &map);
 class KnowledgeBase;
 
+using data_conditions = std::vector<std::unordered_map<std::string, DataPredicate>>;
+
 struct DeclareDataAware {
     declare_templates casusu;
     size_t n;
@@ -130,8 +132,8 @@ struct DeclareDataAware {
     DeclareDataAware* flipped_equivalent = nullptr;
 
     // Each map represents a conjunction among different atoms over distinct variables, while the vector represents the disjunction
-    std::vector<std::unordered_map<std::string, DataPredicate>> dnf_left_map, dnf_right_map, conjunctive_map;
-    std::unordered_set<std::string> left_decomposed_atoms, right_decomposed_atoms; /// TODO: generalization to the number of the possible arguments of a declare clause
+    data_conditions dnf_left_map, dnf_right_map, conjunctive_map;
+    std::set<std::string> left_decomposed_atoms, right_decomposed_atoms; /// TODO: generalization to the number of the possible arguments of a declare clause
 
     bool compareAsThetaPredicate(const struct DeclareDataAware* ptr) const {
         if (ptr == nullptr) return false;

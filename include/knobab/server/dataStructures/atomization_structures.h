@@ -12,6 +12,6 @@
 
 using label_var_atoms_map_t = std::unordered_map<std::string, std::unordered_map<std::string, std::unordered_set<DataPredicate>>>;
 using label_set_t = std::unordered_set<std::string>;
-using semantic_atom_set = std::unordered_set<std::string>;
+using semantic_atom_set = std::set<std::string>;
 
 #endif //KNOBAB_SERVER_ATOMIZATION_STRUCTURES_H

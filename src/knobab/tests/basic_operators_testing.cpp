@@ -2,13 +2,11 @@
 // Created by giacomo on 25/02/2022.
 //
 
-#define CTEST_COLOR_OK
-#define CTEST_SEGFAULT
 
+#include "gtest/gtest.h"
 #include <vector>
-#include <knobab/server/query_manager/Environment.h>
-#include <gtest/gtest.h>
-#include <knobab/server/operators/fast_ltlf_operators.h>
+#include "knobab/server/query_manager/Environment.h"
+#include "knobab/server/operators/fast_ltlf_operators.h"
 
 
 class basic_operators : public testing::Test {
@@ -501,4 +499,11 @@ TEST_F(basic_operators, negatedUntimed) {
 
         EXPECT_EQ(expectedOutput, linearized);
     }
+}
+
+
+int main(int argc, char **argv)
+{
+    testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
 }

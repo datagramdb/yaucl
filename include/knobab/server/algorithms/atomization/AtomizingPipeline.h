@@ -8,6 +8,8 @@
 #include    <string>
 #include    <unordered_map>
 #include    <unordered_set>
+#include "knobab/algorithms/ModelViewKnoBAB.h"
+
 #include <knobab/server/dataStructures/atomization_structures.h>
 #include <yaucl/bpm/structures/commons/DataPredicate.h>
 #include <knobab/server/declare/CNFDeclareDataAware.h>
@@ -26,7 +28,7 @@ using string_bulk_map_t = std::unordered_map<std::string, std::unordered_map<std
 using double_map_t = std::unordered_map<std::string, std::unordered_map<std::string, segment_partition_tree<double, DoublePrevNext>>>;
 using string_map_t = std::unordered_map<std::string, std::unordered_map<std::string, segment_partition_tree<std::string, StringPrevNext>>>;
 using label_set_t = std::unordered_set<std::string>;
-using semantic_atom_set = std::unordered_set<std::string>;
+//using semantic_atom_set = std::unordered_set<std::string>;
 
 enum AtomizationStrategy {
     AtomizeEverythingIfAnyDataPredicate,
@@ -103,9 +105,14 @@ private:
 
 double collect_data_from_declare_disjunctive_model(const yaucl::structures::any_to_uint_bimap<std::string>& map, AtomizingPipeline& pipeline_data, const CNFDeclareDataAware& disjoint_model);
 
+double collect_data_from_declare_disjunctive_model(const yaucl::structures::any_to_uint_bimap<std::string>& map, AtomizingPipeline& pipeline_data, const ConjunctiveModel& disjoint_model);
+
+
 
 double atomize_model(AtomizingPipeline& pipeline_data, CNFDeclareDataAware &disjoint_model);
 
+
+double atomize_model(AtomizingPipeline& pipeline_data, ConjunctiveModel &disjoint_model);
 
 
 #endif //KNOBAB_SERVER_ATOMIZINGPIPELINE_H

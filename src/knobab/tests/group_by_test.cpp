@@ -6,10 +6,10 @@
 #define CTEST_SEGFAULT
 
 #include <vector>
-#include <yaucl/hashing/pair_hash.h>
-#include <yaucl/hashing/uset_hash.h>
-#include <yaucl/structures/set_operations.h>
-#include <gtest/gtest.h>
+#include "yaucl/hashing/pair_hash.h"
+#include "yaucl/hashing/uset_hash.h"
+#include "yaucl/structures/set_operations.h"
+#include "gtest/gtest.h"
 
 class groupby : public ::testing::Test {
 protected:

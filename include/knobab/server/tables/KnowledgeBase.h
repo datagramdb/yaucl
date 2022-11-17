@@ -44,37 +44,6 @@ const uint16_t MAX_UINT16 = std::pow(2, 16) - 1;
 const size_t HYBRID_QUERY_THRESHOLD = std::pow(10, 2) / 2;
 const size_t HYBRID_LOG_QUERY_THRESHOLD = std::pow(10, 3) / 2;
 
-template <typename T>
-struct pattern_mining_result {
-    T clause;
-    double           support_generating_original_pattern;
-    double           support_declarative_pattern;
-    double           confidence_declarative_pattern;
-
-    pattern_mining_result(double support,
-                          const T &clause) : pattern_mining_result(clause, support, support, -1.0) {}
-    pattern_mining_result(const T &clause,
-                          double supportGeneratingOriginalPattern,
-                          double supportDeclarativePattern,
-                          double confidenceDeclarativePattern) : clause(clause),
-                                                                 support_generating_original_pattern(
-                                                                         supportGeneratingOriginalPattern),
-                                                                 support_declarative_pattern(
-                                                                         supportDeclarativePattern),
-                                                                 confidence_declarative_pattern(confidenceDeclarativePattern) {}
-
-
-    DEFAULT_CONSTRUCTORS(pattern_mining_result);
-    friend std::ostream &operator<<(std::ostream &os, const pattern_mining_result &result){
-        os << "Clause: " << result.clause << std::endl
-           << "\t - Pattern Maching Support: " << result.support_generating_original_pattern << std::endl;
-        if (result.support_declarative_pattern >= 0.0)
-            os << "\t - Declarative Pattern's Support: " << result.support_declarative_pattern << std::endl;
-        if (result.confidence_declarative_pattern >= 0.0)
-            os << "\t - Declarative Pattern's Confidence: " << result.confidence_declarative_pattern << std::endl;
-        return os << std::endl;
-    }
-};
 
 class KnowledgeBase : public trace_visitor {
     CountTemplate                                   count_table;
