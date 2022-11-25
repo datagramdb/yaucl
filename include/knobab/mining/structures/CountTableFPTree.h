@@ -16,13 +16,13 @@
 #include <vector>
 #include <utility>
 #include <algorithm>
-#include "knobab/server/tables/CountTemplate.h"
+#include <knobab/server/tables/CountTemplate.h>
 
 #define ForAll(T)       template <typename T>
 
-using Transaction           = std::vector<act_t>;
-using TransformedPrefixPath = std::pair<std::vector<act_t>, uint64_t>;
-using Pattern               = std::pair<std::set<act_t>, uint64_t>;
+using Transaction           = std::vector<in_memory_act_id_t>;
+using TransformedPrefixPath = std::pair<std::vector<in_memory_act_id_t>, uint64_t>;
+using Pattern               = std::pair<std::set<in_memory_act_id_t>, uint64_t>;
 ForAll(T) using GenPattern  = std::pair<std::set<T>, uint64_t>;
 
 ForAll(Item) struct FPNode {
@@ -40,9 +40,9 @@ ForAll(Item) struct FPNode {
 
 
 struct FPTree {
-    std::shared_ptr<FPNode<act_t>>                 root;
+    std::shared_ptr<FPNode<in_memory_act_id_t>>                 root;
 //    std::map<act_t, std::shared_ptr<FPNode<act_t>>> header_table;
-    std::vector<std::shared_ptr<FPNode<act_t>>> header_table;
+    std::vector<std::shared_ptr<FPNode<in_memory_act_id_t>>> header_table;
     uint64_t                                      minimum_support_threshold;
     size_t max_act_id;
 
@@ -59,10 +59,10 @@ struct FPTree {
     FPTree(const std::vector<Transaction>& transactions,
            uint64_t minimum_support_threshold,
            uint64_t max_act_id) :
-            root(std::make_shared<FPNode<act_t>>( 0, nullptr )), header_table(max_act_id, nullptr), max_act_id(max_act_id),
+            root(std::make_shared<FPNode<in_memory_act_id_t>>(0, nullptr )), header_table(max_act_id, nullptr), max_act_id(max_act_id),
             minimum_support_threshold( minimum_support_threshold ) {
         // scan the transactions counting the frequency of each item
-        std::map<act_t, uint64_t> frequency_by_item;
+        std::map<in_memory_act_id_t, uint64_t> frequency_by_item;
         for ( const Transaction& transaction : transactions ) {
             for ( const auto& item : transaction ) {
                 ++frequency_by_item[item];
@@ -77,7 +77,7 @@ struct FPTree {
         }
 
 
-        std::set<std::pair<act_t , uint64_t>, frequency_comparator> items_ordered_by_frequency(frequency_by_item.cbegin(), frequency_by_item.cend());
+        std::set<std::pair<in_memory_act_id_t , uint64_t>, frequency_comparator> items_ordered_by_frequency(frequency_by_item.cbegin(), frequency_by_item.cend());
 
         // start tree construction
 
@@ -95,12 +95,12 @@ struct FPTree {
 
                     // check if curr_fpnode has a child curr_fpnode_child such that curr_fpnode_child.item = item
                     const auto it = std::find_if(
-                            curr_fpnode->children.cbegin(), curr_fpnode->children.cend(),  [item](const std::shared_ptr<FPNode<act_t>>& fpnode) {
+                            curr_fpnode->children.cbegin(), curr_fpnode->children.cend(),  [item](const std::shared_ptr<FPNode<in_memory_act_id_t>>& fpnode) {
                                 return fpnode->item == item;
                             } );
                     if ( it == curr_fpnode->children.cend() ) {
                         // the child doesn't exist, create a new node
-                        const auto curr_fpnode_new_child = std::make_shared<FPNode<act_t>>( item, curr_fpnode );
+                        const auto curr_fpnode_new_child = std::make_shared<FPNode<in_memory_act_id_t>>(item, curr_fpnode );
 
                         // add the new node to the tree
                         curr_fpnode->children.push_back( curr_fpnode_new_child );
@@ -134,13 +134,13 @@ struct FPTree {
     FPTree(const CountTemplate& transactions,
            uint64_t minimum_support_threshold,
            uint64_t max_act_id) :
-            root(std::make_shared<FPNode<act_t>>( 0, nullptr )),
+            root(std::make_shared<FPNode<in_memory_act_id_t>>(0, nullptr )),
             header_table(max_act_id, nullptr),
             max_act_id(max_act_id),
             minimum_support_threshold( minimum_support_threshold ) {
         // scan the transactions counting the frequency of each item
 
-        std::map<act_t, uint64_t> frequency_by_item;
+        std::map<in_memory_act_id_t, uint64_t> frequency_by_item;
         for ( const auto& transaction_item : transactions.table ) {
             if (transaction_item.id.parts.event_id > 0) {
                 ++frequency_by_item[transaction_item.id.parts.act];
@@ -155,7 +155,7 @@ struct FPTree {
         }
 
 
-        std::set<std::pair<act_t, uint64_t>, frequency_comparator> items_ordered_by_frequency(frequency_by_item.cbegin(), frequency_by_item.cend());
+        std::set<std::pair<in_memory_act_id_t, uint64_t>, frequency_comparator> items_ordered_by_frequency(frequency_by_item.cbegin(), frequency_by_item.cend());
 
         // start tree construction
 
@@ -165,7 +165,7 @@ struct FPTree {
 
             // select and sort the frequent items in transaction according to the order of items_ordered_by_frequency
             for ( const auto& pair : items_ordered_by_frequency ) {
-                const act_t& item = pair.first;
+                const in_memory_act_id_t& item = pair.first;
 
                 // check if item is contained in the current transaction
                 if (transactions.resolve_length(item, transaction_id) > 0) {
@@ -173,12 +173,12 @@ struct FPTree {
 
                     // check if curr_fpnode has a child curr_fpnode_child such that curr_fpnode_child.item = item
                     const auto it = std::find_if(
-                            curr_fpnode->children.cbegin(), curr_fpnode->children.cend(),  [item](const std::shared_ptr<FPNode<act_t>>& fpnode) {
+                            curr_fpnode->children.cbegin(), curr_fpnode->children.cend(),  [item](const std::shared_ptr<FPNode<in_memory_act_id_t>>& fpnode) {
                                 return fpnode->item == item;
                             } );
                     if ( it == curr_fpnode->children.cend() ) {
                         // the child doesn't exist, create a new node
-                        const auto curr_fpnode_new_child = std::make_shared<FPNode<act_t>>( item, curr_fpnode );
+                        const auto curr_fpnode_new_child = std::make_shared<FPNode<in_memory_act_id_t>>(item, curr_fpnode );
 
                         // add the new node to the tree
                         curr_fpnode->children.push_back( curr_fpnode_new_child );

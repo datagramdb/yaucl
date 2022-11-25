@@ -85,12 +85,12 @@ static inline void partialResultIntersection(const PartialResult& lhs,
 }
 
 static inline
-std::vector<std::pair<std::pair<trace_t, event_t>, double>> partialResultIntersection(const std::set<size_t> &vecs,
-                                                                                      const std::vector<std::pair<DataQuery, std::vector<std::pair<std::pair<trace_t, event_t>, double>>>>& results) {
+std::vector<std::pair<std::pair<in_memory_trace_id_t, in_memory_event_id_t>, double>> partialResultIntersection(const std::set<size_t> &vecs,
+                                                                                                                const std::vector<std::pair<DataQuery, std::vector<std::pair<std::pair<in_memory_trace_id_t, in_memory_event_id_t>, double>>>>& results) {
     if (vecs.empty()) return {};
     auto it = vecs.begin();
     auto last_intersection = results.at(*it).second;
-    std::vector<std::pair<std::pair<trace_t, event_t>, double>> curr_intersection;
+    std::vector<std::pair<std::pair<in_memory_trace_id_t, in_memory_event_id_t>, double>> curr_intersection;
     for (std::size_t i = 1; i < vecs.size(); ++i) {
         it++;
         auto ref = results.at(*it).second;
@@ -145,7 +145,7 @@ void MAXSatPipeline::data_chunk(const ConjunctiveModelView& model,
         for (auto& item : declare_model) {
             // Skipping already-met definitions: those will only duplicate the code to be run!
 //            declareId++;
-            auto cp = declare_atomization.emplace(item, maxFormulaId);
+            auto cp = declare_atomization.emplace(item.clause, maxFormulaId);
             if (!cp.second) {
                 declareToQuery.emplace_back(cp.first->second);
                 /// TODO: PRESERVE
@@ -156,14 +156,14 @@ void MAXSatPipeline::data_chunk(const ConjunctiveModelView& model,
             }
 
             // Setting the knowledge base, so to exploit it for join queries
-            item.kb = &kb;
+            item.clause.kb = &kb;
 
             // Getting the definition of Declare from the Query rewriter
-            auto it2 = xtLTLfTemplates->find(item.casusu);
+            auto it2 = xtLTLfTemplates->find(item.clause.casusu);
             if (it2 == xtLTLfTemplates->end()) {
-                throw std::runtime_error(item.casusu+": missing from the loaded query decomposition");
+                throw std::runtime_error(item.clause.casusu+": missing from the loaded query decomposition");
             }
-            item.flipLocal(); // ensuring that the inverse predicate is always computed, so that I can pass it as a const!
+            item.clause.flipLocal(); // ensuring that the inverse predicate is always computed, so that I can pass it as a const!
 
             // Caching the query, so to generate a pointer to an experssion that was already computed.
             // The query plan manager will identfy the common expressions, and will let represent those only ones
@@ -171,11 +171,11 @@ void MAXSatPipeline::data_chunk(const ConjunctiveModelView& model,
             tmpQuery.emplace_back(qm.instantiate(atomization.act_atoms,
                            maxFormulaId,
                            it2->second,
-                           item.isTruth() ? nullptr : (const DeclareDataAware *) &item,
+                           item.clause.isTruth() ? nullptr : (const DeclareDataAware *) &item,
                            atomization.data_query_atoms,
                            atomization.atom_universe,
-                           item.left_decomposed_atoms,
-                           item.right_decomposed_atoms));
+                           item.clause.left_decomposed_atoms,
+                           item.clause.right_decomposed_atoms));
 
             maxFormulaId++;
             qm.current_query_id++;
@@ -217,7 +217,7 @@ void MAXSatPipeline::pushDataRangeQuery(const LTLfQuery* query,
                                         const std::string &atom) {
     // Remembers the formula-atom association, so that the final atom ID can be performed after the intersection
     // decomposition part of the pipeline
-    static std::vector<std::pair<std::pair<trace_t, event_t>, double>> empty_result{};
+    static std::vector<std::pair<std::pair<in_memory_trace_id_t, in_memory_event_id_t>, double>> empty_result{};
     atomToFormulaId[atom].emplace_back((LTLfQuery*)query);
     if (!toUseAtoms.emplace(atom, toUseAtoms.size()).second) return;
 
@@ -255,7 +255,7 @@ void MAXSatPipeline::pushDataRangeQuery(const LTLfQuery* query,
 }
 
 size_t MAXSatPipeline::pushNonRangeQuery(const DataQuery &q, bool directlyFromCache) {
-    static std::vector<std::pair<std::pair<trace_t, event_t>, double>> empty_result{};
+    static std::vector<std::pair<std::pair<in_memory_trace_id_t, in_memory_event_id_t>, double>> empty_result{};
     size_t offset = data_accessing.size();
     auto find = data_offset.emplace(q, offset); // Determining whether the query already exists
     if (find.second){
@@ -1857,6 +1857,7 @@ void MAXSatPipeline::pipeline(const ConjunctiveModelView& model,
         if (!qm.Q.empty()) {
             switch (final_ensemble) {
                 case PerDeclareSupport: {
+                    support_per_declare.clear();
                     std::unordered_map<LTLfQuery*, double> visited;
                     for (size_t i = 0, N = declare_to_query.size(); i<N; i++) { // each declare i
                         const auto &declare = declare_to_query.at(i);
@@ -1887,8 +1888,32 @@ void MAXSatPipeline::pipeline(const ConjunctiveModelView& model,
                     }
                 } break;
 
+                case NonVacuouslySatisfied: {
+                    activated_clauses.clear();
+                    for (size_t i = 0, N = declare_to_query.size(); i<N; i++) { // each declare i
+                        const auto &declare = declare_to_query.at(i);
+                        auto& aptr = qm.activations.at(i);
+                        if (aptr.empty()) {
+                            support_per_declare.emplace_back(declare->result.empty() ? 0 : 1);
+                        } else {
+                            Result localActivations;
+                            local_logic_union(qm.activations.at(i), localActivations, false);
+                            if (localActivations.empty()) {
+                                DEBUG_ASSERT(declare->result.empty());
+                            } else {
+                                Result out;
+                                or_fast_untimed(localActivations, declare->result, out, nullptr);
+                                if (out.size()> 0) {
+                                    activated_clauses.emplace_back(i);
+                                }
+                            }
+                        }
+                    }
+                } break;
+
 
                 case PerDeclareConfidence: {
+                    support_per_declare.clear();
                     std::unordered_map<LTLfQuery*, double> visited;
                     for (size_t i = 0, N = declare_to_query.size(); i<N; i++) { // each declare i
                         const auto &declare = declare_to_query.at(i);
@@ -1945,6 +1970,34 @@ void MAXSatPipeline::pipeline(const ConjunctiveModelView& model,
                         ref = ref / ((double)declare_to_query.size());
                     }
                 } break;
+
+                case TracesToClauses: {
+                    // Working under the assumption that all of the final Declare clauses are, at the root level, untimed operations
+                    traces_to_clauses.resize(kb.noTraces, {});
+                    for (size_t i = 0, N = declare_to_query.size(); i<N; i++) {
+                        const auto &q = declare_to_query.at(i);
+                        for (const auto& rx: q->result) {
+                            // Counting the trace if and only if it has a near-1 value
+                            if (std::abs(rx.second.first - 1.0) <= std::numeric_limits<double>::epsilon())
+                                traces_to_clauses[rx.first.first].emplace_back(i);
+                        }
+                    }
+                } break;
+
+
+                case ClausesToTraces: {
+                    // Working under the assumption that all of the final Declare clauses are, at the root level, untimed operations
+                    clauses_to_traces.resize(declare_to_query.size(), {});
+                    for (size_t i = 0, N = declare_to_query.size(); i<N; i++) {
+                        const auto &q = declare_to_query.at(i);
+                        for (const auto& rx: q->result) {
+                            // Counting the trace if and only if it has a near-1 value
+                            if (std::abs(rx.second.first - 1.0) <= std::numeric_limits<double>::epsilon())
+                                clauses_to_traces[i].emplace_back(rx.first.first);
+                        }
+                    }
+                } break;
+
 
                 case TraceIntersection: {
                     LTLfQuery conjunction;

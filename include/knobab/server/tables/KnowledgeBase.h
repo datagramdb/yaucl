@@ -29,7 +29,7 @@ enum ParsingState {
 };
 
 #include <bitset>
-#include "knobab/mining/CountTableFPTree.h"
+#include "knobab/mining/structures/CountTableFPTree.h"
 #include "knobab/algorithms/mining/DataMiningMetrics.h"
 #include "knobab/algorithms/mining/RulesFromFrequentItemset.h"
 #include "yaucl/functional/iterators.h"
@@ -57,8 +57,8 @@ class KnowledgeBase : public trace_visitor {
     std::string name;
     size_t currentEventId;
     ParsingState status;
-    std::vector<std::pair<std::pair<trace_t, event_t>, double>> universe, universeApprox;
-    std::vector<std::pair<std::pair<trace_t, event_t>, double>> empty;
+    std::vector<std::pair<std::pair<in_memory_trace_id_t, in_memory_event_id_t>, double>> universe, universeApprox;
+    std::vector<std::pair<std::pair<in_memory_trace_id_t, in_memory_event_id_t>, double>> empty;
     size_t maximumStringLength = 0;
 
 public:
@@ -155,7 +155,7 @@ public:
      */
     void collectValuesFrom(std::unordered_map<std::string, std::unordered_map<std::string, std::set<union_type>>>& result,
                            std::unordered_map<std::string, std::set<union_type>>& resultOtherValues,
-                           const std::unordered_set<trace_t>& trace_ids = {},
+                           const std::unordered_set<in_memory_trace_id_t>& trace_ids = {},
                            const std::unordered_map<std::string, std::unordered_set<std::string>>& actToVariables = {},
                            const std::unordered_set<std::string>& otherValues = {}
     ) const;
@@ -213,16 +213,16 @@ public:
 
 
     PartialResult exists(const std::pair<const uint32_t, const uint32_t>& indexes) const {
-        std::vector<std::pair<std::pair<trace_t, event_t>, double>> foundElems;
+        std::vector<std::pair<std::pair<in_memory_trace_id_t, in_memory_event_id_t>, double>> foundElems;
         for (auto it = count_table.table.begin() + indexes.first; it != count_table.table.begin() + indexes.second + 1; ++it) {
-            foundElems.emplace_back(std::pair<trace_t, event_t>{it->id.parts.trace_id, 0}, 1.0);
+            foundElems.emplace_back(std::pair<in_memory_trace_id_t, in_memory_event_id_t>{it->id.parts.trace_id, 0}, 1.0);
         }
         return foundElems;
     }
 
     Result init(const std::string& act, bool doExtractEvent, const double minThreshold = 1) const;
     Result ends(const std::string& act, bool doExtractEvent, const double minThreshold = 1) const;
-    std::vector<std::pair<std::pair<trace_t, event_t>, double>> timed_dataless_exists(const std::string& act) const;
+    std::vector<std::pair<std::pair<in_memory_trace_id_t, in_memory_event_id_t>, double>> timed_dataless_exists(const std::string& act) const;
 
     std::pair<ActTable::record*, ActTable::record*> timed_dataless_exists(uint16_t mappedVal) const {
         std::pair<ActTable::record*, ActTable::record*> foundData{nullptr, nullptr};
@@ -287,29 +287,29 @@ public:
 
     Result initOrEnds(const std::string& act, bool beginOrEnd, bool doExtractEvent, const double minThreshold = 1) const;
 
-    std::vector<std::pair<trace_t, event_t>> exact_range_query(DataPredicate prop) const;
+    std::vector<std::pair<in_memory_trace_id_t, in_memory_event_id_t>> exact_range_query(DataPredicate prop) const;
 
     void exact_range_query(const std::string &field_name,
                            const std::unordered_map<std::string, std::vector<size_t>> &ActNameToPredicates,
                            std::vector<std::pair<DataQuery, PartialResult>> &Qs,
                            const std::optional<uint16_t> &temporalTimeMatch = std::optional<uint16_t>{})  const;
 private:
-    void collectValuesAmongTraces(std::set<union_type> &S, size_t trace_id, act_t acts, bool HasNoAct,
+    void collectValuesAmongTraces(std::set<union_type> &S, size_t trace_id, in_memory_act_id_t acts, bool HasNoAct,
                                   const std::string &attribute_name, bool hasNoAttribute) const;
     void collectValuesAmongTraces(
             std::unordered_map<std::string, std::unordered_map<std::string, std::set<union_type>>> &result,
             std::unordered_map<std::string, std::set<union_type>> &resultOtherValues,
             const std::unordered_map<std::string, std::unordered_set<std::string>> &actToTables,
-            const std::unordered_set<std::string> &otherValues, trace_t traceId) const;
+            const std::unordered_set<std::string> &otherValues, in_memory_trace_id_t traceId) const;
 
 
     float getSatisifiabilityBetweenValues(const uint16_t& val1, const uint16_t& val2, const uint16_t& approxConstant) const;
 
-    uint16_t getPositionFromEventId(const oid* event) const;
+    uint16_t getPositionFromEventId(const in_memory_oid* event) const;
     uint16_t getPositionFromEventId(const std::pair<uint32_t, uint16_t> pair) const;
 
 
-    std::pair<int, std::vector<std::pair<std::pair<trace_t, event_t>, double>>>
+    std::pair<int, std::vector<std::pair<std::pair<in_memory_trace_id_t, in_memory_event_id_t>, double>>>
     range_query(DataPredicate &prop, double min_threshold, double correction, const double c, bool forExistingData = true) const;
 
 };

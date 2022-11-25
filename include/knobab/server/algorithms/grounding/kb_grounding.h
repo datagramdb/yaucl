@@ -11,6 +11,7 @@
 #include <knobab/server/tables/KnowledgeBase.h>
 #include <knobab/server/declare/DisjunctiveDeclareDataAware.h>
 #include <knobab/server/declare/CNFDeclareDataAware.h>
+#include <yaucl/bpm/structures/commons.h>
 
 struct GroundingStrategyConf {
     enum pruning_strategy {
@@ -44,9 +45,9 @@ struct GroundingStrategyConf {
 
     GroundingStrategyConf();
 };
-
-CNFDeclareDataAware GroundWhereStrategy(GroundingStrategyConf& conf,
-                                        const KnowledgeBase& db,
-                                        const std::vector<DeclareDataAware>& declare);
+//
+//std::vector<pattern_mining_result<DeclareDataAware>> GroundWhereStrategy(GroundingStrategyConf& conf,
+//                                        const KnowledgeBase& db,
+//                                        const std::vector<DeclareDataAware>& declare);
 
 #endif //KNOBAB_SERVER_KB_GROUNDING_H

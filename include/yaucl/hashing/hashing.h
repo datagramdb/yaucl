@@ -22,5 +22,11 @@ namespace yaucl {
     }
 }
 
+#include <yaucl/hashing/hash_combine.h>
+#include <yaucl/hashing/evaluateHashes.h>
+#include <yaucl/hashing/pair_hash.h>
+#include <yaucl/hashing/umap_hash.h>
+#include <yaucl/hashing/uset_hash.h>
+#include <yaucl/hashing/vector_hash.h>
 
 #endif //TUTORIALS_HASHING_H

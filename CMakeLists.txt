@@ -95,7 +95,7 @@ add_library(yaucl_data OBJECT
         src/yaucl/data/mmapFile.cpp
         src/yaucl/data/xml.cpp include/yaucl/data/json.h src/yaucl/data/VarSizeNDPSorter.cpp)
 
-add_library(yaucl_structures OBJECT src/yaucl/structures/StringPrevNext.cpp include/yaucl/structures/StringPrevNext.h src/yaucl/structures/DoublePrevNext.cpp include/yaucl/structures/DoublePrevNext.h)
+add_library(yaucl_structures OBJECT src/yaucl/structures/StringPrevNext.cpp include/yaucl/structures/StringPrevNext.h src/yaucl/structures/DoublePrevNext.cpp include/yaucl/structures/DoublePrevNext.h include/yaucl/structures/setoids/set_comparators.h include/yaucl/structures/setoids/set_partitioning.h include/yaucl/structures/setoids/basics.h)
 
 add_library(yaucl_bpm OBJECT
         src/knobab/server/declare/CNFDeclareDataAware.cpp
@@ -147,7 +147,7 @@ add_library(knobab OBJECT
         src/knobab/server/operators/base_ltlf.cpp
         src/knobab/server/ndp/KnowledgeBaseNDPLoader.cpp
         src/knobab/server/algorithms/querymanager/LTLfQueryManager.cpp
-        src/knobab/server/ndp/NDPFuzzyStringMatching.cpp include/knobab/server/query_manager/NDPFuzzyStringMatching.h src/knobab/server/ndp/NDPAttributeTable.cpp include/knobab/server/ndp/NDPAttributeTable.h include/yaucl/bpm/structures/ltlf/ltlf.h include/knobab/server/algorithms/querymanager/DataQuery.h src/knobab/server/algorithms/querymanager/DataQuery.cpp include/knobab/server/algorithms/querymanager/LTLfQuery.h src/knobab/server/algorithms/querymanager/LTLfQuery.cpp src/knobab/algorithms/inference/clause_inference.cpp include/knobab/algorithms/inference/clause_inference.h)
+        src/knobab/server/ndp/NDPFuzzyStringMatching.cpp include/knobab/server/query_manager/NDPFuzzyStringMatching.h src/knobab/server/ndp/NDPAttributeTable.cpp include/knobab/server/ndp/NDPAttributeTable.h include/yaucl/bpm/structures/ltlf/ltlf.h include/knobab/server/algorithms/querymanager/DataQuery.h src/knobab/server/algorithms/querymanager/DataQuery.cpp include/knobab/server/algorithms/querymanager/LTLfQuery.h src/knobab/server/algorithms/querymanager/LTLfQuery.cpp src/knobab/algorithms/inference/clause_inference.cpp include/knobab/algorithms/inference/clause_inference.h include/yaucl/bpm/structures/commons/pattern_mining_result.h)
 
 add_executable(knobab_server src/knobab/server/server.cpp)
 
@@ -167,7 +167,7 @@ add_executable(mining
         src/knobab/mining/pattern_mining.cpp
         include/knobab/mining/pattern_mining.h
         src/knobab/mining/mining.cpp
-        src/knobab/mining/CountTableFPTree.cpp PatternMiningConfiguration.cpp PatternMiningConfiguration.h )
+        src/knobab/mining/structures/CountTableFPTree.cpp src/knobab/mining/PatternMiningConfiguration.cpp include/knobab/mining/PatternMiningConfiguration.h Step2Mining.cpp Step2Mining.h src/knobab/mining/structures/fast_model_search.cpp include/knobab/mining/structures/fast_model_search.h include/yaucl/structures/setoids/set_compare.h)
 
 if(MSVC OR MSYS OR MINGW)
     target_link_libraries(knobab_server Threads::Threads antlr4_shared yaucl_bpm yaucl_structures

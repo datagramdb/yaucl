@@ -25,12 +25,12 @@ uint16_t cast_to_float2(size_t x, size_t l);
 struct ActTable {
 
     struct record {
-        oid             entry;
+        in_memory_oid   entry;
         struct record*  prev;
         struct record*  next;
 
         record();
-        record(act_t act, trace_t id, time_t time, struct record* prev, struct record* next);
+        record(in_memory_act_id_t act, in_memory_trace_id_t id, time_t time, struct record* prev, struct record* next);
         record(const record& ) = default;
         record& operator=(const record&) = default;
 
@@ -54,14 +54,14 @@ struct ActTable {
     /**
      * Associating an act id to all of the events from all the traces having the same act id
      */
-    [[nodiscard]] std::pair<const uint32_t, const uint32_t> resolve_index(act_t id) const;
+    [[nodiscard]] std::pair<const uint32_t, const uint32_t> resolve_index(in_memory_act_id_t id) const;
 
     /**
      * Mapping the trace id to the first and last event (see the log printer from the KnowledgeBase for a usage example)
      */
     std::vector<std::pair<record*, record*>> secondary_index;
 
-    void load_record(trace_t id, act_t act, time_t time); // rename: loading_step (emplace_back)
+    void load_record(in_memory_trace_id_t id, in_memory_act_id_t act, time_t time); // rename: loading_step (emplace_back)
     const std::vector<std::vector<size_t>> & indexing1();
     void indexing2();
     void sanityCheck();
@@ -76,10 +76,10 @@ struct ActTable {
     friend std::ostream &operator<<(std::ostream &os, const ActTable &table);
 
 private:
-    std::vector<std::tuple<trace_t, event_t, size_t>> expectedOrdering; // TODO: remove?
+    std::vector<std::tuple<in_memory_trace_id_t, in_memory_event_id_t, size_t>> expectedOrdering; // TODO: remove?
 
     struct table_builder {
-        std::vector<std::vector<std::pair<trace_t, event_t>>> act_id_to_trace_id_and_time; // M1
+        std::vector<std::vector<std::pair<in_memory_trace_id_t, in_memory_event_id_t>>> act_id_to_trace_id_and_time; // M1
         std::vector<std::vector<size_t>> trace_id_to_event_id_to_offset; // M2
     };
 

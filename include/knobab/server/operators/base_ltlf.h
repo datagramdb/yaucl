@@ -470,7 +470,7 @@ Result negateUntimed(TableSection &data_untimed, const std::vector<size_t> &leng
     }
     if (preserveNegatedFacts) {
         if (first2 != last2) {
-            trace_t currTraceId = first2->first.first;
+            in_memory_trace_id_t currTraceId = first2->first.first;
             rc.first.first = currTraceId;
             rc.second.first = 1.0;
             while ((first2 != last2) && (first2->first.first == currTraceId)) {

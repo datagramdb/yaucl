@@ -19,7 +19,7 @@
 #undef max
 #endif 
 
-constexpr event_t max = std::numeric_limits<event_t>::max();
+constexpr in_memory_event_id_t max = std::numeric_limits<in_memory_event_id_t>::max();
 static const MarkedEventsVector maxVec(max,MAX_MARKED_EVENT());
 
 #include <map>

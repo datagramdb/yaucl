@@ -8,15 +8,17 @@
 #include <knobab/server/declare/DisjunctiveDeclareDataAware.h>
 #include <ostream>
 
-struct CNFDeclareDataAware {
-    std::vector<DisjunctiveDeclareDataAware> singleElementOfConjunction;
-    DEFAULT_CONSTRUCTORS(CNFDeclareDataAware)
+//ConjunctiveModelViewForMining
 
-    CNFDeclareDataAware(const DeclareDataAware& singleton);
-    CNFDeclareDataAware(const std::vector<DeclareDataAware>& orig);
-
-    friend std::ostream &operator<<(std::ostream &os, const CNFDeclareDataAware &aware);
-};
+//struct CNFDeclareDataAware {
+//    std::vector<DisjunctiveDeclareDataAware> singleElementOfConjunction;
+//    DEFAULT_CONSTRUCTORS(CNFDeclareDataAware)
+//
+//    CNFDeclareDataAware(const DeclareDataAware& singleton);
+//    CNFDeclareDataAware(const std::vector<DeclareDataAware>& orig);
+//
+//    friend std::ostream &operator<<(std::ostream &os, const CNFDeclareDataAware &aware);
+//};
 
 
 #endif //KNOBAB_CNFDECLAREDATAAWARE_H

@@ -13,7 +13,7 @@
 #include <unordered_map>
 
 struct CountTemplate {
-    std::vector<oid>    table;
+    std::vector<in_memory_oid>    table;
 
     CountTemplate() = default;
     CountTemplate(const CountTemplate&) = default;
@@ -22,7 +22,7 @@ struct CountTemplate {
     void load_record(uint16_t act, uint32_t trace_id, uint16_t event_pos);
     void indexing(uint16_t maxAct, uint32_t maxTraceId);
 
-    std::pair<const oid*, const oid*> resolve_primary_index(const uint16_t actId, uint32_t& start, uint32_t& send) const;
+    std::pair<const in_memory_oid*, const in_memory_oid*> resolve_primary_index(const uint16_t actId, uint32_t& start, uint32_t& send) const;
 
     std::pair<const uint32_t, const uint32_t> resolve_primary_index(const uint16_t actId) const;
     uint16_t resolve_length(const uint16_t actId, const uint32_t traceId) const {
@@ -47,7 +47,7 @@ struct CountTemplate {
     uint16_t nAct() const { return maxAct; }
 
     friend std::ostream &operator<<(std::ostream &os, const CountTemplate &aTemplate);
-    std::pair<const oid*, const oid*> resolve_primary_index2(const uint16_t actId) const {
+    std::pair<const in_memory_oid*, const in_memory_oid*> resolve_primary_index2(const uint16_t actId) const {
         if (actId < maxAct) {
             const uint32_t start = (maxTraceId + 1) * actId;
             const uint32_t end = start + maxTraceId;

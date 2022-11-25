@@ -59,7 +59,7 @@ struct Environment {
     AtomizingPipeline ap;
     GroundingStrategyConf grounding_conf;
 //    CNFDeclareDataAware grounding;
-    ConjunctiveModel conjunctive_model;
+    std::vector<pattern_mining_result<DeclareDataAware>> conjunctive_model;
 
     EnsembleMethods strategy = PerDeclareSupport;
     OperatorQueryPlan operators = AbidingLogic;
@@ -86,7 +86,7 @@ public:
     bool   index_missing_data = false;
 
     /// Data Range Queries
-    std::vector<std::pair<std::pair<trace_t, event_t>, double>> range_query(DataPredicate prop) const {
+    std::vector<std::pair<std::pair<in_memory_trace_id_t, in_memory_event_id_t>, double>> range_query(DataPredicate prop) const {
         return db.range_query(prop, min_threshold, c);
     }
 

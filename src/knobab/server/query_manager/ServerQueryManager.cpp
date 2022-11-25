@@ -916,7 +916,8 @@ std::any ServerQueryManager::visitModel_query(KnoBABQueryParser::Model_queryCont
                 ref.final_ensemble = em;
                 ref.operators = op;
 
-                ref.pipeline(ConjunctiveModelView{it->second.conjunctive_model}, it->second.ap, it->second.db);
+                fast_model_search model{it->second.conjunctive_model};
+                ref.pipeline(ConjunctiveModelView{model}, it->second.ap, it->second.db);
                 nlohmann::json result;
                 result["model_declare_to_ltlf"] = ref.declare_to_ltlf_time;
                 result["model_ltlf_query_time"] = ref.ltlf_query_time;

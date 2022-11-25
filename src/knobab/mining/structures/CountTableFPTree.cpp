@@ -3,7 +3,7 @@
 // Created by giacomo on 15/09/22.
 //
 
-#include "knobab/mining/CountTableFPTree.h"
+#include <knobab/mining/structures/CountTableFPTree.h>
 
 static inline bool contains_single_path(const FPTree& fptree) {
     return fptree.empty() || contains_single_path( fptree.root );
@@ -54,7 +54,7 @@ std::set<Pattern> fptree_growth(const FPTree& fptree,
         std::set<Pattern> multi_path_patterns;
 
         // for each item in the fptree
-        for (act_t curr_item = 0, N = fptree.header_table.size(); curr_item<N; curr_item++ ) {
+        for (in_memory_act_id_t curr_item = 0, N = fptree.header_table.size(); curr_item < N; curr_item++ ) {
 //            const auto & curr_item = pair.first;
             auto path_starting_fpnode = fptree.header_table.at(curr_item);
             auto pair_second = path_starting_fpnode;

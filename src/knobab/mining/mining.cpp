@@ -4,7 +4,7 @@
 
 #include <knobab/server/query_manager/Environment.h>
 #include <knobab/algorithms/mining/pattern_mining.h>
-#include "../../../PatternMiningConfiguration.h"
+#include "knobab/mining/PatternMiningConfiguration.h"
 
 
 void just_mining(Environment& pos,
@@ -43,12 +43,12 @@ void just_mining(Environment& pos,
         // Moving back to the mined models the information concerning the atomization outcome
         std::cout << "Moving the atomisation outcome..." << std::endl;
         for (size_t i = 0; i<negModelOffset; i++) {
-            std::swap(posModel[i].clause.left_decomposed_atoms, global.conjunctive_model[i].left_decomposed_atoms);
-            std::swap(posModel[i].clause.right_decomposed_atoms, global.conjunctive_model[i].right_decomposed_atoms);
+            std::swap(posModel[i].clause.left_decomposed_atoms, global.conjunctive_model[i].clause.left_decomposed_atoms);
+            std::swap(posModel[i].clause.right_decomposed_atoms, global.conjunctive_model[i].clause.right_decomposed_atoms);
         }
         for (size_t i = 0; i<negModelSize; i++) {
-            std::swap(negModel[i].clause.left_decomposed_atoms, global.conjunctive_model[i+negModelOffset].left_decomposed_atoms);
-            std::swap(negModel[i].clause.right_decomposed_atoms, global.conjunctive_model[i+negModelOffset].right_decomposed_atoms);
+            std::swap(negModel[i].clause.left_decomposed_atoms, global.conjunctive_model[i+negModelOffset].clause.left_decomposed_atoms);
+            std::swap(negModel[i].clause.right_decomposed_atoms, global.conjunctive_model[i+negModelOffset].clause.right_decomposed_atoms);
         }
         std::cout << "WARNING! The Positive Environment will be the only one containing the atomisation information (this is for avoiding useless data duplication on both environments)" << std::endl;
         std::swap(pos.ap, global.ap);
@@ -58,7 +58,7 @@ void just_mining(Environment& pos,
 
 }
 
-int main() {
+int orig() {
     PatternMiningConfiguration conf;
     conf.doStats = false;
     conf.set_grounding_parameters(true, false, true,GroundingStrategyConf::NO_EXPANSION);
@@ -72,5 +72,26 @@ int main() {
     // Loading both the negative and the positive model
     conf.load_data(epos, eneg);
     just_mining(epos, eneg, conf);
+    return 0;
+}
+
+int main() {
+    std::vector<pattern_mining_result<DeclareDataAware>> cm;
+    cm.emplace_back(DeclareDataAware::unary("Exists","A",1));
+    cm.emplace_back(DeclareDataAware::unary("Exists","A",2));
+    cm.emplace_back(DeclareDataAware::unary("Exists","A",3));
+    cm.emplace_back(DeclareDataAware::unary("Exists","B",5));
+    fast_model_search model{cm};
+
+    std::cout << "EXISTS_EQn: " << cm[2] << std::endl;
+    for (size_t j : model.exists(cm[2].clause)) {
+        std::cout << " * " << cm[j] << std::endl;
+    }
+
+    std::cout << "EXISTS_LEn: " << cm[2] << std::endl;
+    for (size_t j : model.exists(cm[2].clause, QR_LE)) {
+        std::cout << " * " << cm[j] << std::endl;
+    }
+
     return 0;
 }

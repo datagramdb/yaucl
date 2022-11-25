@@ -103,16 +103,16 @@ private:
 #include <knobab/server/declare/CNFDeclareDataAware.h>
 
 
-double collect_data_from_declare_disjunctive_model(const yaucl::structures::any_to_uint_bimap<std::string>& map, AtomizingPipeline& pipeline_data, const CNFDeclareDataAware& disjoint_model);
+//double collect_data_from_declare_disjunctive_model(const yaucl::structures::any_to_uint_bimap<std::string>& map, AtomizingPipeline& pipeline_data, const CNFDeclareDataAware& disjoint_model);
 
-double collect_data_from_declare_disjunctive_model(const yaucl::structures::any_to_uint_bimap<std::string>& map, AtomizingPipeline& pipeline_data, const ConjunctiveModel& disjoint_model);
-
-
-
-double atomize_model(AtomizingPipeline& pipeline_data, CNFDeclareDataAware &disjoint_model);
+double collect_data_from_declare_disjunctive_model(const yaucl::structures::any_to_uint_bimap<std::string>& map, AtomizingPipeline& pipeline_data, const std::vector<pattern_mining_result<DeclareDataAware>>& disjoint_model);
 
 
-double atomize_model(AtomizingPipeline& pipeline_data, ConjunctiveModel &disjoint_model);
+
+//double atomize_model(AtomizingPipeline& pipeline_data, CNFDeclareDataAware &disjoint_model);
+
+
+double atomize_model(AtomizingPipeline& pipeline_data, std::vector<pattern_mining_result<DeclareDataAware>> &disjoint_model);
 
 
 #endif //KNOBAB_SERVER_ATOMIZINGPIPELINE_H

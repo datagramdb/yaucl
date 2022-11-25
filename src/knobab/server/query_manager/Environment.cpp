@@ -297,22 +297,6 @@ void Environment::print_attribute_tables(std::ostream &os) const {
     db.print_attribute_tables(os);
 }
 
-void Environment::cache_declare_templates_as_graphs() {
-    DEBUG_ASSERT(false);
-#if 0
-    for (declare_templates t : magic_enum::enum_values<declare_templates>()) {
-        ///std::cout << "INIT: " << magic_enum::enum_name(t) << std::endl;
-        if (isUnaryPredicate(t)) {
-            for (size_t i = 1; i<3; i++) {
-                declare_to_graph.getDeclareTemplate(t, i);
-            }
-        } else {
-            declare_to_graph.getDeclareTemplate(t, 2);
-        }
-    }
-#endif
-}
-
 
 //#include <httplib.h>
 

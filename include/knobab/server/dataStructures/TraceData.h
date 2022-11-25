@@ -11,7 +11,7 @@
 #include <utility>
 
 using MarkedEventsVector = std::vector<marked_event>;
-using ResultIndex = std::pair<trace_t, event_t>;
+using ResultIndex = std::pair<in_memory_trace_id_t, in_memory_event_id_t>;
 using ResultRecordSemantics = std::pair<double, MarkedEventsVector>;
 using ResultRecord = std::pair<ResultIndex, ResultRecordSemantics>;
 using Result = std::vector<ResultRecord>;

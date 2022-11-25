@@ -626,7 +626,7 @@ inline void until_logic_timed(const Result &aSection, const Result &bSection, Re
     std::pair<uint32_t, uint16_t> Fut, Prev;
 
     while (bLower != bUpper) {
-        trace_t currentTraceId = bLower->first.first;
+        in_memory_trace_id_t currentTraceId = bLower->first.first;
         cp_aLocalLower.first.first = cp_aLocalUpper.first.first
                 = Fut.first
                 = Prev.first
@@ -636,11 +636,11 @@ inline void until_logic_timed(const Result &aSection, const Result &bSection, Re
         cp_bLocalUpper.first.second = lengths.at(bLower->first.first);
 
         bLocalUpper = std::upper_bound(bLocalUpper, bUpper, cp_bLocalUpper);
-        event_t alpha = 0;
-        std::map<event_t, ResultRecordSemantics> globalResultBeforeShift;
+        in_memory_event_id_t alpha = 0;
+        std::map<in_memory_event_id_t, ResultRecordSemantics> globalResultBeforeShift;
 
         while (bLower != bLocalUpper) {
-            event_t t = bLower->first.second;
+            in_memory_event_id_t t = bLower->first.second;
             if (t == alpha) {
                 // TODO: add event in results
                 if (globalResultBeforeShift.empty()) {
@@ -659,7 +659,7 @@ inline void until_logic_timed(const Result &aSection, const Result &bSection, Re
                 // Scanning the "a"-s
                 cp_aLocalLower.first.second = alpha;
                 aLower = std::lower_bound(aLower, aUpper, cp_aLocalLower);
-                cp_aLocalUpper.first.second = std::max((event_t)(bLower->first.second - 1), (event_t)cp_aLocalLower.first.second);
+                cp_aLocalUpper.first.second = std::max((in_memory_event_id_t)(bLower->first.second - 1), (in_memory_event_id_t)cp_aLocalLower.first.second);
                 aLocalUpper = std::upper_bound(aLower, aUpper, cp_aLocalUpper);
                 std::iterator_traits<decltype(aLower)>::difference_type dst;
                 size_t count;
@@ -677,7 +677,7 @@ inline void until_logic_timed(const Result &aSection, const Result &bSection, Re
                             // For the current event, every event should satisfy the correlation condition
                             bool hasFail = false;
 
-                            std::map<event_t, ResultRecordSemantics> localResultBeforeShift;
+                            std::map<in_memory_event_id_t, ResultRecordSemantics> localResultBeforeShift;
                             for (auto &activationEvent: bLower->second.second) {
                                 if (hasFail) break;
                                 if (!IS_MARKED_EVENT_TARGET(activationEvent)) continue;
@@ -874,7 +874,7 @@ inline void negated_logic_untimed(const Result &section, Result &result, const s
             });
     ResultRecord rcx{{0,   0},
                      {1.0, {}}};
-    for (trace_t i = 0; i < lengths.size(); i++) {
+    for (in_memory_trace_id_t i = 0; i < lengths.size(); i++) {
         if (!group1.contains(i)) {
             rcx.first.first = i;
             result.emplace_back(rcx);
@@ -892,9 +892,9 @@ inline void negated_logic_timed(const Result &section, Result &result, const std
             });
     ResultRecord rcx{{0,   0},
                      {1.0, {}}};
-    for (trace_t i = 0; i < lengths.size(); i++) {
+    for (in_memory_trace_id_t i = 0; i < lengths.size(); i++) {
         rcx.first.first = i;
-        for (event_t j = 0, N = lengths.at(i); j < N; j++) {
+        for (in_memory_event_id_t j = 0, N = lengths.at(i); j < N; j++) {
             rcx.first.second = j;
             if (!group1.contains(rcx.first)) {
                 result.emplace_back(rcx);

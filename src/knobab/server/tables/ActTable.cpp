@@ -17,7 +17,7 @@ uint16_t cast_to_float2(size_t x, size_t l) {
 
 ActTable::record::record() : record{0,0,0,nullptr, nullptr} {}
 
-ActTable::record::record(act_t act, trace_t id, time_t time, ActTable::record *prev, ActTable::record *next) : prev{prev}, next{next} {
+ActTable::record::record(in_memory_act_id_t act, in_memory_trace_id_t id, time_t time, ActTable::record *prev, ActTable::record *next) : prev{prev}, next{next} {
     //entry.id.parts.future = 0;
     entry.id.parts.event_id = time;
     entry.id.parts.trace_id = id;
@@ -43,7 +43,7 @@ bool ActTable::record::operator!=(const ActTable::record &rhs) const {
 #include <yaucl/functional/assert.h>
 #include <iostream>
 
-void ActTable::load_record(trace_t id, act_t act, time_t time) {
+void ActTable::load_record(in_memory_trace_id_t id, in_memory_act_id_t act, time_t time) {
     {
         const size_t N = builder.act_id_to_trace_id_and_time.size();
         //DEBUG_ASSERT(N >= act);
@@ -85,7 +85,7 @@ const std::vector<std::vector<size_t>> & ActTable::indexing1() { // todo: rename
     for (size_t k = 0, N = builder.act_id_to_trace_id_and_time.size(); k < N; k++) {
         primary_index.emplace_back(offset);
         auto& ref = builder.act_id_to_trace_id_and_time[k];
-        for (const std::pair<trace_t, event_t>& cp : ref) {
+        for (const std::pair<in_memory_trace_id_t, in_memory_event_id_t>& cp : ref) {
             table.emplace_back(k,
                                cp.first,
                                cp.second,//cast_to_float(cp.second, trace_length.at(cp.first) - 1),
@@ -132,7 +132,7 @@ void ActTable::indexing2() { // todo: rename as indexing, and remove expectedOrd
 //    }
 //}
 
-std::pair<const uint32_t, const uint32_t> ActTable::resolve_index(act_t id) const {
+std::pair<const uint32_t, const uint32_t> ActTable::resolve_index(in_memory_act_id_t id) const {
     if (primary_index.size() < id)
         return {-1, -1};
     else {

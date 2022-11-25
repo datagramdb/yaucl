@@ -73,4 +73,16 @@ std::ostream &operator<<(std::ostream &os, const std::set<T> &insertion) {
     return os << '}';
 }
 
+#include <unordered_set>
+
+template<typename T>
+std::ostream& operator<<(std::ostream& os, const std::unordered_set<T> &s)
+{
+    os << '{';
+    for (auto const& i: s) {
+        os << i << ", ";
+    }
+    return os << '}';
+}
+
 #endif //YAUCL_SERIALIZER_H

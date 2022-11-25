@@ -6,11 +6,12 @@
 #define KNOBAB_SERVER_PATTERNMININGCONFIGURATION_H
 
 #include <yaucl/bpm/structures/log/data_loader.h>
+#include <knobab/server/query_manager/Environment.h>
+#include <knobab/algorithms/mining/pattern_mining.h>
 #include <fstream>
-#include "knobab/server/query_manager/Environment.h"
-#include "knobab/algorithms/mining/pattern_mining.h"
 
 struct PatternMiningConfiguration;
+
 
 struct InputFormat {
     log_data_format type;
@@ -77,56 +78,19 @@ struct PatternMiningConfiguration {
     double posModelMiningTime, negModelMiningTime;
 };
 
-#include <yaucl/hashing/pair_hash.h>
-#include <yaucl/hashing/vector_hash.h>
-#include <yaucl/hashing/uset_hash.h>
-#include <yaucl/hashing/umap_hash.h>
+#include "yaucl/hashing/pair_hash.h"
+#include "yaucl/hashing/vector_hash.h"
+#include "yaucl/hashing/uset_hash.h"
+#include "yaucl/hashing/umap_hash.h"
 
-using clause_id = size_t;
-using clause_name = std::string;
-using activity_label = std::string;
-using activation_label = activity_label;
-using target_label = activity_label;
-template <typename K, typename V> using umap = std::unordered_map<K,V>;
 
-struct collected_clauses_unary {
-    umap<clause_name, umap<activation_label, std::vector<clause_id>>>                        activation_dataless;
-    umap<clause_name, umap<activation_label, umap<data_conditions, std::vector<clause_id>>>> activation_withdata;
 
-    void fit(size_t id, const pattern_mining_result<DeclareDataAware>& x) {
-        clause_name name = x.clause.casusu;
-        activation_label activation = x.clause.left_act;
-        activation_dataless[name][activation].emplace_back(id);
-        if (!x.clause.dnf_left_map.empty()) {
-            activation_withdata[name][activation][x.clause.dnf_left_map].emplace_back(id);
-        }
-    }
 
-    DEFAULT_CONSTRUCTORS(collected_clauses_unary)
-};
 
-struct collected_clauses_binary {
-    collected_clauses_unary common;
-    umap<clause_name, umap<activation_label, umap<data_conditions, umap<target_label, std::vector<clause_id>>>>> no_targ_data;
-    umap<clause_name, umap<activation_label, umap<target_label, std::vector<clause_id>>>> dataless_binary_clause;
-    umap<clause_name, umap<activation_label, umap<target_label, umap<data_conditions, std::vector<clause_id>>>>> no_act_targ_but_corr;
 
-    void fit(size_t id, const pattern_mining_result<DeclareDataAware>& x) {
-        DEBUG_ASSERT(!x.clause.right_act.empty());
-        common.fit(id, x);
-        clause_name name = x.clause.casusu;
-        activation_label activation = x.clause.left_act;
-        activation_label target = x.clause.right_act;
-        dataless_binary_clause[name][activation][target].emplace_back(id);
-        if (!x.clause.conjunctive_map.empty()) {
-            no_act_targ_but_corr[name][activation][target][x.clause.conjunctive_map].emplace_back(id);
-        }
-        if (!x.clause.dnf_left_map.empty()) {
-            no_targ_data[name][activation][x.clause.dnf_left_map][target].emplace_back(id);
-        }
-    }
 
-    DEFAULT_CONSTRUCTORS(collected_clauses_binary)
-};
+
+
+
 
 #endif //KNOBAB_SERVER_PATTERNMININGCONFIGURATION_H

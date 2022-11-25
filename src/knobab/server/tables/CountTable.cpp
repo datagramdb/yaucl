@@ -43,7 +43,7 @@ void CountTemplate::indexing(uint16_t maxAct, uint32_t maxTraceId) {
     sparseTable.clear();
 }
 
-std::pair<const oid *, const oid *> CountTemplate::resolve_primary_index(const uint16_t actId, uint32_t& start, uint32_t& end) const {
+std::pair<const in_memory_oid *, const in_memory_oid *> CountTemplate::resolve_primary_index(const uint16_t actId, uint32_t& start, uint32_t& end) const {
     if (actId < maxAct) {
         start = (maxTraceId + 1) * actId;
         end = start + maxTraceId;

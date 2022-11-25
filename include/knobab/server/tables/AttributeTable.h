@@ -39,11 +39,11 @@ struct AttributeTable {
     std::unordered_map<std::string, std::vector<size_t>> string_offset_mapping;
 
     struct record {
-        act_t act;
+        in_memory_act_id_t act;
         size_t value;
         size_t act_table_offset;
 
-        record(act_t act, size_t value, size_t actTableOffset);
+        record(in_memory_act_id_t act, size_t value, size_t actTableOffset);
         DEFAULT_COPY_ASSGN(record);
     };
 
@@ -146,7 +146,7 @@ struct AttributeTable {
 
     std::ostream &resolve_and_print(std::ostream &os, const AttributeTable::record &x) const;
 
-    void record_load(act_t act_id, const union_type &val, trace_t tid, event_t eid);
+    void record_load(in_memory_act_id_t act_id, const union_type &val, in_memory_trace_id_t tid, in_memory_event_id_t eid);
 
     void index(const std::vector<std::vector<size_t>> &trace_id_to_event_id_to_offset);
 
@@ -181,7 +181,7 @@ struct AttributeTable {
 
 
 private:
-    std::vector<std::map<union_type, std::vector<std::pair<trace_t, event_t>>>> elements;
+    std::vector<std::map<union_type, std::vector<std::pair<in_memory_trace_id_t, in_memory_event_id_t>>>> elements;
 
     size_t storeLoad(const union_type &x);
 

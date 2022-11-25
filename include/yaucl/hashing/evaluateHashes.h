@@ -28,9 +28,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 unsigned int hashCode(char* string);
 #ifdef __cplusplus
 }

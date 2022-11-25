@@ -12,7 +12,7 @@
 
 #include <knobab/algorithms/mining/Rule.h>
 #include <yaucl/functional/LexicographicalOrder.h>
-#include "knobab/mining/CountTableFPTree.h"
+#include "knobab/mining/structures/CountTableFPTree.h"
 
 
 using VTLexic = LexicographicalOrder<std::vector<std::string>, std::string>;
@@ -23,7 +23,7 @@ using VTLexic = LexicographicalOrder<std::vector<std::string>, std::string>;
  */
 struct DataMiningMetrics {
 
-    std::vector<std::vector<trace_t>> act_to_traces;
+    std::vector<std::vector<in_memory_trace_id_t>> act_to_traces;
 //    std::map<std::vector<T>, unsigned long, LexicographicalOrder<std::vector<T>, T>> f;///<  Storing the item-support information from the FPGrowth algorithm
     double sumAll = 0.0;                                         ///<  Sum of all the supports for |T|
 
@@ -43,14 +43,14 @@ struct DataMiningMetrics {
      * @param i
      * @return
      */
-    size_t support(const std::vector<act_t>& i) const {
+    size_t support(const std::vector<in_memory_act_id_t>& i) const {
         if (i.empty())
             return sumAll;
         else if (i.size() == 1)
             return act_to_traces.at(i.at(0)).size();
         else {
-            std::vector<trace_t> orig = act_to_traces[i.at(0)];
-            std::vector<trace_t> res;
+            std::vector<in_memory_trace_id_t> orig = act_to_traces[i.at(0)];
+            std::vector<in_memory_trace_id_t> res;
             for (size_t j = 1; j<i.size(); j++) {
                 const auto& ref = act_to_traces.at(i.at(j));
                 std::set_union(orig.begin(), orig.end(), ref.begin(), ref.end(),
@@ -61,14 +61,14 @@ struct DataMiningMetrics {
         }
     }
 
-    size_t and_(const std::vector<act_t>& i) const {
+    size_t and_(const std::vector<in_memory_act_id_t>& i) const {
         if (i.empty())
             return sumAll;
         else if (i.size() == 1)
             return act_to_traces.at(i.at(0)).size();
         else {
-            std::vector<trace_t> orig = act_to_traces[i.at(0)];
-            std::vector<trace_t> res;
+            std::vector<in_memory_trace_id_t> orig = act_to_traces[i.at(0)];
+            std::vector<in_memory_trace_id_t> res;
             for (size_t j = 1; j<i.size(); j++) {
                 const auto& ref = act_to_traces.at(i.at(j));
                 std::set_intersection(orig.begin(), orig.end(), ref.begin(), ref.end(),
@@ -84,8 +84,8 @@ struct DataMiningMetrics {
      * @param r
      * @return
      */
-    double support(const Rule<act_t>& r) const {
-        std::vector<act_t> unione;
+    double support(const Rule<in_memory_act_id_t>& r) const {
+        std::vector<in_memory_act_id_t> unione;
         for (const auto& x: r.head) unione.emplace_back(x);
         for (const auto& x: r.tail) unione.emplace_back(x);
         std::sort(unione.begin(), unione.end());
@@ -98,8 +98,8 @@ struct DataMiningMetrics {
      * @param r
      * @return
      */
-    double confidence(const Rule<act_t>& r) const {
-        std::vector<act_t> unione;
+    double confidence(const Rule<in_memory_act_id_t>& r) const {
+        std::vector<in_memory_act_id_t> unione;
         for (const auto& x: r.head) unione.emplace_back(x);
         for (const auto& x: r.tail) unione.emplace_back(x);
         std::sort(unione.begin(), unione.end());
@@ -107,8 +107,8 @@ struct DataMiningMetrics {
         return ((double)and_(unione)) / ((double) support(r.head));
     }
 
-    double lift(const Rule<act_t>& r) const {
-        std::vector<act_t> unione;
+    double lift(const Rule<in_memory_act_id_t>& r) const {
+        std::vector<in_memory_act_id_t> unione;
         for (const auto& x: r.head) unione.emplace_back(x);
         for (const auto& x: r.tail) unione.emplace_back(x);
         std::sort(unione.begin(), unione.end());

@@ -73,8 +73,8 @@ bool AttributeTable::assertVariant(const std::variant<double, size_t, long long 
 }
 
 void
-AttributeTable::record_load(act_t act_id, const std::variant<double, size_t, long long int, std::string, bool> &val,
-                            trace_t tid, event_t eid) {
+AttributeTable::record_load(in_memory_act_id_t act_id, const std::variant<double, size_t, long long int, std::string, bool> &val,
+                            in_memory_trace_id_t tid, in_memory_event_id_t eid) {
     DEBUG_ASSERT(assertVariant(val));
     while (elements.size() <= act_id)
         elements.emplace_back();
@@ -397,8 +397,8 @@ std::optional<union_minimal> AttributeTable::resolve_record_if_exists2(size_t ac
 }
 
 
-AttributeTable::record::record(act_t act, size_t value, size_t actTableOffset) : act(act), value(value),
-                                                                                 act_table_offset(actTableOffset) {}
+AttributeTable::record::record(in_memory_act_id_t act, size_t value, size_t actTableOffset) : act(act), value(value),
+                                                                                              act_table_offset(actTableOffset) {}
 
 union_minimal resolveUnionMinimal(const AttributeTable &table, const AttributeTable::record &x) {
     switch (table.type) {

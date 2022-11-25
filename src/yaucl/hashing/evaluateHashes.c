@@ -25,6 +25,9 @@
 
 #include <yaucl/hashing/evaluateHashes.h>
 #include <yaucl/numeric/ssize_t.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
 unsigned int doHash(char *line, int *pos) {
     unsigned int prime = 17;

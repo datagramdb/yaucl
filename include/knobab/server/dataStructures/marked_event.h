@@ -17,27 +17,27 @@
 using marked_event_type = uint16_t;
 using marked_event_future_t = uint16_t;
 
-TAGGED_UNION_WITH_ENCAPSULATION_BEGIN(uint64_t, marked_event, 0, 4, marked_event_type type:16, event_t left:16, event_t right:16, marked_event_future_t future:16)
-(marked_event_type type, event_t left, event_t right = 0, marked_event_future_t future = 0) {
+TAGGED_UNION_WITH_ENCAPSULATION_BEGIN(uint64_t, marked_event, 0, 4, marked_event_type type:16, in_memory_event_id_t left:16, in_memory_event_id_t right:16, marked_event_future_t future:16)
+(marked_event_type type, in_memory_event_id_t left, in_memory_event_id_t right = 0, marked_event_future_t future = 0) {
 id.parts.type = type;
 id.parts.left = left;
 id.parts.right = right;
 id.parts.future = future;
 }
 
-static marked_event left(event_t left) {
+static marked_event left(in_memory_event_id_t left) {
 return {MARKED_EVENT_LEFT, left};
 }
-static marked_event activation(event_t left) {
+static marked_event activation(in_memory_event_id_t left) {
 return {MARKED_EVENT_ACTIVATION, left};
 }
-static marked_event right(event_t right) {
+static marked_event right(in_memory_event_id_t right) {
 return {MARKED_EVENT_RIGHT, 0, right};
 }
-static marked_event target(event_t right) {
+static marked_event target(in_memory_event_id_t right) {
 return {MARKED_EVENT_TARGET, 0, right};
 }
-static marked_event join(event_t left, event_t right) {
+static marked_event join(in_memory_event_id_t left, in_memory_event_id_t right) {
 return {MARKED_EVENT_MATCH, left, right};
 }
 TAGGED_UNION_ENCAPSULATOR_END

@@ -29,11 +29,19 @@ struct LTLfQueryManager;
 #define PARALLELIZE_LOOP_END                                      } while(0);
 #endif
 
+enum PerClauseMethods {
+    PerClauseSupport, //PerDeclareSupport
+    PerClauseConfidence  //PerDeclareConfidence
+};
+
 enum EnsembleMethods {
     PerDeclareSupport,
     PerDeclareConfidence,
     TraceMaximumSatisfiability,
     TraceIntersection,
+    TracesToClauses,
+    ClausesToTraces,
+    NonVacuouslySatisfied,
     Nothing
 };
 
@@ -67,6 +75,7 @@ struct MAXSatPipeline {
     std::unordered_map<std::string , std::vector<LTLfQuery*>> atomToFormulaId;
     size_t maxFormulaId = 0;
     //std::vector<LTLfQuery*> fomulaidToFormula;
+    std::vector<size_t> activated_clauses;
 
     MAXSatPipeline(std::unordered_map<std::string, LTLfQuery>* ptrx,
                    size_t nThreads,
@@ -103,6 +112,7 @@ struct MAXSatPipeline {
     Result result;
     std::vector<double> support_per_declare;
     std::vector<double> max_sat_per_trace;
+    std::vector<std::vector<size_t>> clauses_to_traces, traces_to_clauses;
 
     // DATA
     ///ssize_t maxPartialResultId = -1;
@@ -116,7 +126,7 @@ struct MAXSatPipeline {
 
     std::unordered_map<std::string, size_t> toUseAtoms; // This is to ensure the insertion of unique elements to the map!
     //size_t barrier_to_range_queries, barriers_to_atfo;
-    std::vector<std::vector<std::pair<std::pair<trace_t, event_t>, double>>> atomicPartIntersectionResult;
+    std::vector<std::vector<std::pair<std::pair<in_memory_trace_id_t, in_memory_event_id_t>, double>>> atomicPartIntersectionResult;
 
     void pipeline(const ConjunctiveModelView& model,
                   const AtomizingPipeline& atomization,

@@ -173,7 +173,7 @@ inline DisjunctiveDeclareDataAware GroundWhereStrategy(GroundingStrategyConf& co
     return result;
 }
 
-CNFDeclareDataAware GroundWhereStrategy(GroundingStrategyConf& conf,
+std::vector<pattern_mining_result<DeclareDataAware>> GroundWhereStrategy(GroundingStrategyConf& conf,
                                         const KnowledgeBase& db,
                                         const std::vector<DeclareDataAware>& declare) {
 
@@ -191,11 +191,12 @@ CNFDeclareDataAware GroundWhereStrategy(GroundingStrategyConf& conf,
         db.collectValuesFrom(conf.I_A_x, conf.I_x, {}, conf.ActToAttribute, conf.OtherAttributes);
     }
 
-    CNFDeclareDataAware cnf;
+    std::vector<pattern_mining_result<DeclareDataAware>> cnf;
     for (const auto& ref : declare) {
         auto V = GroundWhereStrategy(conf, db, ref);
-        if (!V.elementsInDisjunction.empty())
-            cnf.singleElementOfConjunction.emplace_back(V);
+        throw std::runtime_error("ERROR: this method is obsolete");
+//        if (!V.elementsInDisjunction.empty())
+//            cnf.emplace_back(V);
     }
     return cnf;
 }

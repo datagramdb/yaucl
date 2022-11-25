@@ -2,7 +2,7 @@
 // Created by giacomo on 10/11/22.
 //
 
-#include "PatternMiningConfiguration.h"
+#include "knobab/mining/PatternMiningConfiguration.h"
 
 InputFormat::InputFormat(const struct PatternMiningConfiguration& x, const std::string& path) {
     type = x.type;

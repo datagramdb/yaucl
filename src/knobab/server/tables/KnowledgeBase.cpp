@@ -317,7 +317,7 @@ KnowledgeBase::collectValuesFrom(std::set<union_type> &S, ssize_t trace_id, uint
 #include <bitset>
 
 
-void KnowledgeBase::collectValuesAmongTraces(std::set<union_type> &S, size_t trace_id, act_t acts, bool hasNoActId,
+void KnowledgeBase::collectValuesAmongTraces(std::set<union_type> &S, size_t trace_id, in_memory_act_id_t acts, bool hasNoActId,
                                              const std::string &attribute_name, bool hasNoAttribute) const {
     const auto& ref = act_table_by_act_id.secondary_index[trace_id];
     auto ptr = ref.first;
@@ -351,7 +351,7 @@ KnowledgeBase::collectValuesFrom(std::set<union_type> &S, const std::unordered_s
 void KnowledgeBase::collectValuesFrom(
         std::unordered_map<std::string, std::unordered_map<std::string, std::set<union_type>>> &result,
         std::unordered_map<std::string, std::set<union_type>> &resultOtherValues,
-        const std::unordered_set<trace_t> &trace_ids,
+        const std::unordered_set<in_memory_trace_id_t> &trace_ids,
         const std::unordered_map<std::string, std::unordered_set<std::string>> &actToTables,
         const std::unordered_set<std::string> &otherValues) const {
     size_t N = act_table_by_act_id.secondary_index.size();
@@ -360,7 +360,7 @@ void KnowledgeBase::collectValuesFrom(
             collectValuesAmongTraces(result, resultOtherValues, actToTables, otherValues, currentTraceId);
         }
     } else {
-        for (trace_t traceId : trace_ids) {
+        for (in_memory_trace_id_t traceId : trace_ids) {
             if (traceId < N) {
                 collectValuesAmongTraces(result, resultOtherValues, actToTables, otherValues, traceId);
             }
@@ -372,7 +372,7 @@ void KnowledgeBase::collectValuesAmongTraces(
         std::unordered_map<std::string, std::unordered_map<std::string, std::set<union_type>>> &result,
         std::unordered_map<std::string, std::set<union_type>> &resultOtherValues,
         const std::unordered_map<std::string, std::unordered_set<std::string>> &actToTables,
-        const std::unordered_set<std::string> &otherValues, trace_t traceId) const {
+        const std::unordered_set<std::string> &otherValues, in_memory_trace_id_t traceId) const {
     const auto& ref = act_table_by_act_id.secondary_index[traceId];
     ActTable::record* ptr = ref.first;
     while (ptr) {
@@ -436,7 +436,7 @@ OutputIt tmp_set_union(InputIt1 first1, InputIt1 last1,
     return std::copy(first2, last2, d_first);
 }
 
-std::vector<std::pair<std::pair<trace_t, event_t>, double>>
+std::vector<std::pair<std::pair<in_memory_trace_id_t, in_memory_event_id_t>, double>>
 KnowledgeBase::range_query(DataPredicate prop, double min_threshold, const double c) const {
     if (prop.casusu == TTRUE)
         return universe; // Immediately returning the universe queries
@@ -479,7 +479,7 @@ KnowledgeBase::range_query(DataPredicate prop, double min_threshold, const doubl
         auto tmp2 = range_query(prop, min_threshold, maximum_reliability_for_insertion, c, false);
         if (tmp2.first == 1) {
             // performs the union with the approximated universe: TODO: replace tmp_set_union with Sam's
-            std::vector<std::pair<std::pair<trace_t, event_t>, double>> Result;
+            std::vector<std::pair<std::pair<in_memory_trace_id_t, in_memory_event_id_t>, double>> Result;
             tmp_set_union(tmp.second.begin(), tmp.second.end(),
                           universeApprox.begin(), universeApprox.end(),
                           std::back_inserter(Result), [](double x, double y) {return std::max(x,y);});
@@ -489,7 +489,7 @@ KnowledgeBase::range_query(DataPredicate prop, double min_threshold, const doubl
             return tmp.second;
         else {
             // performs he union with the two datasets. TODO: replace tmp_set_union with Sam's
-            std::vector<std::pair<std::pair<trace_t, event_t>, double>> Result;
+            std::vector<std::pair<std::pair<in_memory_trace_id_t, in_memory_event_id_t>, double>> Result;
             tmp_set_union(tmp.second.begin(), tmp.second.end(),
                           tmp2.second.begin(), tmp2.second.end(),
                           std::back_inserter(Result), [](double x, double y) {return std::max(x,y);});
@@ -500,7 +500,7 @@ KnowledgeBase::range_query(DataPredicate prop, double min_threshold, const doubl
     }
 }
 
-std::pair<int, std::vector<std::pair<std::pair<trace_t, event_t>, double>>>
+std::pair<int, std::vector<std::pair<std::pair<in_memory_trace_id_t, in_memory_event_id_t>, double>>>
 KnowledgeBase::range_query(DataPredicate &prop,
                            double min_threshold,
                            double correction,
@@ -524,7 +524,7 @@ KnowledgeBase::range_query(DataPredicate &prop,
         else if (tmp.isEmptySolution())
             return {0, {}}; // Return empty solution
         else {
-            std::vector<std::pair<std::pair<trace_t, event_t>, double>> S;
+            std::vector<std::pair<std::pair<in_memory_trace_id_t, in_memory_event_id_t>, double>> S;
             for (const auto& element : tmp._data) {
                 if (element.exact_solution.first != nullptr) {
                     size_t N = std::distance(element.exact_solution.first, element.exact_solution.second);
@@ -603,9 +603,9 @@ std::pair<const uint32_t, const uint32_t> KnowledgeBase::resolveCountingData(con
     return count_table.resolve_primary_index(it->second);
 }
 
-std::vector<std::pair<std::pair<trace_t, event_t>, double>> KnowledgeBase::untimed_dataless_exists(const std::pair<const uint32_t, const uint32_t>& indexes,
-                                                                                                   const uint16_t& amount) const {
-    std::vector<std::pair<std::pair<trace_t, event_t>, double>> foundElems;
+std::vector<std::pair<std::pair<in_memory_trace_id_t, in_memory_event_id_t>, double>> KnowledgeBase::untimed_dataless_exists(const std::pair<const uint32_t, const uint32_t>& indexes,
+                                                                                                                             const uint16_t& amount) const {
+    std::vector<std::pair<std::pair<in_memory_trace_id_t, in_memory_event_id_t>, double>> foundElems;
 
     if ((indexes.first == indexes.second) && (indexes.first == (uint32_t)-1))
         return foundElems;
@@ -614,7 +614,7 @@ std::vector<std::pair<std::pair<trace_t, event_t>, double>> KnowledgeBase::untim
         //uint16_t approxConstant = act_table_by_act_id.getTraceLength(it->id.parts.trace_id) / 2;
         //double satisfiability = getSatisifiabilityBetweenValues(amount, it->id.parts.event_id, approxConstant);
         if (it->id.parts.event_id >= amount)
-            foundElems.emplace_back(std::pair<trace_t, event_t>{it->id.parts.trace_id, 0}, 1.0);
+            foundElems.emplace_back(std::pair<in_memory_trace_id_t, in_memory_event_id_t>{it->id.parts.trace_id, 0}, 1.0);
     }
 
     return foundElems;
@@ -684,7 +684,7 @@ uint16_t KnowledgeBase::getPositionFromEventId(const std::pair<uint32_t, uint16_
     return posFromEventId;
 }
 
-uint16_t KnowledgeBase::getPositionFromEventId(const oid* event) const {
+uint16_t KnowledgeBase::getPositionFromEventId(const in_memory_oid* event) const {
     uint16_t traceLength = act_table_by_act_id.getTraceLength(event->id.parts.trace_id);
 
     /* Guard against length 1 traces */
@@ -732,7 +732,7 @@ void KnowledgeBase::print_attribute_tables(std::ostream &os) const {
         os << ref.second;
 }
 
-std::vector<std::pair<trace_t, event_t>> KnowledgeBase::exact_range_query(DataPredicate prop) const {
+std::vector<std::pair<in_memory_trace_id_t, in_memory_event_id_t>> KnowledgeBase::exact_range_query(DataPredicate prop) const {
     DEBUG_ASSERT(prop.casusu != TTRUE);
     prop.asInterval();
     constexpr size_t max_int = std::numeric_limits<size_t>::max();
@@ -754,7 +754,7 @@ std::vector<std::pair<trace_t, event_t>> KnowledgeBase::exact_range_query(DataPr
         if ((tmp.first == tmp.second) && tmp.first == nullptr )
             return {}; // Return empty solution
         else {
-            std::vector<std::pair<trace_t, event_t>> S;
+            std::vector<std::pair<in_memory_trace_id_t, in_memory_event_id_t>> S;
             size_t N = std::distance(tmp.first, tmp.second);
             for (size_t i = 0; i<=N; i++) {
                 const auto& exactIt = tmp.first[i];
@@ -827,7 +827,7 @@ void KnowledgeBase::exact_range_query(const std::string &field_name,
 //                            doInsert = satisfiability >= 1.0;
 //                        }
 //                        if (doInsert)
-                        S.emplace_back(std::pair<trace_t,event_t>{resolve.trace_id, resolve.event_id},
+                        S.emplace_back(std::pair<in_memory_trace_id_t,in_memory_event_id_t>{resolve.trace_id, resolve.event_id},
                                        /*std::pair<double,std::vector<uint16_t>>{*/1.0/*, W}*/);
                     }
                     std::sort(S.begin(), S.end());
@@ -992,7 +992,7 @@ PartialResult KnowledgeBase::timed_dataless_exists(const std::string &act) const
 }
 
 PartialResult
-KnowledgeBase::untimed_dataless_absence(const std::pair<const uint32_t, const uint32_t> &indexes, const event_t &amount) const {
+KnowledgeBase::untimed_dataless_absence(const std::pair<const uint32_t, const uint32_t> &indexes, const in_memory_event_id_t &amount) const {
     PartialResult foundElems;
 
     if ((indexes.first == indexes.second) && (indexes.first == (uint32_t)-1))
@@ -1002,7 +1002,7 @@ KnowledgeBase::untimed_dataless_absence(const std::pair<const uint32_t, const ui
         //uint16_t approxConstant = act_table_by_act_id.getTraceLength(it->id.parts.trace_id) / 2;
         //double satisfiability = getSatisifiabilityBetweenValues(amount, it->id.parts.event_id, approxConstant);
         if (it->id.parts.event_id < amount)
-            foundElems.emplace_back(std::pair<trace_t, event_t>{it->id.parts.trace_id, 0}, 1.0);
+            foundElems.emplace_back(std::pair<in_memory_trace_id_t, in_memory_event_id_t>{it->id.parts.trace_id, 0}, 1.0);
     }
 
     return foundElems;

@@ -13,7 +13,6 @@
 #include "knobab/server/operators/semantics.h"
 
 
-
 enum DataQueryType {
     ExistsQuery,
     AbsenceQuery,

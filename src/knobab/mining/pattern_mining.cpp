@@ -2,8 +2,9 @@
 // Created by giacomo on 17/09/22.
 //
 
-#include "knobab/algorithms/mining/pattern_mining.h"
+#include <knobab/algorithms/mining/pattern_mining.h>
 #include <chrono>
+#include <knobab/server/tables/KnowledgeBase.h>
 
 
 static inline void decrease_support_X(const KnowledgeBase &kb,
@@ -18,7 +19,7 @@ static inline void decrease_support_X(const KnowledgeBase &kb,
     }
 }
 
-static inline void fast_forward_equals(trace_t trace_id,
+static inline void fast_forward_equals(in_memory_trace_id_t trace_id,
                                        ActTable::record*& to_increment,
                                        ActTable::record *&end) {
     do {
@@ -27,7 +28,7 @@ static inline void fast_forward_equals(trace_t trace_id,
              (to_increment->entry.id.parts.trace_id == trace_id));
 }
 
-static inline void fast_forward_lower(trace_t trace_id,
+static inline void fast_forward_lower(in_memory_trace_id_t trace_id,
                                       ActTable::record*& to_increment,
                                       ActTable::record *&end) {
     do {
@@ -37,12 +38,12 @@ static inline void fast_forward_lower(trace_t trace_id,
 }
 
 struct forNegation {
-    act_t act;
-    std::vector<trace_t> witnesses;
+    in_memory_act_id_t act;
+    std::vector<in_memory_trace_id_t> witnesses;
     double local_support;
 
     DEFAULT_CONSTRUCTORS(forNegation)
-    forNegation(act_t act, const std::vector<trace_t> &witnesses, double localSupport) : act(act),
+    forNegation(in_memory_act_id_t act, const std::vector<in_memory_trace_id_t> &witnesses, double localSupport) : act(act),
                                                                                          local_support(localSupport),
                                                                                          witnesses(witnesses) {}
 };
@@ -53,15 +54,15 @@ static inline DeclareDataAware &getAware(const KnowledgeBase &kb,
                                          const CountTemplate &count_table,
                                          uint64_t minimum_support_threshold,
                                          std::vector<pattern_mining_result<DeclareDataAware>> &declarative_clauses,
-                                         const pattern_mining_result<Rule<act_t>> &result,
-                                         act_t A,
-                                         act_t B,
+                                         const pattern_mining_result<Rule<in_memory_act_id_t>> &result,
+                                         in_memory_act_id_t A,
+                                         in_memory_act_id_t B,
                                          DeclareDataAware &clause,
-                                         std::unordered_map<std::string, std::unordered_map<act_t, std::vector<forNegation>>>* ptn) {
+                                         std::unordered_map<std::string, std::unordered_map<in_memory_act_id_t, std::vector<forNegation>>>* ptn) {
     auto ntraces = kb.nTraces();
     auto nacts = kb.nAct();
-    std::vector<trace_t> allTraces;
-    for (trace_t sigma = 0; sigma<ntraces; sigma++) allTraces.emplace_back(sigma);
+    std::vector<in_memory_trace_id_t> allTraces;
+    for (in_memory_trace_id_t sigma = 0; sigma<ntraces; sigma++) allTraces.emplace_back(sigma);
 //    std::vector<ActTable::record*> activationsCN, activationsCP;
     if (special_temporal_patterns) {
         size_t expected_support = only_precise_temporal_patterns ?
@@ -161,7 +162,7 @@ static inline DeclareDataAware &getAware(const KnowledgeBase &kb,
         // As I obtained the rule, there should be some data pertaining to it!
         DEBUG_ASSERT(b_beginend.first != b_beginend.second);
 
-        std::vector<trace_t> removed_traces_from_response;
+        std::vector<in_memory_trace_id_t> removed_traces_from_response;
 
         auto alles_precedence = true;
         size_t alles_not_precedence = 0;
@@ -304,13 +305,13 @@ static inline DeclareDataAware &getAware(const KnowledgeBase &kb,
                                               ((double) ntraces)),
                                              -1);
             if (ptn) {
-                std::vector<trace_t> responseSupp;
+                std::vector<in_memory_trace_id_t> responseSupp;
                 std::set_difference(allTraces.begin(), allTraces.end(),
                                     removed_traces_from_response.begin(), removed_traces_from_response.end(),
                                     std::back_inserter(responseSupp));
                 auto it_1 = ptn->find("Response");
                 if (it_1 == ptn->end()) {
-                    it_1 = ptn->emplace("Response", std::unordered_map < act_t, std::vector<forNegation> > {}).first;
+                    it_1 = ptn->emplace("Response", std::unordered_map < in_memory_act_id_t, std::vector<forNegation> > {}).first;
                 }
                 auto it_2 = it_1->second.find(A);
                 if (it_2 == it_1->second.end()) {
@@ -386,10 +387,10 @@ std::pair<std::vector<pattern_mining_result<DeclareDataAware>>,double> pattern_m
     using std::chrono::milliseconds;
     std::pair<std::vector<pattern_mining_result<DeclareDataAware>>,double> result;
     auto t1 = high_resolution_clock::now();
-    std::unordered_map<std::string, std::unordered_map<act_t, std::vector<forNegation>>> patterns_to_negate;
+    std::unordered_map<std::string, std::unordered_map<in_memory_act_id_t, std::vector<forNegation>>> patterns_to_negate;
     support = std::max(std::min(support, 1.0), 0.0); // forcing the value to be between 0 and 1.
     size_t log_size = kb.nTraces();
-    std::unordered_set<act_t> absent_acts;
+    std::unordered_set<in_memory_act_id_t> absent_acts;
     const auto& count_table = kb.getCountTable();
     uint64_t minimum_support_threshold = std::min((uint64_t)std::ceil((double)log_size * support), log_size);
     uint64_t max_act_id = kb.nAct();
@@ -399,7 +400,7 @@ std::pair<std::vector<pattern_mining_result<DeclareDataAware>>,double> pattern_m
     bool doInitA = false;
     auto fpt_result = fptree_growth(t, 2);
     std::set<Pattern> binary_patterns;
-    std::unordered_set<act_t> unary_patterns_for_non_exact_support;
+    std::unordered_set<in_memory_act_id_t> unary_patterns_for_non_exact_support;
     for (const auto& x : fpt_result) {
         if (x.first.size() == 1) {
             auto it = *x.first.begin();
@@ -422,7 +423,7 @@ std::pair<std::vector<pattern_mining_result<DeclareDataAware>>,double> pattern_m
                     // for mining the absence pattern
                     DeclareDataAware clause;
                     clause.left_act = kb.event_label_mapper.get(it);
-                    event_t n = std::numeric_limits<event_t>::max(),
+                    in_memory_event_id_t n = std::numeric_limits<in_memory_event_id_t>::max(),
                             N = 0;
                     auto cp = count_table.resolve_primary_index2(it);
                     while (cp.first != cp.second) {
@@ -466,7 +467,7 @@ std::pair<std::vector<pattern_mining_result<DeclareDataAware>>,double> pattern_m
 //            clause.left_act = kb.event_label_mapper.get(y);
 //            auto cp = count_table.resolve_primary_index2(y);
 //            size_t absence1_not_supp = 0;
-//            event_t N = 0;
+//            in_memory_event_id_t N = 0;
 //            while (cp.first != cp.second) {
 //                if (cp.first->id.parts.event_id > 0) absence1_not_supp++;
 //                if (cp.first->id.parts.event_id > N) {
@@ -490,15 +491,15 @@ std::pair<std::vector<pattern_mining_result<DeclareDataAware>>,double> pattern_m
     // Please observe that, given the support definition for traditional
     // event mining, I can extract a Choice pattern only when the support is
     // less than one, otherwise this choice can be rewritten simply as an exists
-    std::vector<std::vector<act_t>> map;
-    std::vector<std::vector<trace_t>> inv_map;
-    std::set<std::vector<act_t>> S;
+    std::vector<std::vector<in_memory_act_id_t>> map;
+    std::vector<std::vector<in_memory_trace_id_t>> inv_map;
+    std::set<std::vector<in_memory_act_id_t>> S;
     if (doInitA) {
-        map.insert(map.begin(), (log_size), std::vector<act_t>{});
-        inv_map.insert(inv_map.begin(), max_act_id, std::vector<trace_t>{});
-        for (const act_t& act_id : unary_patterns_for_non_exact_support) {
+        map.insert(map.begin(), (log_size), std::vector<in_memory_act_id_t>{});
+        inv_map.insert(inv_map.begin(), max_act_id, std::vector<in_memory_trace_id_t>{});
+        for (const in_memory_act_id_t& act_id : unary_patterns_for_non_exact_support) {
             for (size_t trace_id = 0; trace_id < log_size; trace_id++) {
-                event_t count = count_table.resolve_length(act_id, trace_id);
+                in_memory_event_id_t count = count_table.resolve_length(act_id, trace_id);
                 if (count > 0) {
                     map[trace_id].emplace_back(act_id);
                     inv_map[act_id].emplace_back(trace_id);
@@ -514,8 +515,8 @@ std::pair<std::vector<pattern_mining_result<DeclareDataAware>>,double> pattern_m
     for (auto& v : inv_map) {
         std::sort(v.begin(), v.end());
     }
-    std::pair<act_t, act_t> curr_pair, inv_pair;
-    std::unordered_set<std::pair<act_t, act_t>> visited_pairs;
+    std::pair<in_memory_act_id_t, in_memory_act_id_t> curr_pair, inv_pair;
+    std::unordered_set<std::pair<in_memory_act_id_t, in_memory_act_id_t>> visited_pairs;
     // Point A)
     for (const auto& v : map)
         S.insert(v);
@@ -563,10 +564,10 @@ std::pair<std::vector<pattern_mining_result<DeclareDataAware>>,double> pattern_m
     DataMiningMetrics counter{count_table};
 //    std::cout << "Pattern generation: " << std::endl;
     for (const Pattern& pattern : binary_patterns) {
-        std::vector<pattern_mining_result<Rule<act_t>>> candidate_rule;
+        std::vector<pattern_mining_result<Rule < in_memory_act_id_t>> > candidate_rule;
 
         DEBUG_ASSERT(pattern.first.size() == 2);
-        Rule<act_t> lr, rl;
+        Rule<in_memory_act_id_t> lr, rl;
         auto it = pattern.first.begin();
         lr.head.emplace_back(*it); rl.tail.emplace_back(*it);
 //        std::cout << " - Pattern: " << kb.event_label_mapper.get(*it) << ",";
@@ -578,7 +579,7 @@ std::pair<std::vector<pattern_mining_result<DeclareDataAware>>,double> pattern_m
 //        std::cout << "   conf: " << counter.lift(lr) << " conf: " << counter.lift(rl) << std::endl;
 //        std::cout << "   lift: " << counter.lift(lr) << " lift: " << counter.lift(rl) << std::endl;
         if ((lr_conf == rl_conf) && (rl_conf >= support)) {
-            candidate_rule.emplace_back(Rule<act_t>{pattern.first}, ((double)pattern.second)/((double)log_size), -1, -1);
+            candidate_rule.emplace_back(Rule < in_memory_act_id_t > {pattern.first}, ((double)pattern.second) / ((double)log_size), -1, -1);
         } else {
             if (lr_conf >= rl_conf) {
                 if (lr_conf >= support)
@@ -590,8 +591,8 @@ std::pair<std::vector<pattern_mining_result<DeclareDataAware>>,double> pattern_m
         }
 
         for (const auto& candidate: candidate_rule) {            // Generate the hypotheses containing a lift greater than one
-            act_t A;
-            act_t B;
+            in_memory_act_id_t A;
+            in_memory_act_id_t B;
             DeclareDataAware clause;
             clause.n = 1;
             bool alsoFlip = false;
@@ -640,10 +641,10 @@ std::pair<std::vector<pattern_mining_result<DeclareDataAware>>,double> pattern_m
 //        auto it = patterns_to_negate.find("Response");
 //        if (it != patterns_to_negate.end()) {
 //            for (const auto& cp : it->second) {
-//                act_t A = cp.first;
+//                in_memory_act_id_t A = cp.first;
 //                clause.left_act = kb.event_label_mapper.get(A);
 //                std::vector<bool> contributingToNegation(max_act_id, false);
-//                std::unordered_set<trace_t> tracesForNegation;
+//                std::unordered_set<in_memory_trace_id_t> tracesForNegation;
 //                double prod = 1.0;
 //                for (const auto& cp2 : cp.second) {
 //                    contributingToNegation[cp2.act] = true;
@@ -651,7 +652,7 @@ std::pair<std::vector<pattern_mining_result<DeclareDataAware>>,double> pattern_m
 //                    prod *= cp2.local_support;
 //                }
 //                size_t support = tracesForNegation.size();
-//                for (act_t BNeg = 0; BNeg < max_act_id; BNeg++) {
+//                for (in_memory_act_id_t BNeg = 0; BNeg < max_act_id; BNeg++) {
 //                    if (contributingToNegation.at(BNeg) || (BNeg == A)) continue;
 //                    if (support >= minimum_support_threshold) {
 //                        std::fill(isTraceVisitedU.begin(), isTraceVisitedU.end(), false);
