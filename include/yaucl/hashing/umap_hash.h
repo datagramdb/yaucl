@@ -27,36 +27,38 @@
 #define FUZZYSTRINGMATCHING2_USET_HASH_H
 
 #include <yaucl/hashing/hash_combine.h>
-#include <unordered_set>
-#include <set>
+#include <unordered_map>
+#include <map>
 
 namespace std {
 
 
-    template <typename T>
-    struct hash<std::unordered_set<T>>
+    template <typename T, typename K>
+    struct hash<std::unordered_map<T, K>>
     {
         hash() {}
         ~hash() {}
-        std::size_t operator()(const std::unordered_set<T>& k) const
+        std::size_t operator()(const std::unordered_map<T,K>& k) const
         {
             std::hash<T> thash;
+            std::hash<K> khash;
             size_t init = 31;
-            for (const T& x : k) init += thash(x);
+            for (const auto& x : k) init += thash(x.first) ^ khash(x.second);
             return init;
         }
     };
 
-    template <typename T>
-    struct hash<std::set<T>>
+    template <typename T, typename K>
+    struct hash<std::map<T, K>>
     {
         hash() {}
         ~hash() {}
-        std::size_t operator()(const std::set<T>& k) const
+        std::size_t operator()(const std::map<T,K>& k) const
         {
             std::hash<T> thash;
+            std::hash<K> khash;
             size_t init = 31;
-            for (const T& x : k) init += thash(x);
+            for (const auto& x : k) init += thash(x.first) ^ khash(x.second);
             return init;
         }
     };

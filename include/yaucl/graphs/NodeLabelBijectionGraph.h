@@ -26,10 +26,10 @@
 #ifndef GRAPHOS_GRAPH_H
 #define GRAPHOS_GRAPH_H
 
+#include <yaucl/functional/assert.h>
 #include <yaucl/graphs/adjacency_graph.h>
 #include <unordered_map>
 #include <optional>
-#include <cassert>
 
 template <typename NodeElement, typename EdgeLabel>
 class NodeLabelBijectionGraph {
@@ -67,6 +67,10 @@ public:
         return nodeLabelInv.at(id);
     }
 
+    EdgeLabel& setEdgeLabel(size_t id) {
+        return costMap[id];
+    }
+
     EdgeLabel getEdgeLabel(size_t id) const {
         return costMap.at(id);
     }
@@ -75,7 +79,8 @@ public:
         auto it = nodeLabel.find(node);
         if (it == nodeLabel.end()) {
             auto graphNode = g.add_node();
-            DEBUG_ASSERT(nodeLabelInv.insert(std::make_pair((graphNode), node)).second);
+            auto doop = nodeLabelInv.insert(std::make_pair((graphNode), node));
+            DEBUG_ASSERT(doop.second);
             return nodeLabel.insert(std::make_pair(node, (graphNode))).first->second;
         } else {
             return it->second;
