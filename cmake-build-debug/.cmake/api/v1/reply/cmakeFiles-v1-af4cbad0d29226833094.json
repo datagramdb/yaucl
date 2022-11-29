@@ -1,0 +1,218 @@
+{
+	"inputs" : 
+	[
+		{
+			"path" : "CMakeLists.txt"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/CMakeFiles/3.22.3/CMakeSystem.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CMakeSystemSpecificInitialize.cmake"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/CMakeFiles/3.22.3/CMakeCCompiler.cmake"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/CMakeFiles/3.22.3/CMakeCXXCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CMakeSystemSpecificInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CMakeGenericSystem.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CMakeInitializeConfigs.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/Platform/Linux.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/Platform/UnixPaths.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CMakeFindCodeBlocks.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CMakeExtraGeneratorDetermineCompilerMacrosAndIncludeDirs.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/ProcessorCount.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CMakeCInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CMakeLanguageInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/Compiler/GNU-C.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/Compiler/GNU.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/Compiler/CMakeCommonCompilerMacros.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/Platform/Linux-GNU-C.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/Platform/Linux-GNU.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CMakeCommonLanguageInclude.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CMakeCXXInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CMakeLanguageInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/Compiler/GNU-CXX.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/Compiler/GNU.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/Platform/Linux-GNU-CXX.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/Platform/Linux-GNU.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CMakeCommonLanguageInclude.cmake"
+		},
+		{
+			"path" : "submodule/roaring/CMakeLists.txt"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/GNUInstallDirs.cmake"
+		},
+		{
+			"path" : "submodule/roaring/tools/cmake/FindCTargets.cmake"
+		},
+		{
+			"path" : "submodule/roaring/tools/cmake/FindOptions.cmake"
+		},
+		{
+			"path" : "submodule/roaring/tools/cmake/FindLTO.cmake"
+		},
+		{
+			"path" : "submodule/roaring/tools/cmake/Import.cmake"
+		},
+		{
+			"path" : "submodule/roaring/roaring.pc.in"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CTest.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CTestUseLaunchers.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CTestTargets.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/DartConfiguration.tcl.in"
+		},
+		{
+			"path" : "submodule/roaring/tests/config.h.in"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CPack.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CPackComponent.cmake"
+		},
+		{
+			"isExternal" : true,
+			"path" : "/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Templates/CPackConfig.cmake.in"
+		},
+		{
+			"isExternal" : true,
+			"path" : "/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Templates/CPackConfig.cmake.in"
+		},
+		{
+			"path" : "submodule/roaring/src/CMakeLists.txt"
+		}
+	],
+	"kind" : "cmakeFiles",
+	"paths" : 
+	{
+		"build" : "/home/giacomo/projects/yaucl-graph/cmake-build-debug",
+		"source" : "/home/giacomo/projects/yaucl-graph"
+	},
+	"version" : 
+	{
+		"major" : 1,
+		"minor" : 0
+	}
+}

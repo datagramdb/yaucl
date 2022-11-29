@@ -318,4 +318,27 @@ partition_sets_result<T> partition_sets(const std::vector<std::set<T>>& subsubSe
     return result;
 }
 
+
+template<typename T, typename S>
+void remove_index(std::vector<T>& vector, const S& to_remove)
+{
+    auto vector_base = vector.begin();
+    typename std::vector<T>::size_type down_by = 0;
+
+    for (auto iter = to_remove.cbegin();
+         iter < to_remove.cend();
+         iter++, down_by++)
+    {
+        typename std::vector<T>::size_type next = (iter + 1 == to_remove.cend()
+                                                   ? vector.size()
+                                                   : *(iter + 1));
+
+        std::move(vector_base + *iter + 1,
+                  vector_base + next,
+                  vector_base + *iter - down_by);
+    }
+    vector.resize(vector.size() - to_remove.size());
+}
+
+
 #endif //INCONSISTENCY_DETECTOR_SET_OPERATIONS_H

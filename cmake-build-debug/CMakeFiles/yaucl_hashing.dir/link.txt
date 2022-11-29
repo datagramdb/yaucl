@@ -1,0 +1,2 @@
+/usr/bin/ar qc libyaucl_hashing.a CMakeFiles/yaucl_hashing.dir/src/yaucl/hashing/evaluateHashes.c.o CMakeFiles/yaucl_hashing.dir/src/yaucl/hashing/hash_combine.cpp.o CMakeFiles/yaucl_hashing.dir/src/yaucl/hashing/hashing.cpp.o
+/usr/bin/ranlib libyaucl_hashing.a

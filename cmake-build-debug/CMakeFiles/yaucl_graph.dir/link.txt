@@ -1,0 +1,2 @@
+/usr/bin/ar qc libyaucl_graph.a CMakeFiles/yaucl_graph.dir/src/yaucl/graphs/adjacency_graph.cpp.o CMakeFiles/yaucl_graph.dir/src/yaucl/graphs/graph_join_pm_algorithms.cpp.o CMakeFiles/yaucl_graph.dir/src/yaucl/graphs/graph_join_pm_conversion.cpp.o CMakeFiles/yaucl_graph.dir/src/yaucl/graphs/adjacency_entry.cpp.o CMakeFiles/yaucl_graph.dir/src/yaucl/graphs/graph_join_pm.cpp.o CMakeFiles/yaucl_graph.dir/src/yaucl/graphs/minimizeDFA.cpp.o CMakeFiles/yaucl_graph.dir/src/yaucl/graphs/algorithms/all_cycles.cpp.o
+/usr/bin/ranlib libyaucl_graph.a

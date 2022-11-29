@@ -1,0 +1,77 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"install"
+		],
+		"files" : 
+		[
+			"submodule/roaring/src/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 52,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 59,
+				"parent" : 0
+			}
+		]
+	},
+	"installers" : 
+	[
+		{
+			"backtrace" : 1,
+			"component" : "Unspecified",
+			"destination" : "lib",
+			"paths" : 
+			[
+				"submodule/roaring/src/libroaring.a"
+			],
+			"targetId" : "roaring::@369b6959459b586d8537",
+			"targetIndex" : 28,
+			"type" : "target"
+		},
+		{
+			"backtrace" : 2,
+			"component" : "Unspecified",
+			"destination" : "lib/cmake/roaring",
+			"exportName" : "roaring-config",
+			"exportTargets" : 
+			[
+				{
+					"id" : "roaring-headers::@592950577182efbee437",
+					"index" : 0
+				},
+				{
+					"id" : "roaring-headers-cpp::@592950577182efbee437",
+					"index" : 0
+				},
+				{
+					"id" : "roaring::@369b6959459b586d8537",
+					"index" : 28
+				}
+			],
+			"paths" : 
+			[
+				"submodule/roaring/src/CMakeFiles/Export/lib/cmake/roaring/roaring-config.cmake"
+			],
+			"type" : "export"
+		}
+	],
+	"paths" : 
+	{
+		"build" : "submodule/roaring/src",
+		"source" : "submodule/roaring/src"
+	}
+}

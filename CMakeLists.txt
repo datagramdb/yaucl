@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 3.16)
 project(yaucl_graph)
 set(CMAKE_CXX_STANDARD 23)
 
+
+include_directories(submodule/roaring/include)
+include_directories(submodule/roaring/cpp)
+add_subdirectory(submodule/roaring)
 include_directories(include)
 
 add_library(yaucl_hashing STATIC
@@ -31,5 +35,5 @@ add_library(yaucl_graph STATIC
         include/yaucl/graphs/graph_join_pm.h
         include/yaucl/graphs/graph_join_pm.h
         src/yaucl/graphs/graph_join_pm_conversion.cpp
-        src/yaucl/graphs/graph_join_pm_algorithms.cpp src/yaucl/graphs/minimizeDFA.cpp include/yaucl/graphs/algorithms/minimizeDFA.h)
-
+        src/yaucl/graphs/graph_join_pm_algorithms.cpp src/yaucl/graphs/minimizeDFA.cpp include/yaucl/graphs/algorithms/minimizeDFA.h src/yaucl/graphs/algorithms/all_cycles.cpp include/yaucl/graphs/algorithms/all_cycles.h)
+target_link_libraries(yaucl_graph yaucl_hashing roaring)

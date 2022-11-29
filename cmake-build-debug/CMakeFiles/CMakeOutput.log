@@ -1,0 +1,1548 @@
+The system is: Linux - 5.15.0-53-generic - x86_64
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: /usr/bin/cc 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
+
+The C compiler identification is GNU, found in "/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/3.22.3/CompilerIdC/a.out"
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+Compiler: /usr/bin/c++ 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
+
+The CXX compiler identification is GNU, found in "/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/3.22.3/CompilerIdCXX/a.out"
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_960e4/fast && make  -f CMakeFiles/cmTC_960e4.dir/build.make CMakeFiles/cmTC_960e4.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_960e4.dir/CMakeCCompilerABI.c.o
+/usr/bin/cc   -v -o CMakeFiles/cmTC_960e4.dir/CMakeCCompilerABI.c.o -c /home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CMakeCCompilerABI.c
+Using built-in specs.
+COLLECT_GCC=/usr/bin/cc
+OFFLOAD_TARGET_NAMES=nvptx-none:amdgcn-amdhsa
+OFFLOAD_TARGET_DEFAULT=1
+Target: x86_64-linux-gnu
+Configured with: ../src/configure -v --with-pkgversion='Ubuntu 11.3.0-1ubuntu1~22.04' --with-bugurl=file:///usr/share/doc/gcc-11/README.Bugs --enable-languages=c,ada,c++,go,brig,d,fortran,objc,obj-c++,m2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-11 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-bootstrap --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-plugin --enable-default-pie --with-system-zlib --enable-libphobos-checking=release --with-target-system-zlib=auto --enable-objc-gc=auto --enable-multiarch --disable-werror --enable-cet --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none=/build/gcc-11-xKiWfi/gcc-11-11.3.0/debian/tmp-nvptx/usr,amdgcn-amdhsa=/build/gcc-11-xKiWfi/gcc-11-11.3.0/debian/tmp-gcn/usr --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu --with-build-config=bootstrap-lto-lean --enable-link-serialization=2
+Thread model: posix
+Supported LTO compression algorithms: zlib zstd
+gcc version 11.3.0 (Ubuntu 11.3.0-1ubuntu1~22.04) 
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_960e4.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_960e4.dir/'
+ /usr/lib/gcc/x86_64-linux-gnu/11/cc1 -quiet -v -imultiarch x86_64-linux-gnu /home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_960e4.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mtune=generic -march=x86-64 -version -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -o /tmp/ccrLDCQM.s
+GNU C17 (Ubuntu 11.3.0-1ubuntu1~22.04) version 11.3.0 (x86_64-linux-gnu)
+	compiled by GNU C version 11.3.0, GMP version 6.2.1, MPFR version 4.1.0, MPC version 1.2.1, isl version isl-0.24-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+ignoring nonexistent directory "/usr/local/include/x86_64-linux-gnu"
+ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/11/include-fixed"
+ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/11/../../../../x86_64-linux-gnu/include"
+#include "..." search starts here:
+#include <...> search starts here:
+ /usr/lib/gcc/x86_64-linux-gnu/11/include
+ /usr/local/include
+ /usr/include/x86_64-linux-gnu
+ /usr/include
+End of search list.
+GNU C17 (Ubuntu 11.3.0-1ubuntu1~22.04) version 11.3.0 (x86_64-linux-gnu)
+	compiled by GNU C version 11.3.0, GMP version 6.2.1, MPFR version 4.1.0, MPC version 1.2.1, isl version isl-0.24-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+Compiler executable checksum: 3f6cb05d963ad324b8f9442822c95179
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_960e4.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_960e4.dir/'
+ as -v --64 -o CMakeFiles/cmTC_960e4.dir/CMakeCCompilerABI.c.o /tmp/ccrLDCQM.s
+GNU assembler version 2.38 (x86_64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.38
+COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/
+LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../:/lib/:/usr/lib/
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_960e4.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_960e4.dir/CMakeCCompilerABI.c.'
+Linking C executable cmTC_960e4
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_960e4.dir/link.txt --verbose=1
+/usr/bin/cc  -v CMakeFiles/cmTC_960e4.dir/CMakeCCompilerABI.c.o -o cmTC_960e4 
+Using built-in specs.
+COLLECT_GCC=/usr/bin/cc
+COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/11/lto-wrapper
+OFFLOAD_TARGET_NAMES=nvptx-none:amdgcn-amdhsa
+OFFLOAD_TARGET_DEFAULT=1
+Target: x86_64-linux-gnu
+Configured with: ../src/configure -v --with-pkgversion='Ubuntu 11.3.0-1ubuntu1~22.04' --with-bugurl=file:///usr/share/doc/gcc-11/README.Bugs --enable-languages=c,ada,c++,go,brig,d,fortran,objc,obj-c++,m2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-11 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-bootstrap --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-plugin --enable-default-pie --with-system-zlib --enable-libphobos-checking=release --with-target-system-zlib=auto --enable-objc-gc=auto --enable-multiarch --disable-werror --enable-cet --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none=/build/gcc-11-xKiWfi/gcc-11-11.3.0/debian/tmp-nvptx/usr,amdgcn-amdhsa=/build/gcc-11-xKiWfi/gcc-11-11.3.0/debian/tmp-gcn/usr --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu --with-build-config=bootstrap-lto-lean --enable-link-serialization=2
+Thread model: posix
+Supported LTO compression algorithms: zlib zstd
+gcc version 11.3.0 (Ubuntu 11.3.0-1ubuntu1~22.04) 
+COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/
+LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../:/lib/:/usr/lib/
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_960e4' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_960e4.'
+ /usr/lib/gcc/x86_64-linux-gnu/11/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/11/lto-wrapper -plugin-opt=-fresolution=/tmp/ccSmIiaj.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_960e4 /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/11/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/11 -L/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/11/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/11/../../.. CMakeFiles/cmTC_960e4.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/x86_64-linux-gnu/11/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_960e4' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_960e4.'
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Parsed C implicit include dir info from above output: rv=done
+  found start of include info
+  found start of implicit include info
+    add: [/usr/lib/gcc/x86_64-linux-gnu/11/include]
+    add: [/usr/local/include]
+    add: [/usr/include/x86_64-linux-gnu]
+    add: [/usr/include]
+  end of search list found
+  collapse include dir [/usr/lib/gcc/x86_64-linux-gnu/11/include] ==> [/usr/lib/gcc/x86_64-linux-gnu/11/include]
+  collapse include dir [/usr/local/include] ==> [/usr/local/include]
+  collapse include dir [/usr/include/x86_64-linux-gnu] ==> [/usr/include/x86_64-linux-gnu]
+  collapse include dir [/usr/include] ==> [/usr/include]
+  implicit include dirs: [/usr/lib/gcc/x86_64-linux-gnu/11/include;/usr/local/include;/usr/include/x86_64-linux-gnu;/usr/include]
+
+
+Parsed C implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command(s):make -f Makefile cmTC_960e4/fast && make  -f CMakeFiles/cmTC_960e4.dir/build.make CMakeFiles/cmTC_960e4.dir/build]
+  ignore line: [make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp']
+  ignore line: [Building C object CMakeFiles/cmTC_960e4.dir/CMakeCCompilerABI.c.o]
+  ignore line: [/usr/bin/cc   -v -o CMakeFiles/cmTC_960e4.dir/CMakeCCompilerABI.c.o -c /home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CMakeCCompilerABI.c]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/usr/bin/cc]
+  ignore line: [OFFLOAD_TARGET_NAMES=nvptx-none:amdgcn-amdhsa]
+  ignore line: [OFFLOAD_TARGET_DEFAULT=1]
+  ignore line: [Target: x86_64-linux-gnu]
+  ignore line: [Configured with: ../src/configure -v --with-pkgversion='Ubuntu 11.3.0-1ubuntu1~22.04' --with-bugurl=file:///usr/share/doc/gcc-11/README.Bugs --enable-languages=c ada c++ go brig d fortran objc obj-c++ m2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-11 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-bootstrap --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-plugin --enable-default-pie --with-system-zlib --enable-libphobos-checking=release --with-target-system-zlib=auto --enable-objc-gc=auto --enable-multiarch --disable-werror --enable-cet --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32 m64 mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none=/build/gcc-11-xKiWfi/gcc-11-11.3.0/debian/tmp-nvptx/usr amdgcn-amdhsa=/build/gcc-11-xKiWfi/gcc-11-11.3.0/debian/tmp-gcn/usr --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu --with-build-config=bootstrap-lto-lean --enable-link-serialization=2]
+  ignore line: [Thread model: posix]
+  ignore line: [Supported LTO compression algorithms: zlib zstd]
+  ignore line: [gcc version 11.3.0 (Ubuntu 11.3.0-1ubuntu1~22.04) ]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_960e4.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_960e4.dir/']
+  ignore line: [ /usr/lib/gcc/x86_64-linux-gnu/11/cc1 -quiet -v -imultiarch x86_64-linux-gnu /home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_960e4.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mtune=generic -march=x86-64 -version -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -o /tmp/ccrLDCQM.s]
+  ignore line: [GNU C17 (Ubuntu 11.3.0-1ubuntu1~22.04) version 11.3.0 (x86_64-linux-gnu)]
+  ignore line: [	compiled by GNU C version 11.3.0  GMP version 6.2.1  MPFR version 4.1.0  MPC version 1.2.1  isl version isl-0.24-GMP]
+  ignore line: []
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [ignoring nonexistent directory "/usr/local/include/x86_64-linux-gnu"]
+  ignore line: [ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/11/include-fixed"]
+  ignore line: [ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/11/../../../../x86_64-linux-gnu/include"]
+  ignore line: [#include "..." search starts here:]
+  ignore line: [#include <...> search starts here:]
+  ignore line: [ /usr/lib/gcc/x86_64-linux-gnu/11/include]
+  ignore line: [ /usr/local/include]
+  ignore line: [ /usr/include/x86_64-linux-gnu]
+  ignore line: [ /usr/include]
+  ignore line: [End of search list.]
+  ignore line: [GNU C17 (Ubuntu 11.3.0-1ubuntu1~22.04) version 11.3.0 (x86_64-linux-gnu)]
+  ignore line: [	compiled by GNU C version 11.3.0  GMP version 6.2.1  MPFR version 4.1.0  MPC version 1.2.1  isl version isl-0.24-GMP]
+  ignore line: []
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [Compiler executable checksum: 3f6cb05d963ad324b8f9442822c95179]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_960e4.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_960e4.dir/']
+  ignore line: [ as -v --64 -o CMakeFiles/cmTC_960e4.dir/CMakeCCompilerABI.c.o /tmp/ccrLDCQM.s]
+  ignore line: [GNU assembler version 2.38 (x86_64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.38]
+  ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/]
+  ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../:/lib/:/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_960e4.dir/CMakeCCompilerABI.c.o' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_960e4.dir/CMakeCCompilerABI.c.']
+  ignore line: [Linking C executable cmTC_960e4]
+  ignore line: [/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_960e4.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/cc  -v CMakeFiles/cmTC_960e4.dir/CMakeCCompilerABI.c.o -o cmTC_960e4 ]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/usr/bin/cc]
+  ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/11/lto-wrapper]
+  ignore line: [OFFLOAD_TARGET_NAMES=nvptx-none:amdgcn-amdhsa]
+  ignore line: [OFFLOAD_TARGET_DEFAULT=1]
+  ignore line: [Target: x86_64-linux-gnu]
+  ignore line: [Configured with: ../src/configure -v --with-pkgversion='Ubuntu 11.3.0-1ubuntu1~22.04' --with-bugurl=file:///usr/share/doc/gcc-11/README.Bugs --enable-languages=c ada c++ go brig d fortran objc obj-c++ m2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-11 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-bootstrap --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-plugin --enable-default-pie --with-system-zlib --enable-libphobos-checking=release --with-target-system-zlib=auto --enable-objc-gc=auto --enable-multiarch --disable-werror --enable-cet --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32 m64 mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none=/build/gcc-11-xKiWfi/gcc-11-11.3.0/debian/tmp-nvptx/usr amdgcn-amdhsa=/build/gcc-11-xKiWfi/gcc-11-11.3.0/debian/tmp-gcn/usr --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu --with-build-config=bootstrap-lto-lean --enable-link-serialization=2]
+  ignore line: [Thread model: posix]
+  ignore line: [Supported LTO compression algorithms: zlib zstd]
+  ignore line: [gcc version 11.3.0 (Ubuntu 11.3.0-1ubuntu1~22.04) ]
+  ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/]
+  ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../:/lib/:/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_960e4' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_960e4.']
+  link line: [ /usr/lib/gcc/x86_64-linux-gnu/11/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/11/lto-wrapper -plugin-opt=-fresolution=/tmp/ccSmIiaj.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_960e4 /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/11/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/11 -L/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/11/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/11/../../.. CMakeFiles/cmTC_960e4.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/x86_64-linux-gnu/11/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crtn.o]
+    arg [/usr/lib/gcc/x86_64-linux-gnu/11/collect2] ==> ignore
+    arg [-plugin] ==> ignore
+    arg [/usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so] ==> ignore
+    arg [-plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/11/lto-wrapper] ==> ignore
+    arg [-plugin-opt=-fresolution=/tmp/ccSmIiaj.res] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [-plugin-opt=-pass-through=-lc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [--build-id] ==> ignore
+    arg [--eh-frame-hdr] ==> ignore
+    arg [-m] ==> ignore
+    arg [elf_x86_64] ==> ignore
+    arg [--hash-style=gnu] ==> ignore
+    arg [--as-needed] ==> ignore
+    arg [-dynamic-linker] ==> ignore
+    arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
+    arg [-pie] ==> ignore
+    arg [-znow] ==> ignore
+    arg [-zrelro] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_960e4] ==> ignore
+    arg [/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/Scrt1.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/Scrt1.o]
+    arg [/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crti.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crti.o]
+    arg [/usr/lib/gcc/x86_64-linux-gnu/11/crtbeginS.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/11/crtbeginS.o]
+    arg [-L/usr/lib/gcc/x86_64-linux-gnu/11] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/11]
+    arg [-L/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu]
+    arg [-L/usr/lib/gcc/x86_64-linux-gnu/11/../../../../lib] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/11/../../../../lib]
+    arg [-L/lib/x86_64-linux-gnu] ==> dir [/lib/x86_64-linux-gnu]
+    arg [-L/lib/../lib] ==> dir [/lib/../lib]
+    arg [-L/usr/lib/x86_64-linux-gnu] ==> dir [/usr/lib/x86_64-linux-gnu]
+    arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
+    arg [-L/usr/lib/gcc/x86_64-linux-gnu/11/../../..] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/11/../../..]
+    arg [CMakeFiles/cmTC_960e4.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [-lgcc] ==> lib [gcc]
+    arg [--push-state] ==> ignore
+    arg [--as-needed] ==> ignore
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [--pop-state] ==> ignore
+    arg [-lc] ==> lib [c]
+    arg [-lgcc] ==> lib [gcc]
+    arg [--push-state] ==> ignore
+    arg [--as-needed] ==> ignore
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [--pop-state] ==> ignore
+    arg [/usr/lib/gcc/x86_64-linux-gnu/11/crtendS.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/11/crtendS.o]
+    arg [/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crtn.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crtn.o]
+  collapse obj [/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/Scrt1.o] ==> [/usr/lib/x86_64-linux-gnu/Scrt1.o]
+  collapse obj [/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crti.o] ==> [/usr/lib/x86_64-linux-gnu/crti.o]
+  collapse obj [/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crtn.o] ==> [/usr/lib/x86_64-linux-gnu/crtn.o]
+  collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/11] ==> [/usr/lib/gcc/x86_64-linux-gnu/11]
+  collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu] ==> [/usr/lib/x86_64-linux-gnu]
+  collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/11/../../../../lib] ==> [/usr/lib]
+  collapse library dir [/lib/x86_64-linux-gnu] ==> [/lib/x86_64-linux-gnu]
+  collapse library dir [/lib/../lib] ==> [/lib]
+  collapse library dir [/usr/lib/x86_64-linux-gnu] ==> [/usr/lib/x86_64-linux-gnu]
+  collapse library dir [/usr/lib/../lib] ==> [/usr/lib]
+  collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/11/../../..] ==> [/usr/lib]
+  implicit libs: [gcc;gcc_s;c;gcc;gcc_s]
+  implicit objs: [/usr/lib/x86_64-linux-gnu/Scrt1.o;/usr/lib/x86_64-linux-gnu/crti.o;/usr/lib/gcc/x86_64-linux-gnu/11/crtbeginS.o;/usr/lib/gcc/x86_64-linux-gnu/11/crtendS.o;/usr/lib/x86_64-linux-gnu/crtn.o]
+  implicit dirs: [/usr/lib/gcc/x86_64-linux-gnu/11;/usr/lib/x86_64-linux-gnu;/usr/lib;/lib/x86_64-linux-gnu;/lib]
+  implicit fwks: []
+
+
+Detecting CXX compiler ABI info compiled with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_731b3/fast && make  -f CMakeFiles/cmTC_731b3.dir/build.make CMakeFiles/cmTC_731b3.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_731b3.dir/CMakeCXXCompilerABI.cpp.o
+/usr/bin/c++   -v -o CMakeFiles/cmTC_731b3.dir/CMakeCXXCompilerABI.cpp.o -c /home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CMakeCXXCompilerABI.cpp
+Using built-in specs.
+COLLECT_GCC=/usr/bin/c++
+OFFLOAD_TARGET_NAMES=nvptx-none:amdgcn-amdhsa
+OFFLOAD_TARGET_DEFAULT=1
+Target: x86_64-linux-gnu
+Configured with: ../src/configure -v --with-pkgversion='Ubuntu 11.3.0-1ubuntu1~22.04' --with-bugurl=file:///usr/share/doc/gcc-11/README.Bugs --enable-languages=c,ada,c++,go,brig,d,fortran,objc,obj-c++,m2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-11 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-bootstrap --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-plugin --enable-default-pie --with-system-zlib --enable-libphobos-checking=release --with-target-system-zlib=auto --enable-objc-gc=auto --enable-multiarch --disable-werror --enable-cet --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none=/build/gcc-11-xKiWfi/gcc-11-11.3.0/debian/tmp-nvptx/usr,amdgcn-amdhsa=/build/gcc-11-xKiWfi/gcc-11-11.3.0/debian/tmp-gcn/usr --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu --with-build-config=bootstrap-lto-lean --enable-link-serialization=2
+Thread model: posix
+Supported LTO compression algorithms: zlib zstd
+gcc version 11.3.0 (Ubuntu 11.3.0-1ubuntu1~22.04) 
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_731b3.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_731b3.dir/'
+ /usr/lib/gcc/x86_64-linux-gnu/11/cc1plus -quiet -v -imultiarch x86_64-linux-gnu -D_GNU_SOURCE /home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_731b3.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=x86-64 -version -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -o /tmp/ccEGhIcc.s
+GNU C++17 (Ubuntu 11.3.0-1ubuntu1~22.04) version 11.3.0 (x86_64-linux-gnu)
+	compiled by GNU C version 11.3.0, GMP version 6.2.1, MPFR version 4.1.0, MPC version 1.2.1, isl version isl-0.24-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+ignoring duplicate directory "/usr/include/x86_64-linux-gnu/c++/11"
+ignoring nonexistent directory "/usr/local/include/x86_64-linux-gnu"
+ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/11/include-fixed"
+ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/11/../../../../x86_64-linux-gnu/include"
+#include "..." search starts here:
+#include <...> search starts here:
+ /usr/include/c++/11
+ /usr/include/x86_64-linux-gnu/c++/11
+ /usr/include/c++/11/backward
+ /usr/lib/gcc/x86_64-linux-gnu/11/include
+ /usr/local/include
+ /usr/include/x86_64-linux-gnu
+ /usr/include
+End of search list.
+GNU C++17 (Ubuntu 11.3.0-1ubuntu1~22.04) version 11.3.0 (x86_64-linux-gnu)
+	compiled by GNU C version 11.3.0, GMP version 6.2.1, MPFR version 4.1.0, MPC version 1.2.1, isl version isl-0.24-GMP
+
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+Compiler executable checksum: 449548cbb29044828dc7ea158b577b98
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_731b3.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_731b3.dir/'
+ as -v --64 -o CMakeFiles/cmTC_731b3.dir/CMakeCXXCompilerABI.cpp.o /tmp/ccEGhIcc.s
+GNU assembler version 2.38 (x86_64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.38
+COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/
+LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../:/lib/:/usr/lib/
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_731b3.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_731b3.dir/CMakeCXXCompilerABI.cpp.'
+Linking CXX executable cmTC_731b3
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_731b3.dir/link.txt --verbose=1
+/usr/bin/c++  -v CMakeFiles/cmTC_731b3.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_731b3 
+Using built-in specs.
+COLLECT_GCC=/usr/bin/c++
+COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/11/lto-wrapper
+OFFLOAD_TARGET_NAMES=nvptx-none:amdgcn-amdhsa
+OFFLOAD_TARGET_DEFAULT=1
+Target: x86_64-linux-gnu
+Configured with: ../src/configure -v --with-pkgversion='Ubuntu 11.3.0-1ubuntu1~22.04' --with-bugurl=file:///usr/share/doc/gcc-11/README.Bugs --enable-languages=c,ada,c++,go,brig,d,fortran,objc,obj-c++,m2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-11 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-bootstrap --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-plugin --enable-default-pie --with-system-zlib --enable-libphobos-checking=release --with-target-system-zlib=auto --enable-objc-gc=auto --enable-multiarch --disable-werror --enable-cet --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none=/build/gcc-11-xKiWfi/gcc-11-11.3.0/debian/tmp-nvptx/usr,amdgcn-amdhsa=/build/gcc-11-xKiWfi/gcc-11-11.3.0/debian/tmp-gcn/usr --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu --with-build-config=bootstrap-lto-lean --enable-link-serialization=2
+Thread model: posix
+Supported LTO compression algorithms: zlib zstd
+gcc version 11.3.0 (Ubuntu 11.3.0-1ubuntu1~22.04) 
+COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/
+LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../:/lib/:/usr/lib/
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_731b3' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_731b3.'
+ /usr/lib/gcc/x86_64-linux-gnu/11/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/11/lto-wrapper -plugin-opt=-fresolution=/tmp/ccgJEfvv.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_731b3 /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/11/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/11 -L/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/11/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/11/../../.. CMakeFiles/cmTC_731b3.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/11/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_731b3' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_731b3.'
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Parsed CXX implicit include dir info from above output: rv=done
+  found start of include info
+  found start of implicit include info
+    add: [/usr/include/c++/11]
+    add: [/usr/include/x86_64-linux-gnu/c++/11]
+    add: [/usr/include/c++/11/backward]
+    add: [/usr/lib/gcc/x86_64-linux-gnu/11/include]
+    add: [/usr/local/include]
+    add: [/usr/include/x86_64-linux-gnu]
+    add: [/usr/include]
+  end of search list found
+  collapse include dir [/usr/include/c++/11] ==> [/usr/include/c++/11]
+  collapse include dir [/usr/include/x86_64-linux-gnu/c++/11] ==> [/usr/include/x86_64-linux-gnu/c++/11]
+  collapse include dir [/usr/include/c++/11/backward] ==> [/usr/include/c++/11/backward]
+  collapse include dir [/usr/lib/gcc/x86_64-linux-gnu/11/include] ==> [/usr/lib/gcc/x86_64-linux-gnu/11/include]
+  collapse include dir [/usr/local/include] ==> [/usr/local/include]
+  collapse include dir [/usr/include/x86_64-linux-gnu] ==> [/usr/include/x86_64-linux-gnu]
+  collapse include dir [/usr/include] ==> [/usr/include]
+  implicit include dirs: [/usr/include/c++/11;/usr/include/x86_64-linux-gnu/c++/11;/usr/include/c++/11/backward;/usr/lib/gcc/x86_64-linux-gnu/11/include;/usr/local/include;/usr/include/x86_64-linux-gnu;/usr/include]
+
+
+Parsed CXX implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command(s):make -f Makefile cmTC_731b3/fast && make  -f CMakeFiles/cmTC_731b3.dir/build.make CMakeFiles/cmTC_731b3.dir/build]
+  ignore line: [make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp']
+  ignore line: [Building CXX object CMakeFiles/cmTC_731b3.dir/CMakeCXXCompilerABI.cpp.o]
+  ignore line: [/usr/bin/c++   -v -o CMakeFiles/cmTC_731b3.dir/CMakeCXXCompilerABI.cpp.o -c /home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/usr/bin/c++]
+  ignore line: [OFFLOAD_TARGET_NAMES=nvptx-none:amdgcn-amdhsa]
+  ignore line: [OFFLOAD_TARGET_DEFAULT=1]
+  ignore line: [Target: x86_64-linux-gnu]
+  ignore line: [Configured with: ../src/configure -v --with-pkgversion='Ubuntu 11.3.0-1ubuntu1~22.04' --with-bugurl=file:///usr/share/doc/gcc-11/README.Bugs --enable-languages=c ada c++ go brig d fortran objc obj-c++ m2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-11 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-bootstrap --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-plugin --enable-default-pie --with-system-zlib --enable-libphobos-checking=release --with-target-system-zlib=auto --enable-objc-gc=auto --enable-multiarch --disable-werror --enable-cet --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32 m64 mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none=/build/gcc-11-xKiWfi/gcc-11-11.3.0/debian/tmp-nvptx/usr amdgcn-amdhsa=/build/gcc-11-xKiWfi/gcc-11-11.3.0/debian/tmp-gcn/usr --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu --with-build-config=bootstrap-lto-lean --enable-link-serialization=2]
+  ignore line: [Thread model: posix]
+  ignore line: [Supported LTO compression algorithms: zlib zstd]
+  ignore line: [gcc version 11.3.0 (Ubuntu 11.3.0-1ubuntu1~22.04) ]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_731b3.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_731b3.dir/']
+  ignore line: [ /usr/lib/gcc/x86_64-linux-gnu/11/cc1plus -quiet -v -imultiarch x86_64-linux-gnu -D_GNU_SOURCE /home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_731b3.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=x86-64 -version -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -fcf-protection -o /tmp/ccEGhIcc.s]
+  ignore line: [GNU C++17 (Ubuntu 11.3.0-1ubuntu1~22.04) version 11.3.0 (x86_64-linux-gnu)]
+  ignore line: [	compiled by GNU C version 11.3.0  GMP version 6.2.1  MPFR version 4.1.0  MPC version 1.2.1  isl version isl-0.24-GMP]
+  ignore line: []
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [ignoring duplicate directory "/usr/include/x86_64-linux-gnu/c++/11"]
+  ignore line: [ignoring nonexistent directory "/usr/local/include/x86_64-linux-gnu"]
+  ignore line: [ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/11/include-fixed"]
+  ignore line: [ignoring nonexistent directory "/usr/lib/gcc/x86_64-linux-gnu/11/../../../../x86_64-linux-gnu/include"]
+  ignore line: [#include "..." search starts here:]
+  ignore line: [#include <...> search starts here:]
+  ignore line: [ /usr/include/c++/11]
+  ignore line: [ /usr/include/x86_64-linux-gnu/c++/11]
+  ignore line: [ /usr/include/c++/11/backward]
+  ignore line: [ /usr/lib/gcc/x86_64-linux-gnu/11/include]
+  ignore line: [ /usr/local/include]
+  ignore line: [ /usr/include/x86_64-linux-gnu]
+  ignore line: [ /usr/include]
+  ignore line: [End of search list.]
+  ignore line: [GNU C++17 (Ubuntu 11.3.0-1ubuntu1~22.04) version 11.3.0 (x86_64-linux-gnu)]
+  ignore line: [	compiled by GNU C version 11.3.0  GMP version 6.2.1  MPFR version 4.1.0  MPC version 1.2.1  isl version isl-0.24-GMP]
+  ignore line: []
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [Compiler executable checksum: 449548cbb29044828dc7ea158b577b98]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_731b3.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_731b3.dir/']
+  ignore line: [ as -v --64 -o CMakeFiles/cmTC_731b3.dir/CMakeCXXCompilerABI.cpp.o /tmp/ccEGhIcc.s]
+  ignore line: [GNU assembler version 2.38 (x86_64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.38]
+  ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/]
+  ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../:/lib/:/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_731b3.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_731b3.dir/CMakeCXXCompilerABI.cpp.']
+  ignore line: [Linking CXX executable cmTC_731b3]
+  ignore line: [/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_731b3.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/c++  -v CMakeFiles/cmTC_731b3.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_731b3 ]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/usr/bin/c++]
+  ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/11/lto-wrapper]
+  ignore line: [OFFLOAD_TARGET_NAMES=nvptx-none:amdgcn-amdhsa]
+  ignore line: [OFFLOAD_TARGET_DEFAULT=1]
+  ignore line: [Target: x86_64-linux-gnu]
+  ignore line: [Configured with: ../src/configure -v --with-pkgversion='Ubuntu 11.3.0-1ubuntu1~22.04' --with-bugurl=file:///usr/share/doc/gcc-11/README.Bugs --enable-languages=c ada c++ go brig d fortran objc obj-c++ m2 --prefix=/usr --with-gcc-major-version-only --program-suffix=-11 --program-prefix=x86_64-linux-gnu- --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --libdir=/usr/lib --enable-nls --enable-bootstrap --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --with-default-libstdcxx-abi=new --enable-gnu-unique-object --disable-vtable-verify --enable-plugin --enable-default-pie --with-system-zlib --enable-libphobos-checking=release --with-target-system-zlib=auto --enable-objc-gc=auto --enable-multiarch --disable-werror --enable-cet --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32 m64 mx32 --enable-multilib --with-tune=generic --enable-offload-targets=nvptx-none=/build/gcc-11-xKiWfi/gcc-11-11.3.0/debian/tmp-nvptx/usr amdgcn-amdhsa=/build/gcc-11-xKiWfi/gcc-11-11.3.0/debian/tmp-gcn/usr --without-cuda-driver --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu --with-build-config=bootstrap-lto-lean --enable-link-serialization=2]
+  ignore line: [Thread model: posix]
+  ignore line: [Supported LTO compression algorithms: zlib zstd]
+  ignore line: [gcc version 11.3.0 (Ubuntu 11.3.0-1ubuntu1~22.04) ]
+  ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/]
+  ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/11/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/11/../../../:/lib/:/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_731b3' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_731b3.']
+  link line: [ /usr/lib/gcc/x86_64-linux-gnu/11/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/11/lto-wrapper -plugin-opt=-fresolution=/tmp/ccgJEfvv.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_731b3 /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/11/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/11 -L/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/11/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/11/../../.. CMakeFiles/cmTC_731b3.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/11/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crtn.o]
+    arg [/usr/lib/gcc/x86_64-linux-gnu/11/collect2] ==> ignore
+    arg [-plugin] ==> ignore
+    arg [/usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so] ==> ignore
+    arg [-plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/11/lto-wrapper] ==> ignore
+    arg [-plugin-opt=-fresolution=/tmp/ccgJEfvv.res] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [--build-id] ==> ignore
+    arg [--eh-frame-hdr] ==> ignore
+    arg [-m] ==> ignore
+    arg [elf_x86_64] ==> ignore
+    arg [--hash-style=gnu] ==> ignore
+    arg [--as-needed] ==> ignore
+    arg [-dynamic-linker] ==> ignore
+    arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
+    arg [-pie] ==> ignore
+    arg [-znow] ==> ignore
+    arg [-zrelro] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_731b3] ==> ignore
+    arg [/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/Scrt1.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/Scrt1.o]
+    arg [/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crti.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crti.o]
+    arg [/usr/lib/gcc/x86_64-linux-gnu/11/crtbeginS.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/11/crtbeginS.o]
+    arg [-L/usr/lib/gcc/x86_64-linux-gnu/11] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/11]
+    arg [-L/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu]
+    arg [-L/usr/lib/gcc/x86_64-linux-gnu/11/../../../../lib] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/11/../../../../lib]
+    arg [-L/lib/x86_64-linux-gnu] ==> dir [/lib/x86_64-linux-gnu]
+    arg [-L/lib/../lib] ==> dir [/lib/../lib]
+    arg [-L/usr/lib/x86_64-linux-gnu] ==> dir [/usr/lib/x86_64-linux-gnu]
+    arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
+    arg [-L/usr/lib/gcc/x86_64-linux-gnu/11/../../..] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/11/../../..]
+    arg [CMakeFiles/cmTC_731b3.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+    arg [-lstdc++] ==> lib [stdc++]
+    arg [-lm] ==> lib [m]
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lc] ==> lib [c]
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [-lgcc] ==> lib [gcc]
+    arg [/usr/lib/gcc/x86_64-linux-gnu/11/crtendS.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/11/crtendS.o]
+    arg [/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crtn.o] ==> obj [/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crtn.o]
+  collapse obj [/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/Scrt1.o] ==> [/usr/lib/x86_64-linux-gnu/Scrt1.o]
+  collapse obj [/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crti.o] ==> [/usr/lib/x86_64-linux-gnu/crti.o]
+  collapse obj [/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu/crtn.o] ==> [/usr/lib/x86_64-linux-gnu/crtn.o]
+  collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/11] ==> [/usr/lib/gcc/x86_64-linux-gnu/11]
+  collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/11/../../../x86_64-linux-gnu] ==> [/usr/lib/x86_64-linux-gnu]
+  collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/11/../../../../lib] ==> [/usr/lib]
+  collapse library dir [/lib/x86_64-linux-gnu] ==> [/lib/x86_64-linux-gnu]
+  collapse library dir [/lib/../lib] ==> [/lib]
+  collapse library dir [/usr/lib/x86_64-linux-gnu] ==> [/usr/lib/x86_64-linux-gnu]
+  collapse library dir [/usr/lib/../lib] ==> [/usr/lib]
+  collapse library dir [/usr/lib/gcc/x86_64-linux-gnu/11/../../..] ==> [/usr/lib]
+  implicit libs: [stdc++;m;gcc_s;gcc;c;gcc_s;gcc]
+  implicit objs: [/usr/lib/x86_64-linux-gnu/Scrt1.o;/usr/lib/x86_64-linux-gnu/crti.o;/usr/lib/gcc/x86_64-linux-gnu/11/crtbeginS.o;/usr/lib/gcc/x86_64-linux-gnu/11/crtendS.o;/usr/lib/x86_64-linux-gnu/crtn.o]
+  implicit dirs: [/usr/lib/gcc/x86_64-linux-gnu/11;/usr/lib/x86_64-linux-gnu;/usr/lib;/lib/x86_64-linux-gnu;/lib]
+  implicit fwks: []
+
+
+Performing C SOURCE FILE Test REQUIRED_FLAGS_WERROR succeeded with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_e2220/fast && make  -f CMakeFiles/cmTC_e2220.dir/build.make CMakeFiles/cmTC_e2220.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_e2220.dir/src.c.o
+/usr/bin/cc -DREQUIRED_FLAGS_WERROR  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    -fPIE   -Werror -o CMakeFiles/cmTC_e2220.dir/src.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_e2220
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e2220.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    CMakeFiles/cmTC_e2220.dir/src.c.o -o cmTC_e2220 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_STD_GNU99_FLAG succeeded with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_36823/fast && make  -f CMakeFiles/cmTC_36823.dir/build.make CMakeFiles/cmTC_36823.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_36823.dir/src.c.o
+/usr/bin/cc -DWITH_STD_GNU99_FLAG  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror -fPIE   -std=gnu99 -o CMakeFiles/cmTC_36823.dir/src.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_36823
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_36823.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror CMakeFiles/cmTC_36823.dir/src.c.o -o cmTC_36823 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WPEDANTIC_FLAG succeeded with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_0ca59/fast && make  -f CMakeFiles/cmTC_0ca59.dir/build.make CMakeFiles/cmTC_0ca59.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_0ca59.dir/src.c.o
+/usr/bin/cc -DWITH_WPEDANTIC_FLAG  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror -fPIE   -Wpedantic -o CMakeFiles/cmTC_0ca59.dir/src.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_0ca59
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0ca59.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror CMakeFiles/cmTC_0ca59.dir/src.c.o -o cmTC_0ca59 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WALL_FLAG succeeded with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_b7d74/fast && make  -f CMakeFiles/cmTC_b7d74.dir/build.make CMakeFiles/cmTC_b7d74.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_b7d74.dir/src.c.o
+/usr/bin/cc -DWITH_WALL_FLAG  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror -fPIE   -Wall -o CMakeFiles/cmTC_b7d74.dir/src.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_b7d74
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b7d74.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror CMakeFiles/cmTC_b7d74.dir/src.c.o -o cmTC_b7d74 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WSHADOW_FLAG succeeded with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_6bb50/fast && make  -f CMakeFiles/cmTC_6bb50.dir/build.make CMakeFiles/cmTC_6bb50.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_6bb50.dir/src.c.o
+/usr/bin/cc -DWITH_WSHADOW_FLAG  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror -fPIE   -Wshadow -o CMakeFiles/cmTC_6bb50.dir/src.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_6bb50
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6bb50.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror CMakeFiles/cmTC_6bb50.dir/src.c.o -o cmTC_6bb50 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WMISSING_PROTOTYPES_FLAG succeeded with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_a385c/fast && make  -f CMakeFiles/cmTC_a385c.dir/build.make CMakeFiles/cmTC_a385c.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_a385c.dir/src.c.o
+/usr/bin/cc -DWITH_WMISSING_PROTOTYPES_FLAG  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror -fPIE   -Wmissing-prototypes -o CMakeFiles/cmTC_a385c.dir/src.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_a385c
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a385c.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror CMakeFiles/cmTC_a385c.dir/src.c.o -o cmTC_a385c 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WCAST_ALIGN_FLAG succeeded with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_829ad/fast && make  -f CMakeFiles/cmTC_829ad.dir/build.make CMakeFiles/cmTC_829ad.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_829ad.dir/src.c.o
+/usr/bin/cc -DWITH_WCAST_ALIGN_FLAG  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror -fPIE   -Wcast-align -o CMakeFiles/cmTC_829ad.dir/src.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_829ad
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_829ad.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror CMakeFiles/cmTC_829ad.dir/src.c.o -o cmTC_829ad 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WERROR_ADDRESS_FLAG succeeded with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_2f72b/fast && make  -f CMakeFiles/cmTC_2f72b.dir/build.make CMakeFiles/cmTC_2f72b.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_2f72b.dir/src.c.o
+/usr/bin/cc -DWITH_WERROR_ADDRESS_FLAG  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror -fPIE   -Werror=address -o CMakeFiles/cmTC_2f72b.dir/src.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_2f72b
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2f72b.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror CMakeFiles/cmTC_2f72b.dir/src.c.o -o cmTC_2f72b 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WSTRICT_PROTOTYPES_FLAG succeeded with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_22fb5/fast && make  -f CMakeFiles/cmTC_22fb5.dir/build.make CMakeFiles/cmTC_22fb5.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_22fb5.dir/src.c.o
+/usr/bin/cc -DWITH_WSTRICT_PROTOTYPES_FLAG  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror -fPIE   -Wstrict-prototypes -o CMakeFiles/cmTC_22fb5.dir/src.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_22fb5
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_22fb5.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror CMakeFiles/cmTC_22fb5.dir/src.c.o -o cmTC_22fb5 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WERROR_STRICT_PROTOTYPES_FLAG succeeded with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_57bbb/fast && make  -f CMakeFiles/cmTC_57bbb.dir/build.make CMakeFiles/cmTC_57bbb.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_57bbb.dir/src.c.o
+/usr/bin/cc -DWITH_WERROR_STRICT_PROTOTYPES_FLAG  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror -fPIE   -Werror=strict-prototypes -o CMakeFiles/cmTC_57bbb.dir/src.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_57bbb
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_57bbb.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror CMakeFiles/cmTC_57bbb.dir/src.c.o -o cmTC_57bbb 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WWRITE_STRINGS_FLAG succeeded with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_57d14/fast && make  -f CMakeFiles/cmTC_57d14.dir/build.make CMakeFiles/cmTC_57d14.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_57d14.dir/src.c.o
+/usr/bin/cc -DWITH_WWRITE_STRINGS_FLAG  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror -fPIE   -Wwrite-strings -o CMakeFiles/cmTC_57d14.dir/src.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_57d14
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_57d14.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror CMakeFiles/cmTC_57d14.dir/src.c.o -o cmTC_57d14 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WERROR_WRITE_STRINGS_FLAG succeeded with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_0c7d6/fast && make  -f CMakeFiles/cmTC_0c7d6.dir/build.make CMakeFiles/cmTC_0c7d6.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_0c7d6.dir/src.c.o
+/usr/bin/cc -DWITH_WERROR_WRITE_STRINGS_FLAG  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror -fPIE   -Werror=write-strings -o CMakeFiles/cmTC_0c7d6.dir/src.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_0c7d6
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0c7d6.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror CMakeFiles/cmTC_0c7d6.dir/src.c.o -o cmTC_0c7d6 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WERROR_IMPLICIT_FUNCTION_DECLARATION_FLAG succeeded with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_96865/fast && make  -f CMakeFiles/cmTC_96865.dir/build.make CMakeFiles/cmTC_96865.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_96865.dir/src.c.o
+/usr/bin/cc -DWITH_WERROR_IMPLICIT_FUNCTION_DECLARATION_FLAG  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror -fPIE   -Werror-implicit-function-declaration -o CMakeFiles/cmTC_96865.dir/src.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_96865
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_96865.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror CMakeFiles/cmTC_96865.dir/src.c.o -o cmTC_96865 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WPOINTER_ARITH_FLAG succeeded with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_8017d/fast && make  -f CMakeFiles/cmTC_8017d.dir/build.make CMakeFiles/cmTC_8017d.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_8017d.dir/src.c.o
+/usr/bin/cc -DWITH_WPOINTER_ARITH_FLAG  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror -fPIE   -Wpointer-arith -o CMakeFiles/cmTC_8017d.dir/src.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_8017d
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8017d.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror CMakeFiles/cmTC_8017d.dir/src.c.o -o cmTC_8017d 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WERROR_POINTER_ARITH_FLAG succeeded with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_856fd/fast && make  -f CMakeFiles/cmTC_856fd.dir/build.make CMakeFiles/cmTC_856fd.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_856fd.dir/src.c.o
+/usr/bin/cc -DWITH_WERROR_POINTER_ARITH_FLAG  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror -fPIE   -Werror=pointer-arith -o CMakeFiles/cmTC_856fd.dir/src.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_856fd
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_856fd.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror CMakeFiles/cmTC_856fd.dir/src.c.o -o cmTC_856fd 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WDECLARATION_AFTER_STATEMENT_FLAG succeeded with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_7fb30/fast && make  -f CMakeFiles/cmTC_7fb30.dir/build.make CMakeFiles/cmTC_7fb30.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_7fb30.dir/src.c.o
+/usr/bin/cc -DWITH_WDECLARATION_AFTER_STATEMENT_FLAG  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror -fPIE   -Wdeclaration-after-statement -o CMakeFiles/cmTC_7fb30.dir/src.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_7fb30
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7fb30.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror CMakeFiles/cmTC_7fb30.dir/src.c.o -o cmTC_7fb30 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WERROR_DECLARATION_AFTER_STATEMENT_FLAG succeeded with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_02442/fast && make  -f CMakeFiles/cmTC_02442.dir/build.make CMakeFiles/cmTC_02442.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_02442.dir/src.c.o
+/usr/bin/cc -DWITH_WERROR_DECLARATION_AFTER_STATEMENT_FLAG  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror -fPIE   -Werror=declaration-after-statement -o CMakeFiles/cmTC_02442.dir/src.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_02442
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_02442.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror CMakeFiles/cmTC_02442.dir/src.c.o -o cmTC_02442 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WRETURN_TYPE_FLAG succeeded with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_40a90/fast && make  -f CMakeFiles/cmTC_40a90.dir/build.make CMakeFiles/cmTC_40a90.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_40a90.dir/src.c.o
+/usr/bin/cc -DWITH_WRETURN_TYPE_FLAG  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror -fPIE   -Wreturn-type -o CMakeFiles/cmTC_40a90.dir/src.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_40a90
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_40a90.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror CMakeFiles/cmTC_40a90.dir/src.c.o -o cmTC_40a90 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WERROR_RETURN_TYPE_FLAG succeeded with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_60c50/fast && make  -f CMakeFiles/cmTC_60c50.dir/build.make CMakeFiles/cmTC_60c50.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_60c50.dir/src.c.o
+/usr/bin/cc -DWITH_WERROR_RETURN_TYPE_FLAG  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror -fPIE   -Werror=return-type -o CMakeFiles/cmTC_60c50.dir/src.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_60c50
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_60c50.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror CMakeFiles/cmTC_60c50.dir/src.c.o -o cmTC_60c50 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WUNINITIALIZED_FLAG succeeded with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_7cf28/fast && make  -f CMakeFiles/cmTC_7cf28.dir/build.make CMakeFiles/cmTC_7cf28.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_7cf28.dir/src.c.o
+/usr/bin/cc -DWITH_WUNINITIALIZED_FLAG  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror -fPIE   -Wuninitialized -o CMakeFiles/cmTC_7cf28.dir/src.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_7cf28
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7cf28.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror CMakeFiles/cmTC_7cf28.dir/src.c.o -o cmTC_7cf28 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WERROR_UNINITIALIZED_FLAG succeeded with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_bea86/fast && make  -f CMakeFiles/cmTC_bea86.dir/build.make CMakeFiles/cmTC_bea86.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_bea86.dir/src.c.o
+/usr/bin/cc -DWITH_WERROR_UNINITIALIZED_FLAG  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror -fPIE   -Werror=uninitialized -o CMakeFiles/cmTC_bea86.dir/src.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_bea86
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_bea86.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror CMakeFiles/cmTC_bea86.dir/src.c.o -o cmTC_bea86 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WIMPLICIT_FALLTHROUGH_FLAG succeeded with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_c4c51/fast && make  -f CMakeFiles/cmTC_c4c51.dir/build.make CMakeFiles/cmTC_c4c51.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_c4c51.dir/src.c.o
+/usr/bin/cc -DWITH_WIMPLICIT_FALLTHROUGH_FLAG  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror -fPIE   -Wimplicit-fallthrough -o CMakeFiles/cmTC_c4c51.dir/src.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_c4c51
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c4c51.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror CMakeFiles/cmTC_c4c51.dir/src.c.o -o cmTC_c4c51 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WERROR_STRICT_OVERFLOW_FLAG succeeded with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_31819/fast && make  -f CMakeFiles/cmTC_31819.dir/build.make CMakeFiles/cmTC_31819.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_31819.dir/src.c.o
+/usr/bin/cc -DWITH_WERROR_STRICT_OVERFLOW_FLAG  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror -fPIE   -Werror=strict-overflow -o CMakeFiles/cmTC_31819.dir/src.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_31819
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_31819.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror CMakeFiles/cmTC_31819.dir/src.c.o -o cmTC_31819 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WSTRICT_OVERFLOW_2_FLAG succeeded with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_c7c99/fast && make  -f CMakeFiles/cmTC_c7c99.dir/build.make CMakeFiles/cmTC_c7c99.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_c7c99.dir/src.c.o
+/usr/bin/cc -DWITH_WSTRICT_OVERFLOW_2_FLAG  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror -fPIE   -Wstrict-overflow=2 -o CMakeFiles/cmTC_c7c99.dir/src.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_c7c99
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c7c99.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror CMakeFiles/cmTC_c7c99.dir/src.c.o -o cmTC_c7c99 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WNO_FORMAT_ZERO_LENGTH_FLAG succeeded with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_d3838/fast && make  -f CMakeFiles/cmTC_d3838.dir/build.make CMakeFiles/cmTC_d3838.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_d3838.dir/src.c.o
+/usr/bin/cc -DWITH_WNO_FORMAT_ZERO_LENGTH_FLAG  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror -fPIE   -Wno-format-zero-length -o CMakeFiles/cmTC_d3838.dir/src.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_d3838
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d3838.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror CMakeFiles/cmTC_d3838.dir/src.c.o -o cmTC_d3838 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WMISSING_FIELD_INITIALIZERS_FLAG succeeded with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_516aa/fast && make  -f CMakeFiles/cmTC_516aa.dir/build.make CMakeFiles/cmTC_516aa.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_516aa.dir/src.c.o
+/usr/bin/cc -DWITH_WMISSING_FIELD_INITIALIZERS_FLAG  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror -fPIE   -Wmissing-field-initializers -o CMakeFiles/cmTC_516aa.dir/src.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_516aa
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_516aa.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror CMakeFiles/cmTC_516aa.dir/src.c.o -o cmTC_516aa 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test REQUIRED_FLAGS_WFORMAT succeeded with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_e7145/fast && make  -f CMakeFiles/cmTC_e7145.dir/build.make CMakeFiles/cmTC_e7145.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_e7145.dir/src.c.o
+/usr/bin/cc -DREQUIRED_FLAGS_WFORMAT  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror -fPIE   -Wformat -o CMakeFiles/cmTC_e7145.dir/src.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_e7145
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e7145.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror CMakeFiles/cmTC_e7145.dir/src.c.o -o cmTC_e7145 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WFORMAT_SECURITY_FLAG succeeded with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_fc0e8/fast && make  -f CMakeFiles/cmTC_fc0e8.dir/build.make CMakeFiles/cmTC_fc0e8.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_fc0e8.dir/src.c.o
+/usr/bin/cc -DWITH_WFORMAT_SECURITY_FLAG  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror -Wformat -fPIE   -Wformat-security -o CMakeFiles/cmTC_fc0e8.dir/src.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_fc0e8
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_fc0e8.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror -Wformat CMakeFiles/cmTC_fc0e8.dir/src.c.o -o cmTC_fc0e8 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_WERROR_FORMAT_SECURITY_FLAG succeeded with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_7b3e5/fast && make  -f CMakeFiles/cmTC_7b3e5.dir/build.make CMakeFiles/cmTC_7b3e5.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_7b3e5.dir/src.c.o
+/usr/bin/cc -DWITH_WERROR_FORMAT_SECURITY_FLAG  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror -Wformat -fPIE   -Werror=format-security -o CMakeFiles/cmTC_7b3e5.dir/src.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_7b3e5
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7b3e5.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror -Wformat CMakeFiles/cmTC_7b3e5.dir/src.c.o -o cmTC_7b3e5 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_FNO_COMMON_FLAG succeeded with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_a195d/fast && make  -f CMakeFiles/cmTC_a195d.dir/build.make CMakeFiles/cmTC_a195d.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_a195d.dir/src.c.o
+/usr/bin/cc -DWITH_FNO_COMMON_FLAG  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror -Wformat -fPIE   -fno-common -o CMakeFiles/cmTC_a195d.dir/src.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_a195d
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a195d.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -Werror -Wformat CMakeFiles/cmTC_a195d.dir/src.c.o -o cmTC_a195d 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test WITH_STACK_PROTECTOR_STRONG succeeded with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_12545/fast && make  -f CMakeFiles/cmTC_12545.dir/build.make CMakeFiles/cmTC_12545.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_12545.dir/src.c.o
+/usr/bin/cc -DWITH_STACK_PROTECTOR_STRONG  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -fstack-protector-strong -fPIE -o CMakeFiles/cmTC_12545.dir/src.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c: In function 'main':
+/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c:1:27: warning: unused parameter 'argv' [-Wunused-parameter]
+    1 | int main(int argc, char **argv) { char buffer[256]; return buffer[argc]=0;}
+      |                    ~~~~~~~^~~~
+Linking C executable cmTC_12545
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_12545.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -fstack-protector-strong CMakeFiles/cmTC_12545.dir/src.c.o -o cmTC_12545 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+int main(int argc, char **argv) { char buffer[256]; return buffer[argc]=0;}
+Performing C SOURCE FILE Test WITH_STACK_CLASH_PROTECTION succeeded with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_c3e74/fast && make  -f CMakeFiles/cmTC_c3e74.dir/build.make CMakeFiles/cmTC_c3e74.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_c3e74.dir/src.c.o
+/usr/bin/cc -DWITH_STACK_CLASH_PROTECTION  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -fstack-clash-protection -fPIE -o CMakeFiles/cmTC_c3e74.dir/src.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c: In function 'main':
+/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c:1:27: warning: unused parameter 'argv' [-Wunused-parameter]
+    1 | int main(int argc, char **argv) { char buffer[256]; return buffer[argc]=0;}
+      |                    ~~~~~~~^~~~
+Linking C executable cmTC_c3e74
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c3e74.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -fstack-clash-protection CMakeFiles/cmTC_c3e74.dir/src.c.o -o cmTC_c3e74 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+int main(int argc, char **argv) { char buffer[256]; return buffer[argc]=0;}
+Performing C SOURCE FILE Test WITH_VISIBILITY_HIDDEN succeeded with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_343fa/fast && make  -f CMakeFiles/cmTC_343fa.dir/build.make CMakeFiles/cmTC_343fa.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_343fa.dir/src.c.o
+/usr/bin/cc -DWITH_VISIBILITY_HIDDEN  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    -fPIE   -fvisibility=hidden -o CMakeFiles/cmTC_343fa.dir/src.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_343fa
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_343fa.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    CMakeFiles/cmTC_343fa.dir/src.c.o -o cmTC_343fa 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+int main(void) { return 0; }
+Determining if the include file assert.h exists passed with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_b9884/fast && make  -f CMakeFiles/cmTC_b9884.dir/build.make CMakeFiles/cmTC_b9884.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_b9884.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    -fPIE -o CMakeFiles/cmTC_b9884.dir/CheckIncludeFile.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_b9884
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b9884.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    CMakeFiles/cmTC_b9884.dir/CheckIncludeFile.c.o -o cmTC_b9884 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the include file inttypes.h exists passed with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_80ab2/fast && make  -f CMakeFiles/cmTC_80ab2.dir/build.make CMakeFiles/cmTC_80ab2.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_80ab2.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    -fPIE -o CMakeFiles/cmTC_80ab2.dir/CheckIncludeFile.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_80ab2
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_80ab2.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    CMakeFiles/cmTC_80ab2.dir/CheckIncludeFile.c.o -o cmTC_80ab2 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the include file malloc.h exists passed with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_5742d/fast && make  -f CMakeFiles/cmTC_5742d.dir/build.make CMakeFiles/cmTC_5742d.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_5742d.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    -fPIE -o CMakeFiles/cmTC_5742d.dir/CheckIncludeFile.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_5742d
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5742d.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    CMakeFiles/cmTC_5742d.dir/CheckIncludeFile.c.o -o cmTC_5742d 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the include file memory.h exists passed with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_e5f38/fast && make  -f CMakeFiles/cmTC_e5f38.dir/build.make CMakeFiles/cmTC_e5f38.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_e5f38.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    -fPIE -o CMakeFiles/cmTC_e5f38.dir/CheckIncludeFile.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_e5f38
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e5f38.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    CMakeFiles/cmTC_e5f38.dir/CheckIncludeFile.c.o -o cmTC_e5f38 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the include file setjmp.h exists passed with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_40b98/fast && make  -f CMakeFiles/cmTC_40b98.dir/build.make CMakeFiles/cmTC_40b98.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_40b98.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    -fPIE -o CMakeFiles/cmTC_40b98.dir/CheckIncludeFile.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_40b98
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_40b98.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    CMakeFiles/cmTC_40b98.dir/CheckIncludeFile.c.o -o cmTC_40b98 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the include file signal.h exists passed with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_47e64/fast && make  -f CMakeFiles/cmTC_47e64.dir/build.make CMakeFiles/cmTC_47e64.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_47e64.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    -fPIE -o CMakeFiles/cmTC_47e64.dir/CheckIncludeFile.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_47e64
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_47e64.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    CMakeFiles/cmTC_47e64.dir/CheckIncludeFile.c.o -o cmTC_47e64 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the include file stdarg.h exists passed with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_5d609/fast && make  -f CMakeFiles/cmTC_5d609.dir/build.make CMakeFiles/cmTC_5d609.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_5d609.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    -fPIE -o CMakeFiles/cmTC_5d609.dir/CheckIncludeFile.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_5d609
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5d609.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    CMakeFiles/cmTC_5d609.dir/CheckIncludeFile.c.o -o cmTC_5d609 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the include file stddef.h exists passed with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_22b34/fast && make  -f CMakeFiles/cmTC_22b34.dir/build.make CMakeFiles/cmTC_22b34.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_22b34.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    -fPIE -o CMakeFiles/cmTC_22b34.dir/CheckIncludeFile.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_22b34
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_22b34.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    CMakeFiles/cmTC_22b34.dir/CheckIncludeFile.c.o -o cmTC_22b34 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the include file stdint.h exists passed with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_a3ef1/fast && make  -f CMakeFiles/cmTC_a3ef1.dir/build.make CMakeFiles/cmTC_a3ef1.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_a3ef1.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    -fPIE -o CMakeFiles/cmTC_a3ef1.dir/CheckIncludeFile.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_a3ef1
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a3ef1.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    CMakeFiles/cmTC_a3ef1.dir/CheckIncludeFile.c.o -o cmTC_a3ef1 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the include file stdio.h exists passed with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_0fe95/fast && make  -f CMakeFiles/cmTC_0fe95.dir/build.make CMakeFiles/cmTC_0fe95.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_0fe95.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    -fPIE -o CMakeFiles/cmTC_0fe95.dir/CheckIncludeFile.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_0fe95
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0fe95.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    CMakeFiles/cmTC_0fe95.dir/CheckIncludeFile.c.o -o cmTC_0fe95 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the include file stdlib.h exists passed with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_e2668/fast && make  -f CMakeFiles/cmTC_e2668.dir/build.make CMakeFiles/cmTC_e2668.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_e2668.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    -fPIE -o CMakeFiles/cmTC_e2668.dir/CheckIncludeFile.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_e2668
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e2668.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    CMakeFiles/cmTC_e2668.dir/CheckIncludeFile.c.o -o cmTC_e2668 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the include file string.h exists passed with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_09df9/fast && make  -f CMakeFiles/cmTC_09df9.dir/build.make CMakeFiles/cmTC_09df9.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_09df9.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    -fPIE -o CMakeFiles/cmTC_09df9.dir/CheckIncludeFile.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_09df9
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_09df9.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    CMakeFiles/cmTC_09df9.dir/CheckIncludeFile.c.o -o cmTC_09df9 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the include file strings.h exists passed with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_db05e/fast && make  -f CMakeFiles/cmTC_db05e.dir/build.make CMakeFiles/cmTC_db05e.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_db05e.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    -fPIE -o CMakeFiles/cmTC_db05e.dir/CheckIncludeFile.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_db05e
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_db05e.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    CMakeFiles/cmTC_db05e.dir/CheckIncludeFile.c.o -o cmTC_db05e 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the include file sys/stat.h exists passed with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_a72fe/fast && make  -f CMakeFiles/cmTC_a72fe.dir/build.make CMakeFiles/cmTC_a72fe.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_a72fe.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    -fPIE -o CMakeFiles/cmTC_a72fe.dir/CheckIncludeFile.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_a72fe
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a72fe.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    CMakeFiles/cmTC_a72fe.dir/CheckIncludeFile.c.o -o cmTC_a72fe 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the include file sys/types.h exists passed with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_1f238/fast && make  -f CMakeFiles/cmTC_1f238.dir/build.make CMakeFiles/cmTC_1f238.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_1f238.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    -fPIE -o CMakeFiles/cmTC_1f238.dir/CheckIncludeFile.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_1f238
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1f238.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    CMakeFiles/cmTC_1f238.dir/CheckIncludeFile.c.o -o cmTC_1f238 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the include file time.h exists passed with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_0cae9/fast && make  -f CMakeFiles/cmTC_0cae9.dir/build.make CMakeFiles/cmTC_0cae9.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_0cae9.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    -fPIE -o CMakeFiles/cmTC_0cae9.dir/CheckIncludeFile.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_0cae9
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0cae9.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    CMakeFiles/cmTC_0cae9.dir/CheckIncludeFile.c.o -o cmTC_0cae9 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the include file unistd.h exists passed with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_f50fc/fast && make  -f CMakeFiles/cmTC_f50fc.dir/build.make CMakeFiles/cmTC_f50fc.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_f50fc.dir/CheckIncludeFile.c.o
+/usr/bin/cc   -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    -fPIE -o CMakeFiles/cmTC_f50fc.dir/CheckIncludeFile.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_f50fc
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f50fc.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    CMakeFiles/cmTC_f50fc.dir/CheckIncludeFile.c.o -o cmTC_f50fc 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Performing C SOURCE FILE Test HAVE_STRUCT_TIMESPEC succeeded with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_fe51d/fast && make  -f CMakeFiles/cmTC_fe51d.dir/build.make CMakeFiles/cmTC_fe51d.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_fe51d.dir/src.c.o
+/usr/bin/cc -DHAVE_STRUCT_TIMESPEC  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    -fPIE -o CMakeFiles/cmTC_fe51d.dir/src.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_fe51d
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_fe51d.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    CMakeFiles/cmTC_fe51d.dir/src.c.o -o cmTC_fe51d 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+
+#include <time.h>
+
+int main()
+{
+  (void)sizeof(((struct timespec *)0)->tv_sec);
+  return 0;
+}
+
+Determining if the function calloc exists passed with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_ef666/fast && make  -f CMakeFiles/cmTC_ef666.dir/build.make CMakeFiles/cmTC_ef666.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_ef666.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -DCHECK_FUNCTION_EXISTS=calloc -fPIE -o CMakeFiles/cmTC_ef666.dir/CheckFunctionExists.c.o -c /home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c
+<command-line>: warning: conflicting types for built-in function ‘calloc’; expected ‘void *(long unsigned int,  long unsigned int)’ [-Wbuiltin-declaration-mismatch]
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c:7:3: note: in expansion of macro ‘CHECK_FUNCTION_EXISTS’
+    7 |   CHECK_FUNCTION_EXISTS(void);
+      |   ^~~~~~~~~~~~~~~~~~~~~
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c:1:1: note: ‘calloc’ is declared in header ‘<stdlib.h>’
+  +++ |+#include <stdlib.h>
+    1 | #ifdef CHECK_FUNCTION_EXISTS
+Linking C executable cmTC_ef666
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ef666.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -DCHECK_FUNCTION_EXISTS=calloc CMakeFiles/cmTC_ef666.dir/CheckFunctionExists.c.o -o cmTC_ef666 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the function exit exists passed with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_21797/fast && make  -f CMakeFiles/cmTC_21797.dir/build.make CMakeFiles/cmTC_21797.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_21797.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -DCHECK_FUNCTION_EXISTS=exit -fPIE -o CMakeFiles/cmTC_21797.dir/CheckFunctionExists.c.o -c /home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c
+<command-line>: warning: conflicting types for built-in function ‘exit’; expected ‘void(int)’ [-Wbuiltin-declaration-mismatch]
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c:7:3: note: in expansion of macro ‘CHECK_FUNCTION_EXISTS’
+    7 |   CHECK_FUNCTION_EXISTS(void);
+      |   ^~~~~~~~~~~~~~~~~~~~~
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c:1:1: note: ‘exit’ is declared in header ‘<stdlib.h>’
+  +++ |+#include <stdlib.h>
+    1 | #ifdef CHECK_FUNCTION_EXISTS
+Linking C executable cmTC_21797
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_21797.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -DCHECK_FUNCTION_EXISTS=exit CMakeFiles/cmTC_21797.dir/CheckFunctionExists.c.o -o cmTC_21797 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the function fprintf exists passed with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_ec949/fast && make  -f CMakeFiles/cmTC_ec949.dir/build.make CMakeFiles/cmTC_ec949.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_ec949.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -DCHECK_FUNCTION_EXISTS=fprintf -fPIE -o CMakeFiles/cmTC_ec949.dir/CheckFunctionExists.c.o -c /home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c
+<command-line>: warning: conflicting types for built-in function ‘fprintf’; expected ‘int(void *, const char *, ...)’ [-Wbuiltin-declaration-mismatch]
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c:7:3: note: in expansion of macro ‘CHECK_FUNCTION_EXISTS’
+    7 |   CHECK_FUNCTION_EXISTS(void);
+      |   ^~~~~~~~~~~~~~~~~~~~~
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c:1:1: note: ‘fprintf’ is declared in header ‘<stdio.h>’
+  +++ |+#include <stdio.h>
+    1 | #ifdef CHECK_FUNCTION_EXISTS
+Linking C executable cmTC_ec949
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ec949.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -DCHECK_FUNCTION_EXISTS=fprintf CMakeFiles/cmTC_ec949.dir/CheckFunctionExists.c.o -o cmTC_ec949 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the function free exists passed with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_457e2/fast && make  -f CMakeFiles/cmTC_457e2.dir/build.make CMakeFiles/cmTC_457e2.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_457e2.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -DCHECK_FUNCTION_EXISTS=free -fPIE -o CMakeFiles/cmTC_457e2.dir/CheckFunctionExists.c.o -c /home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c
+<command-line>: warning: conflicting types for built-in function ‘free’; expected ‘void(void *)’ [-Wbuiltin-declaration-mismatch]
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c:7:3: note: in expansion of macro ‘CHECK_FUNCTION_EXISTS’
+    7 |   CHECK_FUNCTION_EXISTS(void);
+      |   ^~~~~~~~~~~~~~~~~~~~~
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c:1:1: note: ‘free’ is declared in header ‘<stdlib.h>’
+  +++ |+#include <stdlib.h>
+    1 | #ifdef CHECK_FUNCTION_EXISTS
+Linking C executable cmTC_457e2
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_457e2.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -DCHECK_FUNCTION_EXISTS=free CMakeFiles/cmTC_457e2.dir/CheckFunctionExists.c.o -o cmTC_457e2 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the function longjmp exists passed with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_84065/fast && make  -f CMakeFiles/cmTC_84065.dir/build.make CMakeFiles/cmTC_84065.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_84065.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -DCHECK_FUNCTION_EXISTS=longjmp -fPIE -o CMakeFiles/cmTC_84065.dir/CheckFunctionExists.c.o -c /home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c
+Linking C executable cmTC_84065
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_84065.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -DCHECK_FUNCTION_EXISTS=longjmp CMakeFiles/cmTC_84065.dir/CheckFunctionExists.c.o -o cmTC_84065 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the function siglongjmp exists passed with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_31b1f/fast && make  -f CMakeFiles/cmTC_31b1f.dir/build.make CMakeFiles/cmTC_31b1f.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_31b1f.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -DCHECK_FUNCTION_EXISTS=siglongjmp -fPIE -o CMakeFiles/cmTC_31b1f.dir/CheckFunctionExists.c.o -c /home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c
+Linking C executable cmTC_31b1f
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_31b1f.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -DCHECK_FUNCTION_EXISTS=siglongjmp CMakeFiles/cmTC_31b1f.dir/CheckFunctionExists.c.o -o cmTC_31b1f 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the function malloc exists passed with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_c16c4/fast && make  -f CMakeFiles/cmTC_c16c4.dir/build.make CMakeFiles/cmTC_c16c4.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_c16c4.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -DCHECK_FUNCTION_EXISTS=malloc -fPIE -o CMakeFiles/cmTC_c16c4.dir/CheckFunctionExists.c.o -c /home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c
+<command-line>: warning: conflicting types for built-in function ‘malloc’; expected ‘void *(long unsigned int)’ [-Wbuiltin-declaration-mismatch]
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c:7:3: note: in expansion of macro ‘CHECK_FUNCTION_EXISTS’
+    7 |   CHECK_FUNCTION_EXISTS(void);
+      |   ^~~~~~~~~~~~~~~~~~~~~
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c:1:1: note: ‘malloc’ is declared in header ‘<stdlib.h>’
+  +++ |+#include <stdlib.h>
+    1 | #ifdef CHECK_FUNCTION_EXISTS
+Linking C executable cmTC_c16c4
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c16c4.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -DCHECK_FUNCTION_EXISTS=malloc CMakeFiles/cmTC_c16c4.dir/CheckFunctionExists.c.o -o cmTC_c16c4 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the function memcpy exists passed with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_f44db/fast && make  -f CMakeFiles/cmTC_f44db.dir/build.make CMakeFiles/cmTC_f44db.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_f44db.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -DCHECK_FUNCTION_EXISTS=memcpy -fPIE -o CMakeFiles/cmTC_f44db.dir/CheckFunctionExists.c.o -c /home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c
+<command-line>: warning: conflicting types for built-in function ‘memcpy’; expected ‘void *(void *, const void *, long unsigned int)’ [-Wbuiltin-declaration-mismatch]
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c:7:3: note: in expansion of macro ‘CHECK_FUNCTION_EXISTS’
+    7 |   CHECK_FUNCTION_EXISTS(void);
+      |   ^~~~~~~~~~~~~~~~~~~~~
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c:1:1: note: ‘memcpy’ is declared in header ‘<string.h>’
+  +++ |+#include <string.h>
+    1 | #ifdef CHECK_FUNCTION_EXISTS
+Linking C executable cmTC_f44db
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f44db.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -DCHECK_FUNCTION_EXISTS=memcpy CMakeFiles/cmTC_f44db.dir/CheckFunctionExists.c.o -o cmTC_f44db 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the function memset exists passed with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_f0e97/fast && make  -f CMakeFiles/cmTC_f0e97.dir/build.make CMakeFiles/cmTC_f0e97.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_f0e97.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -DCHECK_FUNCTION_EXISTS=memset -fPIE -o CMakeFiles/cmTC_f0e97.dir/CheckFunctionExists.c.o -c /home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c
+<command-line>: warning: conflicting types for built-in function ‘memset’; expected ‘void *(void *, int,  long unsigned int)’ [-Wbuiltin-declaration-mismatch]
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c:7:3: note: in expansion of macro ‘CHECK_FUNCTION_EXISTS’
+    7 |   CHECK_FUNCTION_EXISTS(void);
+      |   ^~~~~~~~~~~~~~~~~~~~~
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c:1:1: note: ‘memset’ is declared in header ‘<string.h>’
+  +++ |+#include <string.h>
+    1 | #ifdef CHECK_FUNCTION_EXISTS
+Linking C executable cmTC_f0e97
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f0e97.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -DCHECK_FUNCTION_EXISTS=memset CMakeFiles/cmTC_f0e97.dir/CheckFunctionExists.c.o -o cmTC_f0e97 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the function printf exists passed with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_1b22f/fast && make  -f CMakeFiles/cmTC_1b22f.dir/build.make CMakeFiles/cmTC_1b22f.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_1b22f.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -DCHECK_FUNCTION_EXISTS=printf -fPIE -o CMakeFiles/cmTC_1b22f.dir/CheckFunctionExists.c.o -c /home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c
+<command-line>: warning: conflicting types for built-in function ‘printf’; expected ‘int(const char *, ...)’ [-Wbuiltin-declaration-mismatch]
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c:7:3: note: in expansion of macro ‘CHECK_FUNCTION_EXISTS’
+    7 |   CHECK_FUNCTION_EXISTS(void);
+      |   ^~~~~~~~~~~~~~~~~~~~~
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c:1:1: note: ‘printf’ is declared in header ‘<stdio.h>’
+  +++ |+#include <stdio.h>
+    1 | #ifdef CHECK_FUNCTION_EXISTS
+Linking C executable cmTC_1b22f
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1b22f.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -DCHECK_FUNCTION_EXISTS=printf CMakeFiles/cmTC_1b22f.dir/CheckFunctionExists.c.o -o cmTC_1b22f 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the function setjmp exists passed with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_89f85/fast && make  -f CMakeFiles/cmTC_89f85.dir/build.make CMakeFiles/cmTC_89f85.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_89f85.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -DCHECK_FUNCTION_EXISTS=setjmp -fPIE -o CMakeFiles/cmTC_89f85.dir/CheckFunctionExists.c.o -c /home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c
+Linking C executable cmTC_89f85
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_89f85.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -DCHECK_FUNCTION_EXISTS=setjmp CMakeFiles/cmTC_89f85.dir/CheckFunctionExists.c.o -o cmTC_89f85 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the function signal exists passed with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_508d0/fast && make  -f CMakeFiles/cmTC_508d0.dir/build.make CMakeFiles/cmTC_508d0.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_508d0.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -DCHECK_FUNCTION_EXISTS=signal -fPIE -o CMakeFiles/cmTC_508d0.dir/CheckFunctionExists.c.o -c /home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c
+Linking C executable cmTC_508d0
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_508d0.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -DCHECK_FUNCTION_EXISTS=signal CMakeFiles/cmTC_508d0.dir/CheckFunctionExists.c.o -o cmTC_508d0 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the function strsignal exists passed with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_7a10a/fast && make  -f CMakeFiles/cmTC_7a10a.dir/build.make CMakeFiles/cmTC_7a10a.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_7a10a.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -DCHECK_FUNCTION_EXISTS=strsignal -fPIE -o CMakeFiles/cmTC_7a10a.dir/CheckFunctionExists.c.o -c /home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c
+Linking C executable cmTC_7a10a
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7a10a.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -DCHECK_FUNCTION_EXISTS=strsignal CMakeFiles/cmTC_7a10a.dir/CheckFunctionExists.c.o -o cmTC_7a10a 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the function strcmp exists passed with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_545b5/fast && make  -f CMakeFiles/cmTC_545b5.dir/build.make CMakeFiles/cmTC_545b5.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_545b5.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -DCHECK_FUNCTION_EXISTS=strcmp -fPIE -o CMakeFiles/cmTC_545b5.dir/CheckFunctionExists.c.o -c /home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c
+<command-line>: warning: conflicting types for built-in function ‘strcmp’; expected ‘int(const char *, const char *)’ [-Wbuiltin-declaration-mismatch]
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c:7:3: note: in expansion of macro ‘CHECK_FUNCTION_EXISTS’
+    7 |   CHECK_FUNCTION_EXISTS(void);
+      |   ^~~~~~~~~~~~~~~~~~~~~
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c:1:1: note: ‘strcmp’ is declared in header ‘<string.h>’
+  +++ |+#include <string.h>
+    1 | #ifdef CHECK_FUNCTION_EXISTS
+Linking C executable cmTC_545b5
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_545b5.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -DCHECK_FUNCTION_EXISTS=strcmp CMakeFiles/cmTC_545b5.dir/CheckFunctionExists.c.o -o cmTC_545b5 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the function clock_gettime exists passed with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_aded3/fast && make  -f CMakeFiles/cmTC_aded3.dir/build.make CMakeFiles/cmTC_aded3.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_aded3.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -DCHECK_FUNCTION_EXISTS=clock_gettime -fPIE -o CMakeFiles/cmTC_aded3.dir/CheckFunctionExists.c.o -c /home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c
+Linking C executable cmTC_aded3
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_aded3.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -DCHECK_FUNCTION_EXISTS=clock_gettime CMakeFiles/cmTC_aded3.dir/CheckFunctionExists.c.o -o cmTC_aded3 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the function sprintf exists passed with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_84424/fast && make  -f CMakeFiles/cmTC_84424.dir/build.make CMakeFiles/cmTC_84424.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_84424.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -DCHECK_FUNCTION_EXISTS=sprintf -fPIE -o CMakeFiles/cmTC_84424.dir/CheckFunctionExists.c.o -c /home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c
+<command-line>: warning: conflicting types for built-in function ‘sprintf’; expected ‘int(char *, const char *, ...)’ [-Wbuiltin-declaration-mismatch]
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c:7:3: note: in expansion of macro ‘CHECK_FUNCTION_EXISTS’
+    7 |   CHECK_FUNCTION_EXISTS(void);
+      |   ^~~~~~~~~~~~~~~~~~~~~
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c:1:1: note: ‘sprintf’ is declared in header ‘<stdio.h>’
+  +++ |+#include <stdio.h>
+    1 | #ifdef CHECK_FUNCTION_EXISTS
+Linking C executable cmTC_84424
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_84424.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -DCHECK_FUNCTION_EXISTS=sprintf CMakeFiles/cmTC_84424.dir/CheckFunctionExists.c.o -o cmTC_84424 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the function vsnprintf exists passed with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_ace6c/fast && make  -f CMakeFiles/cmTC_ace6c.dir/build.make CMakeFiles/cmTC_ace6c.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_ace6c.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -DCHECK_FUNCTION_EXISTS=vsnprintf -fPIE -o CMakeFiles/cmTC_ace6c.dir/CheckFunctionExists.c.o -c /home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c
+<command-line>: warning: conflicting types for built-in function ‘vsnprintf’; expected ‘int(char *, long unsigned int,  const char *, __va_list_tag *)’ [-Wbuiltin-declaration-mismatch]
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c:7:3: note: in expansion of macro ‘CHECK_FUNCTION_EXISTS’
+    7 |   CHECK_FUNCTION_EXISTS(void);
+      |   ^~~~~~~~~~~~~~~~~~~~~
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/share/cmake-3.22/Modules/CheckFunctionExists.c:1:1: note: ‘vsnprintf’ is declared in header ‘<stdio.h>’
+  +++ |+#include <stdio.h>
+    1 | #ifdef CHECK_FUNCTION_EXISTS
+Linking C executable cmTC_ace6c
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ace6c.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self   -DCHECK_FUNCTION_EXISTS=vsnprintf CMakeFiles/cmTC_ace6c.dir/CheckFunctionExists.c.o -o cmTC_ace6c 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Performing C SOURCE FILE Test HAVE_GCC_THREAD_LOCAL_STORAGE succeeded with the following output:
+Change Dir: /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):make -f Makefile cmTC_47bc7/fast && make  -f CMakeFiles/cmTC_47bc7.dir/build.make CMakeFiles/cmTC_47bc7.dir/build
+make[1]: Entering directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_47bc7.dir/src.c.o
+/usr/bin/cc -DHAVE_GCC_THREAD_LOCAL_STORAGE  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    -fPIE -o CMakeFiles/cmTC_47bc7.dir/src.c.o -c /home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_47bc7
+/home/giacomo/Scaricati/jetbrains/CLion-2022.1.3/clion-2022.1.3/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_47bc7.dir/link.txt --verbose=1
+/usr/bin/cc  -std=c11 -fPIC   -Wall -Wextra -Wsign-compare -Wshadow -Wwrite-strings -Wpointer-arith -Winit-self    CMakeFiles/cmTC_47bc7.dir/src.c.o -o cmTC_47bc7 
+make[1]: Leaving directory '/home/giacomo/projects/yaucl-graph/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Source file was:
+
+__thread int tls;
+
+int main(void) {
+    return 0;
+}

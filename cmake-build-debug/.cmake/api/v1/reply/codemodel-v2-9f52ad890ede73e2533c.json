@@ -1,0 +1,385 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						29,
+						30
+					]
+				},
+				{
+					"build" : "submodule/roaring",
+					"childIndexes" : 
+					[
+						2
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-submodule.roaring-Debug-4f15de7471f76195f424.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "2.8"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "submodule/roaring",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18,
+						19,
+						20,
+						21,
+						22,
+						23,
+						24,
+						25,
+						26,
+						27
+					]
+				},
+				{
+					"build" : "submodule/roaring/src",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-submodule.roaring.src-Debug-348b334ef8f69dd1fd1a.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "2.8"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 1,
+					"source" : "submodule/roaring/src",
+					"targetIndexes" : 
+					[
+						28
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "yaucl_graph",
+					"targetIndexes" : 
+					[
+						29,
+						30
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						1,
+						2
+					],
+					"name" : "RoaringBitmap",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18,
+						19,
+						20,
+						21,
+						22,
+						23,
+						24,
+						25,
+						26,
+						27,
+						28
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 1,
+					"id" : "Continuous::@592950577182efbee437",
+					"jsonFile" : "target-Continuous-Debug-5b29f080eb3aaf2bba5c.json",
+					"name" : "Continuous",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ContinuousBuild::@592950577182efbee437",
+					"jsonFile" : "target-ContinuousBuild-Debug-895c35222fdeb6d3ce91.json",
+					"name" : "ContinuousBuild",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ContinuousConfigure::@592950577182efbee437",
+					"jsonFile" : "target-ContinuousConfigure-Debug-e7911914a07baa27cd37.json",
+					"name" : "ContinuousConfigure",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ContinuousCoverage::@592950577182efbee437",
+					"jsonFile" : "target-ContinuousCoverage-Debug-9aa665c3147b48868e84.json",
+					"name" : "ContinuousCoverage",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ContinuousMemCheck::@592950577182efbee437",
+					"jsonFile" : "target-ContinuousMemCheck-Debug-dff51adcd43c7c6877a6.json",
+					"name" : "ContinuousMemCheck",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ContinuousStart::@592950577182efbee437",
+					"jsonFile" : "target-ContinuousStart-Debug-568926eda996d0bd3cea.json",
+					"name" : "ContinuousStart",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ContinuousSubmit::@592950577182efbee437",
+					"jsonFile" : "target-ContinuousSubmit-Debug-054480da63dc6ba35b98.json",
+					"name" : "ContinuousSubmit",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ContinuousTest::@592950577182efbee437",
+					"jsonFile" : "target-ContinuousTest-Debug-1fd7e643b64df38a5d75.json",
+					"name" : "ContinuousTest",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ContinuousUpdate::@592950577182efbee437",
+					"jsonFile" : "target-ContinuousUpdate-Debug-7cf61da0365a3c27bae4.json",
+					"name" : "ContinuousUpdate",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "Experimental::@592950577182efbee437",
+					"jsonFile" : "target-Experimental-Debug-d8f6a966b4ee1a13f1c3.json",
+					"name" : "Experimental",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ExperimentalBuild::@592950577182efbee437",
+					"jsonFile" : "target-ExperimentalBuild-Debug-558964f2ee2b12946388.json",
+					"name" : "ExperimentalBuild",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ExperimentalConfigure::@592950577182efbee437",
+					"jsonFile" : "target-ExperimentalConfigure-Debug-77109cb35798b8dbd427.json",
+					"name" : "ExperimentalConfigure",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ExperimentalCoverage::@592950577182efbee437",
+					"jsonFile" : "target-ExperimentalCoverage-Debug-68cf6c2a4740a0c99067.json",
+					"name" : "ExperimentalCoverage",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ExperimentalMemCheck::@592950577182efbee437",
+					"jsonFile" : "target-ExperimentalMemCheck-Debug-c8201b90880908a74153.json",
+					"name" : "ExperimentalMemCheck",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ExperimentalStart::@592950577182efbee437",
+					"jsonFile" : "target-ExperimentalStart-Debug-21507a0669ec37d80441.json",
+					"name" : "ExperimentalStart",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ExperimentalSubmit::@592950577182efbee437",
+					"jsonFile" : "target-ExperimentalSubmit-Debug-8afaf5f59d499fa2d52d.json",
+					"name" : "ExperimentalSubmit",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ExperimentalTest::@592950577182efbee437",
+					"jsonFile" : "target-ExperimentalTest-Debug-1eb0260b6fae3dc55bcf.json",
+					"name" : "ExperimentalTest",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ExperimentalUpdate::@592950577182efbee437",
+					"jsonFile" : "target-ExperimentalUpdate-Debug-9989deae60c84452eea7.json",
+					"name" : "ExperimentalUpdate",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "Nightly::@592950577182efbee437",
+					"jsonFile" : "target-Nightly-Debug-8b595201484f1f82c591.json",
+					"name" : "Nightly",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "NightlyBuild::@592950577182efbee437",
+					"jsonFile" : "target-NightlyBuild-Debug-40f4ed453666253e73ac.json",
+					"name" : "NightlyBuild",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "NightlyConfigure::@592950577182efbee437",
+					"jsonFile" : "target-NightlyConfigure-Debug-46b50fbab41a50fe3b72.json",
+					"name" : "NightlyConfigure",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "NightlyCoverage::@592950577182efbee437",
+					"jsonFile" : "target-NightlyCoverage-Debug-5989dd59fae72db1323b.json",
+					"name" : "NightlyCoverage",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "NightlyMemCheck::@592950577182efbee437",
+					"jsonFile" : "target-NightlyMemCheck-Debug-a911aa651b21f1b9500b.json",
+					"name" : "NightlyMemCheck",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "NightlyMemoryCheck::@592950577182efbee437",
+					"jsonFile" : "target-NightlyMemoryCheck-Debug-84546f026439bf8f76d3.json",
+					"name" : "NightlyMemoryCheck",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "NightlyStart::@592950577182efbee437",
+					"jsonFile" : "target-NightlyStart-Debug-aadce517e4f6a52a5624.json",
+					"name" : "NightlyStart",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "NightlySubmit::@592950577182efbee437",
+					"jsonFile" : "target-NightlySubmit-Debug-1607732868c619ace5f3.json",
+					"name" : "NightlySubmit",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "NightlyTest::@592950577182efbee437",
+					"jsonFile" : "target-NightlyTest-Debug-0d247345fbbe7ba7cd4a.json",
+					"name" : "NightlyTest",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "NightlyUpdate::@592950577182efbee437",
+					"jsonFile" : "target-NightlyUpdate-Debug-51b010230e3ccdd43b12.json",
+					"name" : "NightlyUpdate",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "roaring::@369b6959459b586d8537",
+					"jsonFile" : "target-roaring-Debug-5188dc0648039886dbaf.json",
+					"name" : "roaring",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "yaucl_graph::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-yaucl_graph-Debug-08b34d02e0e884058f28.json",
+					"name" : "yaucl_graph",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "yaucl_hashing::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-yaucl_hashing-Debug-75299534c4aaee1be029.json",
+					"name" : "yaucl_hashing",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/giacomo/projects/yaucl-graph/cmake-build-debug",
+		"source" : "/home/giacomo/projects/yaucl-graph"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}
