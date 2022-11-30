@@ -430,15 +430,16 @@ graph_join_pm graph_join(graph_join_pm &left, graph_join_pm &right) {
 graph_join_pm replace_labels(const graph_join_pm &g, const std::unordered_map<std::string, std::string> &VM) {
     graph_join_pm elementi;
     for (const auto&cp :VM) {
-        std::cout << cp.first << std::endl;
+//        std::cout << cp.first << std::endl;
         elementi.vertex_hash_primary_index[cp.second] = g.vertex_hash_primary_index.at(cp.first);
     }
-    std::cout << std::endl << std::endl;
+//    std::cout << std::endl << std::endl;
     for (const auto& cp : g.vertex_id_secondary_index) {
-        std::cout << cp.first << std::endl;
+//        std::cout << cp.first << std::endl;
         elementi.vertex_id_secondary_index.emplace_back(VM.at(cp.first), cp.second);
     }
     elementi.starting_point = g.starting_point;
     elementi.V_size = g.V_size;
     elementi.E_size = g.E_size;
+    return elementi;
 }
