@@ -109,3 +109,13 @@ adjacency_graph::printAllPathsUtil(size_t u, size_t d, std::unordered_set<size_t
     path_index--;
     visited.erase(u);
 }
+
+
+void adjacency_graph_DFSUtil(size_t src, const adjacency_graph& ag, roaring::Roaring64Map &visited) {
+    visited.add(src);
+    for (size_t edge_id : ag.nodes.at(src)) {
+        size_t dst = ag.edge_ids.at(edge_id).second;
+        if (!visited.contains(dst))
+            adjacency_graph_DFSUtil(dst, ag, visited);
+    }
+}

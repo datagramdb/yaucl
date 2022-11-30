@@ -6,18 +6,19 @@
 #define YAUCL_GRAPH_ALLDIRECTEDPATHS_H
 
 #include <roaring64map.hh>
-#include <yaucl/graphs/adjacency_graph.h>
 #include <yaucl/design_patterns/Observer.h>
 #include <vector>
+#include "yaucl/graphs/FlexibleFA.h"
 
+template <typename NodeLabel, typename EdgeLabel>
 struct AllDirectedPaths {
     roaring::Roaring64Map visited;
-    const struct adjacency_graph& graph;
+    const FlexibleFA<NodeLabel, EdgeLabel>& graph;
     IObservee<std::pair<std::vector<size_t>, size_t>> Observee;
     // Create an array to store paths
     std::vector<size_t> path;
 
-    AllDirectedPaths(const adjacency_graph &graph) : graph(graph), path(graph.V_size, 0) {}
+    AllDirectedPaths(const FlexibleFA<NodeLabel, EdgeLabel> &graph) : graph(graph), path(graph.V_size, 0) {}
 
     void attachObserver(const std::function<void(std::pair<std::vector<size_t>, size_t>)>& f) {
         Observee.Attach(f);
@@ -81,8 +82,7 @@ private:
             } else {
                 // Recur for all the vertices adjacent to current vertex
                 bool insertion = false;
-                for (const size_t edge : graph.nodes.at(u)) {
-                    size_t i = graph.edge_ids.at(edge).second;
+                for (const size_t i : graph.outgoingEdges(u)) {
                     if (!visited.contains(i)) {
                         nextElements.emplace_back(i, path_index+1);
                         insertion = true;

@@ -49,6 +49,7 @@ struct adjacency_entry {
     adjacency_entry(const adjacency_entry&) = default;
     adjacency_entry& operator=(const adjacency_entry&) = default;
 
+
     friend std::ostream &operator<<(std::ostream &os, const adjacency_entry &entry);
 };
 

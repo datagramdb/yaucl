@@ -30,6 +30,8 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <ostream>
+#include "roaring64map.hh"
+
 #include <yaucl/numeric/ssize_t.h>
 
 struct adjacency_graph {
@@ -60,12 +62,21 @@ struct adjacency_graph {
     const std::vector<size_t>& getOutgoingEdgesId(size_t node_id) const;
     const std::vector<size_t>& getIngoingEdgesId(size_t node_id) const;
     void DFSUtil(size_t src, std::unordered_set<size_t>& visited);
+    void clear() {
+        nodes.clear();
+        edge_ids.clear();
+        ingoing_edges.clear();
+        V_size = E_size = 0;
+    }
 
     void dot(std::ostream& os);
 
 private:
     void printAllPathsUtil(size_t u, size_t d, std::unordered_set<size_t>& visited, std::vector<ssize_t>& path, size_t path_index, std::unordered_set<size_t>& visited_src_dst, std::unordered_set<size_t>& global);
 };
+
+
+void adjacency_graph_DFSUtil(size_t src, const adjacency_graph& ag, roaring::Roaring64Map &visited) ;
 
 
 #endif //CLASSIFIERS_ADJACENCY_GRAPH_H

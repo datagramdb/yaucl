@@ -49,10 +49,18 @@ protected:
 public:
     std::unordered_map<NodeElement, std::vector<size_t>> nodeLabelInv;
 
+    virtual void clear() {
+        nodeLabel.clear();
+        costMap.clear();
+        nodeLabelInv.clear();
+        g.clear();
+    }
+
     virtual ~FlexibleGraph() {
         nodeLabel.clear();
         costMap.clear();
         nodeLabelInv.clear();
+        g.clear();
     }
     FlexibleGraph() = default;
     FlexibleGraph(const FlexibleGraph& x) = default;
