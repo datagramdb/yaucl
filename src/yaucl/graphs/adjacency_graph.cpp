@@ -51,7 +51,9 @@ const std::vector<size_t> &adjacency_graph::getOutgoingEdgesId(size_t node_id) c
 }
 
 const std::vector<size_t> &adjacency_graph::getIngoingEdgesId(size_t node_id) const {
-    return ingoing_edges.at(node_id);
+    auto it = ingoing_edges.find(node_id);
+    if (it == ingoing_edges.end()) return emptyVector;
+    return it->second;
 }
 
 void adjacency_graph::DFSUtil(size_t src, std::unordered_set<size_t> &visited) {
