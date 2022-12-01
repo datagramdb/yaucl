@@ -226,6 +226,20 @@ public:
         final_nodes.add((node));
     }
 
+    void removeEdges(size_t src, size_t dst) {
+        for (const size_t & edge : FlexibleGraph<NodeElement, EdgeLabel>::g.getOutgoingEdgesId(src)) {
+            if (removed_edges.contains(edge)) continue; // already removed
+            auto& ref = FlexibleGraph<NodeElement, EdgeLabel>::g.edge_from_id(edge).second;
+            if ((removed_nodes.contains(ref)) || (ref == dst)) {
+                removed_edges.add(edge);
+            }
+        }
+    }
+
+    const std::pair<size_t,size_t>& srcDstEdge(size_t i) const {
+        return FlexibleGraph<NodeElement, EdgeLabel>::g.edge_ids.at(i);
+    }
+
     std::vector<EdgeLabel, size_t> delta(const NodeElement& node) const {
         return outgoingEdges(node);
     }
