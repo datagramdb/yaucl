@@ -36,7 +36,9 @@ add_library(yaucl_data OBJECT
 add_library(yaucl_structures OBJECT src/yaucl/structures/StringPrevNext.cpp include/yaucl/structures/StringPrevNext.h src/yaucl/structures/DoublePrevNext.cpp include/yaucl/structures/DoublePrevNext.h include/yaucl/structures/setoids/set_comparators.h include/yaucl/structures/setoids/set_partitioning.h include/yaucl/structures/setoids/basics.h)
 
 add_library(yaucl_bpm OBJECT
-        src/knobab/server/declare/CNFDeclareDataAware.cpp
+        src/yaucl/bpm/algos/atomization/AtomizingPipeline.cpp
+        src/yaucl/bpm/structures/commons/DeclareDataAware.cpp
+        #src/knobab/server/declare/CNFDeclareDataAware.cpp
         #src/yaucl/bpm/structures/log/trace_visitor.cpp
         #src/yaucl/bpm/structures/log/DataTraceParse.cpp
         src/yaucl/bpm/structures/commons/DataPredicate.cpp

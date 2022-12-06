@@ -36,8 +36,6 @@ namespace std {
     template <typename T>
     struct hash<std::unordered_set<T>>
     {
-        hash() {}
-        ~hash() {}
         std::size_t operator()(const std::unordered_set<T>& k) const
         {
             std::hash<T> thash;
@@ -50,8 +48,6 @@ namespace std {
     template <typename T>
     struct hash<std::set<T>>
     {
-        hash() {}
-        ~hash() {}
         std::size_t operator()(const std::set<T>& k) const
         {
             std::hash<T> thash;

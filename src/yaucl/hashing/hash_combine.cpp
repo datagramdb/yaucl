@@ -36,3 +36,7 @@ uint64_t yaucl::hashing::hash(const uint64_t &n) {
     uint64_t c = 17316035218449499591ull;// random uneven integer constant;
     return c*xorshift(p*xorshift(n,32),32);
 }
+
+size_t yaucl::hashing::combine(const std::size_t seed, size_t v) {
+    return std::rotl(seed,std::numeric_limits<size_t>::digits/3) ^ distribute((uint32_t)(v));
+}

@@ -54,10 +54,11 @@ namespace yaucl {
             return (n<<c)|(n>>((T(0)-c)&m)); // this is usually recognized by the compiler to mean rotation, also c++20 now gives us rotl directly
         }*/
 
+        size_t combine(const std::size_t seed, size_t v);
+
         template <class T> size_t hash_combine(const std::size_t seed, const T& v)
         {
-            std::hash<T> hash1;
-            return std::rotl(seed,std::numeric_limits<size_t>::digits/3) ^ distribute((uint32_t)hash1(v));
+            return std::rotl(seed,std::numeric_limits<size_t>::digits/3) ^ distribute((uint32_t)std::hash<T>()(v));
         }
     }
 }
