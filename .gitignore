@@ -1,19 +1,2 @@
-#Removing the target classes from the commit
-src/knobab/knobab-gui-java/target/*
 cmake-build-debug/
-cmake-build-debug/*
-dist/
-dist/*
-/cmake-build-debug-cygwin/
-/cmake-build-debug-visual-studio/
-/cmake-build-release-cygwin/
-/cmake-build-release-visual-studio/
-/KnoBABQuery.interp
-/KnoBABQuery.tokens
-/KnoBABQueryLexer.interp
-/KnoBABQueryLexer.tokens
-.idea
-.idea/*
-/cmake-build-release/
-/cmake-build-release-linux/
-/cmake-build-debug-linux/
+

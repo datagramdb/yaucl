@@ -1,15 +1,3 @@
-[submodule "submodules/antlr4"]
-	path = submodules/antlr4
-	url = https://github.com/antlr/antlr4
-[submodule "submodules/date"]
-	path = submodules/date
-	url = https://github.com/HowardHinnant/date/
-[submodule "submodules/json"]
-	path = submodules/json
-	url = https://github.com/nlohmann/json/
-[submodule "submodules/magic_enum"]
-	path = submodules/magic_enum
-	url = https://github.com/Neargye/magic_enum
-[submodule "submodules/httplib"]
-	path = submodules/httplib
-	url = https://github.com/yhirose/cpp-httplib
+[submodule "submodule/roaring"]
+	path = submodule/roaring
+	url = https://github.com/RoaringBitmap/CRoaring

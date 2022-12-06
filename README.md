@@ -1,10 +1,7 @@
+# yaucl-graph
 
+YAUCL minimal Graph Library
 
-# Windows
-The present project can be compiled with the Visual Studio toolchain via CMake configuration. 
+# Installing 
 
-    cmake.exe -DCMAKE_BUILD_TYPE=<Debug|Release> -G "CodeBlocks - NMake Makefiles" -S <source> -B <build-folder>
-
-Then, the process can be compiled as follows:
-
-    cmake.exe <build-folder> --target all
+After cloning the roaring submodule, please disable the tests compilation.
