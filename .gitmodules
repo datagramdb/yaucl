@@ -1,3 +1,0 @@
-[submodule "submodule/roaring"]
-	path = submodule/roaring
-	url = https://github.com/RoaringBitmap/CRoaring
