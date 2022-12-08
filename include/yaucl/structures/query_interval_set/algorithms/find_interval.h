@@ -31,15 +31,15 @@
 #include <unordered_set>
 
 template <typename T, typename PrevNext>
-std::vector<std::pair<T,T>> find_interval(const PrevNext& indexer, struct node_recur<T>& element, T left, T right) {
+std::vector<std::pair<T,T>> find_interval(const PrevNext& indexer, const struct node_recur<T>& element, T left, T right) {
     std::vector<std::pair<T,T>> result;
     if (right < left) return result;
     std::queue<forInsertion<T>> q;
-    q.emplace(left, right, &element);
+    q.emplace(left, right, (node_recur<T>*)&element);
 
     while (!q.empty()) {
         forInsertion<T> stackElement = q.front();
-        node_recur<T>* it = stackElement.nodeStack;
+        auto it = stackElement.nodeStack;
         T& currentLeft = stackElement.left;
         T& currentRight = stackElement.right;
 
@@ -59,7 +59,7 @@ std::vector<std::pair<T,T>> find_interval(const PrevNext& indexer, struct node_r
             }
         }
 
-        node_recur<T>* list_ptr = (N == 0 ? nullptr : it->children.data());
+        auto list_ptr = (N == 0 ? nullptr : it->children.data());
 
         if (it->children.empty()) {
             if ((it->min == currentLeft) && (it->max == currentRight)) {

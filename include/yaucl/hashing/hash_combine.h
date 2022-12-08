@@ -58,6 +58,7 @@ namespace yaucl {
 
         template <class T> size_t hash_combine(const std::size_t seed, const T& v)
         {
+
             return std::rotl(seed,std::numeric_limits<size_t>::digits/3) ^ distribute((uint32_t)std::hash<T>()(v));
         }
     }

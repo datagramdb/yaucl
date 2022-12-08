@@ -6,12 +6,28 @@
 #define AIRLINE_DECLAREDATAAWARE_H
 
 #include <string>
-#include "yaucl/hashing/vector_hash.h"
-#include "yaucl/hashing/umap_hash.h"
 #include "DataPredicate.h"
 #include "roaring64map.hh"
 
 using data_conditions = std::vector<std::unordered_map<std::string, DataPredicate>>;
+
+template <>
+struct std::hash<std::unordered_map<std::string, DataPredicate>>
+{
+    std::size_t operator()(const std::unordered_map<std::string,DataPredicate>& k) const
+    {
+        std::hash<std::string> thash;
+        std::hash<DataPredicate> khash;
+        size_t init = 31;
+        for (const auto& x : k) init += thash(x.first) ^ khash(x.second);
+        return init;
+    }
+};
+
+
+#include "yaucl/hashing/umap_hash.h"
+#include "yaucl/hashing/vector_hash.h"
+
 
 struct SimpleDeclareDataAware {
     std::string template_name;

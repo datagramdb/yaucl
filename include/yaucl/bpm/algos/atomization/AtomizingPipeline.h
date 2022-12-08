@@ -5,7 +5,6 @@
 #ifndef KNOBAB_SERVER_ATOMIZINGPIPELINE_H
 #define KNOBAB_SERVER_ATOMIZINGPIPELINE_H
 
-#include <atomic>
 #include    <string>
 #include    <unordered_map>
 #include    <unordered_set>
@@ -80,7 +79,7 @@ struct AtomizingPipeline {
      * @param isNegated     Whether the act might appear negated in the ltlf formula
      * @return              Set of atoms associated to the act, after decomposition
      */
-    semantic_atom_set atom_decomposition(const std::string &act, bool isNegated = false);
+    semantic_atom_set atom_decomposition(const std::string &act, bool isNegated = false) const;
 
     /**
      * Decomposition of a data predicate associated to a Act/Event
@@ -88,7 +87,7 @@ struct AtomizingPipeline {
      * @param isNegated     Whether the act might appear negated in the ltlf formula
      * @return              Set of atoms associated to the act, after decomposition
      */
-    semantic_atom_set interval_decomposition(const DataPredicate &pred, bool isNegated = false);
+    semantic_atom_set interval_decomposition(const DataPredicate &pred, bool isNegated = false) const;
 
     /**
      * Clears all the maps collected for the atomization pipeline
@@ -105,21 +104,12 @@ struct AtomizingPipeline {
 
 private:
     size_t count_fresh_atoms = 0;
-    std::atomic<size_t> id;
+    size_t id;
 };
 #include "yaucl/structures/any_to_uint_bimap.h"
 //#include <knobab/server/declare/CNFDeclareDataAware.h>
 
-
-//double collect_data_from_declare_disjunctive_model(const yaucl::structures::any_to_uint_bimap<std::string>& map, AtomizingPipeline& pipeline_data, const CNFDeclareDataAware& disjoint_model);
-
-double collect_data_from_declare_disjunctive_model(const yaucl::structures::any_to_uint_bimap<std::string>& map, AtomizingPipeline& pipeline_data, const std::vector<pattern_mining_result<SimpleDeclareDataAware>>& disjoint_model);
-
-
-
-//double atomize_model(AtomizingPipeline& pipeline_data, CNFDeclareDataAware &disjoint_model);
-
-
+double collect_data_from_declare_disjunctive_model(AtomizingPipeline& pipeline_data, const std::vector<pattern_mining_result<SimpleDeclareDataAware>>& disjoint_model);
 double atomize_model(AtomizingPipeline& pipeline_data, std::vector<pattern_mining_result<SimpleDeclareDataAware>> &disjoint_model);
 
 

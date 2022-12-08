@@ -54,7 +54,7 @@ template <typename T, typename PrevNext> struct segment_partition_tree {
         return S;
     }
 
-    std::vector<std::pair<T, T>> findInterval(const T &left, const T &right) {
+    std::vector<std::pair<T, T>> findInterval(const T &left, const T &right) const {
         return find_interval(indexer, element, left, right);
     }
 

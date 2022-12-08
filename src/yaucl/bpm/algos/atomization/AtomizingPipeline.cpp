@@ -8,7 +8,7 @@
 
 size_t AtomizingPipeline::generate_fresh_atom() {
     atom_to_conjunctedPredicates.emplace_back();
-    return id.fetch_add(1, std::memory_order_relaxed) + 1;;
+    return id++;
 }
 
 void AtomizingPipeline::clear() {
@@ -30,7 +30,7 @@ void AtomizingPipeline::clear() {
     max_ctam_iteration.clear();
 }
 
-semantic_atom_set AtomizingPipeline::atom_decomposition(const std::string &act, bool isNegated) {
+semantic_atom_set AtomizingPipeline::atom_decomposition(const std::string &act, bool isNegated) const {
     semantic_atom_set S;
     auto it = interval_map.find(act);
     if (it == interval_map.end()) {
@@ -48,7 +48,7 @@ semantic_atom_set AtomizingPipeline::atom_decomposition(const std::string &act, 
     return isNegated ? atom_universe - S : S;
 }
 
-semantic_atom_set AtomizingPipeline::interval_decomposition(const DataPredicate &pred, bool isNegated) {
+semantic_atom_set AtomizingPipeline::interval_decomposition(const DataPredicate &pred, bool isNegated) const {
     semantic_atom_set S;
     if (pred.isStringPredicate()) {
         const auto V = std::get<0>(pred.decompose_single_variable_into_intervals());
@@ -394,21 +394,24 @@ atomize_model(AtomizingPipeline &pipeline_data, std::vector<pattern_mining_resul
 //    return ms_double.count();
 //}
 
-double collect_data_from_declare_disjunctive_model(const yaucl::structures::any_to_uint_bimap<std::string> &map,
-                                                   AtomizingPipeline &pipeline_data,
+double collect_data_from_declare_disjunctive_model(AtomizingPipeline &pipeline_data,
                                                    const std::vector<pattern_mining_result<SimpleDeclareDataAware>> &conjunction) {
 // old: pipeline_scratch, init_pipeline(3)
 //std::cout << "Collecting the atoms from the formula" << std::endl;
     auto t1 = std::chrono::high_resolution_clock::now();
-    std::unordered_set<std::string> metAtomsGlobally;
+    roaring::Roaring64Map metAtomsGlobally;
     {
         for (const auto &declare_clause: conjunction) {
-            metAtomsGlobally.emplace(declare_clause.clause.left_act);
+            auto left = pipeline_data.activity_label_to_id.get(declare_clause.clause.left_act);
+            metAtomsGlobally.add(left);
+            size_t right = 0;
+            if (!declare_clause.clause.right_act.empty()) {
+                right = pipeline_data.activity_label_to_id.get(declare_clause.clause.right_act);
+                metAtomsGlobally.add(right);
+            }
+            pipeline_data.act_universe.add(left);
             if (!declare_clause.clause.right_act.empty())
-                metAtomsGlobally.emplace(declare_clause.clause.right_act);
-            pipeline_data.act_universe.add(pipeline_data.activity_label_to_id.get(declare_clause.clause.left_act));
-            if (!declare_clause.clause.right_act.empty())
-                pipeline_data.act_universe.add(pipeline_data.activity_label_to_id.get(declare_clause.clause.right_act));
+                pipeline_data.act_universe.add(right);
 //DEBUG_ASSERT(declare_clause.conjunctive_map.empty());
             for (const auto &itemList: declare_clause.clause.dnf_left_map) {
                 for (const auto &item: itemList) {
@@ -527,14 +530,14 @@ double collect_data_from_declare_disjunctive_model(const yaucl::structures::any_
         }
     }
 
-    for (const auto &key: map.T_to_int) {
-        if (!metAtomsGlobally.contains(key.first)) {
-            pipeline_data.act_atoms.add(
-                    pipeline_data.activity_label_to_id.get(key.first));
-            pipeline_data.atom_universe.add(
-                    pipeline_data.activity_label_to_id.get(key.first));
+    for (size_t act_id = 0, N = pipeline_data.activity_label_to_id.int_to_T.size(); act_id<N; act_id++) {
+        auto& key = pipeline_data.activity_label_to_id.int_to_T.at(act_id);
+        if (!metAtomsGlobally.contains(act_id)) {
+            pipeline_data.act_atoms.add(act_id);
+            pipeline_data.atom_universe.add(act_id);
         }
     }
+
 
     auto t2 = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> ms_double = t2 - t1;

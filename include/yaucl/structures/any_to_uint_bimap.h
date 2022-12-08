@@ -19,7 +19,8 @@ namespace yaucl {
             std::unordered_map<T, size_t> T_to_int;
 
 
-            any_to_uint_bimap() = default;
+            any_to_uint_bimap() : int_to_T{}, T_to_int{} {
+            }
             any_to_uint_bimap(const any_to_uint_bimap&) = default;
             any_to_uint_bimap(any_to_uint_bimap&&) = default;
             any_to_uint_bimap&operator=(const any_to_uint_bimap&) = default;

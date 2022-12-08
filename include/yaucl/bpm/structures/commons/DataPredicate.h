@@ -29,8 +29,8 @@
 #include <ostream>
 #include <vector>
 
-#include <yaucl/hashing/pair_hash.h>
 #include <yaucl/hashing/uset_hash.h>
+#include <yaucl/hashing/pair_hash.h>
 
 /*namespace std {
     template <>
@@ -154,7 +154,7 @@ namespace std {
             using yaucl::hashing::hash_combine;
             seed = hash_combine(seed, k.value);
             seed = hash_combine(seed, k.label);
-            seed = hash_combine(seed, k.casusu);
+            seed = hash_combine(seed, (unsigned int)k.casusu);
             seed = hash_combine(seed, k.var);
             if (k.casusu == INTERVAL) {
                 seed = hash_combine(seed, k.value_upper_bound);
