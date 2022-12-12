@@ -69,5 +69,5 @@ add_library(yaucl_graph STATIC
         include/yaucl/graphs/graph_join_pm.h
         include/yaucl/graphs/graph_join_pm.h
         src/yaucl/graphs/graph_join_pm_conversion.cpp
-        src/yaucl/graphs/graph_join_pm_algorithms.cpp src/yaucl/graphs/minimizeDFA.cpp include/yaucl/graphs/algorithms/minimizeDFA.h include/yaucl/graphs/algorithms/all_cycles.h include/yaucl/graphs/algorithms/AllDirectedPaths.h)
+        src/yaucl/graphs/graph_join_pm_algorithms.cpp src/yaucl/graphs/minimizeDFA.cpp include/yaucl/graphs/algorithms/minimizeDFA.h include/yaucl/graphs/algorithms/all_cycles.h include/yaucl/graphs/algorithms/AllDirectedPaths.h src/yaucl/graphs/algorithms/prim.cpp include/yaucl/graphs/algorithms/prim.h)
 target_link_libraries(yaucl_graph yaucl_hashing roaring)

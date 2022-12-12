@@ -87,6 +87,18 @@ public:
         }
     }
 
+    EdgeLabel& addUniqueNewEdge(size_t src, size_t dst) {
+        auto& it = g.nodes.at(src);
+        auto f = std::find(it.begin(), it.end(), dst);
+        size_t edge;
+        if (f == it.end()) {
+            edge = g.add_edge(src, dst);
+        } else {
+            edge = *f;
+        }
+        return costMap[edge];
+    }
+
     void addNewEdgeFromId(size_t src2, size_t dst2, const EdgeLabel& weight) {
         costMap[g.add_edge(src2, dst2)] = weight;
     }
@@ -134,6 +146,17 @@ public:
 
     size_t getId(const NodeElement& node) const {
         return nodeLabel.at(node);
+    }
+
+    bool operator==(const NodeLabelBijectionGraph &rhs) const {
+        return nodeLabelInv == rhs.nodeLabelInv &&
+               nodeLabel == rhs.nodeLabel &&
+               costMap == rhs.costMap &&
+               g == rhs.g;
+    }
+
+    bool operator!=(const NodeLabelBijectionGraph &rhs) const {
+        return !(rhs == *this);
     }
 };
 

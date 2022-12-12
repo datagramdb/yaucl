@@ -112,6 +112,19 @@ adjacency_graph::printAllPathsUtil(size_t u, size_t d, std::unordered_set<size_t
     visited.erase(u);
 }
 
+bool adjacency_graph::operator==(const adjacency_graph &rhs) const {
+    return V_size == rhs.V_size &&
+           E_size == rhs.E_size &&
+           nodes == rhs.nodes &&
+           edge_ids == rhs.edge_ids &&
+           ingoing_edges == rhs.ingoing_edges &&
+           emptyVector == rhs.emptyVector;
+}
+
+bool adjacency_graph::operator!=(const adjacency_graph &rhs) const {
+    return !(rhs == *this);
+}
+
 
 void adjacency_graph_DFSUtil(size_t src, const adjacency_graph& ag, roaring::Roaring64Map &visited) {
     visited.add(src);

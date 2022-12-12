@@ -45,6 +45,8 @@ class NodeLabelBijectionFA : public NodeLabelBijectionGraph<NodeElement, EdgeLab
     std::unordered_set<size_t> final_nodes;
 public:
 
+
+
     double size() const {
         return NodeLabelBijectionGraph<NodeElement, EdgeLabel>::maximumNodeId() + NodeLabelBijectionGraph<NodeElement, EdgeLabel>::maximumEdgeId();
     }
@@ -235,6 +237,16 @@ public:
         return *this;
     }
 
+    bool operator==(const NodeLabelBijectionFA &rhs) const {
+        return static_cast<const NodeLabelBijectionGraph<NodeElement, EdgeLabel> &>(*this) ==
+               static_cast<const NodeLabelBijectionGraph<NodeElement, EdgeLabel> &>(rhs) &&
+               initial_nodes == rhs.initial_nodes &&
+               final_nodes == rhs.final_nodes;
+    }
+
+    bool operator!=(const NodeLabelBijectionFA &rhs) const {
+        return !(rhs == *this);
+    }
 
 };
 #endif //GRAPHOS_FA_H

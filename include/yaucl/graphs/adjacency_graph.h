@@ -71,6 +71,9 @@ struct adjacency_graph {
 
     void dot(std::ostream& os);
 
+    bool operator==(const adjacency_graph &rhs) const;
+    bool operator!=(const adjacency_graph &rhs) const;
+
 private:
     void printAllPathsUtil(size_t u, size_t d, std::unordered_set<size_t>& visited, std::vector<ssize_t>& path, size_t path_index, std::unordered_set<size_t>& visited_src_dst, std::unordered_set<size_t>& global);
     const std::vector<size_t> emptyVector = {};
