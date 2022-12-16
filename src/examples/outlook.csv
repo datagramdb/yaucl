@@ -1,0 +1,15 @@
+outlook,temperature,tnominal,humidity,hnominal,windy,play
+overcast,83,hot,86,high,FALSE,1
+overcast,64,cool,65,normal,TRUE,1
+overcast,72,mild,90,high,TRUE,1
+overcast,81,hot,75,normal,FALSE,1
+rainy,70,mild,96,high,FALSE,1
+rainy,68,cool,80,normal,FALSE,1
+rainy,65,cool,70,normal,TRUE,0
+rainy,75,mild,80,normal,FALSE,1
+rainy,71,mild,91,high,TRUE,0
+sunny,85,hot,85,high,FALSE,0
+sunny,80,hot,90,high,TRUE,0
+sunny,72,mild,95,high,FALSE,0
+sunny,69,cool,70,normal,FALSE,1
+sunny,75,mild,70,normal,TRUE,1

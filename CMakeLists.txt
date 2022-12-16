@@ -13,6 +13,8 @@ add_library(yaucl_learning STATIC
         src/yaucl/learning/ForTheWin.cpp
         src/yaucl/learning/dt_predicate.cpp
         src/yaucl/learning/DecisionTree.cpp)
+add_executable(yaucl_learning_decision_tree src/examples/decision_tree_example.cpp)
+target_link_libraries(yaucl_learning_decision_tree yaucl_learning)
 
 add_library(yaucl_hashing STATIC
         include/yaucl/hashing/evaluateHashes.h
