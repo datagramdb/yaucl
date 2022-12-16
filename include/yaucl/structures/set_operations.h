@@ -63,6 +63,24 @@ double unodreded_distance(const std::unordered_set<T> &a,
     return (((double )unordered_difference(a,b).size())+((double )unordered_difference(b,a).size()))/total;
 }
 
+template <typename Container>
+void in_place_ordered_intersection(Container& set_1, const Container& set_2) {
+    //https://stackoverflow.com/a/1773620/1376095
+    auto it1 = set_1.begin();
+    auto it2 = set_2.begin();
+    while ( (it1 != set_1.end()) && (it2 != set_2.end()) ) {
+        if (*it1 < *it2) {
+            set_1.erase(it1++);
+        } else if (*it2 < *it1) {
+            ++it2;
+        } else { // *it1 == *it2
+            ++it1;
+            ++it2;
+        }
+    }
+    set_1.erase(it1, set_1.end());
+}
+
 #include <vector>
 #include <cmath>
 

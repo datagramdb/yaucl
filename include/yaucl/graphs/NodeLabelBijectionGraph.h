@@ -63,17 +63,11 @@ public:
     }
 
 
-    NodeElement getUniqueLabel(size_t id) const {
-        return nodeLabelInv.at(id);
-    }
+    NodeElement getUniqueLabel(size_t id) const { return nodeLabelInv.at(id); }
 
-    EdgeLabel& setEdgeLabel(size_t id) {
-        return costMap[id];
-    }
+    EdgeLabel& setEdgeLabel(size_t id) { return costMap[id]; }
 
-    EdgeLabel getEdgeLabel(size_t id) const {
-        return costMap.at(id);
-    }
+    EdgeLabel getEdgeLabel(size_t id) const { return costMap.at(id); }
 
     size_t addUniqueStateOrGetExisting(const NodeElement& node) {
         auto it = nodeLabel.find(node);
@@ -113,6 +107,23 @@ public:
 
     void addNewEdgeB(const NodeElement& src, const NodeElement& dst, const EdgeLabel& weight) {
         addNewEdgeFromId(addUniqueStateOrGetExisting(src), addUniqueStateOrGetExisting(dst), weight);
+    }
+
+    const std::pair<size_t,size_t>& resolveEdgeById(size_t edgeId) const {
+        return g.edge_ids.at(edgeId);
+    }
+
+    roaring::Roaring64Map outgoingEdgesById(size_t srcNode) const {
+        auto& elem = g.getOutgoingEdgesId(srcNode);
+        return {elem.size(), elem.data()};
+    }
+
+    std::unordered_map<size_t, std::set<EdgeLabel>> getOutEdgesAsMap(size_t srcId) const {
+        std::unordered_map<size_t, std::set<EdgeLabel>> m;
+        for (const size_t & edge : g.getOutgoingEdgesId(srcId)) {
+            m[g.edge_from_id(edge).second].insert(costMap.at(edge));
+        }
+        return m;
     }
 
     virtual std::vector<std::pair<EdgeLabel, size_t>> outgoingEdges(size_t srcNode) const {

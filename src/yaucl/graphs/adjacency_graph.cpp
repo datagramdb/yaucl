@@ -25,6 +25,8 @@
 
 #include "yaucl/graphs/adjacency_graph.h"
 
+const std::vector<size_t> adjacency_graph::emptyVector{};
+
 adjacency_graph::adjacency_graph() : V_size(0), E_size(0) {}
 
 size_t adjacency_graph::add_node() {

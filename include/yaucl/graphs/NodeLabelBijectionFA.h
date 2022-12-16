@@ -28,6 +28,7 @@
 #include <yaucl/hashing/uset_hash.h>
 #include <yaucl/structures/set_operations.h>
 #include <ostream>
+#include "yaucl/graphs/algorithms/connected_components.h"
 
 #ifndef GRAPHOS_NLBFA_H
 #define GRAPHOS_NLBFA_H
@@ -106,7 +107,9 @@ public:
             }
         }
         return reachable;
+
     }
+
 
     std::unordered_set<size_t> Closure(const std::unordered_set<NodeElement>& P, const EdgeLabel& epsilon) {
         std::unordered_set<size_t> t, result;
@@ -128,7 +131,6 @@ public:
     }
 
     template<class T, class U> class FlexibleFA;
-
     FlexibleFA<EdgeLabel, NodeElement> shiftLabelsToNodes() {
         FlexibleFA<EdgeLabel, NodeElement> result;
         std::unordered_map<size_t , size_t> edgeToNewNodeMap;
@@ -209,6 +211,10 @@ public:
         os << "}";
     }
 
+    ssize_t getClusteredConnectedComponents(const std::vector<roaring::Roaring64Map>& starting,
+                                         std::vector<roaring::Roaring64Map> &result) {
+        return connected_components(NodeLabelBijectionGraph<NodeElement,EdgeLabel>::g, starting, result);
+    }
 
     NodeLabelBijectionFA<NodeElement, EdgeLabel>& makeDFAAsInTheory(const NodeElement& distinctId) {
         std::unordered_set<EdgeLabel> acts = NodeLabelBijectionGraph<NodeElement, EdgeLabel>::getAllActionSet();
@@ -247,6 +253,7 @@ public:
     bool operator!=(const NodeLabelBijectionFA &rhs) const {
         return !(rhs == *this);
     }
+
 
 };
 #endif //GRAPHOS_FA_H

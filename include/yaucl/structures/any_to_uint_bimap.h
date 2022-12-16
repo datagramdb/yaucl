@@ -42,6 +42,13 @@ namespace yaucl {
                     return { toRet, true };
                 }
             }
+            ssize_t signed_get(const T& elem) const {
+                auto it = T_to_int.find(elem);
+                if (it != T_to_int.end())
+                    return it->second;
+                else
+                    return -1;
+            }
             size_t get(const T& elem) const {
                 auto it = T_to_int.find(elem);
                 if (it != T_to_int.end())

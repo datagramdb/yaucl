@@ -9,7 +9,10 @@ include_directories(submodules/CRoaring/cpp)
 add_subdirectory(submodules/CRoaring)
 include_directories(include)
 
-
+add_library(yaucl_learning STATIC
+        src/yaucl/learning/ForTheWin.cpp
+        src/yaucl/learning/dt_predicate.cpp
+        src/yaucl/learning/DecisionTree.cpp)
 
 add_library(yaucl_hashing STATIC
         include/yaucl/hashing/evaluateHashes.h
@@ -33,7 +36,7 @@ add_library(yaucl_data OBJECT
         src/yaucl/data/mmapFile.cpp
         src/yaucl/data/xml.cpp include/yaucl/data/json.h src/yaucl/data/VarSizeNDPSorter.cpp)
 
-add_library(yaucl_structures OBJECT src/yaucl/structures/StringPrevNext.cpp include/yaucl/structures/StringPrevNext.h src/yaucl/structures/DoublePrevNext.cpp include/yaucl/structures/DoublePrevNext.h include/yaucl/structures/setoids/set_comparators.h include/yaucl/structures/setoids/set_partitioning.h include/yaucl/structures/setoids/basics.h)
+add_library(yaucl_structures OBJECT src/yaucl/structures/StringPrevNext.cpp include/yaucl/structures/StringPrevNext.h src/yaucl/structures/DoublePrevNext.cpp include/yaucl/structures/DoublePrevNext.h include/yaucl/structures/setoids/set_comparators.h include/yaucl/structures/setoids/set_partitioning.h include/yaucl/structures/setoids/basics.h include/yaucl/structures/indexed/BlockOfRecordsIndexedTable.h)
 
 add_library(yaucl_bpm OBJECT
         src/yaucl/bpm/algos/atomization/AtomizingPipeline.cpp

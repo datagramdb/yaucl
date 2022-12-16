@@ -35,7 +35,10 @@
 #include <unordered_set>
 #include <optional>
 #include <cassert>
-#include "yaucl/graphs/adjacency_graph.h"
+#include "yaucl/graphs/algorithms/connected_components.h"
+
+#include <yaucl/graphs/adjacency_graph.h>
+#include <yaucl/hashing/pair_hash.h>
 //#include <ranges>
 #include <functional>
 
@@ -47,6 +50,19 @@ protected:
     std::unordered_map<size_t, EdgeLabel> costMap;
 
 public:
+
+    std::vector<roaring::Roaring64Map> getConnectedComponents() {
+        std::vector<roaring::Roaring64Map> map;
+        connected_components(g, map);
+        return map;
+    }
+
+    ssize_t getConnectedComponents(const roaring::Roaring64Map& starting_points,
+                                   std::vector<roaring::Roaring64Map>& result) {
+        std::vector<roaring::Roaring64Map> map;
+        return connected_components(g, starting_points, map);
+    }
+
     std::unordered_map<NodeElement, std::vector<size_t>> nodeLabelInv;
 
     virtual void clear() {
