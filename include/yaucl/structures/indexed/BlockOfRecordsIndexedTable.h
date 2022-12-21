@@ -26,6 +26,30 @@ namespace yaucl::structures {
         std::map<Key, std::vector<size_t>> key_to_values;
 
         /**
+         * Removing the association of k to a given value and vice-versa, while
+         * not completely removing the element
+         *
+         * @param k         Key value
+         * @param val       Value associated to the key
+         * @return Returns true if the value was considered as one of the possible values,
+         *         independently on whether val was actually associated to the given key or
+         *         not, and returns false otherwise
+         */
+        bool remove(const Key& k, const Value& val) {
+            auto idx = unique_values.signed_get(val);
+            if (idx == -1) return false;
+            {
+                auto& v = key_to_values[k];
+                v.resize( std::remove( std::begin(v), std::end(v), (size_t)idx ) - v.begin() );
+            }
+            {
+                auto& v = value_id_to_associated_indices[idx];
+                v.resize( std::remove( std::begin(v), std::end(v), k ) - v.begin() );
+            }
+            return true;
+        }
+
+        /**
          * Associating a value to a given index, while gua
          * @param key       index value to be associated to the current value
          * @param value     Value to be associated to an index
