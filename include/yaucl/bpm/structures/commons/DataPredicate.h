@@ -29,8 +29,8 @@
 #include <ostream>
 #include <vector>
 
-#include <yaucl/hashing/uset_hash.h>
 #include <yaucl/hashing/pair_hash.h>
+#include <yaucl/hashing/uset_hash.h>
 
 /*namespace std {
     template <>
@@ -114,7 +114,7 @@ struct DataPredicate {
     DataPredicate(const std::string &var, numeric_atom_cases casusu, const std::string &value, const std::string &label = "");
     DataPredicate(const std::string &var, numeric_atom_cases casusu, const double &value, const std::string &label = "");
 
-    DataPredicate(const std::string& var, const std::string& varRHS, numeric_atom_cases casusu) : var{var}, varRHS{varRHS}, casusu{casusu} {}
+    DataPredicate(const std::string& var, const std::string& varRHS, numeric_atom_cases casusu, const std::string& llabel = "", const std::string& rlabel = "") : var{var}, varRHS{varRHS}, casusu{casusu}, label{llabel}, labelRHS(rlabel) {}
     DataPredicate(const std::string& label, const std::string& var, double lb, double ub);
     DataPredicate(const std::string& label, const std::string& var, const std::string& lb, const std::string& ub);
     DataPredicate(const std::string &label, const std::string &var, union_minimal lb, union_minimal ub);

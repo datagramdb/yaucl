@@ -9,7 +9,8 @@
 #include "DataPredicate.h"
 #include "roaring64map.hh"
 
-using data_conditions = std::vector<std::unordered_map<std::string, DataPredicate>>;
+using conjoint_data_condition = std::unordered_map<std::string, DataPredicate>;
+using data_conditions = std::vector<conjoint_data_condition>; // Under disjunction
 
 template <>
 struct std::hash<std::unordered_map<std::string, DataPredicate>>

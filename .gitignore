@@ -3,3 +3,11 @@ cmake-build-debug/*
 dist/
 dist/*
 data
+target/*
+*.class
+*.jar
+/submodules/antlr4/tool/target/
+/submodules/antlr4/tool-testsuite/target/
+/submodules/antlr4/runtime-testsuite/target/
+/submodules/antlr4/runtime/Java/target/
+/submodules/antlr4/antlr4-maven-plugin/target/

@@ -2,3 +2,12 @@
 	path = submodules/CRoaring
 	url = git@github.com:datagramdb/CRoaring.git
 
+[submodule "submodules/antlr4"]
+	path = submodules/antlr4
+	url = https://github.com/antlr/antlr4.git
+[submodule "submodules/magic_enum"]
+	path = submodules/magic_enum
+	url = https://github.com/Neargye/magic_enum
+[submodule "submodules/json"]
+	path = submodules/json
+	url = https://github.com/nlohmann/json

@@ -3,10 +3,16 @@ project(yaucl)
 set(CMAKE_CXX_STANDARD 23)
 # For Windows: Prevent overriding the parent project's compiler/linker settings
 
+include_directories(submodules/yaucl/submodules/json/include)
 
 include_directories(submodules/CRoaring/include)
 include_directories(submodules/CRoaring/cpp)
 add_subdirectory(submodules/CRoaring)
+
+add_subdirectory(submodules/antlr4/runtime/Cpp)
+include_directories(submodules/antlr4/runtime/Cpp/runtime/src)
+include_directories(antlr4/cpp/antlr4)
+
 include_directories(include)
 
 add_library(yaucl_learning OBJECT
