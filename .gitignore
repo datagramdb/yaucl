@@ -2,7 +2,7 @@ cmake-build-debug/
 cmake-build-debug/*
 dist/
 dist/*
-data
+/data/
 target/*
 *.class
 *.jar
