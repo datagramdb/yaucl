@@ -42,6 +42,39 @@ namespace std {
         }
     };
 
+    // Recursive template code derived from Matthieu M., https://stackoverflow.com/a/7115547/1376095
+    template <class Tuple, size_t Index = std::tuple_size<Tuple>::value - 1>
+    struct HashValueImpl
+    {
+        static void apply(size_t& seed, Tuple const& tuple)
+        {
+            HashValueImpl<Tuple, Index-1>::apply(seed, tuple);
+            yaucl::hashing::hash_combine(seed, std::get<Index>(tuple));
+        }
+    };
+
+    // https://stackoverflow.com/a/7115547/1376095
+    template <class Tuple>
+    struct HashValueImpl<Tuple,0>
+    {
+        static void apply(size_t& seed, Tuple const& tuple)
+        {
+            yaucl::hashing::hash_combine(seed, std::get<0>(tuple));
+        }
+    };
+
+    template <typename ... TT>
+    struct hash<std::tuple<TT...>>
+    {
+        size_t
+        operator()(std::tuple<TT...> const& tt) const
+        {
+            size_t seed = 0;
+            HashValueImpl<std::tuple<TT...> >::apply(seed, tt);
+            return seed;
+        }
+    };
+
 }
 
 #endif //FUZZYSTRINGMATCHING2_VECTOR_HASH_H
