@@ -687,3 +687,16 @@ DataPredicate DataPredicate::reverseBiVariablePredicate() const {
     cpy.wasReversed = !wasReversed;
     return cpy;
 }
+
+HCQSingleQuery::HCQSingleQuery(const std::string &templateName,
+                               const std::vector<std::vector<DataPredicate>> &dnfPredicates)
+        : template_or_act_name(templateName), dnfPredicates(dnfPredicates) {}
+
+bool HCQSingleQuery::operator==(const HCQSingleQuery &rhs) const {
+    return template_or_act_name == rhs.template_or_act_name &&
+           dnfPredicates == rhs.dnfPredicates;
+}
+
+bool HCQSingleQuery::operator!=(const HCQSingleQuery &rhs) const {
+    return !(rhs == *this);
+}

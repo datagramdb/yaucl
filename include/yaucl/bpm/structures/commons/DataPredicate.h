@@ -173,4 +173,44 @@ namespace std {
 
 }
 
+#include <yaucl/hashing/vector_hash.h>
+
+/**
+ * The query should be as much as possible data representation independent,
+ * so it should be able to represent queries for both data csv records
+ * as well as for Declare templates
+ */
+struct HCQSingleQuery {
+    std::string template_or_act_name;
+    std::vector<std::vector<DataPredicate>> dnfPredicates;
+
+    HCQSingleQuery(const std::string &templateName,
+                   const std::vector<std::vector<DataPredicate>> &dnfPredicates = {});
+
+    static HCQSingleQuery truth() {
+        return {"Truth"};
+    }
+
+    static HCQSingleQuery falsehood() {
+        return {"Falsehood"};
+    }
+
+    DEFAULT_CONSTRUCTORS(HCQSingleQuery);
+    bool operator==(const HCQSingleQuery &rhs) const;
+    bool operator!=(const HCQSingleQuery &rhs) const;
+};
+
+namespace std {
+    template <> struct hash<HCQSingleQuery> {
+        size_t operator()(const HCQSingleQuery& x) const {
+            return yaucl::hashing::hash_combine(
+                    yaucl::hashing::hash_combine(7, x.template_or_act_name),
+                    x.dnfPredicates
+            );
+        }
+    };
+};
+
+
+
 #endif //BPM21_DATAPREDICATE_H

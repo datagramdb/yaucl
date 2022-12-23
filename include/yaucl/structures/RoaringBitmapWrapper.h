@@ -34,7 +34,15 @@ public:
     RoaringBitmapWrapper& operator|=(const RoaringBitmapWrapper &rhs);
     const roaring::Roaring64MapSetBitForwardIterator begin() const;
     const roaring::Roaring64MapSetBitForwardIterator end() const;
+    size_t hashCode() const;
 };
 
+namespace std {
+    template <> struct hash<RoaringBitmapWrapper> {
+        size_t operator()(const RoaringBitmapWrapper& x) const {
+            return x.hashCode();
+        }
+    };
+}
 
 #endif //AIRLINE_ROARINGBITMAPWRAPPER_H

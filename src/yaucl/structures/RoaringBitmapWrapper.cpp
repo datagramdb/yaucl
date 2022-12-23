@@ -87,3 +87,17 @@ const roaring::Roaring64MapSetBitForwardIterator RoaringBitmapWrapper::begin() c
 const roaring::Roaring64MapSetBitForwardIterator RoaringBitmapWrapper::end() const {
     return map.end();
 }
+
+#include <yaucl/hashing/hash_combine.h>
+
+size_t RoaringBitmapWrapper::hashCode() const {
+    size_t N = map.cardinality();
+    uint64_t* ans = new uint64_t[N];
+    memset(ans, 0, sizeof(uint64_t)*N);
+    map.toUint64Array(ans);
+    size_t seed = 13;
+    for (size_t i = 0; i<N; i++)
+        seed = yaucl::hashing::combine(seed, ans[i]);
+    delete ans;
+    return seed;
+}
