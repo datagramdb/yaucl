@@ -46,6 +46,11 @@ class NodeLabelBijectionFA : public NodeLabelBijectionGraph<NodeElement, EdgeLab
     std::unordered_set<size_t> final_nodes;
 public:
 
+    void clear() override {
+        NodeLabelBijectionGraph<NodeElement, EdgeLabel>::clear();
+        initial_nodes.clear();
+        final_nodes.clear();
+    }
 
 
     double size() const {

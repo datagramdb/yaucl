@@ -47,6 +47,13 @@ public:
     NodeLabelBijectionGraph<NodeElement, EdgeLabel>& operator=(const NodeLabelBijectionGraph<NodeElement, EdgeLabel>& x) = default;
     NodeLabelBijectionGraph<NodeElement, EdgeLabel>& operator=(NodeLabelBijectionGraph<NodeElement, EdgeLabel>&& x) = default;
 
+    virtual void clear() {
+        nodeLabelInv.clear();
+        nodeLabel.clear();
+        costMap.clear();
+        g.clear();
+    }
+
     size_t maximumNodeId() const {
         return g.V_size;
     }

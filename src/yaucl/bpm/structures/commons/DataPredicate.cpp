@@ -191,6 +191,20 @@ std::string next_char(const std::string &val, size_t max_size) {
     return next;
 }
 
+std::vector<std::vector<DataPredicate>> flip(const std::vector<std::vector<DataPredicate>> &vv) {
+    std::vector<std::vector<DataPredicate>> result(vv.size(), std::vector<DataPredicate>{});
+    for (size_t i = 0, N = vv.size(); i<N; i++) {
+        auto& ref = result[i];
+        const auto& Mv = vv.at(i);
+        size_t M = Mv.size();
+        ref.reserve(M);
+        for (size_t j = 0; j<M; j++) {
+            ref.emplace_back(Mv.at(j).reverseBiVariablePredicate());
+        }
+    }
+    return result;
+}
+
 
 #include <cassert>
 bool DataPredicate::intersect_with(const DataPredicate& predicate) {

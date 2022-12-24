@@ -142,6 +142,8 @@ struct DataPredicate {
     bool operator!=(const DataPredicate &rhs) const;
 };
 
+std::vector<std::vector<DataPredicate>> flip(const std::vector<std::vector<DataPredicate>>& vv);
+
 #define     PREV_STRING(str)    (prev_char((str), DataPredicate::msl))
 #define     NEXT_STRING(str)    (next_char((str), DataPredicate::msl))
 
