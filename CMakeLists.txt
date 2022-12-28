@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 23)
 include_directories(submodules/rapidcsv/src)
 
 include_directories(submodules/yaucl/submodules/json/include)
-
+include_directories(submodules/magic_enum/include)
 include_directories(submodules/CRoaring/include)
 include_directories(submodules/CRoaring/cpp)
 add_subdirectory(submodules/CRoaring)

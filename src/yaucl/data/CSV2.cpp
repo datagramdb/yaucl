@@ -58,7 +58,7 @@ size_t CSV2::getNRows() const { return document.GetRowCount(); }
 std::unordered_map<std::string, std::variant<std::string, double>> CSV2::getRow(size_t id) const {
     std::unordered_map<std::string, std::variant<std::string, double>> map;
     size_t N = getNColumns();
-    if (id < N) {
+    if (id < getNRows()) {
         for (size_t i=0; i<N; i++) {
             auto& ref = actual_name_with_is_string_oth_double.at(i);
             if (ref.second) {
@@ -90,4 +90,20 @@ bool CSV2::isColumnString(size_t i) const {
         return false;
     else
         return actual_name_with_is_string_oth_double.at(i).second;
+}
+
+bool CSV2::isColumnNumeric(const std::string &name) const {
+    auto it = actual_name_to_pos.find(name);
+    if (it == actual_name_to_pos.end())
+        return false;
+    else
+        return !actual_name_with_is_string_oth_double.at(it->second).second;
+}
+
+bool CSV2::isColumnString(const std::string &name) const {
+    auto it = actual_name_to_pos.find(name);
+    if (it == actual_name_to_pos.end())
+        return false;
+    else
+        return actual_name_with_is_string_oth_double.at(it->second).second;
 }

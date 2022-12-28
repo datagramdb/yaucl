@@ -19,6 +19,8 @@ public:
     std::string getColumnHeader(size_t i) const;
     bool isColumnNumeric(size_t i) const;
     bool isColumnString(size_t i) const;
+    bool isColumnNumeric(const std::string& name) const;
+    bool isColumnString(const std::string& name) const;
     std::vector<std::string> getStringColumn(const std::string& actual_name) const;
     std::vector<double> getDoubleColumn(const std::string& actual_name) const;
     size_t getNColumns() const;

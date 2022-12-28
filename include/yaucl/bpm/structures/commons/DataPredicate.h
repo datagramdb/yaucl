@@ -75,6 +75,7 @@ std::string next_char(const std::string& val, size_t max_size);
 
 using union_type = std::variant<double, size_t, long long, std::string, bool>;
 using union_minimal = std::variant<std::string, double>;
+#include <nlohmann/json.hpp>
 
 struct DataPredicate {
     static double      MIN_DOUBLE;
@@ -91,8 +92,10 @@ struct DataPredicate {
     std::string                       varRHS;
     union_minimal                     value_upper_bound;
     std::set<union_minimal>           exceptions;
-    std::vector<DataPredicate>        BiVariableConditions;
+    [[deprecated]] std::vector<DataPredicate>        BiVariableConditions;
     bool                              wasReversed;
+
+    nlohmann::json asJson() const;
 
     static union_minimal prev_of(const union_minimal& x);
     static union_minimal next_of(const union_minimal& x);
@@ -119,15 +122,7 @@ struct DataPredicate {
     DataPredicate(const std::string& label, const std::string& var, const std::string& lb, const std::string& ub);
     DataPredicate(const std::string &label, const std::string &var, union_minimal lb, union_minimal ub);
 
-    DataPredicate flip() const {
-        DataPredicate result;
-        result.var = varRHS;
-        result.varRHS = var;
-        result.casusu = casusu;
-        result.label = labelRHS;
-        result.labelRHS = label;
-        return result;
-    }
+    DataPredicate flip() const;
 
     friend std::ostream &operator<<(std::ostream &os, const DataPredicate &predicate);
     void asInterval();
@@ -138,6 +133,10 @@ struct DataPredicate {
     DataPredicate instantiateRHSWith(const union_minimal& val) const;
     DataPredicate reverseBiVariablePredicate() const;
 
+    bool operator<(const DataPredicate &rhs) const;
+    bool operator>(const DataPredicate &rhs) const;
+    bool operator<=(const DataPredicate &rhs) const;
+    bool operator>=(const DataPredicate &rhs) const;
     bool operator==(const DataPredicate &rhs) const;
     bool operator!=(const DataPredicate &rhs) const;
 };
@@ -176,6 +175,40 @@ namespace std {
 }
 
 #include <yaucl/hashing/vector_hash.h>
+using ConjunctedQueries = std::vector<DataPredicate>;
+
+/**
+ * Representation of a disjunction normal form of arbitrary data predicates
+ */
+struct DNFPredicates {
+    std::vector<std::vector<DataPredicate>> dnfPredicates;
+    DEFAULT_CONSTRUCTORS(DNFPredicates)
+    DNFPredicates(const std::vector<std::vector<DataPredicate>>& x);
+    DNFPredicates(std::vector<std::vector<DataPredicate>>&& x);
+    DNFPredicates& operator=(const std::vector<std::vector<DataPredicate>>& x);
+    DNFPredicates& operator=(std::vector<std::vector<DataPredicate>>&& x);
+
+    std::vector<std::vector<DataPredicate>>::iterator begin() { return dnfPredicates.begin(); }
+    std::vector<std::vector<DataPredicate>>::iterator end() { return dnfPredicates.end(); }
+
+    friend std::ostream &operator<<(std::ostream &os, const DNFPredicates &predicates);
+    bool operator==(const DNFPredicates &rhs) const;
+    bool operator!=(const DNFPredicates &rhs) const;
+    bool operator<(const DNFPredicates &rhs) const;
+    bool operator>(const DNFPredicates &rhs) const;
+    bool operator<=(const DNFPredicates &rhs) const;
+    bool operator>=(const DNFPredicates &rhs) const;
+};
+
+namespace std {
+    template <> struct hash<DNFPredicates> {
+        size_t operator()(const DNFPredicates& x) const {
+            return yaucl::hashing::hash_combine(13, x.dnfPredicates);
+        }
+    };
+};
+
+#include <nlohmann/json.hpp>
 
 /**
  * The query should be as much as possible data representation independent,
@@ -184,18 +217,17 @@ namespace std {
  */
 struct HCQSingleQuery {
     std::string template_or_act_name;
-    std::vector<std::vector<DataPredicate>> dnfPredicates;
+    DNFPredicates dnfPredicates;
+    static HCQSingleQuery TRUTH, FALSEHOOD;
 
     HCQSingleQuery(const std::string &templateName,
                    const std::vector<std::vector<DataPredicate>> &dnfPredicates = {});
 
-    static HCQSingleQuery truth() {
-        return {"Truth"};
-    }
+    static const HCQSingleQuery& truth() { return TRUTH; }
+    static const HCQSingleQuery& falsehood() { return FALSEHOOD; }
 
-    static HCQSingleQuery falsehood() {
-        return {"Falsehood"};
-    }
+    friend std::ostream &operator<<(std::ostream &os, const HCQSingleQuery &query);
+    nlohmann::json asJson() const;
 
     DEFAULT_CONSTRUCTORS(HCQSingleQuery);
     bool operator==(const HCQSingleQuery &rhs) const;

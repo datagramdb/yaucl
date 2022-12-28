@@ -35,7 +35,7 @@ semantic_atom_set AtomizingPipeline::atom_decomposition(const std::string &act, 
     auto it = interval_map.find(act);
     if (it == interval_map.end()) {
         // If the atom is not associated to an interval, then return the atom itself
-        DEBUG_ASSERT(act_atoms.contains(act));
+//        DEBUG_ASSERT(act_atoms.contains(act));
         S.add(activity_label_to_id.get(act));
     } else {
         std::pair<std::string, size_t> cp; // convenience element, so not to re-allocate the memory all the time

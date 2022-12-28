@@ -24,6 +24,9 @@
 #include <iomanip>
 #include "yaucl/bpm/structures/commons/DataPredicate.h"
 
+HCQSingleQuery HCQSingleQuery::TRUTH{"Truth"};
+HCQSingleQuery HCQSingleQuery::FALSEHOOD{"Falsehood"};
+
 numeric_atom_cases invert_predicate_direction(numeric_atom_cases val) {
     switch (val) {
         case LT:
@@ -111,13 +114,13 @@ std::ostream &operator<<(std::ostream &os, const DataPredicate &predicate) {
             case GT:
                 os << " > "; break;
             case LEQ:
-                os << " ≤ "; break;
+                os << " <= "; break;
             case GEQ:
-                os << " ≥ "; break;
+                os << " >= "; break;
             case EQ:
                 os << " = "; break;
             case NEQ:
-                os << " ≠ "; break;
+                os << " != "; break;
         }
         if (!predicate.varRHS.empty())
             os << predicate.labelRHS << '.' << predicate.varRHS;
@@ -702,6 +705,103 @@ DataPredicate DataPredicate::reverseBiVariablePredicate() const {
     return cpy;
 }
 
+bool DataPredicate::operator<(const DataPredicate &rhs) const {
+    if (label < rhs.label)
+        return true;
+    if (rhs.label < label)
+        return false;
+    if (var < rhs.var)
+        return true;
+    if (rhs.var < var)
+        return false;
+    if (casusu < rhs.casusu)
+        return true;
+    if (rhs.casusu < casusu)
+        return false;
+    if (value < rhs.value)
+        return true;
+    if (rhs.value < value)
+        return false;
+    if (labelRHS < rhs.labelRHS)
+        return true;
+    if (rhs.labelRHS < labelRHS)
+        return false;
+    if (varRHS < rhs.varRHS)
+        return true;
+    if (rhs.varRHS < varRHS)
+        return false;
+    return value_upper_bound < rhs.value_upper_bound;
+}
+
+bool DataPredicate::operator>(const DataPredicate &rhs) const {
+    return rhs < *this;
+}
+
+bool DataPredicate::operator<=(const DataPredicate &rhs) const {
+    return !(rhs < *this);
+}
+
+bool DataPredicate::operator>=(const DataPredicate &rhs) const {
+    return !(*this < rhs);
+}
+
+DataPredicate DataPredicate::flip() const {
+    DataPredicate result;
+    result.var = varRHS;
+    result.varRHS = var;
+    result.casusu = casusu;
+    result.label = labelRHS;
+    result.labelRHS = label;
+    return result;
+}
+
+#include <magic_enum.hpp>
+
+
+nlohmann::json HCQSingleQuery::asJson() const {
+    nlohmann::json data;
+    data["name"] = template_or_act_name;
+    std::stringstream ss;
+    ss << dnfPredicates;
+    data["pred"] = ss.str();
+    return data;
+}
+
+nlohmann::json DataPredicate::asJson() const {
+    nlohmann::json data;
+    if (!label.empty()) data["label"] = label;
+    if (!var.empty()) data["var"] = var;
+    data["casusu"] = magic_enum::enum_name(casusu);
+    if (!varRHS.empty()) {
+        data["labelRHS"] = labelRHS;
+        data["varRHS"] = varRHS;
+    } else {
+        if (std::holds_alternative<std::string>(value)) {
+            data["value"] = std::get<std::string>(value);
+        } else {
+            data["value"] = std::get<double>(value);
+        }
+        if (casusu == INTERVAL) {
+            if (std::holds_alternative<std::string>(value_upper_bound)) {
+                data["value"] = std::get<std::string>(value_upper_bound);
+            } else {
+                data["value"] = std::get<double>(value_upper_bound);
+            }
+        }
+    }
+    if (!exceptions.empty()) {
+        auto& item = data["exceptions"];
+        for (const auto& value : exceptions) {
+            if (std::holds_alternative<std::string>(value)) {
+                item.emplace_back( std::get<std::string>(value));
+            } else {
+                item.emplace_back( std::get<double>(value));
+            }
+        }
+    }
+    return data;
+}
+
 HCQSingleQuery::HCQSingleQuery(const std::string &templateName,
                                const std::vector<std::vector<DataPredicate>> &dnfPredicates)
         : template_or_act_name(templateName), dnfPredicates(dnfPredicates) {}
@@ -713,4 +813,71 @@ bool HCQSingleQuery::operator==(const HCQSingleQuery &rhs) const {
 
 bool HCQSingleQuery::operator!=(const HCQSingleQuery &rhs) const {
     return !(rhs == *this);
+}
+
+std::ostream &operator<<(std::ostream &os, const HCQSingleQuery &query) {
+    return os << query.template_or_act_name << ":" << query.dnfPredicates;
+}
+
+DNFPredicates::DNFPredicates(const std::vector<std::vector<DataPredicate>> &x) : dnfPredicates(x) {}
+
+DNFPredicates::DNFPredicates(std::vector<std::vector<DataPredicate>> &&x) : dnfPredicates(x) {}
+
+DNFPredicates &DNFPredicates::operator=(const std::vector<std::vector<DataPredicate>> &x) {
+    dnfPredicates = x;
+    return *this;
+}
+
+DNFPredicates &DNFPredicates::operator=(std::vector<std::vector<DataPredicate>> &&x) {
+    dnfPredicates = std::move(x);
+    return *this;
+}
+
+bool DNFPredicates::operator<(const DNFPredicates &rhs) const {
+    return dnfPredicates < rhs.dnfPredicates;
+}
+
+bool DNFPredicates::operator>(const DNFPredicates &rhs) const {
+    return rhs < *this;
+}
+
+bool DNFPredicates::operator<=(const DNFPredicates &rhs) const {
+    return !(rhs < *this);
+}
+
+bool DNFPredicates::operator>=(const DNFPredicates &rhs) const {
+    return !(*this < rhs);
+}
+
+bool DNFPredicates::operator==(const DNFPredicates &rhs) const {
+    return dnfPredicates == rhs.dnfPredicates;
+}
+
+bool DNFPredicates::operator!=(const DNFPredicates &rhs) const {
+    return !(rhs == *this);
+}
+
+std::ostream &operator<<(std::ostream &os, const DNFPredicates &predicates) {
+    size_t N = predicates.dnfPredicates.size();
+    if (N > 0) {
+        for (size_t i = 0; i<N; i++) {
+            size_t M = predicates.dnfPredicates.at(i).size();
+            if (M == 0) {
+                os << "true";
+            } else if (M == 1) {
+                os << predicates.dnfPredicates.at(i).at(0);
+            } else {
+                os << "( ";
+                for (size_t j = 0; j<M; j++) {
+                    os << predicates.dnfPredicates.at(i).at(j);
+                    if (j < (M-1)) os << " && ";
+                }
+                os << " )";
+            }
+            if (i < (N-1)) os << " || ";
+        }
+        return os;
+    } else {
+        return os << "true";
+    }
 }

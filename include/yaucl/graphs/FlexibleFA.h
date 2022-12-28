@@ -138,10 +138,10 @@ public:
         return FlexibleGraph<NodeElement, EdgeLabel>::nodeLabel.at(id);
     }
 
-    virtual void addNewEdgeFromId(size_t src2, size_t dst2, const EdgeLabel& weight) override {
+    virtual size_t addNewEdgeFromId(size_t src2, size_t dst2, const EdgeLabel& weight) override {
         DEBUG_ASSERT(!removed_nodes.contains(src2));
         DEBUG_ASSERT(!removed_nodes.contains(dst2));
-        FlexibleGraph<NodeElement, EdgeLabel>::addNewEdgeFromId(src2, dst2, weight);
+        return FlexibleGraph<NodeElement, EdgeLabel>::addNewEdgeFromId(src2, dst2, weight);
     }
 
     size_t nOutgoingEdges(size_t n) const {
@@ -256,7 +256,7 @@ public:
     }
 
     void test_correctness(const std::vector<EdgeLabel>& verifier) const {
-        DEBUG_ASSERT(initial_nodes.size() == 1);
+        DEBUG_ASSERT(initial_nodes.cardinality() == 1);
         size_t start = *initial_nodes.begin();
         auto it = verifier.begin();
         std::stringstream ss;
