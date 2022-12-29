@@ -106,3 +106,10 @@ size_t RoaringBitmapWrapper::hashCode() const {
     delete ans;
     return seed;
 }
+
+std::vector<size_t> RoaringBitmapWrapper::asVector() const {
+    std::vector<size_t> n;
+    n.reserve(map.cardinality());
+    for (size_t i : map) n.emplace_back(i);
+    return n;
+}

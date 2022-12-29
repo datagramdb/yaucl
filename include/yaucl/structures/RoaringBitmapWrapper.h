@@ -35,6 +35,7 @@ public:
     RoaringBitmapWrapper& operator|=(const RoaringBitmapWrapper &rhs);
     const roaring::Roaring64MapSetBitForwardIterator begin() const;
     const roaring::Roaring64MapSetBitForwardIterator end() const;
+    std::vector<size_t> asVector() const;
     size_t hashCode() const;
 };
 
