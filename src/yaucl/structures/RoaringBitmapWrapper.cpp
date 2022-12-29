@@ -113,3 +113,7 @@ std::vector<size_t> RoaringBitmapWrapper::asVector() const {
     for (size_t i : map) n.emplace_back(i);
     return n;
 }
+
+void RoaringBitmapWrapper::clear() {
+    map.clear();
+}

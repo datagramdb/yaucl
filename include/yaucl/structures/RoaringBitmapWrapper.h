@@ -37,6 +37,7 @@ public:
     const roaring::Roaring64MapSetBitForwardIterator end() const;
     std::vector<size_t> asVector() const;
     size_t hashCode() const;
+    void clear();
 };
 
 namespace std {
