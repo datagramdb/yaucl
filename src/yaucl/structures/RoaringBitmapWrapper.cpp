@@ -4,6 +4,11 @@
 
 #include "yaucl/structures/RoaringBitmapWrapper.h"
 
+
+void RoaringBitmapWrapper::addRange(size_t incL, size_t incU) {
+    map.addRange(incL, incU);
+}
+
 bool RoaringBitmapWrapper::operator==(const RoaringBitmapWrapper &rhs) const {
     return map == rhs.map;
 }

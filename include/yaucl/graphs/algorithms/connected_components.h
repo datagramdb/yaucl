@@ -17,6 +17,16 @@
 void connected_components(const adjacency_graph& input,
                           std::vector<roaring::Roaring64Map>& result);
 
+void connected_components(const adjacency_graph &input,
+                          std::vector<roaring::Roaring64Map> &result,
+                          roaring::Roaring64Map& visited);
+
+
+void connected_components_with_edge_prop(const adjacency_graph &input,
+                          std::vector<roaring::Roaring64Map> &result,
+                          roaring::Roaring64Map& visited,
+                          const std::function<bool(size_t)>& edgeProp = [](size_t){return true;});
+
 /**
  * Running the connected components algorithm starting from some elected initial points.
  * The algorithm will remark the connected components being obtained from these out from

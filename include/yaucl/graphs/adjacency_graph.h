@@ -26,6 +26,7 @@
 #ifndef CLASSIFIERS_ADJACENCY_GRAPH_H
 #define CLASSIFIERS_ADJACENCY_GRAPH_H
 
+#include <functional>
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
@@ -81,5 +82,8 @@ private:
 
 void adjacency_graph_DFSUtil(size_t src, const adjacency_graph& ag, roaring::Roaring64Map &visited) ;
 
-
+void adjacency_graph_DFSUtil_with_edge_prop(size_t src,
+                                            const adjacency_graph& ag,
+                                            roaring::Roaring64Map &visited,
+                                            const std::function<bool(size_t)>& edgeProp = [](size_t){return true;});
 #endif //CLASSIFIERS_ADJACENCY_GRAPH_H

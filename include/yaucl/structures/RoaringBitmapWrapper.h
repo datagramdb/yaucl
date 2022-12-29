@@ -19,6 +19,7 @@ public:
     RoaringBitmapWrapper& operator=(const roaring::Roaring64Map& x);
     RoaringBitmapWrapper &operator=(roaring::Roaring64Map &&x);
     void add(size_t x);
+    void addRange(size_t incL, size_t incU);
     bool contains(size_t x) const;
     size_t size() const;
     const roaring::Roaring64Map& get() const { return map; }

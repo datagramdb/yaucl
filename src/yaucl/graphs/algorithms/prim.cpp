@@ -82,7 +82,8 @@ std::vector<ssize_t> primMST(size_t src,
 }
 
 const std::vector<ssize_t> &
-PrimMST::primMST(const std::vector<double> &edgeId_to_weight, const std::function<bool(size_t)> &edgeIdToIsVisit) {
+PrimMST::primMST(const std::vector<double> &edgeId_to_weight,
+                 const std::function<bool(size_t)> &edgeIdToIsVisit) {
     /* Looping till priority queue becomes empty */
     while (!pq.empty())
     {
@@ -125,7 +126,8 @@ PrimMST::primMST(const std::vector<double> &edgeId_to_weight, const std::functio
     return parent;
 }
 
-const std::vector<ssize_t> &PrimMST::primMST(size_t src, const std::vector<double> &edgeId_to_weight,
+const std::vector<ssize_t> &PrimMST::primMST(size_t src,
+                                             const std::vector<double> &edgeId_to_weight,
                                              const std::function<bool(size_t)> &edgeIdToIsVisit) {
     if (src >= ag.V_size) return parent;
     pq.push({0.0, src});

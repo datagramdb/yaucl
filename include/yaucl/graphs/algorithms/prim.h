@@ -28,7 +28,6 @@ struct PrimMST {
 
     const std::vector<ssize_t>& primMST(const std::vector<double>& edgeId_to_weight,
                                         const std::function<bool(size_t)>& edgeIdToIsVisit = [](size_t) {return true;});
-
     const std::vector<ssize_t>& primMST(size_t src,
                                         const std::vector<double>& edgeId_to_weight,
                                         const std::function<bool(size_t)>& edgeIdToIsVisit = [](size_t) {return true;});

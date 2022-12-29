@@ -128,11 +128,28 @@ bool adjacency_graph::operator!=(const adjacency_graph &rhs) const {
 }
 
 
-void adjacency_graph_DFSUtil(size_t src, const adjacency_graph& ag, roaring::Roaring64Map &visited) {
+void adjacency_graph_DFSUtil(size_t src,
+                             const adjacency_graph& ag,
+                             roaring::Roaring64Map &visited) {
+    // TODO: if (visited.contains(src)) return;
     visited.add(src);
     for (size_t edge_id : ag.nodes.at(src)) {
         size_t dst = ag.edge_ids.at(edge_id).second;
         if (!visited.contains(dst))
             adjacency_graph_DFSUtil(dst, ag, visited);
+    }
+}
+
+void adjacency_graph_DFSUtil_with_edge_prop(size_t src,
+                                            const adjacency_graph& ag,
+                                            roaring::Roaring64Map &visited,
+                                            const std::function<bool(size_t)>& edgeProp) {
+    // TODO: if (visited.contains(src)) return;
+    visited.add(src);
+    for (size_t edge_id : ag.nodes.at(src)) {
+        if (!edgeProp(edge_id)) continue;
+        size_t dst = ag.edge_ids.at(edge_id).second;
+        if (!visited.contains(dst))
+            adjacency_graph_DFSUtil_with_edge_prop(dst, ag, visited, edgeProp);
     }
 }

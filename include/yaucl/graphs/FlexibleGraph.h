@@ -45,11 +45,11 @@
 template <typename NodeElement, typename EdgeLabel>
 class FlexibleGraph {
 protected:
-    adjacency_graph g;
     std::unordered_map<size_t, NodeElement> nodeLabel;
     std::unordered_map<size_t, EdgeLabel> costMap;
 
 public:
+    adjacency_graph g;
 
     std::vector<roaring::Roaring64Map> getConnectedComponents() {
         std::vector<roaring::Roaring64Map> map;
