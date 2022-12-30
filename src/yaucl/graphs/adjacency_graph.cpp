@@ -127,17 +127,25 @@ bool adjacency_graph::operator!=(const adjacency_graph &rhs) const {
     return !(rhs == *this);
 }
 
+#include <stack>
 
 void adjacency_graph_DFSUtil(size_t src,
                              const adjacency_graph& ag,
                              roaring::Roaring64Map &visited) {
     // TODO: if (visited.contains(src)) return;
-    visited.add(src);
-    for (size_t edge_id : ag.nodes.at(src)) {
-        size_t dst = ag.edge_ids.at(edge_id).second;
-        if (!visited.contains(dst))
-            adjacency_graph_DFSUtil(dst, ag, visited);
+    std::stack<size_t> stack;
+    stack.push(src);
+    while (!stack.empty()) {
+        size_t s = stack.top();
+        stack.pop();
+        visited.add(s);
+        for (size_t edge_id: ag.nodes.at(src)) {
+            size_t dst = ag.edge_ids.at(edge_id).second;
+            if (!visited.contains(dst))
+                stack.push(dst);
+        }
     }
+
 }
 
 
@@ -145,12 +153,17 @@ void adjacency_graph_DFSUtil_with_edge_prop(size_t src,
                                             const adjacency_graph& ag,
                                             roaring::Roaring64Map &visited,
                                             const std::function<bool(size_t)>& edgeProp) {
-//    std::cout << "Currently visited: " << RoaringBitmapWrapper{visited}.asVector() << std::endl;
-    visited.add(src);
-    for (size_t edge_id : ag.nodes.at(src)) {
-        if (!edgeProp(edge_id)) continue;
-        size_t dst = ag.edge_ids.at(edge_id).second;
-        if (!visited.contains(dst))
-            adjacency_graph_DFSUtil_with_edge_prop(dst, ag, visited, edgeProp);
+    std::stack<size_t> stack;
+    stack.push(src);
+    while (!stack.empty()) {
+        size_t s = stack.top();
+        stack.pop();
+        visited.add(s);
+        for (size_t edge_id: ag.nodes.at(src)) {
+            if (!edgeProp(edge_id)) continue;
+            size_t dst = ag.edge_ids.at(edge_id).second;
+            if (!visited.contains(dst))
+                stack.push(dst);
+        }
     }
 }

@@ -117,3 +117,25 @@ std::vector<size_t> RoaringBitmapWrapper::asVector() const {
 void RoaringBitmapWrapper::clear() {
     map.clear();
 }
+
+RoaringBitmapWrapper::RoaringBitmapWrapper(const std::vector<size_t> &v) {
+    map.addMany(v.size(), &v.at(0));
+}
+
+void RoaringBitmapWrapper::addAll(const std::vector<size_t> &v) {
+    map.addMany(v.size(), &v.at(0));
+}
+
+bool RoaringBitmapWrapper::empty() const {
+    return map.isEmpty();
+}
+
+RoaringBitmapWrapper &RoaringBitmapWrapper::operator-=(const roaring::Roaring64Map &rhs) {
+    map -= rhs;
+    return *this;
+}
+
+RoaringBitmapWrapper &RoaringBitmapWrapper::operator-=(const RoaringBitmapWrapper &rhs) {
+    map -= rhs.map;
+    return *this;
+}
