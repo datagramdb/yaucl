@@ -383,6 +383,8 @@ bool DataPredicate::operator==(const DataPredicate &rhs) const {
            casusu == rhs.casusu &&
            value == rhs.value &&
            value_upper_bound == rhs.value_upper_bound &&
+           labelRHS == rhs.labelRHS &&
+           varRHS == rhs.varRHS &&
            exceptions == rhs.exceptions &&
            BiVariableConditions == rhs.BiVariableConditions;
     return tmp;

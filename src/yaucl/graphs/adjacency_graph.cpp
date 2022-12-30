@@ -140,11 +140,12 @@ void adjacency_graph_DFSUtil(size_t src,
     }
 }
 
+
 void adjacency_graph_DFSUtil_with_edge_prop(size_t src,
                                             const adjacency_graph& ag,
                                             roaring::Roaring64Map &visited,
                                             const std::function<bool(size_t)>& edgeProp) {
-    // TODO: if (visited.contains(src)) return;
+//    std::cout << "Currently visited: " << RoaringBitmapWrapper{visited}.asVector() << std::endl;
     visited.add(src);
     for (size_t edge_id : ag.nodes.at(src)) {
         if (!edgeProp(edge_id)) continue;

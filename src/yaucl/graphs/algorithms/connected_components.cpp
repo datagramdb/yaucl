@@ -114,6 +114,10 @@ void connected_components(const adjacency_graph &input,
     connected_components(input, result, visited);
 }
 
+//#include <yaucl/strings/serializers.h>
+//#include <yaucl/structures/RoaringBitmapWrapper.h>
+//#include <iostream>
+
 void connected_components_with_edge_prop(const adjacency_graph &input,
                           std::vector<roaring::Roaring64Map> &result,
                           roaring::Roaring64Map& visited,
@@ -130,6 +134,9 @@ void connected_components_with_edge_prop(const adjacency_graph &input,
         for (size_t nm1 = result.size()-1; nm1>0; nm1--) {
             result[nm1] -= result[nm1-1];
         }
+//        RoaringBitmapWrapper wrap{result[0]};
+//        RoaringBitmapWrapper wrapOrig{orig};
+//        std::cout << wrap.asVector() << " vs. " << wrapOrig.asVector() << std::endl;
         result[0] -= orig;
     }
 }
