@@ -13,6 +13,8 @@ namespace yaucl::structures {
         DEFAULT_CONSTRUCTORS(NAryTree)
         std::unordered_map<size_t, RoaringBitmapWrapper> children;
         NAryTree(const std::vector<ssize_t>& parents, const RoaringBitmapWrapper& roots);
+        std::unordered_map<size_t, std::vector<size_t>> serializable();
+        std::vector<size_t> nodeSet() const;
     };
 }
 

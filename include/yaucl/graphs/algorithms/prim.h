@@ -23,6 +23,7 @@ struct PrimMST {
     std::vector<double> key;
     std::vector<ssize_t> parent;
     std::vector<bool> inMST;
+    std::vector<size_t> selected_edges;
 
     PrimMST(const adjacency_graph& ag) : ag{ag},  V{ag.V_size}, key(V, INF), parent(V, -1), inMST(V, false) {}
 

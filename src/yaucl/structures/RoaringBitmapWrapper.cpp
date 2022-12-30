@@ -6,7 +6,7 @@
 
 
 void RoaringBitmapWrapper::addRange(size_t incL, size_t incU) {
-    map.addRange(incL, incU);
+    map.addRangeClosed(incL, incU);
 }
 
 bool RoaringBitmapWrapper::operator==(const RoaringBitmapWrapper &rhs) const {
