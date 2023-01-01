@@ -336,6 +336,35 @@ partition_sets_result<T> partition_sets(const std::vector<std::set<T>>& subsubSe
     return result;
 }
 
+template <typename T, typename D>
+void iterate_union(const T& s1, const T& s2, D d) {
+    auto it1 = s1.begin();
+    auto it2 = s2.begin();
+    while (it1 != s1.end() && it2 != s2.end()) {
+        if (*it1 < *it2) {
+            // only in set1
+            d(*it1);
+            ++it1;
+        } else if (*it2 < *it1) {
+            // only in set2
+            d(*it2);
+            ++it2;
+        } else {
+            // in both
+            d(*it1);
+            ++it1;
+            ++it2;
+        }
+    }
+    for (; it1 != s1.end(); ++it1) {
+        // only in set1
+        d(*it1);
+    }
+    for (; it2 != s2.end(); ++it2) {
+        // only in set2
+        d(*it2);
+    }
+}
 
 template<typename T, typename S>
 void remove_index(std::vector<T>& vector, const S& to_remove)
