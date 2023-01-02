@@ -7,6 +7,8 @@
 
 #include <set>
 #include <unordered_set>
+#include <ostream>
+
 
 template<typename T>
 std::unordered_set<T> unordered_intersection(const std::unordered_set<T> &a,
@@ -204,6 +206,76 @@ template <typename T>
 void remove_duplicates(std::vector<T>& vec){
     std::sort(vec.begin(), vec.end());
     vec.erase(std::unique(vec.begin(), vec.end()), vec.end());
+}
+
+template <typename T, typename D>
+void iterate_union(const T& s1, const T& s2, D d) {
+    auto it1 = s1.begin();
+    auto it2 = s2.begin();
+    while (it1 != s1.end() && it2 != s2.end()) {
+        if (*it1 < *it2) {
+            // only in set1
+            d(*it1);
+            ++it1;
+        } else if (*it2 < *it1) {
+            // only in set2
+            d(*it2);
+            ++it2;
+        } else {
+            // in both
+            d(*it1);
+            ++it1;
+            ++it2;
+        }
+    }
+    for (; it1 != s1.end(); ++it1) {
+        // only in set1
+        d(*it1);
+    }
+    for (; it2 != s2.end(); ++it2) {
+        // only in set2
+        d(*it2);
+    }
+}
+
+
+template <typename Container>
+void in_place_ordered_intersection(Container& set_1, const Container& set_2) {
+    //https://stackoverflow.com/a/1773620/1376095
+    auto it1 = set_1.begin();
+    auto it2 = set_2.begin();
+    while ( (it1 != set_1.end()) && (it2 != set_2.end()) ) {
+        if (*it1 < *it2) {
+            set_1.erase(it1++);
+        } else if (*it2 < *it1) {
+            ++it2;
+        } else { // *it1 == *it2
+            ++it1;
+            ++it2;
+        }
+    }
+    set_1.erase(it1, set_1.end());
+}
+
+template<typename T, typename S>
+void remove_index(std::vector<T>& vector, const S& to_remove)
+{
+    auto vector_base = vector.begin();
+    typename std::vector<T>::size_type down_by = 0;
+
+    for (auto iter = to_remove.cbegin();
+         iter < to_remove.cend();
+         iter++, down_by++)
+    {
+        typename std::vector<T>::size_type next = (iter + 1 == to_remove.cend()
+                                                   ? vector.size()
+                                                   : *(iter + 1));
+
+        std::move(vector_base + *iter + 1,
+                  vector_base + next,
+                  vector_base + *iter - down_by);
+    }
+    vector.resize(vector.size() - to_remove.size());
 }
 
 #endif //KNOBAB_SERVER_BASICS_H
