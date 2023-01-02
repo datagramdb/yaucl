@@ -41,7 +41,7 @@ numeric_atom_cases invert_predicate_direction(numeric_atom_cases val) {
         case NEQ:
         case TTRUE:
             return val;
-        case INTERVAL:
+        default:
             throw std::runtime_error("ERROR: you cannot invert a relationship which is just an interval! An interval is not a valid predicate, rather than a combination of intervals. There is some flaw in the logic!");
     }
 }
@@ -347,6 +347,8 @@ bool DataPredicate::testOverSingleVariable(const std::string &val) const {
             return ((current <= val)
                     && (val <= std::get<std::string>(value_upper_bound)));
         }
+        default:
+            throw std::runtime_error("UNEXPECTED CASE!");
     }
 }
 
@@ -374,6 +376,8 @@ bool DataPredicate::testOverSingleVariable(double val) const {
             return ((current <= val)
                     && (val <= std::get<double>(value_upper_bound)));
         }
+        default:
+            throw std::runtime_error("UNEXPECTED CASE!");
     }
 }
 
@@ -541,6 +545,8 @@ std::variant<std::vector<std::pair<std::string, std::string>>,
                     std::get<1>(result).emplace_back(PREV_DOUBLE(std::get<1>(prev)), (std::get<1>(value_upper_bound)));
             }
             return result;
+        default:
+            throw std::runtime_error("UNEXPECTED CASE!");
     }
 }
 
@@ -672,6 +678,8 @@ std::variant<std::vector<std::pair<std::string, std::string>>,
                 }
             }
             return result;
+        default:
+            throw std::runtime_error("UNEXPECTED CASE!");
     }
 }
 

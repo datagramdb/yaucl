@@ -92,7 +92,7 @@ struct DataPredicate {
     std::string                       varRHS;
     union_minimal                     value_upper_bound;
     std::set<union_minimal>           exceptions;
-    [[deprecated]] std::vector<DataPredicate>        BiVariableConditions;
+     std::vector<DataPredicate>        BiVariableConditions; // [[deprecated]]
     bool                              wasReversed;
 
     nlohmann::json asJson() const;
