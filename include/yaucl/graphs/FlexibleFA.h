@@ -102,7 +102,7 @@ public:
 
     std::vector<size_t> getNodeIds() const  {
         std::vector<size_t> result;
-        for (size_t id = 0, N = FlexibleGraph<NodeElement, EdgeLabel>::maximumNodeId(); id<N; id++) {
+        for (size_t id = 0, N = FlexibleGraph<NodeElement, EdgeLabel>::vertexSize(); id < N; id++) {
             if (!removed_nodes.contains(id))
                 result.emplace_back(id);
         }
@@ -113,7 +113,7 @@ public:
 
     std::vector<size_t> getEdgeIds() const  {
         std::vector<size_t> result;
-        for (size_t id = 0, N = FlexibleGraph<NodeElement, EdgeLabel>::maximumEdgeId(); id<N; id++) {
+        for (size_t id = 0, N = FlexibleGraph<NodeElement, EdgeLabel>::edgeSize(); id < N; id++) {
             auto cp = FlexibleGraph<NodeElement, EdgeLabel>::g.edge_from_id(id);
             if ((!removed_nodes.contains(cp.first)) && (!removed_nodes.contains(cp.second)) && (!removed_edges.contains(id)))
                 result.emplace_back(id);
@@ -122,7 +122,7 @@ public:
     }
 
     size_t vSize() const {
-        return FlexibleGraph<NodeElement, EdgeLabel>::maximumNodeId() - removed_nodes.cardinality();
+        return FlexibleGraph<NodeElement, EdgeLabel>::vertexSize() - removed_nodes.cardinality();
     }
 
     size_t eSize() const {
@@ -130,10 +130,10 @@ public:
     }
 
     double size() const {
-        return FlexibleGraph<NodeElement, EdgeLabel>::maximumNodeId() - removed_nodes.cardinality() +getEdgeIds().size() - removed_edges.cardinality();
+        return FlexibleGraph<NodeElement, EdgeLabel>::vertexSize() - removed_nodes.cardinality() + getEdgeIds().size() - removed_edges.cardinality();
     }
 
-    NodeElement getNodeLabel(size_t id) const override {
+    const NodeElement& getNodeLabel(size_t id) const override {
         DEBUG_ASSERT(!removed_nodes.contains(id));
         return FlexibleGraph<NodeElement, EdgeLabel>::nodeLabel.at(id);
     }

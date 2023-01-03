@@ -28,7 +28,8 @@ struct BellmanFordAlgorithm {
 
         BellmanFordAlgorithmResult() { src = -1; }
         BellmanFordAlgorithmResult(size_t src,
-                                   const BellmanFordAlgorithm *algo) : d(algo->graph.maximumNodeId(), INF), p(algo->graph.maximumNodeId(), -1), src(src) {
+                                   const BellmanFordAlgorithm *algo) : d(algo->graph.vertexSize(), INF), p(
+                algo->graph.vertexSize(), -1), src(src) {
             d[src] = 0;
             for (;;) {
                 bool any = false;
@@ -81,7 +82,7 @@ struct BellmanFordAlgorithm {
      * @return The path is empty if there exists no path between source and destination, and empty otherwise
      */
     const std::vector<size_t>& getAllPathsFromSource(size_t v, size_t t) {
-        if (v >= graph.maximumNodeId()) return noPath;
+        if (v >= graph.vertexSize()) return noPath;
         BellmanFordAlgorithmResult& ref = src_to_results[v];
         if (ref.src == -1) { // if there was no initialization, and therefore there was no running of the algorithm
             ref = {v, (const BellmanFordAlgorithm*)this};

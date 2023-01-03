@@ -84,19 +84,19 @@ public:
     FlexibleGraph& operator=(const FlexibleGraph& x) = default;
     FlexibleGraph& operator=(FlexibleGraph&& x) = default;
 
-    size_t maximumNodeId() const {
+    size_t vertexSize() const {
         return g.V_size;
     }
 
-    size_t maximumEdgeId() const {
+    size_t edgeSize() const {
         return g.E_size;
     }
 
-    virtual NodeElement getNodeLabel(size_t id) const {
+    virtual const NodeElement& getNodeLabel(size_t id) const {
         return nodeLabel.at(id);
     }
 
-    virtual EdgeLabel getEdgeLabel(size_t id) const {
+    virtual const EdgeLabel& getEdgeLabel(size_t id) const {
         return costMap.at(id);
     }
 
@@ -229,13 +229,13 @@ public:
         os << "digraph finite_state_machine {\n"
               "    rankdir=LR;\n"
               "    size=\"8,5\"\n";
-        for (size_t node_id = 0, N = maximumNodeId(); node_id<N; node_id++) {
+        for (size_t node_id = 0, N = vertexSize(); node_id < N; node_id++) {
             ///TODO: if (removed_nodes.contains(node_id)) continue;
             std::string shape = "circle";
             os << "node [shape = " << shape << ", label=\"" << getNodeLabel(node_id) << "\", fontsize=10] q" << node_id << ";\n";
         }
         os << "\n\n";
-        for (size_t node_id = 0, N = maximumNodeId(); node_id<N; node_id++) {
+        for (size_t node_id = 0, N = vertexSize(); node_id < N; node_id++) {
             ///TODO: if (removed_nodes.contains(node_id)) continue;
             std::string shape = "circle";
             for (const std::pair<EdgeLabel, int>& edge : outgoingEdges(node_id)) {

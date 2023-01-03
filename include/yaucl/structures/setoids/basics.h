@@ -9,6 +9,18 @@
 #include <unordered_set>
 #include <ostream>
 
+template <typename T>
+std::vector<T> common_shared_subvector(const std::vector<T>& l,
+                                       const std::vector<T>& r) {
+    std::vector<T> result;
+    size_t N = std::min(l.size(), r.size());
+    result.reserve(N);
+    for (size_t i = 0; i<N; i++) {
+        if (l.at(i) == r.at(i)) result.emplace_back(l.at(i));
+        else return result;
+    }
+    return result;
+}
 
 template<typename T>
 std::unordered_set<T> unordered_intersection(const std::unordered_set<T> &a,

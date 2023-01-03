@@ -60,7 +60,8 @@ enum numeric_atom_cases {
     GEQ,
     EQ,
     NEQ,
-    TTRUE
+    TTRUE,
+    FFALSE
 };
 
 numeric_atom_cases invert_predicate_direction(numeric_atom_cases val);
@@ -110,7 +111,7 @@ struct DataPredicate {
     std::variant<std::vector<std::pair<std::string, std::string>>,
             std::vector<std::pair<double, double>>> decompose_single_variable_into_intervals_with_missing() const;
 
-    DataPredicate();
+    DataPredicate(numeric_atom_cases case_ = TTRUE);
     DEFAULT_COPY_ASSGN(DataPredicate)
     
     DataPredicate(const std::string &var, numeric_atom_cases casusu, const union_minimal &valueconst, const std::string &label = "");
@@ -129,6 +130,7 @@ struct DataPredicate {
     bool intersect_with(const DataPredicate& predicate);
     bool testOverSingleVariable(const  std::string& val) const;
     bool testOverSingleVariable(double       val) const;
+    bool testOverSingleVariable(const union_minimal& val) const;
 
     DataPredicate instantiateRHSWith(const union_minimal& val) const;
     DataPredicate reverseBiVariablePredicate() const;

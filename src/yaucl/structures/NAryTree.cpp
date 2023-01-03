@@ -6,7 +6,7 @@
 #include <yaucl/structures/setoids/basics.h>
 //#include <iostream>
 
-yaucl::structures::NAryTree::NAryTree(const std::vector<ssize_t>& parents, const RoaringBitmapWrapper& roots) {
+yaucl::structures::NAryTree::NAryTree(const std::vector<ssize_t>& parents, const RoaringBitmapWrapper& roots) : parents{parents} {
     RoaringBitmapWrapper emptyset{};
 //    std::cout << "new tree" << std::endl;
     for (size_t i = 0, N = parents.size(); i<N; i++) {

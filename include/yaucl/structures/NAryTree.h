@@ -17,6 +17,7 @@ namespace yaucl::structures {
         std::unordered_map<size_t, RoaringBitmapWrapper> children;
         std::unordered_map<size_t, std::vector<size_t>> node_to_vector;
         std::unordered_map<std::vector<size_t>, size_t> vector_to_node;
+        std::vector<ssize_t> parents;
 
         NAryTree(const std::vector<ssize_t>& parents, const RoaringBitmapWrapper& roots);
         std::unordered_map<size_t, std::vector<size_t>> serializable();

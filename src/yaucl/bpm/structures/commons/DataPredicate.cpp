@@ -52,7 +52,7 @@ std::string DataPredicate::MIN_STRING = "";
 std::string DataPredicate::MAX_STRING =  std::string(MAXIMUM_STRING_LENGTH, std::numeric_limits<char>::max());
 size_t      DataPredicate::msl = MAXIMUM_STRING_LENGTH;
 
-DataPredicate::DataPredicate() : casusu{TTRUE}, wasReversed{false} {}
+DataPredicate::DataPredicate(numeric_atom_cases x) : casusu{x}, wasReversed{false} {}
 
 
 DataPredicate::DataPredicate(const std::string &var, numeric_atom_cases casusu, const union_minimal &value, const std::string &label) : var(
@@ -71,7 +71,10 @@ std::ostream &operator<<(std::ostream &os, const DataPredicate &predicate) {
     if ((predicate.casusu == TTRUE) ) {
         if (predicate.BiVariableConditions.empty())
             os << "true";
-    } else if (predicate.casusu == INTERVAL) {
+    } else if ((predicate.casusu == FFALSE) ) {
+        if (predicate.BiVariableConditions.empty())
+            os << "false";
+    }else if (predicate.casusu == INTERVAL) {
         double isString = std::holds_alternative<std::string>(predicate.value);
         DEBUG_ASSERT(predicate.varRHS.empty() && predicate.labelRHS.empty());
 
@@ -213,6 +216,8 @@ std::vector<std::vector<DataPredicate>> flip(const std::vector<std::vector<DataP
 bool DataPredicate::intersect_with(const DataPredicate& predicate) {
     if (predicate.casusu == TTRUE)
         return true;
+    if (predicate.casusu == FFALSE)
+        return false;
     if ((casusu == TTRUE) && (!predicate.isBiVariableCondition())) {
         *this = predicate;
         return true;
@@ -275,7 +280,7 @@ bool DataPredicate::intersect_with(const DataPredicate& predicate) {
 }
 
 void DataPredicate::asInterval() {
-    if ((casusu == INTERVAL) || (casusu == TTRUE) || (isBiVariableCondition())) return;
+    if ((casusu == INTERVAL) || (casusu == TTRUE)  || (casusu == FFALSE) || (isBiVariableCondition())) return;
 
     bool isString = std::holds_alternative<std::string>(value);
     union_minimal prev, next;
@@ -329,6 +334,10 @@ bool DataPredicate::testOverSingleVariable(const std::string &val) const {
     if (!isString) return false;
     std::string current = std::get<std::string>(value);
     switch (casusu) {
+        case TTRUE:
+            return true;
+        case FFALSE:
+            return false;
         case LT:
             return val < current;
         case GT:
@@ -358,6 +367,10 @@ bool DataPredicate::testOverSingleVariable(double val) const {
     if (!isDouble) return false;
     double current = std::get<double>(value);
     switch (casusu) {
+        case TTRUE:
+            return true;
+        case FFALSE:
+            return false;
         case LT:
             return val < current;
         case GT:
@@ -417,6 +430,8 @@ union_minimal DataPredicate::next_of(const union_minimal &x) {
 bool DataPredicate::isStringPredicate() const {
     if (casusu == TTRUE)
         return false;
+    if (casusu ==FFALSE)
+        return false;
     bool isString = std::holds_alternative<std::string>(value);
     if (casusu == INTERVAL)
         DEBUG_ASSERT(isString == std::holds_alternative<std::string>(value_upper_bound));
@@ -425,6 +440,8 @@ bool DataPredicate::isStringPredicate() const {
 
 bool DataPredicate::isDoublePredicate() const {
     if (casusu == TTRUE)
+        return false;
+    if (casusu ==FFALSE)
         return false;
     bool isString = std::holds_alternative<double>(value);
     if (casusu == INTERVAL)
@@ -810,6 +827,12 @@ nlohmann::json DataPredicate::asJson() const {
         }
     }
     return data;
+}
+
+bool DataPredicate::testOverSingleVariable(const std::variant<std::string, double> &val) const {
+    return std::holds_alternative<std::string>(val) ?
+           testOverSingleVariable(std::get<std::string>(val)) :
+           testOverSingleVariable(std::get<double>(val));
 }
 
 HCQSingleQuery::HCQSingleQuery(const std::string &templateName,

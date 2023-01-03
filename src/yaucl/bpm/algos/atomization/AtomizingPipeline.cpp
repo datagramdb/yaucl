@@ -252,7 +252,7 @@ semantic_atom_set atomize_conjunction(AtomizingPipeline &pipeline_data,
     semantic_atom_set S;
     bool isFirst = true;
     for (const auto &ref: conj) {
-        if (ref.second.casusu != TTRUE) {
+        if ((ref.second.casusu != TTRUE) && (ref.second.casusu != FFALSE)) {
             auto atom = ref.second;
             atom.asInterval();
             if (isFirst) {
@@ -266,7 +266,7 @@ semantic_atom_set atomize_conjunction(AtomizingPipeline &pipeline_data,
             }
         }
         for (const auto &child: ref.second.BiVariableConditions) {
-            if (child.casusu != TTRUE) {
+            if ((child.casusu != TTRUE) && (child.casusu != FFALSE)) {
                 auto atom = child;
                 atom.asInterval();
                 if (isFirst) {
@@ -418,7 +418,7 @@ double collect_data_from_declare_disjunctive_model(AtomizingPipeline &pipeline_d
                     auto &formula_numeric_atom = item.second;
                     DEBUG_ASSERT(formula_numeric_atom.BiVariableConditions.empty());
                     DEBUG_ASSERT(formula_numeric_atom.varRHS.empty());
-                    if (formula_numeric_atom.casusu == TTRUE) continue;
+                    if ((formula_numeric_atom.casusu == TTRUE) || (formula_numeric_atom.casusu == FFALSE)) continue;
                     pipeline_data.map1[formula_numeric_atom.label][formula_numeric_atom.var].insert(
                             formula_numeric_atom);
                     auto x = formula_numeric_atom.decompose_single_variable_into_intervals();
@@ -439,7 +439,7 @@ double collect_data_from_declare_disjunctive_model(AtomizingPipeline &pipeline_d
                     auto &formula_numeric_atom = item.second;
                     DEBUG_ASSERT(formula_numeric_atom.BiVariableConditions.empty());
                     DEBUG_ASSERT(formula_numeric_atom.varRHS.empty());
-                    if (formula_numeric_atom.casusu == TTRUE) continue;
+                    if ((formula_numeric_atom.casusu == TTRUE) || (formula_numeric_atom.casusu == FFALSE)) continue;
                     pipeline_data.map1[formula_numeric_atom.label][formula_numeric_atom.var].insert(
                             formula_numeric_atom);
                     auto x = formula_numeric_atom.decompose_single_variable_into_intervals();
