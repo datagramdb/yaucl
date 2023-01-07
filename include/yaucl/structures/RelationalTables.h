@@ -65,6 +65,7 @@ struct AbstractEquiJoinRow {
  */
 template <typename S, typename D>
 struct AbstractEquiJoinTable {
+    virtual ~AbstractEquiJoinTable() {}
     /**
      * Number of rows within the table
      * @return
@@ -81,6 +82,27 @@ struct AbstractEquiJoinTable {
      * @return
      */
     virtual AbstractEquiJoinRow<S,D>* getRow(size_t i) = 0;
+
+    /**
+     * Providing a concrete/materialised row
+     *
+     * @param i Row id
+     * @return
+     */
+    virtual std::vector<D> asConcreteRow(size_t i ) = 0;
+
+    /**
+     * Whether this element shall be disposed if a child of a other component
+     * (i.e., avoiding deletion of the memory multiple times )
+     * @return
+     */
+    virtual bool isDisposable() const = 0;
+
+    /**
+     * Setting the disposability
+     * @param dispose disposability value
+     */
+    virtual void setDisposability(bool dispose) = 0;
 };
 
 #include <memory>
@@ -112,14 +134,56 @@ struct ConcreteEquiJoinTable : public AbstractEquiJoinTable<S,D> {
     std::vector<std::vector<D>> data;
     ConcreteEquiJoinRow<S,D> row;
 
-    ConcreteEquiJoinTable(const std::vector<S> &schema, const std::vector<std::vector<D>> &data) : schema(schema),
-                                                                                                   data(data), row{this,0, schema.size()} {}
+    ~ConcreteEquiJoinTable() override = default;
+    ConcreteEquiJoinTable(const std::vector<S> &schema, const std::vector<std::vector<D>> &data)
+    : schema(schema), data(data), row{this,0, schema.size()}, dispose{true} {}
+    /**
+     * Copying the abstract table into a concrete one
+     * @param table:     the original table
+     */
+    void fromTable(AbstractEquiJoinTable<S,D>* table) {
+        schema.clear();
+        data.clear();
+        row.nCell = 0;
+        if (!table) return;
+        schema = table->getSchema();
+        row.ncell = schema.size();
+        std::vector<D> tmp;
+        for (size_t i = 0, N = table->size(); i<N; i++) {
+            tmp.clear();
+            tmp.reserve(row.nCell);
+            auto& ROW = table->getRow(i);
+            for (size_t j = 0; j<row.ncell; j++) {
+                tmp.emplace_back(ROW->getCell(j));
+            }
+            data.emplace_back(tmp);
+        }
+    }
+    ConcreteEquiJoinTable(AbstractEquiJoinTable<S,D>* table) {
+        fromTable(table);
+    }
+    ConcreteEquiJoinTable& operator=(AbstractEquiJoinTable<S,D>* table) {
+        fromTable(table);
+        return *this;
+    }
+
     size_t size() const override { return data.size(); }
     const std::vector<S>& getSchema() const override { return schema; }
     AbstractEquiJoinRow<S, D> *getRow(size_t i) override {
         row.rowId = i;
         return &row;
     }
+
+    std::vector<D> asConcreteRow(size_t i) override {
+        return data.at(i);
+    }
+
+    void setDisposability(bool dispose) override { this->dispose = dispose; }
+    bool isDisposable() const override { return dispose; }
+
+private:
+    bool dispose;
+    int concrete;
 };
 
 
@@ -134,10 +198,10 @@ struct CrossProductTable;
  */
 template <typename S, typename D>
 struct CrossProductRow : public AbstractEquiJoinRow<S,D> {
-    std::shared_ptr<AbstractEquiJoinTable<S,D>> l, r; size_t ncols, lSize, i, j;
+    AbstractEquiJoinTable<S,D>* l, *r; size_t ncols, lSize, i, j;
 
-    CrossProductRow(const std::shared_ptr<AbstractEquiJoinTable<S,D>>& l,
-                    const std::shared_ptr<AbstractEquiJoinTable<S,D>>& r, size_t ncols, size_t lSize)
+    CrossProductRow(AbstractEquiJoinTable<S,D>* l,
+                    AbstractEquiJoinTable<S,D>* r, size_t ncols, size_t lSize)
             : l(l), r(r), ncols(ncols), lSize(lSize) { }
 
     size_t nCells() const override { return ncols; }
@@ -161,8 +225,13 @@ struct CrossProductTable : public AbstractEquiJoinTable<S,D> {
     std::vector<S> vv;
     CrossProductRow<S,D> row;
 
-    CrossProductTable(const std::shared_ptr<AbstractEquiJoinTable<S,D>> l,
-                      const std::shared_ptr<AbstractEquiJoinTable<S,D>> r) : row{l,r,0,0} {
+    ~CrossProductTable() override {
+        if (row.l && (row.l->isDisposable())) delete row.l;
+        if (row.r && (row.r->isDisposable())) delete row.r;
+    }
+
+    CrossProductTable(AbstractEquiJoinTable<S,D>* l,
+                      AbstractEquiJoinTable<S,D>* r) : row{l,r,0,0}, disp{false} {
         size_ = l->size() * r->size();
         const auto& refL = l->getSchema();
         vv.insert(vv.end(), refL.begin(), refL.end());
@@ -181,6 +250,25 @@ struct CrossProductTable : public AbstractEquiJoinTable<S,D> {
         row.j = k / row.lSize;
         return &row;
     }
+
+    std::vector<D> asConcreteRow(size_t k) override {
+        size_t i = k % row.lSize;
+        size_t j = k / row.lSize;
+        std::vector<D> v;
+        v.reserve(row.ncols);
+        for (size_t h = 0; h<row.ncols; h++) {
+            v.emplace_back((h<row.lSize) ?
+                                    row.l->getRow(i)->getCell(k) :
+                                    row.r->getRow(j)->getCell(k-row.lSize));
+        }
+        return v;
+    }
+
+    bool isDisposable() const override { return disp; }
+    void setDisposability(bool dispose) override { disp = dispose; }
+
+private:
+    bool disp;
 };
 
 
@@ -220,8 +308,9 @@ struct TableColumnCombinations : public AbstractEquiJoinTable<S,D> {
     size_t total_rows;
     TableColumnCombinationRow<S, D> row;
 
+    ~TableColumnCombinations() override = default;
     TableColumnCombinations(const std::vector<S> &Schema,
-                            const std::vector<std::vector<D>> &columnarData) : row{this} {
+                            const std::vector<std::vector<D>> &columnarData) : row{this}, disp{false} {
         total_rows = 1;
         for (size_t i = 0, N = std::min(Schema.size(), columnarData.size()); i<N; i++) {
             const auto& x = columnarData.at(i);
@@ -251,6 +340,29 @@ struct TableColumnCombinations : public AbstractEquiJoinTable<S,D> {
         std::reverse(row.replace.begin(), row.replace.end());
         return &row;
     }
+
+    std::vector<D> asConcreteRow(size_t k) override {
+        std::vector<size_t> replace;
+        std::vector<D> result;
+        replace.reserve(row.nCols);
+        result.reserve(row.nCols);
+        for (size_t i = 0, N = columns.size(); i<N-1; i++) {
+            size_t div = k / columns.at(i);
+            replace.emplace_back(div);
+            k = k % columns.at(i);
+        }
+        replace.emplace_back(k);
+        std::reverse(replace.begin(), replace.end());
+        for (size_t i = 0; i<row.nCols; i++) {
+            result.emplace_back(columnar_data.at(i).at(replace.at(i)));
+        }
+        return result;
+    }
+
+    bool isDisposable() const override { return disp; }
+    void setDisposability(bool dispose) override { disp = dispose; }
+private:
+    bool disp;
 };
 
 /**
@@ -260,12 +372,17 @@ struct TableColumnCombinations : public AbstractEquiJoinTable<S,D> {
  */
 template <typename S, typename D>
 struct TableUnion : public AbstractEquiJoinTable<S,D> {
-    std::vector<std::shared_ptr<AbstractEquiJoinTable<S,D>>> unione;
+    std::vector<AbstractEquiJoinTable<S,D>*> unione;
     size_t nRows;
     std::vector<S> origSchema;
     std::vector<size_t> elements;
 
-    TableUnion(const std::vector<std::shared_ptr<AbstractEquiJoinTable<S,D>>> &union_) {
+    ~TableUnion() override {
+        for (const auto ptr: unione)
+            if (ptr && (ptr->isDisposable()))
+                delete ptr;
+    }
+    TableUnion(const std::vector<AbstractEquiJoinTable<S,D>*> &union_) : disp{false} {
         nRows = 0; bool firstInsertion = true;
         for (const auto& x : union_) {
             if (x->size() > 0) {
@@ -297,6 +414,21 @@ struct TableUnion : public AbstractEquiJoinTable<S,D> {
         return nullptr;
     }
 
+    std::vector<D> asConcreteRow(size_t i) override {
+        for (size_t k = 0, N = elements.size(); k<N; k++) {
+            if (i<elements.at(k)) {
+                return unione[k]->asConcreteRow(i-(k == 0 ? 0 : elements.at(k-1)));
+            }
+        }
+        return {};
+    }
+
+    bool isDisposable() const override { return disp; }
+    void setDisposability(bool dispose) override {
+        disp = dispose;
+    }
+private:
+    bool disp;
 };
 
 /**
@@ -308,12 +440,12 @@ template <typename S, typename D>
 struct ExtendedRowWithCell : public AbstractEquiJoinRow<S,D> {
     std::vector<D> newData;
     size_t rowId, nCols, nData;
-    std::shared_ptr<AbstractEquiJoinTable<S,D>> table;
+    AbstractEquiJoinTable<S,D>* table;
 
     ExtendedRowWithCell(const std::vector<D>& newData,
                         size_t rowId,
                         size_t nCols,
-                        const std::shared_ptr<AbstractEquiJoinTable<S,D>>& table) :
+                        AbstractEquiJoinTable<S,D>* table) :
             newData(newData), rowId(rowId), nCols(nCols), table(table) {}
 
     size_t nCells() const override { return nCols+nData; }
@@ -335,10 +467,13 @@ struct ExtendTableWithData : public AbstractEquiJoinTable<S,D> {
     std::vector<S> schema;
     size_t nrows;
 
-    ExtendTableWithData(const std::shared_ptr<AbstractEquiJoinTable<S,D>>& table,
+    ~ExtendTableWithData() override {
+        if (row.table && (row.table->isDisposable())) delete row.table;
+    }
+    ExtendTableWithData(AbstractEquiJoinTable<S,D>* table,
                         const std::vector<S>& newCell,
                         const std::vector<D>& newData) :
-            row{newData, 0, table->getSchema().size(), table} {
+            row{newData, 0, table->getSchema().size(), table}, disp{false} {
         const std::vector<S>& s = table->getSchema();
         schema = s;
         size_t N = std::min(newCell.size(), newData.size());
@@ -353,6 +488,19 @@ struct ExtendTableWithData : public AbstractEquiJoinTable<S,D> {
         row.rowId = i;
         return &row;
     }
+
+    std::vector<D> asConcreteRow(size_t k) override {
+        std::vector<D> result = row.table->asConcreteRow(k);
+        result.insert(result.end(), row.newData.begin(), row.newData.end());
+        return result;
+    }
+
+    bool isDisposable() const override { return disp; }
+    void setDisposability(bool dispose) override {
+        disp = dispose;
+    }
+private:
+    bool disp;
 };
 
 #include <unordered_map>
@@ -370,8 +518,8 @@ template <typename S, typename D>
 struct ProjectAndSelectRows : public AbstractEquiJoinRow<S,D> {
     std::vector<size_t>      schemaFieldIdxs;
     size_t row_id, nCell;
-    std::shared_ptr<AbstractEquiJoinTable<S,D>> table;
-    ProjectAndSelectRows(const std::shared_ptr<AbstractEquiJoinTable<S,D>>& table) : table(table), row_id{0} {}
+    AbstractEquiJoinTable<S,D>* table;
+    ProjectAndSelectRows(AbstractEquiJoinTable<S,D>* table) : table(table), row_id{0} {}
 
     size_t nCells() const override { return nCell; }
     const D &getCell(size_t i) const override {
@@ -392,9 +540,13 @@ struct ProjectAndSelectTable : public AbstractEquiJoinTable<S,D> {
     size_t nrows;
     ProjectAndSelectRows<S,D> row;
 
-    ProjectAndSelectTable(const std::shared_ptr<AbstractEquiJoinTable<S,D>>& table,
+    ~ProjectAndSelectTable() override {
+        if ((row.table) && row.table->isDisposable())
+            delete row.table;
+    }
+    ProjectAndSelectTable(AbstractEquiJoinTable<S,D>* table,
                           const std::vector<size_t>& row_ids,
-                          const std::vector<S>& schema_field_names) : row{table} {
+                          const std::vector<S>& schema_field_names) : row{table}, disp{false} {
         size_t origNRows = table->size();
         for (size_t idx : row_ids)
             if (idx < origNRows)
@@ -425,8 +577,76 @@ struct ProjectAndSelectTable : public AbstractEquiJoinTable<S,D> {
         row.row_id = i;
         return &row;
     }
+
+    std::vector<D> asConcreteRow(size_t k) override {
+        std::vector<D> result;
+        result.reserve(row.nCell);
+        for (size_t i = 0; i<row.nCell; i++) {
+            result.emplace_back(row.table->getRow(k)->getCell(row.schemaFieldIdxs.at(i)));
+        }
+        return result;
+    }
+
+    bool isDisposable() const override { return disp; }
+    void setDisposability(bool dispose) override { disp = dispose; }
+private:
+    bool disp;
 };
 
+template <typename S, typename D>
+struct MaterialisedView : public ConcreteEquiJoinTable<S,D> {
+    MaterialisedView(AbstractEquiJoinTable<S,D>* table)
+    : ConcreteEquiJoinTable<S,D>( std::vector<S>{}, std::vector<std::vector<D>>{}),
+      orig{table}, beingCompiled{false}, nrows{orig->size()},  disp{false}  {
+        ConcreteEquiJoinTable<S,D>::schema = orig->getSchema();
+        ConcreteEquiJoinTable<S,D>::row.parent = this;
+        ConcreteEquiJoinTable<S,D>::row.rowId = 0;
+        ConcreteEquiJoinTable<S,D>::row.nCell = ConcreteEquiJoinTable<S,D>::schema.size();
+    }
+
+    ~MaterialisedView() override {
+       if (orig && (orig->isDisposable())) delete orig;
+    }
+
+    size_t size() const override {
+        return nrows;
+    }
+
+    const std::vector<S> &getSchema() const override {
+        return ConcreteEquiJoinTable<S,D>::schema;
+    }
+
+    AbstractEquiJoinRow<S, D> *getRow(size_t i) override {
+        compileConcrete();
+        return ConcreteEquiJoinTable<S,D>::getRow(i);
+    }
+
+    std::vector<D> asConcreteRow(size_t i) override {
+        compileConcrete();
+        return ConcreteEquiJoinTable<S,D>::data.at(i);
+    }
+
+    bool isDisposable() const override { return disp; }
+    void setDisposability(bool dispose) override { disp = dispose; }
+
+private:
+    void compileConcrete() {
+        if (!beingCompiled) {
+            for (size_t i = 0; i<nrows; i++) {
+                ConcreteEquiJoinTable<S,D>::data.emplace_back(orig->asConcreteRow(i));
+            }
+            if (orig->isDisposable()) {
+                delete orig;
+                orig = nullptr;
+            }
+            beingCompiled = true;
+        }
+    }
+    AbstractEquiJoinTable<S,D> *orig;
+    bool beingCompiled = false;
+    size_t nrows;
+    bool disp;
+};
 
 #include <cassert>
 #include <map>
@@ -450,12 +670,12 @@ struct natural_join_hash_for_vector {
  * @return      Table with natural join
  */
 template <typename S, typename D>
-std::shared_ptr<AbstractEquiJoinTable<S,D>>
-natural_join(const std::shared_ptr<AbstractEquiJoinTable<S,D>>& left,
-             const std::shared_ptr<AbstractEquiJoinTable<S,D>>& right) {
+AbstractEquiJoinTable<S,D>*
+natural_join(AbstractEquiJoinTable<S,D>* left,
+             AbstractEquiJoinTable<S,D>* right) {
     if (left->size() > right->size()) return natural_join(right, left);
     std::vector<S> toJoin;
-    std::vector<std::shared_ptr<AbstractEquiJoinTable<std::string,size_t>>> W;
+    std::vector<AbstractEquiJoinTable<S,D>*> W;
     {
         std::vector<S> Lschema = left->getSchema();
         std::vector<S> Rschema = right->getSchema();
@@ -464,8 +684,7 @@ natural_join(const std::shared_ptr<AbstractEquiJoinTable<S,D>>& left,
         std::set_intersection(Lschema.begin(), Lschema.end(), Rschema.begin(), Rschema.end(), std::back_inserter(toJoin));
     }
     if (toJoin.empty()) {
-        auto result = std::make_shared<CrossProductTable<S,D>>(left, right);
-        return result;
+        return new CrossProductTable<S,D>(left, right);
     } else {
         std::vector<size_t> idxL, idxR;
         std::vector<S> projL, projR;
@@ -511,14 +730,13 @@ natural_join(const std::shared_ptr<AbstractEquiJoinTable<S,D>>& left,
             assert(it != mapL.end());
             const auto& rowsIdsL = it->second;
 
-            auto projsL = std::make_shared<ProjectAndSelectTable<S, D>>(left, rowsIdsL, projL);
-            auto projsR = std::make_shared<ProjectAndSelectTable<S, D>>(right, rowsIdsR, projR);
-            auto cross = std::make_shared<CrossProductTable<S,D>>(projsL, projsR);
-            auto extension = std::make_shared<ExtendTableWithData<S, D>>(cross, toJoin, key);
+            auto projsL = new ProjectAndSelectTable<S, D>(left, rowsIdsL, projL);
+            auto projsR = new ProjectAndSelectTable<S, D>(right, rowsIdsR, projR);
+            auto cross = new CrossProductTable<S,D>(projsL, projsR);
+            auto extension = new ExtendTableWithData<S, D>(cross, toJoin, key);
             W.emplace_back(extension);
         }
-        auto tu = std::make_shared<TableUnion<S, D>>(W);
-        return tu;
+        return new TableUnion<S, D>(W);
     }
 }
 
