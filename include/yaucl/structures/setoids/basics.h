@@ -133,6 +133,23 @@ std::unordered_set<std::unordered_set<T>> cartesian_product(const std::vector<st
     }
     return result;
 }
+
+template <typename T>
+void cartesian_product( const std::vector<std::vector<T>> & v, std::function<void(const std::vector<T>&)>& function) {
+    const long long N = std::accumulate( v.begin(), v.end(), 1LL, []( long long a, const std::vector<T>& b ) { return a*b.size(); } );
+    std::vector<T> u(v.size());
+    for( long long n=0 ; n<N ; ++n ) {
+        lldiv_t q { n, 0 };
+        for( long long i=v.size()-1 ; 0<=i ; --i ) {
+            q = div( q.quot, v[i].size() );
+            u[i] = v[i][q.rem];
+        }
+        function(u);
+    }
+}
+
+
+
 /*
 template<typename T>
 std::ostream& operator<<(std::ostream& os, const std::vector<T> &s)

@@ -6,7 +6,7 @@
 #include <yaucl/structures/setoids/basics.h>
 //#include <iostream>
 
-yaucl::structures::NAryTree::NAryTree(const std::vector<ssize_t>& parents, const RoaringBitmapWrapper& roots) : parents{parents} {
+yaucl::structures::NAryTree::NAryTree(const std::vector<ssize_t>& parents, const RoaringBitmapWrapper& roots) : parents{parents}, node_to_layer(parents.size(), 0) {
     RoaringBitmapWrapper emptyset{};
 //    std::cout << "new tree" << std::endl;
     for (size_t i = 0, N = parents.size(); i<N; i++) {
@@ -20,6 +20,7 @@ yaucl::structures::NAryTree::NAryTree(const std::vector<ssize_t>& parents, const
             children.emplace(i, emptyset);
         }
     }
+    DEBUG_ASSERT(std::is_sorted(this->roots.begin(), this->roots.end()));
 //    for (const auto& cp : children)
 //        for (size_t dst : cp.second)
 //            std::cout << "[[" << cp.first << "-->" << dst << "]" << std::endl;
@@ -52,7 +53,7 @@ std::vector<size_t> yaucl::structures::NAryTree::nodeSet() const {
 void yaucl::structures::NAryTree::compile_vertex() {
 
     // Compiling the vector representation for common ancestor calculation
-    roaring::Roaring64Map visited;
+//    roaring::Roaring64Map visited;
     std::stack<size_t> stack;
     for (size_t i = 0, N = roots.size(); i<N; i++){
         auto it = node_to_vector.emplace(roots.at(i), std::vector<size_t>{i});
@@ -66,12 +67,12 @@ void yaucl::structures::NAryTree::compile_vertex() {
         auto src_vec = node_to_vector.at(src);
         stack.pop();
         src_vec.emplace_back(0);
-        visited.add(src);
+        allNodes.add(src);
         auto it = children.find(src);
         if (it != children.end()) {
             size_t outNo = 0;
             for (size_t dst : it->second) {
-                if (!visited.contains(dst)) {
+                if (!allNodes.contains(dst)) {
                     src_vec.back() = outNo;
                     auto it3 = node_to_vector.emplace(dst, src_vec);
                     assert(it3.second);
@@ -89,18 +90,23 @@ void yaucl::structures::NAryTree::compile_vertex() {
     RoaringBitmapWrapper tmp;
     RoaringBitmapWrapper layer{roots};
     layerMap.emplace_back(roots);
-    visited = layer.get();
+    allNodes |= roots;
+    // the roots are already set to layer 0
+//    visited = layer.get();
     layer_id++;
     while (!layer.empty()) {
         for (size_t idp : layer) {
             tmp |= children.at(idp);
         }
-        tmp -= visited;
-        visited |= tmp.get();
+        tmp -= allNodes;
+        allNodes |= tmp.get();
         if (tmp.empty())
             layerMap.emplace_back(); // Empty insertion
-        else
-            layerMap.emplace_back(tmp.asVector());
+        else {
+            auto v = tmp.asVector();
+            for (const auto& x : v) node_to_layer[x] = layer_id;
+            layerMap.emplace_back(std::move(v));
+        }
         std::swap(layer, tmp);
         tmp.clear();
     }

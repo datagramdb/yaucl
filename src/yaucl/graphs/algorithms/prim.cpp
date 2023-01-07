@@ -116,7 +116,7 @@ PrimMST::primMST(const std::vector<double> &edgeId_to_weight,
             //  If v is not in MST and weight of (u,v) is smaller
             // than current key of v
             if ((!inMST[v]) && key[v] > weight) {
-                selected_edges[u] = (edgeId);
+                selected_edges[v] = (edgeId);
                 // Updating key of v
                 key[v] = weight;
                 pq.push({key[v], v});

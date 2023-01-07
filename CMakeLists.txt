@@ -46,7 +46,7 @@ add_library(yaucl_data OBJECT
         src/yaucl/data/mmapFile.cpp
         src/yaucl/data/xml.cpp include/yaucl/data/json.h src/yaucl/data/VarSizeNDPSorter.cpp src/yaucl/data/CSV2.cpp include/yaucl/data/CSV2.h)
 
-add_library(yaucl_structures OBJECT src/yaucl/structures/StringPrevNext.cpp include/yaucl/structures/StringPrevNext.h src/yaucl/structures/DoublePrevNext.cpp include/yaucl/structures/DoublePrevNext.h include/yaucl/structures/setoids/set_comparators.h include/yaucl/structures/setoids/set_partitioning.h include/yaucl/structures/setoids/basics.h include/yaucl/structures/indexed/BlockOfRecordsIndexedTable.h src/yaucl/structures/RoaringBitmapWrapper.cpp src/yaucl/structures/NAryTree.cpp include/yaucl/structures/NAryTree.h)
+add_library(yaucl_structures OBJECT src/yaucl/structures/StringPrevNext.cpp include/yaucl/structures/StringPrevNext.h src/yaucl/structures/DoublePrevNext.cpp include/yaucl/structures/DoublePrevNext.h include/yaucl/structures/setoids/set_comparators.h include/yaucl/structures/setoids/set_partitioning.h include/yaucl/structures/setoids/basics.h include/yaucl/structures/indexed/BlockOfRecordsIndexedTable.h src/yaucl/structures/RoaringBitmapWrapper.cpp src/yaucl/structures/NAryTree.cpp include/yaucl/structures/NAryTree.h include/yaucl/structures/RelationalTables.h)
 target_link_libraries(yaucl_structures roaring)
 
 add_library(yaucl_bpm OBJECT
@@ -82,3 +82,5 @@ add_library(yaucl_graph OBJECT
         src/yaucl/graphs/graph_join_pm_conversion.cpp
         src/yaucl/graphs/graph_join_pm_algorithms.cpp src/yaucl/graphs/minimizeDFA.cpp include/yaucl/graphs/algorithms/minimizeDFA.h include/yaucl/graphs/algorithms/all_cycles.h include/yaucl/graphs/algorithms/AllDirectedPaths.h src/yaucl/graphs/algorithms/prim.cpp include/yaucl/graphs/algorithms/prim.h src/yaucl/graphs/algorithms/connected_components.cpp include/yaucl/graphs/algorithms/connected_components.h)
 target_link_libraries(yaucl_graph yaucl_hashing roaring)
+
+add_executable(natural_join_examples src/examples/natural_join_examples.cpp)

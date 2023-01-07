@@ -26,7 +26,7 @@
 #ifndef KNOBAB_ASSERT_H
 #define KNOBAB_ASSERT_H
 
-#define DEBUG
+//#define DEBUG
 #ifdef DEBUG
 #include <cassert>
 #define DEBUG_ASSERT(x)     assert(x)
