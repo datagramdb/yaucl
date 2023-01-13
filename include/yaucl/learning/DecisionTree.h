@@ -32,18 +32,19 @@
 #include <limits>
 #include <iostream>
 
-namespace std {
-    template <typename T, typename K>
-    struct hash<std::pair<T, K>> {
-        std::hash<T> hT;
-        std::hash<K> hK;
-        std::size_t operator()(const std::pair<T, K>& k) const {
-            return hT(k.first) ^ hK(k.second);
-        }
-    };
+//namespace std {
+//    template <typename T, typename K>
+//    struct hash<std::pair<T, K>> {
+//        std::hash<T> hT;
+//        std::hash<K> hK;
+//        std::size_t operator()(const std::pair<T, K>& k) const {
+//            return hT(k.first) ^ hK(k.second);
+//        }
+//    };
+//
+//}
 
-}
-
+#include <yaucl/hashing/pair_hash.h>
 #include <vector>
 #include <array>
 #include <string>
