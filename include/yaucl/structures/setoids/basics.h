@@ -134,6 +134,8 @@ std::unordered_set<std::unordered_set<T>> cartesian_product(const std::vector<st
     return result;
 }
 
+#include <functional>
+
 template <typename T>
 void cartesian_product( const std::vector<std::vector<T>> & v, std::function<void(const std::vector<T>&)>& function) {
     const long long N = std::accumulate( v.begin(), v.end(), 1LL, []( long long a, const std::vector<T>& b ) { return a*b.size(); } );

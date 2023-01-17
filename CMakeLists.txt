@@ -4,16 +4,14 @@ set(CMAKE_CXX_STANDARD 23)
 # For Windows: Prevent overriding the parent project's compiler/linker settings
 
 include_directories(submodules/rapidcsv/src)
-
 include_directories(submodules/yaucl/submodules/json/include)
 include_directories(submodules/magic_enum/include)
 include_directories(submodules/CRoaring/include)
 include_directories(submodules/CRoaring/cpp)
 add_subdirectory(submodules/CRoaring)
-
-add_subdirectory(submodules/antlr4/runtime/Cpp)
-include_directories(submodules/antlr4/runtime/Cpp/runtime/src)
-include_directories(antlr4/cpp/antlr4)
+#add_subdirectory(submodules/antlr4/runtime/Cpp)
+#include_directories(submodules/antlr4/runtime/Cpp/runtime/src)
+#include_directories(antlr4/cpp/antlr4)
 
 include_directories(include)
 
@@ -44,26 +42,42 @@ add_library(yaucl_data OBJECT
         src/yaucl/data/new_iovec.cpp
         src/yaucl/data/MemoryMappingFile.cpp
         src/yaucl/data/mmapFile.cpp
-        src/yaucl/data/xml.cpp include/yaucl/data/json.h src/yaucl/data/VarSizeNDPSorter.cpp src/yaucl/data/CSV2.cpp include/yaucl/data/CSV2.h)
+        src/yaucl/data/VariadicSizeArrayElements.cpp
+        src/yaucl/data/VarSizeNDPSorter.cpp
+        src/yaucl/data/xml.cpp
+        include/yaucl/data/json.h
+        src/yaucl/data/VarSizeNDPSorter.cpp
+        src/yaucl/data/CSV2.cpp include/yaucl/data/CSV2.h)
 
 add_library(yaucl_structures OBJECT src/yaucl/structures/StringPrevNext.cpp include/yaucl/structures/StringPrevNext.h src/yaucl/structures/DoublePrevNext.cpp include/yaucl/structures/DoublePrevNext.h include/yaucl/structures/setoids/set_comparators.h include/yaucl/structures/setoids/set_partitioning.h include/yaucl/structures/setoids/basics.h include/yaucl/structures/indexed/BlockOfRecordsIndexedTable.h src/yaucl/structures/RoaringBitmapWrapper.cpp src/yaucl/structures/NAryTree.cpp include/yaucl/structures/NAryTree.h include/yaucl/structures/RelationalTables.h)
 target_link_libraries(yaucl_structures roaring)
 
 add_library(yaucl_bpm OBJECT
-        src/yaucl/bpm/algos/atomization/AtomizingPipeline.cpp
+        src/yaucl/bpm/structures/log/DataTraceParse.cpp
+                src/yaucl/bpm/structures/log/TracesParser.cpp
+                ./src/yaucl/bpm/structures/log/TracesLexer.cpp
+                ./src/yaucl/bpm/structures/log/TracesBaseListener.cpp
+                ./src/yaucl/bpm/structures/log/TracesBaseVisitor.cpp
+                ./src/yaucl/bpm/structures/log/TracesListener.cpp
+                ./src/yaucl/bpm/structures/log/TracesVisitor.cpp
         src/yaucl/bpm/structures/commons/DeclareDataAware.cpp
         src/yaucl/bpm/structures/commons/DataPredicate.cpp
         src/yaucl/bpm/structures/ltlf/PropositionalizedAtomsSet.cpp
          src/yaucl/bpm/structures/commons/testing_predicates.cpp
         src/yaucl/bpm/structures/ltlf/easy_prop.cpp
-        src/yaucl/bpm/structures/ltlf/ltlf.cpp)
+        src/yaucl/bpm/structures/ltlf/ltlf.cpp
+        src/yaucl/bpm/structures/log/data_loader.cpp)
 
+add_library(yaucl_bpm_new_atomization
+        src/yaucl/bpm/algos/atomization/AtomizingPipeline.cpp)
 
 set(CMAKE_CXX_STANDARD 23)
 
 
 
-
+add_library(yaucl_numeric STATIC
+        src/yaucl/numeric/numeric_base.cpp
+        include/yaucl/numeric/numeric_base.h)
 
 
 add_library(yaucl_graph OBJECT
