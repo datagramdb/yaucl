@@ -9,9 +9,9 @@ include_directories(submodules/magic_enum/include)
 include_directories(submodules/CRoaring/include)
 include_directories(submodules/CRoaring/cpp)
 add_subdirectory(submodules/CRoaring)
-#add_subdirectory(submodules/antlr4/runtime/Cpp)
-#include_directories(submodules/antlr4/runtime/Cpp/runtime/src)
-#include_directories(antlr4/cpp/antlr4)
+add_subdirectory(submodules/antlr4/runtime/Cpp)
+include_directories(submodules/antlr4/runtime/Cpp/runtime/src)
+include_directories(antlr4/cpp/antlr4)
 
 include_directories(include)
 
