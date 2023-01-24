@@ -53,6 +53,7 @@ add_library(yaucl_structures OBJECT src/yaucl/structures/StringPrevNext.cpp incl
 target_link_libraries(yaucl_structures roaring)
 
 add_library(yaucl_bpm OBJECT
+        SimpleXESSerializer.cpp
         src/yaucl/bpm/structures/log/DataTraceParse.cpp
                 src/yaucl/bpm/structures/log/TracesParser.cpp
                 ./src/yaucl/bpm/structures/log/TracesLexer.cpp
@@ -94,7 +95,22 @@ add_library(yaucl_graph OBJECT
         include/yaucl/graphs/graph_join_pm.h
         include/yaucl/graphs/graph_join_pm.h
         src/yaucl/graphs/graph_join_pm_conversion.cpp
-        src/yaucl/graphs/graph_join_pm_algorithms.cpp src/yaucl/graphs/minimizeDFA.cpp include/yaucl/graphs/algorithms/minimizeDFA.h include/yaucl/graphs/algorithms/all_cycles.h include/yaucl/graphs/algorithms/AllDirectedPaths.h src/yaucl/graphs/algorithms/prim.cpp include/yaucl/graphs/algorithms/prim.h src/yaucl/graphs/algorithms/connected_components.cpp include/yaucl/graphs/algorithms/connected_components.h)
-target_link_libraries(yaucl_graph yaucl_hashing roaring)
+        src/yaucl/graphs/graph_join_pm_algorithms.cpp
+        src/yaucl/graphs/minimizeDFA.cpp
+        include/yaucl/graphs/algorithms/minimizeDFA.h
+        include/yaucl/graphs/algorithms/all_cycles.h
+        include/yaucl/graphs/algorithms/AllDirectedPaths.h
+        src/yaucl/graphs/algorithms/prim.cpp
+        include/yaucl/graphs/algorithms/prim.h
+        src/yaucl/graphs/algorithms/connected_components.cpp
+        include/yaucl/graphs/algorithms/connected_components.h
+        src/yaucl/graphs/dot/DOTLexer.cpp
+        src/yaucl/graphs/dot/DOTParser.cpp
+        src/yaucl/graphs/dot/DOTVisitor.cpp
+        src/yaucl/graphs/flloat/FLLOATPropLexer.cpp
+        src/yaucl/graphs/flloat/FLLOATPropParser.cpp
+        src/yaucl/graphs/flloat/FLLOATPropVisitor.cpp
+        src/yaucl/graphs/flloat/ParseFFLOATDot.cpp include/yaucl/graphs/flloat/ParseFFLOATDot.h src/yaucl/graphs/flloat/FLLOATSimplePropParser.cpp include/yaucl/graphs/flloat/FLLOATSimplePropParser.h)
+target_link_libraries(yaucl_graph yaucl_hashing roaring antlr4_static)
 
-add_executable(natural_join_examples src/examples/natural_join_examples.cpp)
+add_executable(natural_join_examples src/examples/natural_join_examples.cpp )

@@ -66,7 +66,7 @@ void parse_event(rapidxml::xml_node<>* event, trace_visitor* tv, bool load_data)
     std::string trace_name = std::to_string(event_id);
     XML_SCAN_STEPS event_start = XML_SCAN_STEPS::LABELS_TRACE_INFO;
     const auto p1 = std::chrono::system_clock::now();
-    unsigned long long int timestamp = std::chrono::duration_cast<std::chrono::hours>(p1.time_since_epoch()).count();
+    unsigned long long int timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(p1.time_since_epoch()).count();
 
     SIBLING_ITERATE2(t, event) {
         std::string tag_name  = t->name();

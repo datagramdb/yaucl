@@ -475,7 +475,7 @@ public:
 
     FlexibleFA<size_t, NodeElement> shiftLabelsToEdges() const {
 
-        std::cout << "Shifting" << std::endl;
+//        std::cout << "Shifting" << std::endl;
         FlexibleFA<size_t, NodeElement> result;
         size_t start = result.addNewNodeWithLabel(-1);
         std::unordered_map<size_t, size_t> node_id_conversion;
@@ -677,6 +677,7 @@ public:
                 }
             }
         }
+//        result.dot(std::cout); std::cout << std::endl;
         if (doPruning) result.pruneUnreachableNodes();
         return result;
     }

@@ -149,6 +149,7 @@ std::ostream &operator<<(std::ostream &os, const DataPredicate &predicate) {
 }
 
 std::string prev_char(const std::string &val, size_t max_size) {
+
     static const char MIN_CHAR = static_cast<char>(std::numeric_limits<unsigned char>::min()+1);
     static const char MAX_CHAR = static_cast<char>(std::numeric_limits<unsigned char>::max());
     if (val.empty()) return val;
@@ -163,6 +164,55 @@ std::string prev_char(const std::string &val, size_t max_size) {
         result += std::string(max_size - result.size(), MAX_CHAR);
     }
     return result;
+}
+
+std::string prev_printable_char(const std::string &val, size_t max_size) {
+    static const char MIN_CHAR = static_cast<char>(33);
+    static const char MAX_CHAR = static_cast<char>(126);
+    if (val.empty()) return val;
+
+    std::string result = val;
+    size_t idx = val.size()-1;
+    char last_char = val.at(idx);
+    if (last_char == MIN_CHAR) {
+        result.pop_back();
+    } else {
+        result[val.size()-1] = last_char-1;
+        result += std::string(max_size - result.size(), MAX_CHAR);
+    }
+    return result;
+}
+
+std::string next_printable_char(const std::string &val, size_t max_size) {
+    static const char MIN_CHAR = static_cast<char>(33);
+    static const char MAX_CHAR = static_cast<char>(126);
+    if (val == DataPredicate::MAX_STRING) return val;
+
+    std::string next = val;
+    size_t idx = next.size();
+    if (idx < max_size) {
+        next += MIN_CHAR;
+    } else {
+        idx--;
+        if (next.at(idx) != MAX_CHAR) {
+            next[idx]++;
+            return next;
+        } else {
+            while (!next.empty()) {
+                if (next.at(idx) != MAX_CHAR) {
+                    next[idx]++;
+                    return next;
+                } else {
+                    next.pop_back();
+                    idx--;
+                }
+            }
+            if (next.empty())
+                return DataPredicate::MAX_STRING;
+        }
+
+    }
+    return next;
 }
 
 std::string next_char(const std::string &val, size_t max_size) {
