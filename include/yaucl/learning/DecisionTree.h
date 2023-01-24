@@ -262,6 +262,38 @@ public:
         }
     }
 
+    void populate_children_predicates(std::unordered_map<int, std::vector<std::vector<dt_predicate>>> &ret,
+                                      std::unordered_map<int, std::vector<dt_predicate>> container = std::unordered_map<int, std::vector<dt_predicate>>(),
+                                      int current = 0) const {
+        if(!isLeaf) {
+            auto it = container.find(current);
+            if (it != container.end()){
+                it->second.push_back(candidate.first);
+            }
+            else{
+                container.insert({current, {candidate.first}});
+            }
+
+            if(const DecisionTree* left = getSatisfyingConditionSplit()){
+                left->populate_children_predicates(ret, container, current);
+            }
+            if(const DecisionTree* right = getUnsatisfyingConditionSplit()){
+                right->populate_children_predicates(ret, container, current);
+            }
+        }
+        else{
+            auto it = ret.find(majority_class);
+            if (it != ret.end()){
+                it->second.push_back(container.find(current)->second);
+            }
+            else{
+                ret.insert({majority_class, {container.find(current)->second}});        // THis will only happen on labels occurring > 1
+            }
+
+            current++;
+        }
+    }
+
     DecisionTree(typename  std::vector<std::pair<T,int>>::iterator& begin,
                  typename  std::vector<std::pair<T,int>>::iterator& end,
                  size_t max_class_id,
