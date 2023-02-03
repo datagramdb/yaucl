@@ -368,6 +368,46 @@ public:
         return os;
     }
 
+    void dot_for_java_aligner(std::ostream& os) const {
+        os << "digraph {" << std::endl;
+        auto actual_initial = initial_nodes - removed_nodes;
+        if (actual_initial.cardinality() != 1) {
+            throw std::runtime_error("ERROR: for the java aligner, we shall have just one initial state!");
+        }
+        for (size_t node_id : actual_initial) {
+            if (removed_nodes.contains(node_id)) continue;
+            os << "\tfake"  << " [style=invisible]" << std::endl;
+        }
+        for (uint64_t node_id : getNodeIds()) {
+            if (removed_nodes.contains(node_id)) continue;
+            os << '\t' << node_id;
+            bool hasFinal = final_nodes.contains(node_id);
+            bool hasInitial = initial_nodes.contains(node_id);
+            if (hasFinal || hasInitial) {
+                os << " [";
+                if (hasInitial)
+                    os << "root=true ";
+                if (hasFinal) {
+                    os << "shape=doublecircle ";
+                }
+                os << "]";
+            }
+            os << std::endl;
+        }
+        for (size_t node_id : actual_initial) {
+            os << "\tfake"  << " -> " << node_id << " [style=bold]" << std::endl;
+        }
+        for (size_t node_id : getNodeIds()) {
+            if (removed_nodes.contains(node_id)) continue;
+            for (const std::pair<EdgeLabel, int>& edge : outgoingEdges(node_id)) {
+                os << '\t' << node_id << " -> " << edge.second;
+                os << " [label=" << edge.first << "]";
+                os << std::endl;
+            }
+        }
+        os << "}";
+    }
+
     void dot(std::ostream& os, bool ignoreEdgeLabels = false) const {
         os << "digraph {\nrankdir=LR;\n";
         /*"    rankdir=LR;\n"

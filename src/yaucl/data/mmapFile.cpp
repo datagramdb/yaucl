@@ -72,7 +72,7 @@ void* mmapFile(std::string file, unsigned long* size, mmap_file* fd) {
 
     lpBasePtr = MapViewOfFile(
             fd->hMap,
-            FILE_MAP_READ,         // dwDesiredAccess
+            FILE_MAP_READ|FILE_MAP_WRITE,         // dwDesiredAccess
             0,                     // dwFileOffsetHigh
             0,                     // dwFileOffsetLow
             0);                    // dwNumberOfBytesToMap
