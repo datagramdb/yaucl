@@ -3,8 +3,9 @@ project(yaucl)
 set(CMAKE_CXX_STANDARD 23)
 # For Windows: Prevent overriding the parent project's compiler/linker settings
 
+include_directories(submodules/date/include)
 include_directories(submodules/rapidcsv/src)
-include_directories(submodules/yaucl/submodules/json/include)
+include_directories(submodules/json/include)
 include_directories(submodules/magic_enum/include)
 include_directories(submodules/CRoaring/include)
 include_directories(submodules/CRoaring/cpp)
@@ -53,6 +54,13 @@ add_library(yaucl_structures OBJECT src/yaucl/structures/StringPrevNext.cpp incl
 target_link_libraries(yaucl_structures roaring)
 
 add_library(yaucl_bpm OBJECT
+        src/yaucl/graphs/flloat/FLLOATPropLexer.cpp
+        src/yaucl/graphs/flloat/FLLOATPropParser.cpp
+        src/yaucl/graphs/flloat/FLLOATPropVisitor.cpp
+        src/yaucl/graphs/flloat/ParseFFLOATDot.cpp
+        include/yaucl/graphs/flloat/ParseFFLOATDot.h
+        src/yaucl/graphs/flloat/FLLOATSimplePropParser.cpp
+        include/yaucl/graphs/flloat/FLLOATSimplePropParser.h
         SimpleXESSerializer.cpp
         src/yaucl/bpm/structures/log/DataTraceParse.cpp
                 src/yaucl/bpm/structures/log/TracesParser.cpp
@@ -107,10 +115,7 @@ add_library(yaucl_graph OBJECT
         src/yaucl/graphs/dot/DOTLexer.cpp
         src/yaucl/graphs/dot/DOTParser.cpp
         src/yaucl/graphs/dot/DOTVisitor.cpp
-        src/yaucl/graphs/flloat/FLLOATPropLexer.cpp
-        src/yaucl/graphs/flloat/FLLOATPropParser.cpp
-        src/yaucl/graphs/flloat/FLLOATPropVisitor.cpp
-        src/yaucl/graphs/flloat/ParseFFLOATDot.cpp include/yaucl/graphs/flloat/ParseFFLOATDot.h src/yaucl/graphs/flloat/FLLOATSimplePropParser.cpp include/yaucl/graphs/flloat/FLLOATSimplePropParser.h)
-target_link_libraries(yaucl_graph yaucl_hashing roaring antlr4_static)
+)
+target_link_libraries(yaucl_graph  yaucl_hashing roaring antlr4_static)
 
 add_executable(natural_join_examples src/examples/natural_join_examples.cpp )

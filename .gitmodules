@@ -14,3 +14,6 @@
 [submodule "submodules/rapidcsv"]
 	path = submodules/rapidcsv
 	url = https://github.com/d99kris/rapidcsv
+[submodule "submodules/date"]
+	path = submodules/date
+	url = https://github.com/HowardHinnant/date

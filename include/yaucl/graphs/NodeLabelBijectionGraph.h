@@ -27,6 +27,8 @@
 #define GRAPHOS_GRAPH_H
 
 #include <yaucl/functional/assert.h>
+#include <roaring64map.hh>
+#include <set>
 #include <yaucl/graphs/adjacency_graph.h>
 #include <unordered_map>
 #include <optional>
@@ -131,6 +133,14 @@ public:
             m[g.edge_from_id(edge).second].insert(costMap.at(edge));
         }
         return m;
+    }
+
+    virtual std::vector<std::pair<EdgeLabel, size_t>> outgoingEdgesById2(size_t srcNode) const {
+        std::vector<std::pair<EdgeLabel, size_t>> outgoings;
+        for (const size_t & edge : g.getOutgoingEdgesId(srcNode)) {
+            outgoings.emplace_back(costMap.at(edge), g.edge_from_id(edge).second);
+        }
+        return outgoings;
     }
 
     virtual std::vector<std::pair<EdgeLabel, size_t>> outgoingEdges(size_t srcNode) const {
