@@ -33,6 +33,9 @@
 #include <ostream>
 #include <roaring64map.hh>
 #include <yaucl/numeric/ssize_t.h>
+#include <stack>
+#include "yaucl/structures/stack_container.h"
+
 
 struct adjacency_graph {
     size_t V_size, E_size;
@@ -69,12 +72,59 @@ struct adjacency_graph {
         V_size = E_size = 0;
     }
 
+    std::unordered_map<size_t, std::vector<size_t>> topological_sort(ssize_t start_from) {
+        roaring::Roaring64Map visited;
+        std::vector<size_t> Stack;
+        if (start_from > 0) {
+            topologicalSortUtil(start_from, visited, Stack);
+        }
+        for (size_t i = 0; i < V_size; i++)
+            if (!visited.contains(i))
+                topologicalSortUtil(i, visited, Stack);
+        std::unordered_map<size_t, size_t> time;
+        std::unordered_map<size_t, std::vector<size_t>> time_to_node;
+        bool firstVisit = true;
+        std::reverse(Stack.begin(), Stack.end());
+        for (size_t v : Stack) {
+            if (firstVisit) {
+                time[v] = 0;
+                firstVisit = false;
+            } else {
+                time[v] = 0;
+                auto it = ingoing_edges.find(v);
+                if (it != ingoing_edges.end()) {
+                    for (size_t edgeId : it->second)
+                        time[v] = std::max(time[edge_ids.at(edgeId).first], time[v]);
+                    time[v]++;
+                }
+            }
+        }
+        for (const auto& ref : time)
+            time_to_node[ref.second].emplace_back(ref.first);
+        return time_to_node;
+    }
     void dot(std::ostream& os);
 
     bool operator==(const adjacency_graph &rhs) const;
     bool operator!=(const adjacency_graph &rhs) const;
 
 private:
+    void topologicalSortUtil(size_t v, roaring::Roaring64Map& visited,
+                        std::vector<size_t>& Stack)
+    {
+        // Mark the current node as visited.
+        visited.add(v);
+
+        // Recur for all the vertices adjacent to this vertex
+        for (size_t edge_id: nodes.at(v)) {
+            size_t i = edge_ids.at(edge_id).second;
+            if (!visited.contains(i))
+                topologicalSortUtil(i, visited, Stack);
+        }
+
+        // Push current vertex to stack which stores result
+        Stack.emplace_back(v);
+    }
     void printAllPathsUtil(size_t u, size_t d, std::unordered_set<size_t>& visited, std::vector<ssize_t>& path, size_t path_index, std::unordered_set<size_t>& visited_src_dst, std::unordered_set<size_t>& global);
     const static std::vector<size_t> emptyVector;
 };
