@@ -460,56 +460,69 @@ public:
     void removeStatesNotLeadingToAcceptance() {
         //return;
 #if 1
-        std::unordered_set<size_t> reached, all;
-        auto allNodeIds = getNodeIds();
-        all.insert(allNodeIds.begin(), allNodeIds.end());
-
-        // Preserving only the nodes reachable from the initial nodes potentially leading to final states
-        for (size_t initial : getNodeIds()) {
-            roaring::Roaring64Map visited_src_dst;
-            adjacency_graph_DFSUtil(initial, FlexibleGraph<NodeElement, EdgeLabel>::g, visited_src_dst);
-//            FlexibleGraph<NodeElement, EdgeLabel>::g.DFSUtil(initial, visited_src_dst);
-            if (!(visited_src_dst & final_nodes).isEmpty())//Preserving the nodes only if I am able to at least reach one final state
-                reached.insert(initial);
+//        std::unordered_set<size_t> reached, all;
+//        auto allNodeIds = getNodeIds();
+//        all.insert(allNodeIds.begin(), allNodeIds.end());
+        roaring::Roaring64Map visited_src_dst = initial_nodes;
+        visited_src_dst -= removed_nodes;
+        for (size_t start : final_nodes) {
+            if (!removed_nodes.contains(start)) {
+                adjacency_graph_DFSUtil(start, FlexibleGraph<NodeElement, EdgeLabel>::g, visited_src_dst);
+            }
         }
+        roaring::Roaring64Map candidatesForRemoval;
+        candidatesForRemoval.addRangeClosed(0, FlexibleGraph<NodeElement, EdgeLabel>::g.V_size-1);
+        candidatesForRemoval -= visited_src_dst;
+        final_nodes -= candidatesForRemoval;
+        removed_nodes |= candidatesForRemoval;
 
-        std::unordered_set<size_t> candidatesForRemoval = unordered_difference(all, reached);
 
-        // std::cerr << "Removal candidates: #" << candidatesForRemoval.size() << std::endl;
-        for (size_t nodeToBeRemoved : candidatesForRemoval) {
-            removed_nodes.add(nodeToBeRemoved);
-            initial_nodes.remove(nodeToBeRemoved);
-            final_nodes.remove(nodeToBeRemoved);
-        }
+//        // Preserving only the nodes reachable from the initial nodes potentially leading to final states
+//        for (size_t initial : getNodeIds()) {
+//            roaring::Roaring64Map visited_src_dst;
+//            adjacency_graph_DFSUtil(initial, FlexibleGraph<NodeElement, EdgeLabel>::g, visited_src_dst);
+////            FlexibleGraph<NodeElement, EdgeLabel>::g.DFSUtil(initial, visited_src_dst);
+//            if (!(visited_src_dst & final_nodes).isEmpty())//Preserving the nodes only if I am able to at least reach one final state
+//                reached.insert(initial);
+//        }
+//
+//        std::unordered_set<size_t> candidatesForRemoval = unordered_difference(all, reached);
+//        // std::cerr << "Removal candidates: #" << candidatesForRemoval.size() << std::endl;
+//        for (size_t nodeToBeRemoved : candidatesForRemoval) {
+//            removed_nodes.add(nodeToBeRemoved);
+//            initial_nodes.remove(nodeToBeRemoved);
+//            final_nodes.remove(nodeToBeRemoved);
+//        }
 #endif
     }
 
     void pruneUnreachableNodes() {
         //return;
+        removeStatesNotLeadingToAcceptance();
 #if 1
-        std::unordered_set<size_t> reached, all;
-        auto allNodeIds = getNodeIds();
-        all.insert(allNodeIds.begin(), allNodeIds.end());
-
-        // Preserving only the nodes reachable from the initial nodes potentially leading to final states
-        for (size_t initial : initial_nodes) {
-            roaring::Roaring64Map visited_src_dst;
-            adjacency_graph_DFSUtil(initial, FlexibleGraph<NodeElement, EdgeLabel>::g, visited_src_dst);
-            if (!(visited_src_dst & final_nodes).isEmpty())//Preserving the nodes only if I am able to at least reach one final state
-                reached.insert(visited_src_dst.begin(), visited_src_dst.end());
-        }
-
-        std::unordered_set<size_t> candidatesForRemoval = unordered_difference(all, reached);
-
-        // std::cerr << "Removal candidates: #" << candidatesForRemoval.size() << std::endl;
-        for (size_t nodeToBeRemoved : candidatesForRemoval) {
-            removed_nodes.add(nodeToBeRemoved);
-            initial_nodes.remove(nodeToBeRemoved);
-            final_nodes.remove(nodeToBeRemoved);
-            /*std::vector<size_t>& vec = FlexibleGraph<NodeElement, EdgeLabel>::nodeLabelInv.at(
-                    FlexibleGraph<NodeElement, EdgeLabel>::getNodeLabel(nodeToBeRemoved));
-            vec.erase(std::remove(vec.begin(), vec.end(), nodeToBeRemoved), vec.end());*/
-        }
+//        std::unordered_set<size_t> reached, all;
+//        auto allNodeIds = getNodeIds();
+//        all.insert(allNodeIds.begin(), allNodeIds.end());
+//
+//        // Preserving only the nodes reachable from the initial nodes potentially leading to final states
+//        for (size_t initial : initial_nodes) {
+//            roaring::Roaring64Map visited_src_dst;
+//            adjacency_graph_DFSUtil(initial, FlexibleGraph<NodeElement, EdgeLabel>::g, visited_src_dst);
+//            if (!(visited_src_dst & final_nodes).isEmpty())//Preserving the nodes only if I am able to at least reach one final state
+//                reached.insert(visited_src_dst.begin(), visited_src_dst.end());
+//        }
+//
+//        std::unordered_set<size_t> candidatesForRemoval = unordered_difference(all, reached);
+//
+//        // std::cerr << "Removal candidates: #" << candidatesForRemoval.size() << std::endl;
+//        for (size_t nodeToBeRemoved : candidatesForRemoval) {
+//            removed_nodes.add(nodeToBeRemoved);
+//            initial_nodes.remove(nodeToBeRemoved);
+//            final_nodes.remove(nodeToBeRemoved);
+//            /*std::vector<size_t>& vec = FlexibleGraph<NodeElement, EdgeLabel>::nodeLabelInv.at(
+//                    FlexibleGraph<NodeElement, EdgeLabel>::getNodeLabel(nodeToBeRemoved));
+//            vec.erase(std::remove(vec.begin(), vec.end(), nodeToBeRemoved), vec.end());*/
+//        }
 #endif
     }
 

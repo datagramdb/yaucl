@@ -9,7 +9,7 @@
 #include "yaucl/data/linked_list.h"
 #include "yaucl/data/malloc_freelist.h"
 
-#include <yaucl/data/MemoryMappingFile.h>
+#include "yaucl/data/MemoryMappingFile.h"
 
 class SecondaryMemoryMalloc {
     std::string path;

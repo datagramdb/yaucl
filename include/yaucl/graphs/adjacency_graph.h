@@ -80,6 +80,8 @@ private:
 };
 
 
+void adjacency_graph_inv_DFSUtil(size_t src, const adjacency_graph& ag, roaring::Roaring64Map &visited) ;
+
 void adjacency_graph_DFSUtil(size_t src, const adjacency_graph& ag, roaring::Roaring64Map &visited) ;
 
 void adjacency_graph_DFSUtil_with_edge_prop(size_t src,

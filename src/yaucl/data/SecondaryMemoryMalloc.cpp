@@ -2,7 +2,7 @@
 // Created by giacomo on 02/02/23.
 //
 
-#include "SecondaryMemoryMalloc.h"
+#include "yaucl/data/SecondaryMemoryMalloc.h"
 #include "yaucl/data/malloc_freelist.h"
 #include <fstream>
 #include <filesystem>
