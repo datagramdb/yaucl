@@ -102,6 +102,8 @@ struct AllCycles {
         arrayE.reserve(graph.vSize());
         for (size_t i : graph.getNodeIds()) {
             if (!visited.contains(i)) {
+                DEBUG_ASSERT(arrayV.empty());
+                DEBUG_ASSERT(arrayE.empty());
                 dfsLoopVisitWithEdges(i, -1, arrayV, arrayE);
             }
         }
@@ -195,13 +197,22 @@ private:
                     if (it != stack_vector_array.end()) {
                         // If it is present in the stack, then I found a loop
                         size_t dist = it - beg; // offset in the vertex set
-                        DEBUG_ASSERT(dist>0);
+//                        DEBUG_ASSERT(dist>0);
+
+#ifdef DEBUG
+                        if (stack_edge_array.size() > stack_vector_array.size()) {
+                            std::cout << "tu quoque" << std::endl;
+                        }
+#endif
+                        DEBUG_ASSERT(stack_edge_array.size() <= stack_vector_array.size());
+
                         // the one in the edges set is that, minus one
                         cycles_of_vertices.emplace_back(it, stack_vector_array.end());
                         auto& ite = cycles_of_edges.emplace_back(stack_edge_array.begin()+(dist), stack_edge_array.end());
+
                         ite.emplace_back(out_edge_id);
 #ifdef DEBUG
-                        std::vector<size_t> element;
+                        std::vector<size_t> element;/*if (!hasSol)*/
                         for (size_t i = 0; i<ite.size(); i++) {
                             const auto& cp = graph.g.edge_ids.at(ite.at(i));
                             if (i == 0)
@@ -221,7 +232,7 @@ private:
         }
 
         stack_vector_array.pop_back();
-        stack_edge_array.pop_back();
+        if (edge_id != -1) stack_edge_array.pop_back();
     }
 
 };

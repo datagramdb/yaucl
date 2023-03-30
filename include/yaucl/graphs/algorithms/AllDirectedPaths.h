@@ -104,6 +104,10 @@ private:
             visited.add(u);
             // Mark the current node and store it in path[]
             if (edge_id != -1) {
+//#ifdef DEBUG
+//                if (path_index == 0)
+//                    DEBUG_ASSERT(graph.g.edge_ids.at((size_t)edge_id).first == src);
+//#endif
                 path[path_index] = (size_t)edge_id;
                 path_index++;
             }
@@ -118,9 +122,10 @@ private:
             } else {
                 // Recur for all the vertices adjacent to current vertex
                 bool insertion = false;
-                nextElements.emplace_back(u, -1);
+                nextElements.emplace_back(u, -1, -1);
                 for (const size_t & out_edge_id : graph.g.getOutgoingEdgesId(u)) {
                     auto &ref = graph.g.edge_from_id(out_edge_id).second;
+//                    DEBUG_ASSERT( graph.g.edge_from_id(out_edge_id).first == u);
                     if ((!graph.removed_nodes.contains(ref)) && (!graph.removed_edges.contains(out_edge_id))) {
                         if (!visited.contains(ref)) {
                             nextElements.emplace_back(ref, out_edge_id, path_index);

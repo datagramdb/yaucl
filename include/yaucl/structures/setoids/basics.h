@@ -309,4 +309,22 @@ void remove_index(std::vector<T>& vector, const S& to_remove)
     vector.resize(vector.size() - to_remove.size());
 }
 
+template <class C, class V>
+auto append(C& container, V&& value, int)
+-> decltype(container.push_back(std::forward<V>(value)), void())
+{
+    container.push_back(std::forward<V>(value));
+}
+
+template <class C, class V>
+void append(C& container, V&& value, ...)
+{
+    container.insert(std::forward<V>(value));
+}
+
+template <class C, class V>
+void AddToContainer(C& container, V&& value) {
+    append(container, std::forward<V>(value), 0);
+}
+
 #endif //KNOBAB_SERVER_BASICS_H

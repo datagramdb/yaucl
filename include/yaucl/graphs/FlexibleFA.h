@@ -408,7 +408,7 @@ public:
         os << "}";
     }
 
-    void dot(std::ostream& os, bool ignoreEdgeLabels = false) const {
+    void dot(std::ostream& os, bool ignoreEdgeLabels = false, bool ignoreNodeLabels = false) const {
         os << "digraph {\nrankdir=LR;\n";
         /*"    rankdir=LR;\n"
         "    size=\"8,5\"\n";*/
@@ -430,7 +430,10 @@ public:
                 }
 
             }
-            os << "label=\"" << getNodeLabel(node_id) <<"\"";
+            if (ignoreNodeLabels)
+                 os << "label=\"" << node_id <<"\"";
+            else
+                os << "label=\"" << getNodeLabel(node_id) <<"\"";
             os << "]" << std::endl;
             /*std::string shape = "circle";
             if (final_nodes.contains(node_id)) {
@@ -447,11 +450,15 @@ public:
         }
         for (size_t node_id : getNodeIds()) {
             if (removed_nodes.contains(node_id)) continue;
-            for (const std::pair<EdgeLabel, int>& edge : outgoingEdges(node_id)) {
-                os << '\t' << node_id << " -> " << edge.second;
-                if (!ignoreEdgeLabels)
-                    os << " [label=" << edge.first << "]";
-                os << std::endl;
+            for (const size_t & edge : FlexibleGraph<NodeElement, EdgeLabel>::g.getOutgoingEdgesId(node_id)) {
+                auto& ref = FlexibleGraph<NodeElement, EdgeLabel>::g.edge_from_id(edge).second;
+                if ((!removed_nodes.contains(ref)) && (!removed_edges.contains(edge))) {
+                    os << '\t' << node_id << " -> " << FlexibleGraph<NodeElement, EdgeLabel>::g.edge_from_id(edge).second;
+                    if (!ignoreEdgeLabels)
+                        os << " [label=" << FlexibleGraph<NodeElement, EdgeLabel>::costMap.at(edge) << "_" << edge << "]";
+                    else
+                        os << " [label=" << edge << "]";
+                }
             }
         }
         os << "}";
