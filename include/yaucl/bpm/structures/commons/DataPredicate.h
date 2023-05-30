@@ -68,6 +68,8 @@ numeric_atom_cases invert_predicate_direction(numeric_atom_cases val);
 
 std::string prev_char(const std::string& val, size_t max_size);
 std::string next_char(const std::string& val, size_t max_size);
+std::string next_printable_char(const std::string& val, size_t max_size);
+std::string prev_printable_char(const std::string& val, size_t max_size);
 
 #define     PREV_DOUBLE(x_val)  (std::nextafter((x_val), -DBL_MAX))
 #define     NEXT_DOUBLE(x_val)  (std::nextafter((x_val),  DBL_MAX))

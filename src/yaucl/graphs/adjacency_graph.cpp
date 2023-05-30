@@ -129,6 +129,27 @@ bool adjacency_graph::operator!=(const adjacency_graph &rhs) const {
 
 #include <stack>
 
+void adjacency_graph_inv_DFSUtil(size_t src,
+                             const adjacency_graph& ag,
+                             roaring::Roaring64Map &visited) {
+    // TODO: if (visited.contains(src)) return;
+    std::stack<size_t> stack;
+    stack.push(src);
+    while (!stack.empty()) {
+        size_t s = stack.top();
+        stack.pop();
+        visited.add(s);
+        auto it = ag.ingoing_edges.find(src);
+        if (it != ag.ingoing_edges.end()) {
+            for (size_t edge_id: it->second) {
+                size_t src = ag.edge_ids.at(edge_id).first;
+                if (!visited.contains(src))
+                    stack.push(src);
+            }
+        }
+    }
+}
+
 void adjacency_graph_DFSUtil(size_t src,
                              const adjacency_graph& ag,
                              roaring::Roaring64Map &visited) {
@@ -145,7 +166,6 @@ void adjacency_graph_DFSUtil(size_t src,
                 stack.push(dst);
         }
     }
-
 }
 
 

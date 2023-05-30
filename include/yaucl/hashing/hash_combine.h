@@ -58,8 +58,11 @@ namespace yaucl {
 
         template <class T> size_t hash_combine(const std::size_t seed, const T& v)
         {
-
-            return std::rotl(seed,std::numeric_limits<size_t>::digits/3) ^ distribute((uint32_t)(std::hash<T>()(v)));
+            uint32_t tmp = std::hash<T>()(v);
+            uint32_t p = 0x55555555ul; // pattern of alternating 0 and 1
+            uint32_t c = 3423571495ul; // random uneven integer constant;
+            tmp = c*xorshift(p*xorshift(tmp,16),16);
+            return std::rotl(seed,std::numeric_limits<size_t>::digits/3) ^ tmp;
         }
     }
 }

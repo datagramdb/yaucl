@@ -49,7 +49,7 @@ namespace yaucl {
                 else
                     return -1;
             }
-            size_t get(const T& elem) const {
+            size_t getKey(const T& elem) const {
                 auto it = T_to_int.find(elem);
                 if (it != T_to_int.end())
                     return it->second;
@@ -57,9 +57,15 @@ namespace yaucl {
                     throw std::runtime_error("Unkown key");
                 }
             }
-            const T&  get(size_t elem) const {
+            const T&  getValue(size_t elem) const {
                 DEBUG_ASSERT(int_to_T.size() > elem);
                 return int_to_T.at(elem);
+            }
+            size_t get(const T& elem) const {
+                return getKey(elem);
+            }
+            const T&  get(size_t elem) const {
+                return getValue(elem);
             }
         };
     }

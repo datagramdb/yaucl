@@ -134,6 +134,8 @@ std::unordered_set<std::unordered_set<T>> cartesian_product(const std::vector<st
     return result;
 }
 
+#include <functional>
+
 template <typename T>
 void cartesian_product( const std::vector<std::vector<T>> & v, std::function<void(const std::vector<T>&)>& function) {
     const long long N = std::accumulate( v.begin(), v.end(), 1LL, []( long long a, const std::vector<T>& b ) { return a*b.size(); } );
@@ -305,6 +307,24 @@ void remove_index(std::vector<T>& vector, const S& to_remove)
                   vector_base + *iter - down_by);
     }
     vector.resize(vector.size() - to_remove.size());
+}
+
+template <class C, class V>
+auto append(C& container, V&& value, int)
+-> decltype(container.push_back(std::forward<V>(value)), void())
+{
+    container.push_back(std::forward<V>(value));
+}
+
+template <class C, class V>
+void append(C& container, V&& value, ...)
+{
+    container.insert(std::forward<V>(value));
+}
+
+template <class C, class V>
+void AddToContainer(C& container, V&& value) {
+    append(container, std::forward<V>(value), 0);
 }
 
 #endif //KNOBAB_SERVER_BASICS_H

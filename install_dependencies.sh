@@ -4,3 +4,4 @@ export MAVEN_OPTS="-Xmx1G"
 pushd submodules/antlr4
 mvn --fail-at-end -U -DskipTests package
 popd
+antlr4_gen.sh
