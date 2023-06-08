@@ -25,7 +25,7 @@
 
 #include <yaucl/learning/dt_predicate.h>
 
-bool dt_predicate::operator()(const simple_data &val) const {
+bool dt_predicate::operator()(const union_minimal &val) const {
     switch (pred) {
         case LEQ_THAN:
             return val <= value;
@@ -48,7 +48,7 @@ std::ostream& operator<<(std::ostream& os, const dt_predicate &predicate) {
             else
                 return os << std::get<double>(predicate.value);
         case dt_predicate::IN_SET:
-            os << "\\in {";
+            os << "∈{";
             for (auto it = predicate.categoric_set.begin(), en = predicate.categoric_set.end(); it != en; ) {
                 if (std::holds_alternative<std::string>(*it))
                     os << std::get<std::string>(*it);
