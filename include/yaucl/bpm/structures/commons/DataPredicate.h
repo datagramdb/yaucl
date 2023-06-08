@@ -61,7 +61,9 @@ enum numeric_atom_cases {
     EQ,
     NEQ,
     TTRUE,
-    FFALSE
+    FFALSE,
+    IN_SET,
+    NOT_IN_SET
 };
 
 numeric_atom_cases invert_predicate_direction(numeric_atom_cases val);
@@ -95,6 +97,7 @@ struct DataPredicate {
     std::string                       varRHS;
     union_minimal                     value_upper_bound;
     std::set<union_minimal>           exceptions;
+    std::unordered_set<union_minimal> categoric_set;
      std::vector<DataPredicate>        BiVariableConditions; // [[deprecated]]
     bool                              wasReversed;
 

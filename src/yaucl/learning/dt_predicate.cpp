@@ -2,7 +2,7 @@
  * dt_predicate.cpp
  * This file is part of yaucl-learning
  *
- * Copyright (C) 2022 - Giacomo Bergami
+ * Copyright (C) 2022 - Giacomo Bergami, Samuel Appleby
  *
  * yaucl-learning is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,14 +18,14 @@
  * along with yaucl-learning. If not, see <http://www.gnu.org/licenses/>.
  */
 
- 
+
 //
 // Created by giacomo on 03/11/22.
 //
 
 #include <yaucl/learning/dt_predicate.h>
 
-bool dt_predicate::operator()(const simple_data &val) const {
+bool dt_predicate::operator()(const union_minimal &val) const {
     switch (pred) {
         case LEQ_THAN:
             return val <= value;
@@ -48,7 +48,7 @@ std::ostream& operator<<(std::ostream& os, const dt_predicate &predicate) {
             else
                 return os << std::get<double>(predicate.value);
         case dt_predicate::IN_SET:
-            os << "\\in {";
+            os << "∈{";
             for (auto it = predicate.categoric_set.begin(), en = predicate.categoric_set.end(); it != en; ) {
                 if (std::holds_alternative<std::string>(*it))
                     os << std::get<std::string>(*it);
