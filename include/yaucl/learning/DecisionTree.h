@@ -227,7 +227,7 @@ class DecisionTree {
     bool isLeaf;
     bool is_root;
     std::span<std::pair<T,int>> leaf;
-    float total_weights = std::numeric_limits<double>::min();
+    double total_weights = std::numeric_limits<double>::min();
 public:
 
     double goodness = std::numeric_limits<double>::min();
@@ -245,6 +245,7 @@ public:
         return &children.at(1);
     }
     bool isLeafNode() const { return isLeaf; }
+    size_t getMajorityClass() const { return majority_class; }
     size_t getLeafNodeSize() const {
         if (!isLeaf) return 0;
         return leaf.size();
@@ -268,10 +269,11 @@ public:
     }
 
     void populate_children_predicates(std::unordered_map<int, std::vector<std::vector<dt_predicate>>> &decision_to_pred,
-                                      std::vector<dt_predicate>* current = nullptr) const {
+                                      std::vector<dt_predicate>* current = nullptr,
+                                      bool negate = false) const {
         if(!isLeaf) {
-            const DecisionTree* l = getUnsatisfyingConditionSplit();
-            const DecisionTree* r = getSatisfyingConditionSplit();
+            const DecisionTree* l = negate ? getSatisfyingConditionSplit() : getUnsatisfyingConditionSplit();
+            const DecisionTree* r = negate ? getUnsatisfyingConditionSplit() : getSatisfyingConditionSplit();
             assert(l || r);
 
             if(l) {
@@ -297,7 +299,7 @@ public:
                     current->push_back(cpy);
                 }
 
-                l->populate_children_predicates(decision_to_pred, current);
+                l->populate_children_predicates(decision_to_pred, current, negate);
             }
             if(r) {
                 if (!current) {
@@ -307,11 +309,10 @@ public:
                     current->push_back(candidate.first);
                 }
 
-                r->populate_children_predicates(decision_to_pred, current);
+                r->populate_children_predicates(decision_to_pred, current, negate);
             }
-        }
-        else {
-            std::unordered_map<int, std::vector<std::vector<dt_predicate>>>::iterator it = decision_to_pred.find(majority_class);
+        } else {
+            auto it = decision_to_pred.find(majority_class);
             /* Below will only happen on labels occurring > 1 (hence why we need vector of vectors */
             if (it != decision_to_pred.end()) {
                 it->second.push_back(*current);
@@ -334,10 +335,15 @@ public:
                  double pi,
                  const std::size_t l,
                  const uint16_t visitors,
-                 const std::size_t eta = 1) : F{f} {
+                 const std::size_t eta = 1,
+                 double *goodness = nullptr,
+                 double* total_weights = nullptr) : F{f} {
         ForTheWin forthegain(max_class_id);
         std::size_t N = std::distance(begin, end);
         is_root = N == visitors;
+
+        if (!goodness) goodness = &this->goodness;
+        if (!total_weights) total_weights = &this->total_weights;
 
         double purity = 0.0;
         int clazz = -1;
@@ -352,15 +358,15 @@ public:
             it++;
         }
         forthegain.normalizeCountClass();
+        const double current_weight = purity / visitors;
         purity = purity/((double) N);
         if ((N<=eta) || (purity >= pi)) {
             isLeaf = true;
             majority_class = clazz;
             majority_class_precision = forthegain.getClassPrecision(clazz);
             leaf = {begin, end};
-            const float current_weight = purity / visitors;
-            total_weights += current_weight;
-            goodness += (majority_class_precision * current_weight);
+            *total_weights += current_weight;
+            *goodness += (majority_class_precision * current_weight);
             return;
         }
         isLeaf = false;
@@ -401,18 +407,17 @@ public:
             majority_class = clazz;
             majority_class_precision = forthegain.getClassPrecision(clazz);
             leaf = {begin, end};
-            const float current_weight = purity / visitors;
-            total_weights += current_weight;
-            goodness += (majority_class_precision * current_weight);
+            *total_weights += current_weight;
+            *goodness += (majority_class_precision * current_weight);
             return;
         }
 
-        children.emplace_back(begin, it2, max_class_id, f, numeric_attributes, categorical_attributes, measure, pi, l, visitors, eta);
-        children.emplace_back(it2, end, max_class_id, f, numeric_attributes, categorical_attributes, measure, pi, l, visitors, eta);
+        children.emplace_back(begin, it2, max_class_id, f, numeric_attributes, categorical_attributes, measure, pi, l, visitors, eta, goodness, total_weights);
+        children.emplace_back(it2, end, max_class_id, f, numeric_attributes, categorical_attributes, measure, pi, l, visitors, eta, goodness, total_weights);
 
         if(is_root){
             /* Only on the very last iteration, the original candidate */
-            goodness /= total_weights;
+            *goodness /= *total_weights;
         }
     }
 };

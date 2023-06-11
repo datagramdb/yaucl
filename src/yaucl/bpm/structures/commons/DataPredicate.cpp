@@ -823,13 +823,19 @@ bool DataPredicate::operator>=(const DataPredicate &rhs) const {
 }
 
 DataPredicate DataPredicate::flip() const {
-    DataPredicate result;
-    result.var = varRHS;
-    result.varRHS = var;
-    result.casusu = casusu;
-    result.label = labelRHS;
-    result.labelRHS = label;
-    return result;
+    if (!varRHS.empty()) {
+        DataPredicate result;
+        result.var = varRHS;
+        result.varRHS = var;
+        result.casusu = casusu;
+        result.label = labelRHS;
+        result.labelRHS = label;
+        return result;
+    } else {
+        DataPredicate result = *this;
+        result.is_left_for_activation = !is_left_for_activation;
+        return result;
+    }
 }
 
 #include <magic_enum.hpp>

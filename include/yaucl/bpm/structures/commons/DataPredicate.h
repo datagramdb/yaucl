@@ -89,6 +89,7 @@ struct DataPredicate {
     static std::string MAX_STRING;
     static size_t      msl;
 
+    bool is_left_for_activation = true;
     std::string                       label;
     std::string                       var;
     numeric_atom_cases                casusu;
