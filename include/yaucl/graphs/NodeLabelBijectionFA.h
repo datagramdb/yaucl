@@ -27,7 +27,7 @@
 #include <unordered_set>
 #include <yaucl/hashing/uset_hash.h>
 #include <yaucl/structures/set_operations.h>
-#include <ostream>
+#include <iostream>
 #include "yaucl/graphs/algorithms/connected_components.h"
 
 #ifndef GRAPHOS_NLBFA_H
