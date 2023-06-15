@@ -281,7 +281,7 @@ public:
 
                 switch(cpy.pred){
                     case dt_predicate::LEQ_THAN:
-                        cpy.pred = dt_predicate::GEQ_THAN;
+                        cpy.pred = dt_predicate::G_THAN;
                         break;
                     case dt_predicate::IN_SET:
                         cpy.pred = dt_predicate::NOT_IN_SET;

@@ -36,7 +36,9 @@
 
 struct dt_predicate {
     enum type {
+        L_THAN,
         LEQ_THAN,
+        G_THAN,
         GEQ_THAN,
         IN_SET,
         NOT_IN_SET
