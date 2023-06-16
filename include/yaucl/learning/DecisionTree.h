@@ -91,7 +91,7 @@ std::pair<dt_predicate,double> evaluate_leq_predicate(typename std::vector<std::
             }
             for (int i = 0; i<=max_class; i++) {
                 val.second = i;
-                N[val] = n.at(it->second);
+                N[val] = n.at(i);
             }
             M.insert(val.first);
         }
@@ -415,7 +415,7 @@ public:
         children.emplace_back(begin, it2, max_class_id, f, numeric_attributes, categorical_attributes, measure, pi, l, visitors, eta, goodness, total_weights);
         children.emplace_back(it2, end, max_class_id, f, numeric_attributes, categorical_attributes, measure, pi, l, visitors, eta, goodness, total_weights);
 
-        if(is_root){
+        if(is_root) {
             /* Only on the very last iteration, the original candidate */
             *goodness /= *total_weights;
         }

@@ -27,28 +27,36 @@
 
 bool dt_predicate::operator()(const union_minimal &val) const {
     switch (pred) {
+        case L_THAN:
+            return val < value;
         case LEQ_THAN:
             return val <= value;
+        case G_THAN:
+            return val > value;
+        case GEQ_THAN:
+            return val >= value;
         case IN_SET:
-            for (const auto& ref : categoric_set) {
-                if (ref == val) return true;
-            }
-            return false;
+            return categoric_set.contains(val);
+        case NOT_IN_SET:
+            return !categoric_set.contains(val);
     }
     return false;
 }
 
 std::ostream& operator<<(std::ostream& os, const dt_predicate &predicate) {
     os << predicate.field;
+    os << (predicate.pred == dt_predicate::L_THAN ? "<" : predicate.pred == dt_predicate::LEQ_THAN ? "<=" : predicate.pred == dt_predicate::G_THAN ? ">" : predicate.pred == dt_predicate::GEQ_THAN ? ">=" : predicate.pred == dt_predicate::IN_SET ? "∈{" : "∉{");
     switch (predicate.pred) {
+        case dt_predicate::L_THAN:
         case dt_predicate::LEQ_THAN:
-            os << "<=";
+        case dt_predicate::G_THAN:
+        case dt_predicate::GEQ_THAN:
             if (std::holds_alternative<std::string>(predicate.value))
                 return os << std::get<std::string>(predicate.value);
             else
                 return os << std::get<double>(predicate.value);
         case dt_predicate::IN_SET:
-            os << "∈{";
+        case dt_predicate::NOT_IN_SET:
             for (auto it = predicate.categoric_set.begin(), en = predicate.categoric_set.end(); it != en; ) {
                 if (std::holds_alternative<std::string>(*it))
                     os << std::get<std::string>(*it);
@@ -58,7 +66,6 @@ std::ostream& operator<<(std::ostream& os, const dt_predicate &predicate) {
                 if ((it)!=en) os << ",";
             }
             return os <<"}";
-            break;
     }
     return os;
 }
