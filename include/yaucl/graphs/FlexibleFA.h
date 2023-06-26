@@ -474,7 +474,21 @@ public:
         visited_src_dst -= removed_nodes;
         for (size_t start : final_nodes) {
             if (!removed_nodes.contains(start)) {
-                adjacency_graph_DFSUtil(start, FlexibleGraph<NodeElement, EdgeLabel>::g, visited_src_dst);
+                std::stack<size_t> stack;
+                stack.push(start);
+                while (!stack.empty()) {
+                    size_t s = stack.top();
+                    stack.pop();
+                    visited_src_dst.add(s);
+                    auto it = FlexibleGraph<NodeElement, EdgeLabel>::g.ingoing_edges.find(s);
+                    if (it != FlexibleGraph<NodeElement, EdgeLabel>::g.ingoing_edges.end())
+                    for (size_t edge_id: it->second) {
+                        size_t src = FlexibleGraph<NodeElement, EdgeLabel>::g.edge_ids.at(edge_id).first;
+                        if (!visited_src_dst.contains(src))
+                            stack.push(src);
+                    }
+                }
+//                adjacency_graph_DFSUtil(start, FlexibleGraph<NodeElement, EdgeLabel>::g, visited_src_dst);
             }
         }
         roaring::Roaring64Map candidatesForRemoval;

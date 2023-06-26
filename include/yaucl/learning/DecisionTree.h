@@ -63,7 +63,7 @@ std::pair<dt_predicate,double> evaluate_leq_predicate(typename std::vector<std::
                                                       int max_class,
                                                       ForTheWin::gain_measures measure) {
     std::sort(begin, end, [&F](const std::pair<T,int>& x, const std::pair<T,int>& y) {
-        return F(x.first)<F(y.first);
+        return F(x.first)<F(y.first) || (F(x.first)==F(y.first)&& (x.second<y.second));
     });
     std::vector<size_t> n(max_class+1, 0);
     std::unordered_set<union_minimal> M;
@@ -91,7 +91,7 @@ std::pair<dt_predicate,double> evaluate_leq_predicate(typename std::vector<std::
             }
             for (int i = 0; i<=max_class; i++) {
                 val.second = i;
-                N[val] = n.at(it->second);
+                N[val] = n.at(i);
             }
             M.insert(val.first);
         }
