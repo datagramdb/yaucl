@@ -64,6 +64,9 @@ std::pair<dt_predicate,double> evaluate_leq_predicate(typename std::vector<std::
                                                       ForTheWin::gain_measures measure) {
     std::sort(begin, end, [&F](const std::pair<T,int>& x, const std::pair<T,int>& y) {
         return F(x.first)<F(y.first) || (F(x.first)==F(y.first)&& (x.second<y.second));
+
+        return F(x.first) < F(y.first) || (F(x.first) == F(y.first) && (x.second<y.second));
+
     });
     std::vector<size_t> n(max_class+1, 0);
     std::unordered_set<union_minimal> M;
@@ -281,7 +284,7 @@ public:
 
                 switch(cpy.pred){
                     case dt_predicate::LEQ_THAN:
-                        cpy.pred = dt_predicate::GEQ_THAN;
+                        cpy.pred = dt_predicate::G_THAN;
                         break;
                     case dt_predicate::IN_SET:
                         cpy.pred = dt_predicate::NOT_IN_SET;
@@ -415,7 +418,7 @@ public:
         children.emplace_back(begin, it2, max_class_id, f, numeric_attributes, categorical_attributes, measure, pi, l, visitors, eta, goodness, total_weights);
         children.emplace_back(it2, end, max_class_id, f, numeric_attributes, categorical_attributes, measure, pi, l, visitors, eta, goodness, total_weights);
 
-        if(is_root){
+        if(is_root) {
             /* Only on the very last iteration, the original candidate */
             *goodness /= *total_weights;
         }
