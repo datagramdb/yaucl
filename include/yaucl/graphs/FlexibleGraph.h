@@ -96,6 +96,19 @@ public:
         return nodeLabel.at(id);
     }
 
+    bool updateNodeLabel(size_t id, const NodeElement& label) {
+        auto it = nodeLabel.find(id);
+        if (it->second != label) {
+            auto& vec = nodeLabelInv[it->second];
+            vec.erase(std::remove(vec.begin(), vec.end(), id), vec.end());
+            if (vec.empty()) nodeLabelInv.erase(it->second);
+            nodeLabelInv[label].emplace_back(id);
+            it->second = label;
+            return true;
+        } else
+            return false;
+    }
+
     virtual const EdgeLabel& getEdgeLabel(size_t id) const {
         return costMap.at(id);
     }

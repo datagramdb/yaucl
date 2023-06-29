@@ -331,13 +331,11 @@ public:
         return result;
     }
 
-    std::unordered_set<size_t> ClosureId(const std::unordered_set<NodeElement>& P, const EdgeLabel& epsilon) {
+    std::unordered_set<size_t> ClosureId(const roaring::Roaring64Map& P, const EdgeLabel& epsilon) {
         std::unordered_set<size_t> t, result;
-        for (const NodeElement& p : P) {
-            for (const auto& id : FlexibleGraph<NodeElement, EdgeLabel>::getIdsFromLabel(p)) {
-                t.insert(id);
-                result.insert(id);
-            }
+        for (const size_t& id : P) {
+            t.insert(id);
+            result.insert(id);
         }
         while (!t.empty()) {
             size_t elem = *t.begin();
