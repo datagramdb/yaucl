@@ -32,15 +32,17 @@
 #include <iostream>
 
 template<typename NodeElement, typename EdgeLabel>
-NodeLabelBijectionFA<std::unordered_set<size_t>, EdgeLabel> NFA2DFA(FlexibleFA<NodeElement, EdgeLabel>& graph, const EdgeLabel& epsilon) {
+NodeLabelBijectionFA<std::unordered_set<size_t>, EdgeLabel> NFA2DFA(FlexibleFA<NodeElement, EdgeLabel>& graph,
+                                                                    const EdgeLabel& epsilon) {
     NodeLabelBijectionFA<std::unordered_set<size_t>, EdgeLabel> result;
     // E-closure for the initial nodes
     std::unordered_set<size_t> tS;
 
     // Defining a set of sets
     std::unordered_set<std::unordered_set<size_t>> calT, unmarked{}, marked{}, initial;
-
+//    std::vector<std::pair<size_t,size_t>> capre;
     auto S = graph.ClosureId(graph.init(), epsilon);
+//    if (trEdges) (*trEdges)[{}][S] = capre;
     calT.insert(S);
     unmarked.insert(S);
     initial.insert(S);
@@ -55,16 +57,18 @@ NodeLabelBijectionFA<std::unordered_set<size_t>, EdgeLabel> NFA2DFA(FlexibleFA<N
         std::unordered_set<size_t> P = *unmarked.begin();
         unmarked.erase(unmarked.begin());
         marked.insert(P);
-
+//        std::vector<std::pair<size_t,size_t>> edges;
         for (const auto& label_to_set : graph.Move(P)) {
+//            std::vector<std::pair<size_t,size_t>> localedges = edges;
             if (label_to_set.first == epsilon) continue;
             std::unordered_set<size_t> R = graph.Closure(label_to_set.second, epsilon);
-            std::cout << P << " --[" << label_to_set.first << "]--> "<< R << std::endl;
+//            std::cout << P << " --[" << label_to_set.first << "]--> "<< R << std::endl;
             if (!marked.contains(R)) {
                 calT.insert(R);
                 unmarked.insert(R);
             }
             trDelta[P][label_to_set.first] = R;
+//            if (trEdges) (*trEdges)[P][R] = localedges;
         }
     }
 

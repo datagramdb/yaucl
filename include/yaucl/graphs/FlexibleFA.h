@@ -244,9 +244,9 @@ public:
         return outgoingEdges(node);
     }
 
-    std::unordered_map<EdgeLabel, std::unordered_set<size_t>> Move(const std::unordered_set<NodeElement>& P) const {
+    std::unordered_map<EdgeLabel, std::unordered_set<size_t>> Move(const std::unordered_set<size_t>& P) const {
         std::unordered_map<EdgeLabel, std::unordered_set<size_t>> reachable;
-        for (const NodeElement& p : P) {
+        for (const size_t& p : P) {
             if (removed_nodes.contains(p)) continue;
             for (const std::pair<EdgeLabel, size_t>& cp: outgoingEdges(p)) {
                 reachable[cp.first].insert(cp.second);
@@ -279,9 +279,9 @@ public:
         }
     }
 
-    std::unordered_set<size_t> Move(const std::unordered_set<NodeElement>& P, const EdgeLabel& given) {
+    std::unordered_set<size_t> Move(const std::unordered_set<size_t>& P, const EdgeLabel& given) {
         std::unordered_set<size_t> reachable;
-        for (const NodeElement& p : P) {
+        for (const size_t& p : P) {
             if (removed_nodes.contains(p)) continue;
             for (const std::pair<EdgeLabel, size_t>& cp: outgoingEdges(p)) {
                 if (cp.first == given)

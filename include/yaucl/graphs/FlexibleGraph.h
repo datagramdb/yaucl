@@ -149,6 +149,10 @@ public:
         return outgoings;
     }
 
+    bool hasNodeLabel(const NodeElement& node) const {
+        return nodeLabelInv.contains(node);
+    }
+
     std::vector<size_t> getIdsFromLabel(const NodeElement& node) const {
         return nodeLabelInv.at(node);
     }
