@@ -329,7 +329,12 @@ bool DataPredicate::intersect_with(const DataPredicate& predicate) {
     }
 }
 
+#include <iostream>
+
 void DataPredicate::asInterval() {
+    if ((casusu == INTERVAL) && (value > value_upper_bound)) {
+        std::cerr << "Critical issue" << std::endl;
+    }
     if ((casusu == INTERVAL) || (casusu == TTRUE)  || (casusu == FFALSE) || (isBiVariableCondition())) return;
 
     bool isString = std::holds_alternative<std::string>(value);
@@ -373,6 +378,9 @@ void DataPredicate::asInterval() {
             value = min;
             value_upper_bound = max;
             break;
+    }
+    if (value > value_upper_bound) {
+        std::cerr << "Critical issue" << std::endl;
     }
 
     casusu = INTERVAL;
@@ -823,13 +831,19 @@ bool DataPredicate::operator>=(const DataPredicate &rhs) const {
 }
 
 DataPredicate DataPredicate::flip() const {
-    DataPredicate result;
-    result.var = varRHS;
-    result.varRHS = var;
-    result.casusu = casusu;
-    result.label = labelRHS;
-    result.labelRHS = label;
-    return result;
+    if (!varRHS.empty()) {
+        DataPredicate result;
+        result.var = varRHS;
+        result.varRHS = var;
+        result.casusu = casusu;
+        result.label = labelRHS;
+        result.labelRHS = label;
+        return result;
+    } else {
+        DataPredicate result = *this;
+        result.is_left_for_activation = !is_left_for_activation;
+        return result;
+    }
 }
 
 #include <magic_enum.hpp>

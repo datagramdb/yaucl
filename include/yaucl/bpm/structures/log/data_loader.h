@@ -9,9 +9,9 @@
 #define BZDB_DATA_LOADER_H
 
 enum log_data_format {
-    HUMAN_READABLE_YAUCL,
-    XES1,
-    TAB_SEPARATED_EVENTS
+    HUMAN_READABLE_YAUCL = 0,
+    XES1 = 1,
+    TAB_SEPARATED_EVENTS = 2
 };
 
 void load_into_knowledge_base(log_data_format format, bool loadData, std::istream &stream, KnowledgeBase &output,

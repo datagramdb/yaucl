@@ -27,11 +27,13 @@
 #include <unordered_set>
 #include <yaucl/hashing/uset_hash.h>
 #include <yaucl/structures/set_operations.h>
-#include <ostream>
+#include <iostream>
 #include "yaucl/graphs/algorithms/connected_components.h"
 
 #ifndef GRAPHOS_NLBFA_H
 #define GRAPHOS_NLBFA_H
+
+template<class T, class U> class FlexibleFA;
 
 /**
  * General definition of the automaton
@@ -135,7 +137,7 @@ public:
         return result;
     }
 
-    template<class T, class U> class FlexibleFA;
+//    template<class T, class U> class FlexibleFA;
     FlexibleFA<EdgeLabel, NodeElement> shiftLabelsToNodes() {
         FlexibleFA<EdgeLabel, NodeElement> result;
         std::unordered_map<size_t , size_t> edgeToNewNodeMap;
@@ -259,6 +261,28 @@ public:
         return !(rhs == *this);
     }
 
+
+    void ignoreNodeLabels2(FlexibleFA<size_t, EdgeLabel> &multigraph) const {
+
+        std::unordered_map<size_t, size_t> inverseMap;
+        size_t incr = 0;
+        for (size_t element = 0; element<this->maximumNodeId(); element++) {
+            int neueId = multigraph.addNewNodeWithLabel((incr++));
+            inverseMap[element] = neueId;
+            if (isFinalNodeByID(element))
+                multigraph.addToFinalNodesFromId(neueId);
+            if (isInitialNodeByID(element))
+                multigraph.addToInitialNodesFromId(neueId);
+        }
+
+        for (size_t element = 0; element<this->maximumNodeId(); element++) {
+            size_t srcId = inverseMap.at(element);
+            for (const std::pair<EdgeLabel, size_t>& edge : this->outgoingEdges(element)) {
+                size_t dstId = inverseMap.at(edge.second);
+                multigraph.addNewEdgeFromId(srcId, dstId, edge.first);
+            }
+        }
+    }
 
 };
 #endif //GRAPHOS_FA_H

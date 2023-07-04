@@ -61,13 +61,7 @@ enum formula_t {
 //#include <knobab/server/operators/semantics.h>
 #include "yaucl/bpm/structures/commons/DataPredicate.h"
 
-enum LeafType {
-    ActivationLeaf = 1,
-    TargetLeaf = 2,
-    NoneLeaf = 0,
-    NotALeaf = 4,
-    MatchActivationTarget = 3
-};
+#include <yaucl/bpm/structures/ltlf/LeafType.h>
 
 
 struct ltlf {
