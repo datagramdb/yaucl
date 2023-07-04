@@ -239,6 +239,12 @@ void remove_duplicates(std::vector<T>& vec){
     vec.erase(std::unique(vec.begin(), vec.end()), vec.end());
 }
 
+template <typename T, typename F>
+void remove_duplicates(std::vector<T>& vec, F comparator){
+    std::sort(vec.begin(), vec.end(), comparator);
+    vec.erase(std::unique(vec.begin(), vec.end()), vec.end());
+}
+
 template <typename T, typename D>
 void iterate_union(const T& s1, const T& s2, D d) {
     auto it1 = s1.begin();
