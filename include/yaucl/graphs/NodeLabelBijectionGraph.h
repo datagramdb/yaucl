@@ -90,6 +90,15 @@ public:
         }
     }
 
+    size_t GetExisting(const NodeElement& node) const {
+        auto it = nodeLabel.find(node);
+        if (it == nodeLabel.end()) {
+            return -1;
+        } else {
+            return it->second;
+        }
+    }
+
     EdgeLabel& addUniqueNewEdge(size_t src, size_t dst) {
         auto& it = g.nodes.at(src);
         auto f = std::find(it.begin(), it.end(), dst);
