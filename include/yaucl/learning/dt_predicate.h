@@ -2,7 +2,7 @@
  * dt_predicate.h
  * This file is part of yaucl-learning
  *
- * Copyright (C) 2022 - Giacomo Bergami
+ * Copyright (C) 2022 - Giacomo Bergami, Samuel Appleby
  *
  * yaucl-learning is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,18 +31,21 @@
 #include <vector>
 #include <unordered_set>
 #include <ostream>
+#include "yaucl/bpm/structures/commons/DataPredicate.h"
 
-
-using simple_data = std::variant<std::string, double>;
 
 struct dt_predicate {
     enum type {
+        L_THAN,
         LEQ_THAN,
-        IN_SET
+        G_THAN,
+        GEQ_THAN,
+        IN_SET,
+        NOT_IN_SET
     };
     std::string field;
-    simple_data value;
-    std::unordered_set<simple_data> categoric_set;
+    union_minimal value;
+    std::unordered_set<union_minimal> categoric_set;
     type pred;
 
     dt_predicate() = default;
@@ -54,7 +57,7 @@ struct dt_predicate {
 
     friend std::ostream& operator<<(std::ostream& os, const dt_predicate &predicate);
 
-    bool operator()(const simple_data& val) const;
+    bool operator()(const union_minimal& val) const;
 };
 
 #endif //DISTANCE_DT_PREDICATE_H

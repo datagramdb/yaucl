@@ -125,7 +125,7 @@ std::unordered_set<std::unordered_set<T>> cartesian_product(const std::vector<st
         lldiv_t q { n, 0 };
         std::unordered_set<T> u;
         for( long long i=v.size()-1 ; 0<=i ; --i ) {
-            q = std::div( q.quot, v[i].size() );
+            q = std::lldiv( q.quot, v[i].size() );
             u.insert(v[i][q.rem]);
             //u[i] = v[i][q.rem];
         }
@@ -143,7 +143,7 @@ void cartesian_product( const std::vector<std::vector<T>> & v, std::function<voi
     for( long long n=0 ; n<N ; ++n ) {
         lldiv_t q { n, 0 };
         for( long long i=v.size()-1 ; 0<=i ; --i ) {
-            q = div( q.quot, v[i].size() );
+            q = lldiv( q.quot, v[i].size() );
             u[i] = v[i][q.rem];
         }
         function(u);
@@ -307,6 +307,24 @@ void remove_index(std::vector<T>& vector, const S& to_remove)
                   vector_base + *iter - down_by);
     }
     vector.resize(vector.size() - to_remove.size());
+}
+
+template <class C, class V>
+auto append(C& container, V&& value, int)
+-> decltype(container.push_back(std::forward<V>(value)), void())
+{
+    container.push_back(std::forward<V>(value));
+}
+
+template <class C, class V>
+void append(C& container, V&& value, ...)
+{
+    container.insert(std::forward<V>(value));
+}
+
+template <class C, class V>
+void AddToContainer(C& container, V&& value) {
+    append(container, std::forward<V>(value), 0);
 }
 
 #endif //KNOBAB_SERVER_BASICS_H

@@ -16,6 +16,7 @@ namespace antlr4 {
 #define CLASSIFIERS_PAIR_HASH_H
 #define CLASSIFIERS_PAIR_HASH_H_redef
 #endif
+#include <iostream>
 #include <yaucl/graphs/NodeLabelBijectionFA.h>
 #include <yaucl/graphs/FlexibleFA.h>
 #include <yaucl/bpm/structures/ltlf/ltlf.h>

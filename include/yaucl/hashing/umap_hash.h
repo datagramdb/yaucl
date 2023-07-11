@@ -23,8 +23,8 @@
 // Created by giacomo on 14/11/20.
 //
 
-#ifndef FUZZYSTRINGMATCHING2_USET_HASH_H
-#define FUZZYSTRINGMATCHING2_USET_HASH_H
+#ifndef FUZZYSTRINGMATCHING2_UMAP_HASH_H
+#define FUZZYSTRINGMATCHING2_UMAP_HASH_H
 
 #include <yaucl/hashing/hash_combine.h>
 #include <unordered_map>

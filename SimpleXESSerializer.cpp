@@ -29,11 +29,11 @@ void serialize_event_label(std::ostream& os, const std::string& act,  long long 
     os << "\t\t\t<string key=\"concept:name\" value=" << std::quoted(act) << "/>" << std::endl;
     os << "\t\t\t<string key=\"lifecycle:transition\" value=\"complete\"/>" << std::endl;
     if (milliseconds<0) {
-        os << "\t\t\t<string key=\"time:timestamp\" value=\"" << date::format("%FT%TZ", std::chrono::floor<std::chrono::milliseconds>(std::chrono::system_clock::now())) << "\"/>" << std::endl;
+        os << "\t\t\t<date key=\"time:timestamp\" value=\"" << date::format("%FT%TZ", std::chrono::floor<std::chrono::milliseconds>(std::chrono::system_clock::now())) << "\"/>" << std::endl;
     } else {
         std::chrono::milliseconds dur(milliseconds);
         std::chrono::time_point<std::chrono::system_clock> dt(dur);
-        os << "\t\t\t<string key=\"time:timestamp\" value=\"" << date::format("%FT%TZ", dt) << "\"/>" << std::endl;
+        os << "\t\t\t<date key=\"time:timestamp\" value=\"" << date::format("%FT%TZ", dt) << "\"/>" << std::endl;
     }
 }
 

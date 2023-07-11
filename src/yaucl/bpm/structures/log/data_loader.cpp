@@ -30,7 +30,14 @@ void parse_payload(bool isTrace, rapidxml::xml_node<>* payloadNode, struct paylo
         //assert(attribute != concept_name);
         pay.strings[attribute] = value;
     } else if (tag_name == "float") {
-        pay.floats[attribute] = (double)std::stod(value);
+        try {
+            pay.floats[attribute] = (double)std::stod(value);
+        } catch(...) {
+            std::istringstream os(value);
+            double d;
+            os >> d;
+            pay.floats[attribute] = d;
+        }
     } else if (tag_name == "int") {
         pay.ints[attribute] = (size_t)std::stoull(value);
     }else if (tag_name == "boolean") {
