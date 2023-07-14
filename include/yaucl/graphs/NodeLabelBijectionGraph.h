@@ -173,7 +173,8 @@ public:
     }
 
     size_t getId(const NodeElement& node) const {
-        return nodeLabel.at(node);
+        auto it = nodeLabel.find(node);
+        return it != nodeLabel.end() ? it->second : -1;
     }
 
     bool operator==(const NodeLabelBijectionGraph &rhs) const {
