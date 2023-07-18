@@ -83,7 +83,7 @@ add_library(yaucl_bpm OBJECT
          src/yaucl/bpm/structures/commons/testing_predicates.cpp
         src/yaucl/bpm/structures/ltlf/easy_prop.cpp
         src/yaucl/bpm/structures/ltlf/ltlf.cpp
-        #src/yaucl/bpm/structures/log/data_loader.cpp
+        #
         )
 
 add_library(yaucl_bpm_new_atomization
