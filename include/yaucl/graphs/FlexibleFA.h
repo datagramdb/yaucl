@@ -244,9 +244,9 @@ public:
         return outgoingEdges(node);
     }
 
-    std::unordered_map<EdgeLabel, std::unordered_set<size_t>> Move(const std::unordered_set<NodeElement>& P) const {
+    std::unordered_map<EdgeLabel, std::unordered_set<size_t>> Move(const std::unordered_set<size_t>& P) const {
         std::unordered_map<EdgeLabel, std::unordered_set<size_t>> reachable;
-        for (const NodeElement& p : P) {
+        for (const size_t& p : P) {
             if (removed_nodes.contains(p)) continue;
             for (const std::pair<EdgeLabel, size_t>& cp: outgoingEdges(p)) {
                 reachable[cp.first].insert(cp.second);
@@ -279,9 +279,9 @@ public:
         }
     }
 
-    std::unordered_set<size_t> Move(const std::unordered_set<NodeElement>& P, const EdgeLabel& given) {
+    std::unordered_set<size_t> Move(const std::unordered_set<size_t>& P, const EdgeLabel& given) {
         std::unordered_set<size_t> reachable;
-        for (const NodeElement& p : P) {
+        for (const size_t& p : P) {
             if (removed_nodes.contains(p)) continue;
             for (const std::pair<EdgeLabel, size_t>& cp: outgoingEdges(p)) {
                 if (cp.first == given)
@@ -331,13 +331,11 @@ public:
         return result;
     }
 
-    std::unordered_set<size_t> ClosureId(const std::unordered_set<NodeElement>& P, const EdgeLabel& epsilon) {
+    std::unordered_set<size_t> ClosureId(const roaring::Roaring64Map& P, const EdgeLabel& epsilon) {
         std::unordered_set<size_t> t, result;
-        for (const NodeElement& p : P) {
-            for (const auto& id : FlexibleGraph<NodeElement, EdgeLabel>::getIdsFromLabel(p)) {
-                t.insert(id);
-                result.insert(id);
-            }
+        for (const size_t& id : P) {
+            t.insert(id);
+            result.insert(id);
         }
         while (!t.empty()) {
             size_t elem = *t.begin();
@@ -474,7 +472,21 @@ public:
         visited_src_dst -= removed_nodes;
         for (size_t start : final_nodes) {
             if (!removed_nodes.contains(start)) {
-                adjacency_graph_DFSUtil(start, FlexibleGraph<NodeElement, EdgeLabel>::g, visited_src_dst);
+                std::stack<size_t> stack;
+                stack.push(start);
+                while (!stack.empty()) {
+                    size_t s = stack.top();
+                    stack.pop();
+                    visited_src_dst.add(s);
+                    auto it = FlexibleGraph<NodeElement, EdgeLabel>::g.ingoing_edges.find(s);
+                    if (it != FlexibleGraph<NodeElement, EdgeLabel>::g.ingoing_edges.end())
+                    for (size_t edge_id: it->second) {
+                        size_t src = FlexibleGraph<NodeElement, EdgeLabel>::g.edge_ids.at(edge_id).first;
+                        if (!visited_src_dst.contains(src))
+                            stack.push(src);
+                    }
+                }
+//                adjacency_graph_DFSUtil(start, FlexibleGraph<NodeElement, EdgeLabel>::g, visited_src_dst);
             }
         }
         roaring::Roaring64Map candidatesForRemoval;
