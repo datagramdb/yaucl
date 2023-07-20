@@ -1,7 +1,7 @@
 #include <yaucl/learning/MCL.h>
 
 int main(void) {
-    Eigen::SparseMatrix<double> m(4,4);
+    Eigen::SparseMatrix<double> m=Eigen::SparseMatrix<double>(4,4);
     m.coeffRef(0,0) = 0.5;
     m.coeffRef(0,1) = 0.5;
     m.coeffRef(1,0) = 1;
