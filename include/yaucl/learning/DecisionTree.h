@@ -289,6 +289,8 @@ public:
                     case dt_predicate::IN_SET:
                         cpy.pred = dt_predicate::NOT_IN_SET;
                         break;
+                    case dt_predicate::L_THAN:
+                    case dt_predicate::G_THAN:
                     case dt_predicate::GEQ_THAN:
                     case dt_predicate::NOT_IN_SET:
                         /* We should never get here, assign copies only */
