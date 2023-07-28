@@ -271,7 +271,7 @@ public:
         }
     }
 
-    void populate_children_predicates(std::unordered_map<int, std::vector<std::vector<dt_predicate>>> &decision_to_pred,
+    void populate_children_predicates(std::unordered_map<int, std::vector<std::pair<double,std::vector<dt_predicate>>>> &decision_to_pred,
                                       std::vector<dt_predicate>* current = nullptr,
                                       bool negate = false) const {
         if(!isLeaf) {
@@ -316,12 +316,12 @@ public:
             }
         } else {
             auto it = decision_to_pred.find(majority_class);
+            std::pair<double,std::vector<dt_predicate>> cp{majority_class_precision, *current};
             /* Below will only happen on labels occurring > 1 (hence why we need vector of vectors */
             if (it != decision_to_pred.end()) {
-                it->second.push_back(*current);
-            }
-            else {
-                decision_to_pred.insert({majority_class, { *current }});
+                it->second.emplace_back(cp);
+            } else {
+                decision_to_pred[majority_class].emplace_back(cp);
             }
 
             current->pop_back();
@@ -330,14 +330,14 @@ public:
 
     DecisionTree(typename  std::vector<std::pair<T,int>>::iterator& begin,
                  typename  std::vector<std::pair<T,int>>::iterator& end,
-                 size_t max_class_id,
+                 int max_class_id,
                  const std::function<union_minimal(const T&, const std::string&)>& f,
                  const std::unordered_set<std::string>& numeric_attributes,
                  const std::unordered_set<std::string>& categorical_attributes,
                  ForTheWin::gain_measures measure,
                  double pi,
                  const std::size_t l,
-                 const uint16_t visitors,
+                 const std::size_t visitors,
                  const std::size_t eta = 1,
                  double *goodness = nullptr,
                  double* total_weights = nullptr) : F{f} {
