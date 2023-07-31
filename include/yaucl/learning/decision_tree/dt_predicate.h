@@ -31,7 +31,7 @@
 #include <vector>
 #include <unordered_set>
 #include <ostream>
-#include "yaucl/bpm/structures/commons/DataPredicate.h"
+#include <yaucl/bpm/structures/commons/DataPredicate.h>
 
 
 struct dt_predicate {

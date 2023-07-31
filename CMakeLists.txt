@@ -24,6 +24,8 @@ add_library(yaucl_learning OBJECT
         src/yaucl/learning/DecisionTree.cpp)
 add_executable(yaucl_learning_decision_tree src/examples/decision_tree_example.cpp)
 target_link_libraries(yaucl_learning_decision_tree yaucl_learning)
+add_executable(yaucl_learning_decision_tree_refinement src/examples/decision_tree_refinement_example.cpp)
+target_link_libraries(yaucl_learning_decision_tree_refinement yaucl_learning)
 
 add_executable(yaucl_learning_mcl src/examples/mcl_example.cpp)
 

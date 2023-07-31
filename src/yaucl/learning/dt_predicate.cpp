@@ -23,7 +23,7 @@
 // Created by giacomo on 03/11/22.
 //
 
-#include <yaucl/learning/dt_predicate.h>
+#include "yaucl/learning/decision_tree/dt_predicate.h"
 
 bool dt_predicate::operator()(const union_minimal &val) const {
     switch (pred) {
