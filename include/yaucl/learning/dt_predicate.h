@@ -54,10 +54,30 @@ struct dt_predicate {
     dt_predicate& operator=(const dt_predicate&) = default;
     dt_predicate& operator=(dt_predicate&& ) = default;
 
+    dt_predicate(const union_minimal& value, const std::string&field) : field{field} {
+        categoric_set.insert(value);
+        pred = IN_SET;
+    }
 
+    bool operator==(const dt_predicate& x) const {
+        if (pred != x.pred) return false;
+        if (field != x.field) return false;
+        if (value != x.value) return false;
+        return categoric_set != x.categoric_set;
+    }
     friend std::ostream& operator<<(std::ostream& os, const dt_predicate &predicate);
 
     bool operator()(const union_minimal& val) const;
 };
+
+namespace std {
+    template <>
+    struct hash<dt_predicate> {
+        const std::hash<std::string> f;
+        size_t operator()(const dt_predicate& x) const {
+            return ((size_t)x.pred) ^ f(x.field);
+        }
+    };
+}
 
 #endif //DISTANCE_DT_PREDICATE_H

@@ -64,9 +64,6 @@ std::pair<dt_predicate,double> evaluate_leq_predicate(typename std::vector<std::
                                                       ForTheWin::gain_measures measure) {
     std::sort(begin, end, [&F](const std::pair<T,int>& x, const std::pair<T,int>& y) {
         return F(x.first)<F(y.first) || (F(x.first)==F(y.first)&& (x.second<y.second));
-
-        return F(x.first) < F(y.first) || (F(x.first) == F(y.first) && (x.second<y.second));
-
     });
     std::vector<size_t> n(max_class+1, 0);
     std::unordered_set<union_minimal> M;
@@ -126,27 +123,14 @@ std::pair<dt_predicate,double> evaluate_leq_predicate(typename std::vector<std::
     return predicate_w_score;
 }
 
+
+
 #include <cmath>
 
 // Returns which bits are on in the integer a
 std::vector<int> getOnLocations(int a);
 
-template<typename T>
-std::vector<std::unordered_set<T> > powerSet(const std::vector<T>& set, size_t maxSize) {
-    std::vector<std::unordered_set<T> > result;
-    int numPowerSets = static_cast<int>(std::pow(2.0, static_cast<double>(set.size())));
-    for (size_t i = 0; i < numPowerSets; ++i) {
-        std::vector<int> onLocations = getOnLocations(i);
-        if (onLocations.size() > maxSize) continue;
-        if (onLocations.empty()) continue;
-        std::unordered_set<T> subSet;
-        for (size_t j = 0; j < onLocations.size(); ++j) {
-            subSet.insert(set.at(onLocations.at(j)));
-        }
-        result.push_back(subSet);
-    }
-    return result;
-}
+#include <yaucl/structures/set_operations.h>
 
 template <typename T>
 std::pair<dt_predicate,double> evaluate_inset_predicate(typename std::vector<std::pair<T,int>>::iterator& begin,
@@ -222,6 +206,66 @@ std::pair<dt_predicate,double> evaluate_inset_predicate(typename std::vector<std
 }
 
 template <typename T>
+std::pair<dt_predicate,double> evaluate_predicate(typename std::vector<std::pair<T,int>>::iterator& begin,
+                                                        typename std::vector<std::pair<T,int>>::iterator& end,
+                                                        const std::function<union_minimal(const T&)>& F,
+                                                        ForTheWin& forthegain,
+                                                        int max_class,
+                                                        ForTheWin::gain_measures measure,
+                                                        const dt_predicate& pred) {
+
+    std::vector<size_t> n(max_class+1, 0);
+    std::vector<union_minimal> M; // dom
+    std::unordered_map<std::pair<union_minimal,int>, size_t> N;
+    std::pair<union_minimal,int> val;
+    for (auto it = begin; it != end; it++) M.emplace_back(F(it->first));
+    std::sort( M.begin(), M.end() );
+    M.erase( unique( M.begin(), M.end() ), M.end() );
+    for (int i = 0; i<=max_class; i++) {
+        val.second = i;
+        for (const auto& ref : M) {
+            val.first = ref;
+            N[val] = 0;
+        }
+    }
+    size_t total = 0;
+    for (auto it = begin; it != end; it++) {
+        val.first = F(it->first);
+        val.second = it->second;
+            total++;
+            N[val]++;
+    }
+
+    std::pair<dt_predicate, double> predicate_w_score;
+    predicate_w_score.second = -std::numeric_limits<double>::max();
+    double forthepos, fortheneg;
+    double localPos, localNeg;
+        fortheneg = 0.0;
+        forthepos = 0.0;
+        for (int i = 0; i<=max_class; i++) {
+            val.second = i;
+            for (const auto& item : M) {
+                val.first = item;
+                if (pred(item))
+                    forthepos += N[val];
+                 else
+                    fortheneg += (total-N[val]);
+            }
+        }
+        forthegain.goodBad(forthepos, fortheneg);
+        for (int i= 0; i<=max_class; i++) {
+            val.second = i;
+            forthegain.setP(i, N[val], (total-N[val]));
+            double local_score = forthegain.getGain(measure);
+            if (local_score > predicate_w_score.second) {
+                predicate_w_score.second = local_score;
+                predicate_w_score.first = pred;
+            }
+        }
+    return predicate_w_score;
+}
+
+template <typename T>
 class DecisionTree {
     int         majority_class;
     double      majority_class_precision;
@@ -263,7 +307,8 @@ public:
             os << "p(y=" << majority_class << ")=" << majority_class_precision << std::endl;
         } else {
             os << candidate.first << "(y/n)" << std::endl;
-            for (const auto& child : children) child.print_rec(os, depth+1);
+            for (const auto& child : children)
+                child.print_rec(os, depth+1);
         }
 
         if(is_root) {
@@ -271,17 +316,20 @@ public:
         }
     }
 
-    void populate_children_predicates(std::unordered_map<int, std::vector<std::pair<double,std::vector<dt_predicate>>>> &decision_to_pred,
-                                      std::vector<dt_predicate>* current = nullptr,
-                                      bool negate = false) const {
-        if(!isLeaf) {
-            const DecisionTree* l = negate ? getSatisfyingConditionSplit() : getUnsatisfyingConditionSplit();
-            const DecisionTree* r = negate ? getUnsatisfyingConditionSplit() : getSatisfyingConditionSplit();
-            assert(l || r);
+    void populate_children_predicates2(std::unordered_map<int, std::vector<std::pair<double,std::vector<dt_predicate>>>> &decision_to_pred) const {
+        std::vector<dt_predicate> memo;
+        populate_children_predicates2(decision_to_pred, memo);
+    }
 
-            if(l) {
-                dt_predicate cpy = candidate.first;
+    void populate_children_predicates2(std::unordered_map<int, std::vector<std::pair<double,std::vector<dt_predicate>>>> &decision_to_pred,
+                                      std::vector<dt_predicate>& current_stack) const {
+        if (!isLeaf) {
+            const auto sat_ptr = getSatisfyingConditionSplit();
+            const auto viol_ptr = getUnsatisfyingConditionSplit();
 
+            if (viol_ptr) {
+                auto unsat_copy = current_stack;
+                auto& cpy = unsat_copy.emplace_back(candidate.first);
                 switch(cpy.pred){
                     case dt_predicate::LEQ_THAN:
                         cpy.pred = dt_predicate::G_THAN;
@@ -296,37 +344,174 @@ public:
                         /* We should never get here, assign copies only */
                         break;
                 }
-
-                if (!current) {
-                    current = new std::vector<dt_predicate>{cpy};
-                }
-                else {
-                    current->push_back(cpy);
-                }
-
-                l->populate_children_predicates(decision_to_pred, current, negate);
+                viol_ptr->populate_children_predicates2(decision_to_pred, unsat_copy);
             }
-            if(r) {
-                if (!current) {
-                    current = new std::vector<dt_predicate>{candidate.first};
-                }
-                else {
-                    current->push_back(candidate.first);
-                }
-
-                r->populate_children_predicates(decision_to_pred, current, negate);
+            if (sat_ptr) {
+                current_stack.emplace_back(candidate.first);
+                sat_ptr->populate_children_predicates2(decision_to_pred, current_stack);
             }
         } else {
             auto it = decision_to_pred.find(majority_class);
-            std::pair<double,std::vector<dt_predicate>> cp{majority_class_precision, *current};
-            /* Below will only happen on labels occurring > 1 (hence why we need vector of vectors */
-            if (it != decision_to_pred.end()) {
-                it->second.emplace_back(cp);
-            } else {
-                decision_to_pred[majority_class].emplace_back(cp);
-            }
+            decision_to_pred[majority_class].emplace_back(majority_class_precision, current_stack);
+        }
+    }
 
-            current->pop_back();
+    void populate_children_predicates(std::unordered_map<int, std::vector<std::pair<double,std::vector<dt_predicate>>>> &decision_to_pred,
+                                      std::vector<dt_predicate>* current = nullptr,
+                                      bool negate = false) const {
+        populate_children_predicates2(decision_to_pred);
+// @author: Samuel Appleby
+// This implementation was bugged!
+//        if(!isLeaf) {
+//            const DecisionTree* l = negate ? getSatisfyingConditionSplit() : getUnsatisfyingConditionSplit();
+//            const DecisionTree* r = negate ? getUnsatisfyingConditionSplit() : getSatisfyingConditionSplit();
+//            assert(l || r);
+//
+//            if(l) {
+//                dt_predicate cpy = candidate.first;
+//
+//                switch(cpy.pred){
+//                    case dt_predicate::LEQ_THAN:
+//                        cpy.pred = dt_predicate::G_THAN;
+//                        break;
+//                    case dt_predicate::IN_SET:
+//                        cpy.pred = dt_predicate::NOT_IN_SET;
+//                        break;
+//                    case dt_predicate::L_THAN:
+//                    case dt_predicate::G_THAN:
+//                    case dt_predicate::GEQ_THAN:
+//                    case dt_predicate::NOT_IN_SET:
+//                        /* We should never get here, assign copies only */
+//                        break;
+//                }
+//
+//                if (!current) {
+//                    current = new std::vector<dt_predicate>{cpy};
+//                }
+//                else {
+//                    current->push_back(cpy);
+//                }
+//
+//                l->populate_children_predicates(decision_to_pred, current, negate);
+//            }
+//            if(r) {
+//                if (!current) {
+//                    current = new std::vector<dt_predicate>{candidate.first};
+//                }
+//                else {
+//                    current->push_back(candidate.first);
+//                }
+//
+//                r->populate_children_predicates(decision_to_pred, current, negate);
+//            }
+//        } else {
+//            auto it = decision_to_pred.find(majority_class);
+//            std::pair<double,std::vector<dt_predicate>> cp{majority_class_precision, *current};
+//            /* Below will only happen on labels occurring > 1 (hence why we need vector of vectors */
+//            if (it != decision_to_pred.end()) {
+//                it->second.emplace_back(cp);
+//            } else {
+//                decision_to_pred[majority_class].emplace_back(cp);
+//            }
+//
+//            current->pop_back();
+//        }
+    }
+
+
+    DecisionTree(typename  std::vector<std::pair<T,int>>::iterator& begin,
+                 typename  std::vector<std::pair<T,int>>::iterator& end,
+                 int max_class_id,
+                 const std::function<union_minimal(const T&, const std::string&)>& f,
+                 std::unordered_set<dt_predicate>& candidates,
+                 ForTheWin::gain_measures measure,
+                 double pi,
+                 const std::size_t l,
+                 const std::size_t visitors,
+                 const std::size_t eta = 1,
+                 bool use_leq_for_categorical = true,
+                 double *goodness = nullptr,
+                 double* total_weights = nullptr) : F{f} {
+        ForTheWin forthegain(max_class_id);
+        std::size_t N = std::distance(begin, end);
+        is_root = N == visitors;
+
+        if (!goodness) goodness = &this->goodness;
+        if (!total_weights) total_weights = &this->total_weights;
+
+        double purity = 0.0;
+        int clazz = -1;
+        auto it = begin;
+        for (std::size_t i = 0; i<N; i++) {
+            int curr_clazz = it->second;
+            auto tmp = (double)(forthegain.countClass(curr_clazz));
+            if (tmp > purity) {
+                purity = tmp;
+                clazz = curr_clazz;
+            }
+            it++;
+        }
+        forthegain.normalizeCountClass();
+        const double current_weight = purity / visitors;
+        purity = purity/((double) N);
+        if ((N<=eta) || (purity >= pi)) {
+            isLeaf = true;
+            majority_class = clazz;
+            majority_class_precision = forthegain.getClassPrecision(clazz);
+            leaf = {begin, end};
+            *total_weights += current_weight;
+            *goodness += (majority_class_precision * current_weight);
+            return;
+        }
+        isLeaf = false;
+        candidate.second = -1;
+
+        for (const auto& candidate_x: candidates) {
+            std::function<union_minimal(const T&)> wrap = [&f,&candidate_x](const T& x) {
+                return f(x,candidate_x.field);
+            };
+            std::pair<dt_predicate,double> result = evaluate_predicate(begin, end, wrap, forthegain, max_class_id, measure, candidate_x);
+            if (result.second > candidate.second) {
+                std::swap(candidate, result);
+            }
+        }
+
+
+        if (candidate.second == -1) {
+            isLeaf = true;
+            majority_class = clazz;
+            majority_class_precision = forthegain.getClassPrecision(clazz);
+            leaf = {begin, end};
+            *total_weights += current_weight;
+            *goodness += (majority_class_precision * current_weight);
+            return;
+        }
+
+        auto it2 = std::stable_partition(begin, end, [this](const std::pair<T,int>& obj) {
+            return operator()(obj.first);
+        });
+
+        if ((begin == it2) || (it2 == end)) {
+            isLeaf = true;
+            majority_class = clazz;
+            majority_class_precision = forthegain.getClassPrecision(clazz);
+            leaf = {begin, end};
+            *total_weights += current_weight;
+            *goodness += (majority_class_precision * current_weight);
+            return;
+        }
+
+        {
+            auto tmp = candidates;
+            tmp.erase(candidate.first);
+            children.emplace_back(begin, it2, max_class_id, f, tmp, measure, pi, l, visitors, eta, use_leq_for_categorical, goodness, total_weights);
+            children.emplace_back(it2, end, max_class_id, f, tmp, measure, pi, l, visitors, eta, use_leq_for_categorical, goodness, total_weights);
+        }
+
+
+        if(is_root) {
+            /* Only on the very last iteration, the original candidate */
+            *goodness /= *total_weights;
         }
     }
 
@@ -341,6 +526,7 @@ public:
                  const std::size_t l,
                  const std::size_t visitors,
                  const std::size_t eta = 1,
+                 bool use_leq_for_categorical = true,
                  double *goodness = nullptr,
                  double* total_weights = nullptr) : F{f} {
         ForTheWin forthegain(max_class_id);
@@ -391,16 +577,28 @@ public:
             std::function<union_minimal(const T&)> wrap = [&f,&attribute](const T& x) {
                 return f(x,attribute);
             };
-            std::pair<dt_predicate,double> result = evaluate_leq_predicate(begin, end, wrap, forthegain, max_class_id, measure);
-            if (result.second > candidate.second) {
-                result.first.field = attribute;
-                std::swap(candidate, result);
+            if (use_leq_for_categorical) {
+                std::pair<dt_predicate,double> result = evaluate_leq_predicate(begin, end, wrap, forthegain, max_class_id, measure);
+                if (result.second > candidate.second) {
+                    result.first.field = attribute;
+                    std::swap(candidate, result);
+                }
             }
             std::pair<dt_predicate,double> result2 = evaluate_inset_predicate(begin, end, wrap, forthegain, max_class_id, measure, l);
             if (result2.second > candidate.second) {
                 result2.first.field = attribute;
                 std::swap(candidate, result2);
             }
+        }
+
+        if (candidate.second == -1) {
+            isLeaf = true;
+            majority_class = clazz;
+            majority_class_precision = forthegain.getClassPrecision(clazz);
+            leaf = {begin, end};
+            *total_weights += current_weight;
+            *goodness += (majority_class_precision * current_weight);
+            return;
         }
 
         auto it2 = std::stable_partition(begin, end, [this](const std::pair<T,int>& obj) {
@@ -417,8 +615,8 @@ public:
             return;
         }
 
-        children.emplace_back(begin, it2, max_class_id, f, numeric_attributes, categorical_attributes, measure, pi, l, visitors, eta, goodness, total_weights);
-        children.emplace_back(it2, end, max_class_id, f, numeric_attributes, categorical_attributes, measure, pi, l, visitors, eta, goodness, total_weights);
+        children.emplace_back(begin, it2, max_class_id, f, numeric_attributes, categorical_attributes, measure, pi, l, visitors, eta, use_leq_for_categorical, goodness, total_weights);
+        children.emplace_back(it2, end, max_class_id, f, numeric_attributes, categorical_attributes, measure, pi, l, visitors, eta, use_leq_for_categorical, goodness, total_weights);
 
         if(is_root) {
             /* Only on the very last iteration, the original candidate */
