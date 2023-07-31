@@ -112,7 +112,22 @@ std::vector<std::unordered_set<T>> powerset(const std::unordered_set<T> & a) {
     return result;
 }
 
-
+template<typename T>
+std::vector<std::unordered_set<T> > powerSet(const std::vector<T>& set, size_t maxSize) {
+    std::vector<std::unordered_set<T> > result;
+    int numPowerSets = static_cast<int>(std::pow(2.0, static_cast<double>(set.size())));
+    for (size_t i = 0; i < numPowerSets; ++i) {
+        std::vector<int> onLocations = getOnLocations(i);
+        if (onLocations.size() > maxSize) continue;
+        if (onLocations.empty()) continue;
+        std::unordered_set<T> subSet;
+        for (size_t j = 0; j < onLocations.size(); ++j) {
+            subSet.insert(set.at(onLocations.at(j)));
+        }
+        result.push_back(subSet);
+    }
+    return result;
+}
 
 #include <numeric>
 #include <vector>
@@ -137,7 +152,7 @@ std::unordered_set<std::unordered_set<T>> cartesian_product(const std::vector<st
 #include <functional>
 
 template <typename T>
-void cartesian_product( const std::vector<std::vector<T>> & v, std::function<void(const std::vector<T>&)>& function) {
+void cartesian_product( const std::vector<std::vector<T>> & v, const std::function<void(const std::vector<T>&)>& function) {
     const long long N = std::accumulate( v.begin(), v.end(), 1LL, []( long long a, const std::vector<T>& b ) { return a*b.size(); } );
     std::vector<T> u(v.size());
     for( long long n=0 ; n<N ; ++n ) {
