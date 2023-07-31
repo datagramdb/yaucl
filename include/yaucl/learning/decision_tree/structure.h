@@ -127,8 +127,8 @@ std::pair<dt_predicate,double> evaluate_leq_predicate(typename std::vector<std::
 
 #include <cmath>
 
-// Returns which bits are on in the integer a
-std::vector<int> getOnLocations(int a);
+//// Returns which bits are on in the integer a
+//std::vector<int> getOnLocations(int a);
 
 #include <yaucl/structures/set_operations.h>
 

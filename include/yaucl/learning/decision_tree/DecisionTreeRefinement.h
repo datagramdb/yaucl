@@ -84,10 +84,6 @@ std::vector<concrete_dt_row> concrete_dt_vector(const std::vector<dt_predicate>&
     if (!isMetaClassifier) {
         std::unordered_map<std::string, int> map;
         for (const auto& x : vector) {
-#ifdef DEBUG
-            if (!S.contains(x.field))
-            exit(1); // ERROR
-#endif
             auto cp = concrete_dt_pair(x, isMetaClassifier, meta_map);
             if ((!isMetaClassifier) && cp.has_value())
                 map[cp->first] = cp->second;
