@@ -564,9 +564,9 @@ public:
                 if ((!removed_nodes.contains(ref)) && (!removed_edges.contains(edge))) {
                     os << '\t' << node_id << " -> " << FlexibleGraph<NodeElement, EdgeLabel>::g.edge_from_id(edge).second;
                     if (!ignoreEdgeLabels)
-                        os << " [label=" << FlexibleGraph<NodeElement, EdgeLabel>::costMap.at(edge) << /*"_" << edge <<*/ "]";
+                        os << " [label=\"" << FlexibleGraph<NodeElement, EdgeLabel>::costMap.at(edge) << /*"_" << edge <<*/ "\"]";
                     else
-                        os << " [label=" << edge << "]";
+                        os << " [label=\"" << edge << "\"]";
                 }
             }
         }

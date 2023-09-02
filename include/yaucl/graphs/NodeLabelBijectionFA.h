@@ -208,7 +208,7 @@ public:
             if (initial_nodes.contains(node_id)) {
                 os << "s" << node_id << " -> q" << node_id << ";\n";
             }
-            for (const std::pair<EdgeLabel, int>& edge : NodeLabelBijectionGraph<NodeElement, EdgeLabel>::outgoingEdges(node_id)) {
+            for (const std::pair<EdgeLabel, int>& edge : NodeLabelBijectionGraph<NodeElement, EdgeLabel>::outgoingEdgesById2(node_id)) {
                 os << "q" << node_id << " -> q" << edge.second;
                 if (!ignoreEdgeLabels)
                     os << " [ label = \"" << edge.first << "\"]";
