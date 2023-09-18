@@ -13,7 +13,7 @@ struct pattern_mining_result {
     T clause;
     double           support_generating_original_pattern;
     double           support_declarative_pattern;
-    double           confidence_declarative_pattern;
+    double           restrictive_confidence_plus_declarative_pattern;
 
     pattern_mining_result(const T& clause) : pattern_mining_result(1.0, clause) {}
     pattern_mining_result(double support,
@@ -26,7 +26,7 @@ struct pattern_mining_result {
                                                                          supportGeneratingOriginalPattern),
                                                                  support_declarative_pattern(
                                                                          supportDeclarativePattern),
-                                                                 confidence_declarative_pattern(confidenceDeclarativePattern) {}
+                                                                 restrictive_confidence_plus_declarative_pattern(confidenceDeclarativePattern) {}
 
 
     DEFAULT_CONSTRUCTORS(pattern_mining_result);
@@ -35,8 +35,8 @@ struct pattern_mining_result {
            << "\t - Pattern Maching Support: " << result.support_generating_original_pattern << std::endl;
         if (result.support_declarative_pattern >= 0.0)
             os << "\t - Declarative Pattern's Support: " << result.support_declarative_pattern << std::endl;
-        if (result.confidence_declarative_pattern >= 0.0)
-            os << "\t - Declarative Pattern's Confidence: " << result.confidence_declarative_pattern << std::endl;
+        if (result.restrictive_confidence_plus_declarative_pattern >= 0.0)
+            os << "\t - Declarative Pattern's Confidence: " << result.restrictive_confidence_plus_declarative_pattern << std::endl;
         return os << std::endl;
     }
 

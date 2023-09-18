@@ -9,6 +9,35 @@
 #include <yaucl/structures/default_constructors.h>
 #include <yaucl/strings/serializers.h>
 
+
+
+/// @author: https://gist.github.com/marcinwol/3283a92331ff64a8f531
+template <typename T,
+        typename A,
+        template <typename , typename > class C>
+C<C<T,A>, std::allocator<C<T,A>>> chunker(const C<T,A>& c, const typename C<T,A>::size_type& k){
+    if (k <= 0)
+        throw std::domain_error("chunker() requires k > 0");
+    using INPUT_CONTAINER_TYPE = C<T,A>;
+    using INPUT_CONTAINER_VALUE_TYPE = typename INPUT_CONTAINER_TYPE::value_type;
+    using OUTPUT_CONTAINER_TYPE = C<INPUT_CONTAINER_TYPE,
+            std::allocator<INPUT_CONTAINER_TYPE>
+    >;
+    OUTPUT_CONTAINER_TYPE out_c;
+    auto chunkBeg = begin(c);
+    for (auto left=c.size(); left != 0; ) {
+        auto const skip = std::min(left,k);
+        INPUT_CONTAINER_TYPE sub_container;
+        std::back_insert_iterator<INPUT_CONTAINER_TYPE> back_v(sub_container);
+        std::copy_n(chunkBeg, skip, back_v);
+        out_c.push_back(sub_container);
+        left -= skip;
+        std::advance(chunkBeg, skip);
+    }
+    return out_c;
+}
+
+
 template <typename T>
 struct partition_sets_result {
     std::vector<std::set<size_t>> decomposedSubsets;

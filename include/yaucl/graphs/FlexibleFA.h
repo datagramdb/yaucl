@@ -26,6 +26,7 @@
 #ifndef CLASSIFIERS_FLEXIBLEFA_H
 #define CLASSIFIERS_FLEXIBLEFA_H
 
+#include <random>
 #include <unordered_set>
 #include <yaucl/hashing/pair_hash.h>
 #include <yaucl/hashing/uset_hash.h>
@@ -42,7 +43,70 @@
 #include <roaring64map.hh>
 
 
+#include <queue>
 
+// C++ program for the above approach
+
+#include <bits/stdc++.h>
+
+template <typename T>
+struct QNode2 {
+    T data;
+    QNode2<T>* next;
+    QNode2(const T& d)
+    {
+        data = d;
+        next = NULL;
+    }
+};
+template <typename T>
+struct Queue2 {
+    QNode2<T> *front, *rear;
+    Queue2() { front = rear = NULL; }
+
+    void enQueue(T x)
+    {
+
+        // Create a new LL node
+        QNode2<T>* temp = new QNode2(x);
+
+        // If queue is empty, then
+        // new node is front and rear both
+        if (rear == NULL) {
+            front = rear = temp;
+            return;
+        }
+
+        // Add the new node at
+        // the end of queue and change rear
+        rear->next = temp;
+        rear = temp;
+    }
+
+    bool empty() const { return front == NULL; }
+    const T& top() const { return front->data; }
+
+    // Function to remove
+    // a key from given queue q
+    void pop()
+    {
+        // If queue is empty, return NULL.
+        if (front == NULL)
+            return;
+
+        // Store previous front and
+        // move front one node ahead
+        QNode2<T>* temp = front;
+        front = front->next;
+
+        // If front becomes NULL, then
+        // change rear also as NULL
+        if (front == NULL)
+            rear = NULL;
+
+        delete (temp);
+    }
+};
 
 template <typename NodeElement, typename EdgeLabel>
 class FlexibleFA : public FlexibleGraph<NodeElement, EdgeLabel> {
@@ -58,6 +122,53 @@ public:
         final_nodes.clear();
         removed_nodes.clear();
         removed_edges.clear();
+    }
+
+    //    std::set<std::vector<EdgeLabel>>
+    void generative(std::ofstream& tab,
+                    size_t min_len = 3,
+                    size_t max_len = 3,
+                    size_t max_per_limit = std::numeric_limits<size_t>::max(),
+                    bool doSample = false,
+                    double sampleRate = 0.5) {
+        if (max_per_limit == 0) return;
+        std::default_random_engine generator;
+        std::uniform_real_distribution<double> distribution(0.0,1.0);
+//        std::vector<size_t> Arg(getNodeIds().size(), 0);
+        Queue2<std::pair<size_t, std::vector<EdgeLabel>>> Q;
+        std::pair<size_t, std::vector<EdgeLabel>> cp;
+//        std::set<std::vector<EdgeLabel>> EL;
+        for (size_t i : init())
+            Q.enQueue(std::make_pair(i, std::vector<EdgeLabel>{}));
+        while (!Q.empty()) {
+            std::swap(cp, Q.front->data);
+            Q.pop();
+            if ((cp.second.size() <= max_len)) {
+                if (final_nodes.contains(cp.first) && (cp.second.size() > 0) /*&& (Arg[cp.first] < max_per_limit)*/) {
+//                    Arg[cp.first]++;
+//                    EL.emplace(cp.second);
+                    if (min_len <= cp.second.size()) {
+                        for (size_t j = 0, N = cp.second.size()-1; j<=N; j++) {
+                            tab << cp.second[j];
+                            if (j != N) tab  << "\t";
+                        }
+                        tab << std::endl;
+                        std::flush(tab);
+                        max_per_limit--;
+                        if (max_per_limit == 0) return;
+                    }
+                }
+                for (auto cp2 : outgoingEdges(cp.first)) {
+                    double number = distribution(generator);
+                    if ((!doSample) || number <= sampleRate) {
+                        std::vector<EdgeLabel> el{cp.second};
+                        el.emplace_back(cp2.first);
+                        Q.enQueue(std::make_pair(cp2.second, el));
+                    }
+                }
+            }
+        }
+//        return EL;
     }
 
     void clear() override {
@@ -244,9 +355,9 @@ public:
         return outgoingEdges(node);
     }
 
-    std::unordered_map<EdgeLabel, std::unordered_set<size_t>> Move(const std::unordered_set<NodeElement>& P) const {
+    std::unordered_map<EdgeLabel, std::unordered_set<size_t>> Move(const std::unordered_set<size_t>& P) const {
         std::unordered_map<EdgeLabel, std::unordered_set<size_t>> reachable;
-        for (const NodeElement& p : P) {
+        for (const size_t& p : P) {
             if (removed_nodes.contains(p)) continue;
             for (const std::pair<EdgeLabel, size_t>& cp: outgoingEdges(p)) {
                 reachable[cp.first].insert(cp.second);
@@ -279,9 +390,9 @@ public:
         }
     }
 
-    std::unordered_set<size_t> Move(const std::unordered_set<NodeElement>& P, const EdgeLabel& given) {
+    std::unordered_set<size_t> Move(const std::unordered_set<size_t>& P, const EdgeLabel& given) {
         std::unordered_set<size_t> reachable;
-        for (const NodeElement& p : P) {
+        for (const size_t& p : P) {
             if (removed_nodes.contains(p)) continue;
             for (const std::pair<EdgeLabel, size_t>& cp: outgoingEdges(p)) {
                 if (cp.first == given)
@@ -331,13 +442,11 @@ public:
         return result;
     }
 
-    std::unordered_set<size_t> ClosureId(const std::unordered_set<NodeElement>& P, const EdgeLabel& epsilon) {
+    std::unordered_set<size_t> ClosureId(const roaring::Roaring64Map& P, const EdgeLabel& epsilon) {
         std::unordered_set<size_t> t, result;
-        for (const NodeElement& p : P) {
-            for (const auto& id : FlexibleGraph<NodeElement, EdgeLabel>::getIdsFromLabel(p)) {
-                t.insert(id);
-                result.insert(id);
-            }
+        for (const size_t& id : P) {
+            t.insert(id);
+            result.insert(id);
         }
         while (!t.empty()) {
             size_t elem = *t.begin();
@@ -455,9 +564,9 @@ public:
                 if ((!removed_nodes.contains(ref)) && (!removed_edges.contains(edge))) {
                     os << '\t' << node_id << " -> " << FlexibleGraph<NodeElement, EdgeLabel>::g.edge_from_id(edge).second;
                     if (!ignoreEdgeLabels)
-                        os << " [label=" << FlexibleGraph<NodeElement, EdgeLabel>::costMap.at(edge) << "_" << edge << "]";
+                        os << " [label=\"" << FlexibleGraph<NodeElement, EdgeLabel>::costMap.at(edge) << /*"_" << edge <<*/ "\"]";
                     else
-                        os << " [label=" << edge << "]";
+                        os << " [label=\"" << edge << "\"]";
                 }
             }
         }
@@ -474,7 +583,21 @@ public:
         visited_src_dst -= removed_nodes;
         for (size_t start : final_nodes) {
             if (!removed_nodes.contains(start)) {
-                adjacency_graph_DFSUtil(start, FlexibleGraph<NodeElement, EdgeLabel>::g, visited_src_dst);
+                std::stack<size_t> stack;
+                stack.push(start);
+                while (!stack.empty()) {
+                    size_t s = stack.top();
+                    stack.pop();
+                    visited_src_dst.add(s);
+                    auto it = FlexibleGraph<NodeElement, EdgeLabel>::g.ingoing_edges.find(s);
+                    if (it != FlexibleGraph<NodeElement, EdgeLabel>::g.ingoing_edges.end())
+                    for (size_t edge_id: it->second) {
+                        size_t src = FlexibleGraph<NodeElement, EdgeLabel>::g.edge_ids.at(edge_id).first;
+                        if (!visited_src_dst.contains(src))
+                            stack.push(src);
+                    }
+                }
+//                adjacency_graph_DFSUtil(start, FlexibleGraph<NodeElement, EdgeLabel>::g, visited_src_dst);
             }
         }
         roaring::Roaring64Map candidatesForRemoval;

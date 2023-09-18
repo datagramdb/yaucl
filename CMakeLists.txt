@@ -3,6 +3,8 @@ project(yaucl)
 set(CMAKE_CXX_STANDARD 23)
 # For Windows: Prevent overriding the parent project's compiler/linker settings
 
+add_subdirectory(submodules/eigen)
+include_directories(submodules/eigen)
 include_directories(submodules/date/include)
 include_directories(submodules/rapidcsv/src)
 include_directories(submodules/json/include)
@@ -22,6 +24,10 @@ add_library(yaucl_learning OBJECT
         src/yaucl/learning/DecisionTree.cpp)
 add_executable(yaucl_learning_decision_tree src/examples/decision_tree_example.cpp)
 target_link_libraries(yaucl_learning_decision_tree yaucl_learning)
+add_executable(yaucl_learning_decision_tree_refinement src/examples/decision_tree_refinement_example.cpp)
+target_link_libraries(yaucl_learning_decision_tree_refinement yaucl_learning)
+
+add_executable(yaucl_learning_mcl src/examples/mcl_example.cpp)
 
 add_library(yaucl_hashing OBJECT
         include/yaucl/hashing/evaluateHashes.h
@@ -79,7 +85,8 @@ add_library(yaucl_bpm OBJECT
          src/yaucl/bpm/structures/commons/testing_predicates.cpp
         src/yaucl/bpm/structures/ltlf/easy_prop.cpp
         src/yaucl/bpm/structures/ltlf/ltlf.cpp
-        src/yaucl/bpm/structures/log/data_loader.cpp)
+        #
+        )
 
 add_library(yaucl_bpm_new_atomization
         src/yaucl/bpm/algos/atomization/AtomizingPipeline.cpp)

@@ -18,7 +18,9 @@ namespace yaucl {
             std::vector<T> int_to_T;
             std::unordered_map<T, size_t> T_to_int;
 
-
+            size_t size() const {
+                return int_to_T.size();
+            }
             any_to_uint_bimap() : int_to_T{}, T_to_int{} {
             }
             any_to_uint_bimap(const any_to_uint_bimap&) = default;

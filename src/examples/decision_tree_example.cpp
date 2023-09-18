@@ -18,7 +18,7 @@
  * along with yaucl-elarning. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
+#include <yaucl/structures/RelationalTables.h>
 #include <iostream>
 #include <algorithm>
 #include <cmath>
@@ -48,47 +48,41 @@ namespace std {
             return val;
         }
     };
-
 }
 
-int main()
-{
-    io::CSVReader<7> in("outlook.csv");
+void weather_outlook_example()  {
+        io::CSVReader<7> in("outlook.csv");
     in.read_header(io::ignore_extra_column, "outlook","temperature","tnominal","humidity","hnominal","windy","play");
     std::pair<record, int> obj;
     std::vector<std::pair<record,int>> V;
     while(in.read_row(obj.first.outlook, obj.first.temperature, obj.first.tnominal, obj.first.humidity, obj.first.hnominal, obj.first.windy, obj.second)){
         V.emplace_back(obj);
     }
+}
 
-    std::function<simple_data(const record&, const std::string&)> selector = [](const record& x, const std::string& key) -> simple_data {
-        if (key == "outlook")
-            return x.outlook;
-        else if (key == "temperature")
-            return x.temperature;
-        else if (key == "tnominal")
-            return x.tnominal;
-        else if (key == "humidity")
-            return x.humidity;
-        else if (key == "hnominal")
-            return x.hnominal;
-        else if (key == "windy")
-            return x.windy;
-        else
-            return 0.0;
+
+void doubles_example() {
+    auto selector = [](double x, const std::string& key) -> double {
+        return x;
     };
-
+    std::vector<std::pair<double,int>> V{{2.0,0}, {5.0,0}, {-2.0,1}, {-8.0,1}};
     auto it = V.begin(), en = V.end();
-    DecisionTree<record> dt(it,
+    DecisionTree<double> dt(it,
                             en,
                             1,
                             selector,
-                            std::unordered_set<std::string>{"temperature","humidity"},
-                            std::unordered_set<std::string>{"outlook","tnominal","hnominal","windy"},
+                            std::unordered_set<std::string>{"y"},
+                            std::unordered_set<std::string>{},
                             ForTheWin::gain_measures::Entropy,
                             0.9,
                             1,
                             1);
-    dt.print_rec(std::cout, 1);
+}
+
+
+int main()
+{
+//    weather_outlook_example();
+    doubles_example();
 }
 

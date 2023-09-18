@@ -112,7 +112,37 @@ std::vector<std::unordered_set<T>> powerset(const std::unordered_set<T> & a) {
     return result;
 }
 
+static inline
+std::vector<int> getOnLocations(int a) {
+    std::vector<int> result;
+    int place = 0;
+    while (a != 0) {
+        if (a & 1) {
+            result.push_back(place);
+        }
+        ++place;
+        a >>= 1;
+    }
+    return result;
+}
 
+
+template<typename T>
+std::vector<std::unordered_set<T> > powerSet(const std::vector<T>& set, size_t maxSize) {
+    std::vector<std::unordered_set<T> > result;
+    int numPowerSets = static_cast<int>(std::pow(2.0, static_cast<double>(set.size())));
+    for (size_t i = 0; i < numPowerSets; ++i) {
+        std::vector<int> onLocations = getOnLocations(i);
+        if (onLocations.size() > maxSize) continue;
+        if (onLocations.empty()) continue;
+        std::unordered_set<T> subSet;
+        for (size_t j = 0; j < onLocations.size(); ++j) {
+            subSet.insert(set.at(onLocations.at(j)));
+        }
+        result.push_back(subSet);
+    }
+    return result;
+}
 
 #include <numeric>
 #include <vector>
@@ -125,7 +155,7 @@ std::unordered_set<std::unordered_set<T>> cartesian_product(const std::vector<st
         lldiv_t q { n, 0 };
         std::unordered_set<T> u;
         for( long long i=v.size()-1 ; 0<=i ; --i ) {
-            q = std::div( q.quot, v[i].size() );
+            q = std::lldiv( q.quot, v[i].size() );
             u.insert(v[i][q.rem]);
             //u[i] = v[i][q.rem];
         }
@@ -137,13 +167,13 @@ std::unordered_set<std::unordered_set<T>> cartesian_product(const std::vector<st
 #include <functional>
 
 template <typename T>
-void cartesian_product( const std::vector<std::vector<T>> & v, std::function<void(const std::vector<T>&)>& function) {
+void cartesian_product( const std::vector<std::vector<T>> & v, const std::function<void(const std::vector<T>&)>& function) {
     const long long N = std::accumulate( v.begin(), v.end(), 1LL, []( long long a, const std::vector<T>& b ) { return a*b.size(); } );
     std::vector<T> u(v.size());
     for( long long n=0 ; n<N ; ++n ) {
         lldiv_t q { n, 0 };
         for( long long i=v.size()-1 ; 0<=i ; --i ) {
-            q = div( q.quot, v[i].size() );
+            q = lldiv( q.quot, v[i].size() );
             u[i] = v[i][q.rem];
         }
         function(u);
@@ -236,6 +266,12 @@ std::vector<std::vector<Value>> GroupByKeyExtractorIgnoreKey(Iterator begin, Ite
 template <typename T>
 void remove_duplicates(std::vector<T>& vec){
     std::sort(vec.begin(), vec.end());
+    vec.erase(std::unique(vec.begin(), vec.end()), vec.end());
+}
+
+template <typename T, typename F>
+void remove_duplicates(std::vector<T>& vec, F comparator){
+    std::sort(vec.begin(), vec.end(), comparator);
     vec.erase(std::unique(vec.begin(), vec.end()), vec.end());
 }
 

@@ -2,7 +2,7 @@
  * dt_predicate.h
  * This file is part of yaucl-learning
  *
- * Copyright (C) 2022 - Giacomo Bergami
+ * Copyright (C) 2022 - Giacomo Bergami, Samuel Appleby
  *
  * yaucl-learning is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,18 +31,21 @@
 #include <vector>
 #include <unordered_set>
 #include <ostream>
+#include <yaucl/bpm/structures/commons/DataPredicate.h>
 
-
-using simple_data = std::variant<std::string, double>;
 
 struct dt_predicate {
     enum type {
+        L_THAN,
         LEQ_THAN,
-        IN_SET
+        G_THAN,
+        GEQ_THAN,
+        IN_SET,
+        NOT_IN_SET
     };
     std::string field;
-    simple_data value;
-    std::unordered_set<simple_data> categoric_set;
+    union_minimal value;
+    std::unordered_set<union_minimal> categoric_set;
     type pred;
 
     dt_predicate() = default;
@@ -51,10 +54,30 @@ struct dt_predicate {
     dt_predicate& operator=(const dt_predicate&) = default;
     dt_predicate& operator=(dt_predicate&& ) = default;
 
+    dt_predicate(const union_minimal& value, const std::string&field) : field{field} {
+        categoric_set.insert(value);
+        pred = IN_SET;
+    }
 
+    bool operator==(const dt_predicate& x) const {
+        if (pred != x.pred) return false;
+        if (field != x.field) return false;
+        if (value != x.value) return false;
+        return categoric_set != x.categoric_set;
+    }
     friend std::ostream& operator<<(std::ostream& os, const dt_predicate &predicate);
 
-    bool operator()(const simple_data& val) const;
+    bool operator()(const union_minimal& val) const;
 };
+
+namespace std {
+    template <>
+    struct hash<dt_predicate> {
+        const std::hash<std::string> f;
+        size_t operator()(const dt_predicate& x) const {
+            return ((size_t)x.pred) ^ f(x.field);
+        }
+    };
+}
 
 #endif //DISTANCE_DT_PREDICATE_H
