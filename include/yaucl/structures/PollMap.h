@@ -102,6 +102,11 @@ namespace yaucl {
                 return valueScore.size();
             }
 
+            const std::unordered_map<V, K>& getValueScore() {
+                doSanitize();
+                return valueScore;
+            }
+
             void resize(size_t topK) {
                 this->topK = (topK <= 0) ? std::numeric_limits<int>::max() : topK;
                 const size_t originalSize = poll.size();
@@ -163,8 +168,8 @@ namespace yaucl {
                 }
             }
 
-            const std::map<K, std::set<V>>& getPoll() const {
-                //doSanitize();
+            const std::map<K, std::set<V>>& getPoll() {
+                doSanitize();
                 return poll;
             }
 

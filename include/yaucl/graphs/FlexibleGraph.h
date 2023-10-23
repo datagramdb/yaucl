@@ -242,19 +242,19 @@ public:
         return result;
     }
 
-    void dot(std::ostream& os, bool ignoreEdgeLabels = false) const {
+    void dot(std::ostream& os, bool ignoreEdgeLabels = false, const std::string& shape="circle") const {
         os << "digraph finite_state_machine {\n"
               "    rankdir=LR;\n"
               "    size=\"8,5\"\n";
         for (size_t node_id = 0, N = vertexSize(); node_id < N; node_id++) {
             ///TODO: if (removed_nodes.contains(node_id)) continue;
-            std::string shape = "circle";
+//            std::string shape = "circle";
             os << "node [shape = " << shape << ", label=\"" << getNodeLabel(node_id) << "\", fontsize=10] q" << node_id << ";\n";
         }
         os << "\n\n";
         for (size_t node_id = 0, N = vertexSize(); node_id < N; node_id++) {
             ///TODO: if (removed_nodes.contains(node_id)) continue;
-            std::string shape = "circle";
+//            std::string shape = "circle";
             for (const std::pair<EdgeLabel, int>& edge : outgoingEdges(node_id)) {
                 os << "q" << node_id << " -> q" << edge.second;
                 if (!ignoreEdgeLabels)

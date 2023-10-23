@@ -703,8 +703,16 @@ natural_join(AbstractEquiJoinTable<S,D>* left,
         std::sort(idxL.begin(), idxL.end());
         std::sort(idxR.begin(), idxR.end());
         for (size_t i = 0, N = Lschema.size(); i<N; i++) {
-            if (!std::binary_search(idxL.begin(), idxL.end(), i)) projL.emplace_back(Lschema.at(i));
-            if (!std::binary_search(idxR.begin(), idxR.end(), i)) projR.emplace_back(Rschema.at(i));
+            if (!std::binary_search(idxL.begin(), idxL.end(), i))
+                projL.emplace_back(Lschema.at(i));
+//            if (!std::binary_search(idxR.begin(), idxR.end(), i))
+//                projR.emplace_back(Lschema.at(i));
+        }
+        for (size_t i = 0, N = Rschema.size(); i<N; i++) {
+//            if (!std::binary_search(idxL.begin(), idxL.end(), i))
+//                projL.emplace_back(Lschema.at(i));
+            if (!std::binary_search(idxR.begin(), idxR.end(), i))
+                projR.emplace_back(Rschema.at(i));
         }
         assert(idxL.size() == idxR.size());
         std::vector<D> u;
