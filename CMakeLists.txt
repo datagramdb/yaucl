@@ -72,6 +72,7 @@ add_library(yaucl_bpm OBJECT
         src/yaucl/graphs/flloat/FLLOATSimplePropParser.cpp
         include/yaucl/graphs/flloat/FLLOATSimplePropParser.h
         SimpleXESSerializer.cpp
+        src/yaucl/bpm/structures/log/data_loader.cpp
         src/yaucl/bpm/structures/log/DataTraceParse.cpp
                 src/yaucl/bpm/structures/log/TracesParser.cpp
                 ./src/yaucl/bpm/structures/log/TracesLexer.cpp
