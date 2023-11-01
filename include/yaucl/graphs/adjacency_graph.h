@@ -115,7 +115,6 @@ struct adjacency_graph {
     bool operator==(const adjacency_graph &rhs) const;
     bool operator!=(const adjacency_graph &rhs) const;
 
-private:
     void topologicalSortUtil(size_t v, roaring::Roaring64Map& visited,
                         std::vector<size_t>& Stack)
     {
@@ -132,6 +131,7 @@ private:
         // Push current vertex to stack which stores result
         Stack.emplace_back(v);
     }
+private:
     void printAllPathsUtil(size_t u, size_t d, std::unordered_set<size_t>& visited, std::vector<ssize_t>& path, size_t path_index, std::unordered_set<size_t>& visited_src_dst, std::unordered_set<size_t>& global);
     const static std::vector<size_t> emptyVector;
 };
