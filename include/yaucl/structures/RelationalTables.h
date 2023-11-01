@@ -28,6 +28,7 @@
 #include <iostream>
 #include <utility>
 #include <vector>
+#include <algorithm>
 
 /**
  * Abstract representation of a row for a table supporting simple equi-join operations

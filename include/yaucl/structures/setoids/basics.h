@@ -8,6 +8,7 @@
 #include <set>
 #include <unordered_set>
 #include <ostream>
+#include <algorithm>
 
 template <typename T>
 std::vector<T> common_shared_subvector(const std::vector<T>& l,
