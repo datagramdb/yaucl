@@ -127,6 +127,7 @@ public:
         return graphNode;
     }
 
+
     virtual size_t addNewEdgeFromId(size_t src2, size_t dst2, const EdgeLabel& weight) {
         size_t edgeId = g.add_edge(src2, dst2);
         costMap[edgeId] = weight;
