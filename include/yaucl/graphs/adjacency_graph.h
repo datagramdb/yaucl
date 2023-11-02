@@ -79,7 +79,7 @@ struct adjacency_graph {
         V_size = E_size = 0;
     }
 
-    std::unordered_map<size_t, std::vector<size_t>> topological_sort(ssize_t start_from) {
+    inline std::vector<size_t> topological_sort2(ssize_t start_from) {
         roaring::Roaring64Map visited;
         std::vector<size_t> Stack;
         if (start_from > 0) {
@@ -88,7 +88,7 @@ struct adjacency_graph {
         for (size_t i = 0; i < V_size; i++)
             if (!visited.contains(i))
                 topologicalSortUtil(i, visited, Stack);
-        std::unordered_map<size_t, size_t> time;
+        std::vector<size_t> time(V_size, -1);
         std::unordered_map<size_t, std::vector<size_t>> time_to_node;
         bool firstVisit = true;
         std::reverse(Stack.begin(), Stack.end());
@@ -106,10 +106,18 @@ struct adjacency_graph {
                 }
             }
         }
-        for (const auto& ref : time)
-            time_to_node[ref.second].emplace_back(ref.first);
+        return time;
+    }
+
+    inline std::unordered_map<size_t, std::vector<size_t>> topological_sort(ssize_t start_from) {
+        std::unordered_map<size_t, std::vector<size_t>> time_to_node;
+        auto result = topological_sort2(start_from);
+        for (size_t ref_first = 0, N = result.size(); ref_first<N; ref_first++) {
+            time_to_node[result.at(ref_first)].emplace_back(ref_first);
+        }
         return time_to_node;
     }
+
     void dot(std::ostream& os);
 
     bool operator==(const adjacency_graph &rhs) const;
