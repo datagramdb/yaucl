@@ -363,4 +363,16 @@ void AddToContainer(C& container, V&& value) {
     append(container, std::forward<V>(value), 0);
 }
 
+template <class T>
+void reorder(std::vector<T>& vA, std::vector<size_t>& vI)
+{
+    DEBUG_ASSERT(vA.size() == vI.size());
+    std::vector<T> slowReorder;
+    slowReorder.reserve(vI.size());
+    for (size_t idx : vI) {
+        slowReorder.emplace_back(vA[idx]);
+    }
+    std::swap(vA, slowReorder);
+}
+
 #endif //KNOBAB_SERVER_BASICS_H
