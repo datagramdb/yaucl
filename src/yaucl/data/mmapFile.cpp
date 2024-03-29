@@ -32,7 +32,6 @@ void* mmapFile(std::string file, unsigned long* size, mmap_file* fd) {
     TCHAR *lpFileName = file.data();
     LPVOID lpBasePtr;
     LARGE_INTEGER liFileSize;
-
     fd->hFile = CreateFile(lpFileName,
                        GENERIC_READ,                          // dwDesiredAccess
                        0,                                     // dwShareMode
@@ -106,10 +105,10 @@ void mmapClose(void* ptr, mmap_file* fd) {
     UnmapViewOfFile(ptr);
     CloseHandle(fd->hMap);
     CloseHandle(fd->hFile);
-
 #else
     munmap(ptr, fd->len);
     close(fd->fd);
+    fd->clear();
 #endif
 }
 

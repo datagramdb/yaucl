@@ -98,7 +98,7 @@ smart_malloc &smart_malloc::operator=(smart_malloc const &rhs) {
     return *this;
 }*/
 
-void swap(yaucl::memory::smart_malloc &lhs, yaucl::memory::smart_malloc &rhs) {
+void yaucl::memory::swap(yaucl::memory::smart_malloc &lhs, yaucl::memory::smart_malloc &rhs) {
     void* tmp = lhs.malloced_iovec.iov_base;
     lhs.malloced_iovec.iov_base = rhs.malloced_iovec.iov_base;
     rhs.malloced_iovec.iov_base = tmp;
