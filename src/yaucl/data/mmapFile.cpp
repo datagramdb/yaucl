@@ -92,7 +92,7 @@ void* mmapFile(std::string file, unsigned long* size, mmap_file* fd) {
     fd->fd = open(file.c_str(),O_RDWR);
     void* addr = mmap(NULL,*size, PROT_READ | PROT_WRITE, MAP_SHARED, fd->fd, 0 );
     if (addr == MAP_FAILED) {
-        std::cout << strerror(errno) << std::endl;
+        std::cout << file << ": " << strerror(errno) << std::endl;
         return nullptr;
     }
     return addr;
