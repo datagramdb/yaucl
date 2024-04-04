@@ -476,6 +476,13 @@ namespace yaucl {
                         return nullptr;
                     }
 
+                    void clear() {
+                        auto it = disposeWhileIterating();
+                        while (it.hasNext()) {
+                            it.disposeWhileIterating();
+                        }
+                    }
+
                 };
 
                 /**

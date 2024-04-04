@@ -84,7 +84,7 @@ namespace yaucl {
             /**
              * Desctructor taking care of freeing the memory
              */
-            ~smart_malloc();
+            virtual ~smart_malloc();
         };
 
 /**

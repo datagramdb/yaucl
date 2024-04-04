@@ -30,6 +30,8 @@ namespace yaucl {
  * @return
  */
         std::string utf8_tolower(const std::string &src);
+
+        std::wstring utf8_towlower(const std::string &src);
         wchar_t  lowcase(wchar_t ch);
 
         static inline bool is_number(const std::string& s)
