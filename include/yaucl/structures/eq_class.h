@@ -30,6 +30,7 @@
 #include <algorithm>
 #include <unordered_map>
 #include <set>
+#include <unordered_set>
 
 template<typename T>
 struct equivalence_class {
@@ -42,6 +43,16 @@ struct equivalence_class {
     void insert(const T& left, const T& right) {
         equivalence_relationship.emplace(left, right); //
         equivalence_relationship.emplace(right, left); // Symmetry
+        equivalence_relationship.emplace(right, right); // Identity
+        equivalence_relationship.emplace(left, left); // Identity
+        items.insert(left);
+        items.insert(right);
+        hasTransition = false;
+        class_id_to_members.clear();
+    }
+
+    void insert_monodirectional(const T& left, const T& right) {
+        equivalence_relationship.emplace(left, right);
         equivalence_relationship.emplace(right, right); // Identity
         equivalence_relationship.emplace(left, left); // Identity
         items.insert(left);
