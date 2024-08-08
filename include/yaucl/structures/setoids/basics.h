@@ -269,6 +269,30 @@ void remove_duplicates(std::vector<T>& vec){
     vec.erase(std::unique(vec.begin(), vec.end()), vec.end());
 }
 
+
+template<class InputIt2, class OutputIt>
+OutputIt set_complement(size_t max_val,
+                        InputIt2 first2, InputIt2 last2, OutputIt d_first)
+{
+    size_t i = 0;
+    while (i<max_val) {
+        if (first2 == last2) {
+            while (i<max_val) {
+                *d_first++ = i++;
+            }
+            return d_first;
+        }
+        if (i < *first2) {
+            *d_first++ = i++;
+        } else {
+            if (!(*first2 < i))
+                i++;
+            ++first2;
+        }
+    }
+    return d_first;
+}
+
 template <typename T, typename F>
 void remove_duplicates(std::vector<T>& vec, F comparator){
     std::sort(vec.begin(), vec.end(), comparator);
