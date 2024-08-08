@@ -53,6 +53,27 @@ struct mmap_file {
     int fd;
     mmap_file() : len{0}, fd{-1} {};
 #endif
+
+    inline bool isValid() const {
+#ifdef _MSC_VER
+        return (ptr != nullptr);
+#else
+        return fd != -1;
+#endif
+    }
+
+    inline bool operator()() const {
+        return isValid();
+    }
+
+    void clear() {
+        len = 0;
+#ifdef _MSC_VER
+        lpBasePtr = nullptr;
+#else
+#endif
+        fd = -1;
+    }
 };
 
 /**

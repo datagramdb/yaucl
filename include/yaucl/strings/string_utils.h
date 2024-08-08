@@ -12,12 +12,26 @@
 #include <locale>
 namespace yaucl {
     namespace strings {
+        /** Compares two strings having different lengths
+        *
+        * @param value
+        * @param len1
+        * @param other
+        * @param len2
+        * @return
+        */
+        int strnmcmp(char* value, size_t len1, char * other, size_t len2);
+
+
+
         /**
  * Converts to uppercase a string that might be in unicode
  * @param src   Unicode raw string
  * @return
  */
         std::string utf8_tolower(const std::string &src);
+
+        std::wstring utf8_towlower(const std::string &src);
         wchar_t  lowcase(wchar_t ch);
 
         static inline bool is_number(const std::string& s)
