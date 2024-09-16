@@ -6,6 +6,7 @@
 #define BZDB_TRACE_VISITOR_H
 
 #include <string>
+#include <cstdint>
 
 struct trace_visitor {
         virtual void enterLog(const std::string& source, const std::string& name) = 0;

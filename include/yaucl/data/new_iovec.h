@@ -7,6 +7,7 @@
 
 #include <string>
 #include <sstream>
+#include <cstdint>
 
 /**
  * Providing a modern C++ definition of the iovec structure. In particular, this is give with respect to the implementation
