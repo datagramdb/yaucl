@@ -32,6 +32,8 @@
 #include <type_traits>
 #include <string>
 #include <bit>
+#include <stdint.h>
+
 
 namespace yaucl {
     namespace hashing {
