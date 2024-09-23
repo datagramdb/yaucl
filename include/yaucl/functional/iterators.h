@@ -25,7 +25,8 @@
 #include <map>
 #include <vector>
 #include <numeric>
-
+#include <algorithm>
+#include <cstdlib>
 
 namespace yaucl {
     namespace iterators {
