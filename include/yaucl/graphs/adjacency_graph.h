@@ -89,7 +89,7 @@ struct adjacency_graph {
             if (!visited.contains(i))
                 topologicalSortUtil(i, visited, Stack);
         std::vector<size_t> time(V_size, -1);
-        std::unordered_map<size_t, std::vector<size_t>> time_to_node;
+//        std::unordered_map<size_t, std::vector<size_t>> time_to_node;
         bool firstVisit = true;
         std::reverse(Stack.begin(), Stack.end());
         for (size_t v : Stack) {
