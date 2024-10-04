@@ -6,6 +6,7 @@
 #define BZDB_TRACE_VISITOR_H
 
 #include <string>
+#include <cstdint>
 
 struct trace_visitor {
         virtual void enterLog(const std::string& source, const std::string& name) = 0;
@@ -15,6 +16,7 @@ struct trace_visitor {
         virtual void exitTrace(size_t traceId) = 0;
 
         virtual size_t enterEvent(size_t chronos_tick, const std::string &event_label) = 0;
+        virtual size_t enterEvent(size_t chronos_tick, const std::string &event_label, size_t consecutivePolyadicEvent, uint16_t span) = 0;
         virtual void exitEvent(size_t event_id) = 0;
 
         virtual void enterData_part(bool isEvent) = 0;

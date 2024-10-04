@@ -123,6 +123,7 @@ void parse_event(rapidxml::xml_node<>* event, trace_visitor* tv, bool load_data)
 }
 
 void load_xes_with_data(const std::string &filename, std::istream &file, bool load_data, trace_visitor *tv) {
+
     DEBUG_ASSERT(tv);
     rapidxml::xml_document<> doc;
     std::vector<char> buffer;

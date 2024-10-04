@@ -2,6 +2,7 @@
 #ifndef KNOBAB_BIT_TAGGED_UNIONS_H
 #define KNOBAB_BIT_TAGGED_UNIONS_H
 
+#include <cstdint>
 #ifdef  _WIN64
 #define WINDOWS
 #include <Windows.h>

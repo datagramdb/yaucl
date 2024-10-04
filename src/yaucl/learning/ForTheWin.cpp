@@ -25,6 +25,7 @@
 
 #include <cmath>
 #include "yaucl/learning/decision_tree/ForTheWin.h"
+#include <algorithm>
 
 void ForTheWin::setP(int clazz, double pos, double neg) {
     v[clazz].first = pos/nPos;

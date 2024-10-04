@@ -1,7 +1,6 @@
 [submodule "submodules/CRoaring"]
 	path = submodules/CRoaring
-	url = git@github.com:datagramdb/CRoaring.git
-
+	url = https://github.com/datagramdb/CRoaring
 [submodule "submodules/antlr4"]
 	path = submodules/antlr4
 	url = https://github.com/antlr/antlr4.git

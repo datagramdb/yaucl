@@ -25,10 +25,21 @@
 #include <map>
 #include <vector>
 #include <numeric>
-
+#include <algorithm>
+#include <cstdlib>
 
 namespace yaucl {
     namespace iterators {
+
+        template<class OutputIterator, class Size, class Assignable>
+        void iota_n(OutputIterator first, Size n, Assignable value)
+        {
+            //https://stackoverflow.com/a/11965797/1376095
+            std::generate_n(first, n, [&value]() {
+                return value++;
+            });
+        }
+
 
         template <typename Iterator1, typename Iterator2>
         std::pair<size_t, size_t> ratio(Iterator1 iter1, Iterator1 set1_end,
@@ -49,7 +60,7 @@ namespace yaucl {
                     ++iter1;
                 } else if (*iter2 < *iter1) {
                     ++iter2;
-                } else { // *iter1 == *iter2
+                } else {
                     ++intersection_len;
                     ++iter1;
                     ++iter2;
@@ -58,6 +69,66 @@ namespace yaucl {
             union_len += std::distance(iter1, set1_end);
             union_len += std::distance(iter2, set2_end);
             return {union_len, intersection_len};
+        }
+
+        template <typename Iterator1, typename Iterator2>
+        size_t ratio_union(const Iterator1& s1, const Iterator2& s2)
+        {
+            auto iter1 = s1.begin();
+            auto set1_end = s1.end();
+            auto iter2 = s2.begin();
+            auto set2_end = s2.end();
+            size_t d1 = std::distance(iter1, set1_end),
+                    d2 = std::distance(iter2, set2_end);
+            if (((d1 == 0) || (iter1 == set1_end)) ||
+                ((d2 == 0) || (iter2 == set2_end))) {
+                return d1+d2;
+            }
+            int union_len = 0;
+            while (iter1 != set1_end && iter2 != set2_end)
+            {
+                ++union_len;
+                if (*iter1 < *iter2) {
+                    ++iter1;
+                } else if (*iter2 < *iter1) {
+                    ++iter2;
+                } else {
+                    ++iter1;
+                    ++iter2;
+                }
+            }
+            union_len += std::distance(iter1, set1_end);
+            union_len += std::distance(iter2, set2_end);
+            return union_len;
+        }
+
+        template <typename Iterator1, typename Iterator2>
+        size_t ratio_intersection(const Iterator1& s1, const Iterator2& s2)
+        {
+            auto iter1 = s1.begin();
+            auto set1_end = s1.end();
+            auto iter2 = s2.begin();
+            auto set2_end = s2.end();
+            size_t d1 = std::distance(iter1, set1_end),
+                    d2 = std::distance(iter2, set2_end);
+            if (((d1 == 0) || (iter1 == set1_end)) ||
+                ((d2 == 0) || (iter2 == set2_end))) {
+                return 0.0;
+            }
+            int intersection_len = 0;
+            while (iter1 != set1_end && iter2 != set2_end)
+            {
+                if (*iter1 < *iter2) {
+                    ++iter1;
+                } else if (*iter2 < *iter1) {
+                    ++iter2;
+                } else { // *iter1 == *iter2
+                    ++intersection_len;
+                    ++iter1;
+                    ++iter2;
+                }
+            }
+            return intersection_len;
         }
 
         template <typename T>

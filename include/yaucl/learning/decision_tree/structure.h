@@ -431,7 +431,8 @@ public:
                  const std::size_t eta = 1,
                  bool use_leq_for_categorical = true,
                  double *goodness = nullptr,
-                 double* total_weights = nullptr) : F{f} {
+                 double* total_weights = nullptr,
+                 size_t height = std::numeric_limits<size_t>::max()) : F{f} {
         ForTheWin forthegain(max_class_id);
         std::size_t N = std::distance(begin, end);
         is_root = N == visitors;
@@ -454,7 +455,7 @@ public:
         forthegain.normalizeCountClass();
         const double current_weight = purity / visitors;
         purity = purity/((double) N);
-        if ((N<=eta) || (purity >= pi)) {
+        if ((N<=eta) || (purity >= pi) || (height == 0)) {
             isLeaf = true;
             majority_class = clazz;
             majority_class_precision = forthegain.getClassPrecision(clazz);
@@ -504,8 +505,8 @@ public:
         {
             auto tmp = candidates;
             tmp.erase(candidate.first);
-            children.emplace_back(begin, it2, max_class_id, f, tmp, measure, pi, l, visitors, eta, use_leq_for_categorical, goodness, total_weights);
-            children.emplace_back(it2, end, max_class_id, f, tmp, measure, pi, l, visitors, eta, use_leq_for_categorical, goodness, total_weights);
+            children.emplace_back(begin, it2, max_class_id, f, tmp, measure, pi, l, visitors, eta, use_leq_for_categorical, goodness, total_weights, height-1);
+            children.emplace_back(it2, end, max_class_id, f, tmp, measure, pi, l, visitors, eta, use_leq_for_categorical, goodness, total_weights, height-1);
         }
 
 
@@ -528,7 +529,11 @@ public:
                  const std::size_t eta = 1,
                  bool use_leq_for_categorical = true,
                  double *goodness = nullptr,
-                 double* total_weights = nullptr) : F{f} {
+                 double* total_weights = nullptr,
+                 size_t height = std::numeric_limits<size_t>::max()) : F{f} {
+        if (begin == end) {
+            return;
+        }
         ForTheWin forthegain(max_class_id);
         std::size_t N = std::distance(begin, end);
         is_root = N == visitors;
@@ -551,7 +556,7 @@ public:
         forthegain.normalizeCountClass();
         const double current_weight = purity / visitors;
         purity = purity/((double) N);
-        if ((N<=eta) || (purity >= pi)) {
+        if ((N<=eta) || (purity >= pi) || (height == 0)) {
             isLeaf = true;
             majority_class = clazz;
             majority_class_precision = forthegain.getClassPrecision(clazz);
@@ -615,8 +620,8 @@ public:
             return;
         }
 
-        children.emplace_back(begin, it2, max_class_id, f, numeric_attributes, categorical_attributes, measure, pi, l, visitors, eta, use_leq_for_categorical, goodness, total_weights);
-        children.emplace_back(it2, end, max_class_id, f, numeric_attributes, categorical_attributes, measure, pi, l, visitors, eta, use_leq_for_categorical, goodness, total_weights);
+        children.emplace_back(begin, it2, max_class_id, f, numeric_attributes, categorical_attributes, measure, pi, l, visitors, eta, use_leq_for_categorical, goodness, total_weights, height-1);
+        children.emplace_back(it2, end, max_class_id, f, numeric_attributes, categorical_attributes, measure, pi, l, visitors, eta, use_leq_for_categorical, goodness, total_weights, height-1);
 
         if(is_root) {
             /* Only on the very last iteration, the original candidate */
