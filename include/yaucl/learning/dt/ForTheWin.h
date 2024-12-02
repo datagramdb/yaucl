@@ -28,8 +28,7 @@
 
 #include <utility>
 #include <vector>
-
-
+#include <algorithm>
 
 struct ForTheWin {
     enum gain_measures {
@@ -41,22 +40,52 @@ struct ForTheWin {
     std::vector<double> n;
     double total, nPos, nNeg;
 
-    ForTheWin(int max_classes) : v(max_classes+1, std::pair<double,double>(0.0,0.0)), n(max_classes+1, 0.0), total{0.0} {}
+    ForTheWin() {}
     ForTheWin(const ForTheWin&) = default;
     ForTheWin(ForTheWin&& ) = default;
     ForTheWin& operator=(const ForTheWin&) = default;
     ForTheWin& operator=(ForTheWin&& ) = default;
+    std::pair<double,double> dd{0.0,0.0};
 
-    void setP(int clazz, double pos, double neg);
-    double countClass(int clazz);
+    inline void setP(int clazz, double pos, double neg) {
+        v[clazz].first = pos/nPos;
+        v[clazz].second = neg/nNeg;
+    }
+    inline double countClass(int clazz) {
+        total+=1.0;
+        return (n[clazz]+=1.0);
+    }
+    inline void init(int max_classes) {
+        v.resize(max_classes+1, dd);
+        n.resize(max_classes+1, 0.0);
+        total = 0.0;
+    }
 
-    size_t nClasses() const;
-    double getClassPrecision(int clazz) const;
-    double getP(int clazz, bool posNegOtherwise) const;
+    inline size_t nClasses() const {
+        return v.size();
+    }
+    inline double getClassPrecision(int clazz) const {
+        return n[clazz];
+    }
+    inline double getP(int clazz, bool posNegOtherwise) const {
+        return posNegOtherwise ? v[clazz].first : v[clazz].second;
+    }
     double getGain(gain_measures type) const;
-    void goodBad(double pos, double neg);
+    inline void goodBad(double d, double d1) {
+        nPos = d; nNeg = d1;
+    }
 
-    void normalizeCountClass();
+    inline void normalizeCountClass() {
+        std::transform(n.begin(), n.end(), n.begin(), [this](double x ){
+            return x/total;
+        });
+    }
+
+    void reset() {
+        total = 0.0;
+        std::fill(n.begin(), n.end(), 0.0);
+        std::fill(v.begin(), v.end(), dd);
+    }
 };
 
 

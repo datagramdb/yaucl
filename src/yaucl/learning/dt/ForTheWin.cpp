@@ -18,23 +18,23 @@
  * along with yaucl-learning. If not, see <http://www.gnu.org/licenses/>.
  */
 
- 
+
 //
 // Created by giacomo on 03/11/22.
 //
 
 #include <cmath>
-#include "yaucl/learning/decision_tree/ForTheWin.h"
+#include <yaucl/learning/dt/ForTheWin.h>
 #include <algorithm>
 
-void ForTheWin::setP(int clazz, double pos, double neg) {
-    v[clazz].first = pos/nPos;
-    v[clazz].second = neg/nNeg;
-}
+//void ForTheWin::setP(int clazz, double pos, double neg) {
+//    v[clazz].first = pos/nPos;
+//    v[clazz].second = neg/nNeg;
+//}
 
-double ForTheWin::getP(int clazz, bool posNegOtherwise) const {
-    return posNegOtherwise ? v.at(clazz).first : v.at(clazz).second;
-}
+//double ForTheWin::getP(int clazz, bool posNegOtherwise) const {
+//    return posNegOtherwise ? v.at(clazz).first : v.at(clazz).second;
+//}
 
 
 static inline double entropy(const std::vector<double>& Dp) {
@@ -76,9 +76,9 @@ static inline double cartSum(const std::vector<std::pair<double,double>>& Dp) {
 }
 
 static inline double entropy(double nPos,
-               double nNeg,
-               const std::vector<std::pair<double,double>>& Dp,
-               const std::vector<double>& D) {
+                             double nNeg,
+                             const std::vector<std::pair<double,double>>& Dp,
+                             const std::vector<double>& D) {
     double nTot = nPos+nNeg;
     // H(Dx,Dy) = nY/n H(Dy)+ nX/n H(Dx)
     double hDxDy = (nPos/nTot) * entropy(Dp, true) + (nNeg/nTot)* entropy(Dp, false);
@@ -87,9 +87,9 @@ static inline double entropy(double nPos,
 }
 
 static inline double gini(double nPos,
-                             double nNeg,
-                             const std::vector<std::pair<double,double>>& Dp,
-                             const std::vector<double>& D) {
+                          double nNeg,
+                          const std::vector<std::pair<double,double>>& Dp,
+                          const std::vector<double>& D) {
     double nTot = nPos+nNeg;
     // H(Dx,Dy) = nY/n H(Dy)+ nX/n H(Dx)
     double hDxDy = (nPos/nTot) * gini(Dp, true) + (nNeg/nTot)* gini(Dp, false);
@@ -118,21 +118,21 @@ double ForTheWin::getGain(ForTheWin::gain_measures type) const {
     }
 }
 
-double ForTheWin::countClass(int clazz) {
-    total+=1.0;
-    return (n[clazz]+=1.0);
-}
+//double ForTheWin::countClass(int clazz) {
+//    total+=1.0;
+//    return (n[clazz]+=1.0);
+//}
 
-double ForTheWin::getClassPrecision(int clazz) const { return n.at(clazz); }
+//double ForTheWin::getClassPrecision(int clazz) const { return n.at(clazz); }
 
-size_t ForTheWin::nClasses() const { return v.size(); }
+//size_t ForTheWin::nClasses() const { return v.size(); }
 
-void ForTheWin::goodBad(double d, double d1) {
-    nPos = d; nNeg = d1;
-}
+//void ForTheWin::goodBad(double d, double d1) {
+//    nPos = d; nNeg = d1;
+//}
 
-void ForTheWin::normalizeCountClass() {
-    std::transform(n.begin(), n.end(), n.begin(), [this](double x ){
-        return x/total;
-    });
-}
+//void ForTheWin::normalizeCountClass() {
+//    std::transform(n.begin(), n.end(), n.begin(), [this](double x ){
+//        return x/total;
+//    });
+//}

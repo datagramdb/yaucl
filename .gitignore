@@ -1,3 +1,4 @@
+
 cmake-build-debug/
 cmake-build-debug/*
 dist/
@@ -11,3 +12,4 @@ target/*
 /submodules/antlr4/runtime-testsuite/target/
 /submodules/antlr4/runtime/Java/target/
 /submodules/antlr4/antlr4-maven-plugin/target/
+

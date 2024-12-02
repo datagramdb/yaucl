@@ -1,32 +1,61 @@
-/*
- * DecisionTree.h
- * This file is part of yaucl-learning
- *
- * Copyright (C) 2022 - Giacomo Bergami, Samuel Appleby
- *
- * yaucl-learning is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * yaucl-learning is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with yaucl-learning. If not, see <http://www.gnu.org/licenses/>.
- */
-
-
 //
-// Created by giacomo on 03/11/22.
+// Created by giacomo on 02/12/24.
 //
 
-#ifndef DISTANCE_DECISIONTREE_H
-#define DISTANCE_DECISIONTREE_H
+#ifndef DT_DECISIONTREE_H
+#define DT_DECISIONTREE_H
 
-#include <yaucl/learning/decision_tree/structure.h>
-#include <yaucl/learning/decision_tree/DecisionTreeRefinement.h>
+#include <map>
+#include <iostream>
+#include <variant>
+#include <vector>
+#include <stack>
 
-#endif //DISTANCE_DECISIONTREE_H
+#include <unordered_set>
+#include <yaucl/learning/dt/commons.h>
+#include <yaucl/learning/dt/utils.h>
+
+
+
+
+
+#include <algorithm>
+#include <yaucl/learning/dt/utils.h>
+#include <yaucl/learning/dt/structures/DataRepo.h>
+
+
+struct DecisionTree {
+    DataRepo dr;
+    std::vector<Nodes> children;
+    double goodness;
+    double total_weights;
+    const std::unordered_set<std::string>& numerical;
+    const std::unordered_set<std::string>&categorical;
+
+    DecisionTree(const data_record& records,
+                 const data_clazzes& records_classes,
+                 const std::unordered_set<std::string>& numerical,
+                 const std::unordered_set<std::string>& categorical,
+                 size_t max_height = std::numeric_limits<size_t>::max(),
+                 double maxPrec = 1.0,
+                 size_t l = 1,
+                 size_t eta = 1) : dr{records,records_classes,max_height,maxPrec,l,eta}, numerical{numerical}, categorical{categorical} {
+        goodness = total_weights = 0;
+    }
+
+
+    void splitTree();
+
+    void populate_children_predicates2(std::unordered_map<int, std::vector<std::pair<double,std::vector<dt_predicate>>>> &decision_to_pred) const {
+        std::vector<dt_predicate> memo;
+        populate_children_predicates2(0, decision_to_pred, memo);
+    }
+
+private:
+    void populate_children_predicates2(size_t nodeid,
+                                       std::unordered_map<int, std::vector<std::pair<double,std::vector<dt_predicate>>>> &decision_to_pred,
+                                       std::vector<dt_predicate>& current_stack) const;
+};
+
+
+#endif //DT_DECISIONTREE_H

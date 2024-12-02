@@ -16,13 +16,31 @@ add_subdirectory(submodules/CRoaring)
 add_subdirectory(submodules/antlr4/runtime/Cpp)
 include_directories(submodules/antlr4/runtime/Cpp/runtime/src)
 include_directories(antlr4/cpp/antlr4)
+include_directories(include/)
+include_directories(submodules/l-bfgs-b/include)
 
 include_directories(include)
 
 add_library(yaucl_learning OBJECT
-        src/yaucl/learning/ForTheWin.cpp
-        src/yaucl/learning/dt_predicate.cpp
-        src/yaucl/learning/DecisionTree.cpp)
+        src/yaucl/learning/dt/ForTheWin.cpp
+        src/yaucl/learning/dt/dt_predicate.cpp
+        src/yaucl/learning/dt/utils.cpp
+        src/yaucl/learning/dt/structures/find_argument.cpp
+        src/yaucl/learning/dt/structures/n_vector.cpp
+        include/yaucl/learning/dt/structures/n_vector.h
+        src/yaucl/learning/dt/structures/Nodes.cpp
+        include/yaucl/learning/dt/structures/Nodes.h
+        src/yaucl/learning/dt/wodt/WODT.cpp
+        src/yaucl/learning/dt/structures/DataRepo.cpp
+        include/yaucl/learning/dt/structures/DataRepo.h
+        src/yaucl/learning/DecisionTree.cpp
+)
+
+
+#add_library(yaucl_learning OBJECT
+#        src/yaucl/learning/ForTheWin.cpp
+#        src/yaucl/learning/dt_predicate.cpp
+#        src/yaucl/learning/DecisionTree.cpp)
 add_executable(yaucl_learning_decision_tree src/examples/decision_tree_example.cpp)
 target_link_libraries(yaucl_learning_decision_tree yaucl_learning)
 #add_executable(yaucl_learning_decision_tree_refinement src/examples/decision_tree_refinement_example.cpp)
