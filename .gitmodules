@@ -19,3 +19,6 @@
 [submodule "submodules/eigen"]
 	path = submodules/eigen
 	url = https://gitlab.com/libeigen/eigen.git
+[submodule "submodules/l-bfgs-b"]
+	path = submodules/l-bfgs-b
+	url = https://github.com/LogDS/l-bfgs-b
