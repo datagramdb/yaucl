@@ -15,4 +15,9 @@ src/dt/structures/find_argument.cpp
         src/dt/structures/n_vector.cpp
         include/dt/structures/n_vector.h
         src/dt/structures/Nodes.cpp
-        include/dt/structures/Nodes.h)
+        include/dt/structures/Nodes.h
+        src/dt/wodt/WODT.cpp
+        src/dt/structures/DataRepo.cpp
+        include/dt/structures/DataRepo.h
+        src/dt/DecisionTree.cpp
+)

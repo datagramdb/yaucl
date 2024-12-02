@@ -10,10 +10,7 @@
 #include <utility>
 #include <vector>
 
-using union_minimal = std::variant<std::string,double>;
-using record = std::vector<std::pair<std::string,union_minimal>>;
-using data_record = std::vector<record>;
-using data_clazzes = std::vector<int>;
+
 
 #include <dt/structures/find_argument.h>
 #include <dt/structures/n_vector.h>
