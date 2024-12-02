@@ -2,7 +2,7 @@
 // Created by giacomo on 23/12/22.
 //
 
-#include <yaucl/data/CSV2.h>
+#include <yaucl/data/csv/CSV2.h>
 #include <regex>
 
 CSV2::CSV2(const std::string &path) : document{path} {

@@ -65,40 +65,42 @@ void CheckNegativeLabels(const std::vector<int> *label_data);
 #include <limits>
 #include <set>
 
-
-static inline
-std::vector<int> getOnLocations(int a) {
-    std::vector<int> result;
-    int place = 0;
-    while (a != 0) {
-        if (a & 1) {
-            result.push_back(place);
-        }
-        ++place;
-        a >>= 1;
-    }
-    return result;
-}
+//
+//static inline
+//std::vector<int> getOnLocations(int a) {
+//    std::vector<int> result;
+//    int place = 0;
+//    while (a != 0) {
+//        if (a & 1) {
+//            result.push_back(place);
+//        }
+//        ++place;
+//        a >>= 1;
+//    }
+//    return result;
+//}
 
 #include <cmath>
 #include <unordered_set>
 
-template<typename T>
-std::vector<std::unordered_set<T> > powerSet(const std::vector<T>& set, size_t maxSize) {
-    std::vector<std::unordered_set<T> > result;
-    int numPowerSets = static_cast<int>(std::pow(2.0, static_cast<double>(set.size())));
-    for (size_t i = 0; i < numPowerSets; ++i) {
-        std::vector<int> onLocations = getOnLocations(i);
-        if (onLocations.size() > maxSize) continue;
-        if (onLocations.empty()) continue;
-        std::unordered_set<T> subSet;
-        for (size_t j = 0; j < onLocations.size(); ++j) {
-            subSet.insert(set.at(onLocations.at(j)));
-        }
-        result.push_back(subSet);
-    }
-    return result;
-}
+
+#include "yaucl/structures/setoids/basics.h"
+//template<typename T>
+//std::vector<std::unordered_set<T> > powerSet(const std::vector<T>& set, size_t maxSize) {
+//    std::vector<std::unordered_set<T> > result;
+//    int numPowerSets = static_cast<int>(std::pow(2.0, static_cast<double>(set.size())));
+//    for (size_t i = 0; i < numPowerSets; ++i) {
+//        std::vector<int> onLocations = getOnLocations(i);
+//        if (onLocations.size() > maxSize) continue;
+//        if (onLocations.empty()) continue;
+//        std::unordered_set<T> subSet;
+//        for (size_t j = 0; j < onLocations.size(); ++j) {
+//            subSet.insert(set.at(onLocations.at(j)));
+//        }
+//        result.push_back(subSet);
+//    }
+//    return result;
+//}
 
 
 /*def sigmoid(z):

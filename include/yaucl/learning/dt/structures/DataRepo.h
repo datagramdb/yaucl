@@ -12,7 +12,7 @@
 #include "yaucl/learning/dt/wodt/WODT.h"
 #include <set>
 #include <map>
-#include "yaucl/learning/dt/utils.h"
+#include "yaucl/data/csv/csv.h"
 
 struct DataRepo {
     const data_record& records;

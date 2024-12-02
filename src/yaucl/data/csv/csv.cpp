@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-#include <yaucl/learning/dt/utils.h>
+#include <yaucl/data/csv/csv.h>
 
 #include <array>
 #include <iomanip>
@@ -29,7 +29,7 @@ SOFTWARE.
 #include <string>
 #include <vector>
 
-#include <yaucl/learning/dt/parser.hpp>
+#include <yaucl/data/csv/parser.hpp>
 #include <map>
 
 void Split_X_y(table &data_frame, std::vector<std::vector<std::pair<std::string,union_minimal>>> &X,

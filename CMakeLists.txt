@@ -24,7 +24,6 @@ include_directories(include)
 add_library(yaucl_learning OBJECT
         src/yaucl/learning/dt/ForTheWin.cpp
         src/yaucl/learning/dt/dt_predicate.cpp
-        src/yaucl/learning/dt/utils.cpp
         src/yaucl/learning/dt/structures/find_argument.cpp
         src/yaucl/learning/dt/structures/n_vector.cpp
         include/yaucl/learning/dt/structures/n_vector.h
@@ -35,6 +34,7 @@ add_library(yaucl_learning OBJECT
         include/yaucl/learning/dt/structures/DataRepo.h
         src/yaucl/learning/DecisionTree.cpp
 )
+target_link_libraries(yaucl_learning yaucl_data)
 
 
 #add_library(yaucl_learning OBJECT
@@ -42,7 +42,7 @@ add_library(yaucl_learning OBJECT
 #        src/yaucl/learning/dt_predicate.cpp
 #        src/yaucl/learning/DecisionTree.cpp)
 add_executable(yaucl_learning_decision_tree src/examples/decision_tree_example.cpp)
-target_link_libraries(yaucl_learning_decision_tree yaucl_learning)
+target_link_libraries(yaucl_learning_decision_tree yaucl_data yaucl_learning)
 #add_executable(yaucl_learning_decision_tree_refinement src/examples/decision_tree_refinement_example.cpp)
 #target_link_libraries(yaucl_learning_decision_tree_refinement yaucl_learning)
 
@@ -65,6 +65,7 @@ add_library(yaucl_stringutils OBJECT
         src/yaucl/strings/string_utils.cpp include/yaucl/strings/string_utils.h)
 
 add_library(yaucl_data OBJECT
+        src/yaucl/data/csv/csv.cpp
         src/yaucl/data/new_iovec.cpp
         src/yaucl/data/MemoryMappingFile.cpp
         src/yaucl/data/mmapFile.cpp
@@ -74,8 +75,8 @@ add_library(yaucl_data OBJECT
         include/yaucl/data/json.h
         src/yaucl/data/VarSizeNDPSorter.cpp
         src/yaucl/data/malloc_freelist.c
-        src/yaucl/data/CSV2.cpp
-        include/yaucl/data/CSV2.h
+        src/yaucl/data/csv/CSV2.cpp
+        include/yaucl/data/csv/CSV2.h
         src/yaucl/data/SecondaryMemoryMalloc.cpp
         include/yaucl/data/SecondaryMemoryMalloc.h include/yaucl/data/smart_malloc.h src/yaucl/data/smart_malloc.cpp include/yaucl/data/smart_index_pointer.h src/yaucl/data/smart_index_pointer.cpp)
 
