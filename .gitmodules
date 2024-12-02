@@ -1,6 +1,6 @@
 [submodule "submodules/lbfgsb"]
-	path = submodules/lbfgsb
+	path = DT/submodules/lbfgsb
 	url = https://github.com/droemer7/l-bfgs-b
 [submodule "submodules/eigen"]
-	path = submodules/eigen
+	path = DT/submodules/eigen
 	url = https://gitlab.com/libeigen/eigen
