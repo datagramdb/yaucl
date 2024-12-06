@@ -25,4 +25,4 @@
 	url = https://github.com/LogDS/l-bfgs-b
 [submodule "submodules/rocksdb"]
 	path = submodules/rocksdb
-	url = https://github.com/facebook/rocksdb/
+	url = https://github.com/logds/rocksdb/
