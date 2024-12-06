@@ -18,7 +18,9 @@ include_directories(submodules/antlr4/runtime/Cpp/runtime/src)
 include_directories(antlr4/cpp/antlr4)
 include_directories(include/)
 include_directories(submodules/l-bfgs-b/include)
-
+set(WITH_TESTS OFF)
+add_subdirectory(submodules/rocksdb)
+include_directories(submodules/rocksdb/include)
 include_directories(include)
 
 add_library(yaucl_learning OBJECT
@@ -36,6 +38,8 @@ add_library(yaucl_learning OBJECT
 )
 target_link_libraries(yaucl_learning yaucl_data)
 
+add_library(yaucl_ndp OBJECT RocksDBMap.cpp RocksDBMap.h)
+target_link_libraries(yaucl_ndp snappy bz2  z rt ${ROCKSDB_STATIC_LIB})
 
 #add_library(yaucl_learning OBJECT
 #        src/yaucl/learning/ForTheWin.cpp
@@ -80,8 +84,10 @@ add_library(yaucl_data OBJECT
         src/yaucl/data/SecondaryMemoryMalloc.cpp
         include/yaucl/data/SecondaryMemoryMalloc.h include/yaucl/data/smart_malloc.h src/yaucl/data/smart_malloc.cpp include/yaucl/data/smart_index_pointer.h src/yaucl/data/smart_index_pointer.cpp)
 
+
+
 add_library(yaucl_structures OBJECT src/yaucl/structures/StringPrevNext.cpp include/yaucl/structures/StringPrevNext.h src/yaucl/structures/DoublePrevNext.cpp include/yaucl/structures/DoublePrevNext.h include/yaucl/structures/setoids/set_comparators.h include/yaucl/structures/setoids/set_partitioning.h include/yaucl/structures/setoids/basics.h include/yaucl/structures/indexed/BlockOfRecordsIndexedTable.h src/yaucl/structures/RoaringBitmapWrapper.cpp src/yaucl/structures/NAryTree.cpp include/yaucl/structures/NAryTree.h include/yaucl/structures/RelationalTables.h)
-target_link_libraries(yaucl_structures roaring)
+target_link_libraries(yaucl_structures roaring )
 
 add_library(yaucl_bpm OBJECT
         src/yaucl/graphs/flloat/FLLOATPropLexer.cpp

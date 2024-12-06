@@ -56,6 +56,10 @@ namespace yaucl {
             fixed_bimap(fixed_bimap&& ) = default;
             fixed_bimap& operator=(const fixed_bimap&) = default;
 
+            size_t size_() const {
+                return size;
+            }
+
             void clear() {
                 map.clear();
                 elements.clear();
