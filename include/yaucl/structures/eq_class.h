@@ -97,4 +97,81 @@ private:
 
 };
 
+template <typename T>
+class equivalence_classv2 {
+private:
+    mutable std::vector<size_t> parent;
+    std::vector<size_t> rank;
+    std::unordered_map<T, size_t> item_to_id;
+    // Keep track of the reverse mapping to reconstruct the elements from IDs
+    std::vector<T> id_to_item;
+
+    size_t get_or_create_id(const T& element) {
+        auto it = item_to_id.find(element);
+        if (it != item_to_id.end()) {
+            return it->second;
+        }
+        
+        size_t new_id = parent.size();
+        parent.push_back(new_id);
+        rank.push_back(0);
+        item_to_id[element] = new_id;
+        id_to_item.push_back(element); // Store reverse mapping
+        return new_id;
+    }
+
+    size_t find_set(size_t i) const {
+        if (parent[i] == i)
+            return i;
+        return parent[i] = find_set(parent[i]);
+    }
+
+public:
+    void add_equality(const T& a, const T& b) {
+        size_t root_a = find_set(get_or_create_id(a));
+        size_t root_b = find_set(get_or_create_id(b));
+
+        if (root_a != root_b) {
+            if (rank[root_a] < rank[root_b]) {
+                parent[root_a] = root_b;
+            } else if (rank[root_a] > rank[root_b]) {
+                parent[root_b] = root_a;
+            } else {
+                parent[root_b] = root_a;
+                rank[root_a]++;
+            }
+        }
+    }
+
+    bool are_equal(const T& a, const T& b) const {
+        auto it_a = item_to_id.find(a);
+        auto it_b = item_to_id.find(b);
+        if (it_a == item_to_id.end() || it_b == item_to_id.end()) {
+            return a == b;
+        }
+        return find_set(it_a->second) == find_set(it_b->second);
+    }
+
+    // Extraction Method
+    std::vector<std::vector<T>> get_equivalence_classes() const {
+        // Map root ID -> list of elements belonging to that root's class
+        std::unordered_map<size_t, std::vector<T>> groups;
+
+        // Group every tracked item by its absolute root parent
+        for (size_t id = 0; id < parent.size(); ++id) {
+            size_t root = find_set(id);
+            groups[root].push_back(id_to_item[id]);
+        }
+
+        // Flatten the map into a vector of vectors
+        std::vector<std::vector<T>> equivalence_classes;
+        equivalence_classes.reserve(groups.size());
+        for (auto& [root, elements] : groups) {
+            equivalence_classes.push_back(std::move(elements));
+        }
+
+        return equivalence_classes;
+    }
+};
+
 #endif //CLASSIFIERS_EQUIVALENCE_CLASS_H
