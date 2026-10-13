@@ -881,7 +881,7 @@ DataPredicate DataPredicate::flip() const {
     }
 }
 
-#include <magic_enum.hpp>
+#include <magic_enum/magic_enum.hpp>
 
 
 nlohmann::json HCQSingleQuery::asJson() const {

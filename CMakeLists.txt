@@ -29,12 +29,12 @@ include_directories(submodules/l-bfgs-b/include)
 set(WITH_TESTS OFF)
 
 
-if(IGNORE_ROCKS_DB)
-
-else()
-        add_subdirectory(submodules/rocksdb)
-        include_directories(submodules/rocksdb/include)
-endif()
+#if(IGNORE_ROCKS_DB)
+#
+#else()
+#        add_subdirectory(submodules/rocksdb)
+#        include_directories(submodules/rocksdb/include)
+#endif()
 
 
 include_directories(include)
@@ -66,7 +66,7 @@ endif()
 #        src/yaucl/learning/dt_predicate.cpp
 #        src/yaucl/learning/DecisionTree.cpp)
 add_executable(yaucl_learning_decision_tree src/examples/decision_tree_example.cpp)
-target_link_libraries(yaucl_learning_decision_tree yaucl_data yaucl_learning)
+target_link_libraries(yaucl_learning_decision_tree zsv yaucl_data yaucl_learning)
 #add_executable(yaucl_learning_decision_tree_refinement src/examples/decision_tree_refinement_example.cpp)
 #target_link_libraries(yaucl_learning_decision_tree_refinement yaucl_learning)
 

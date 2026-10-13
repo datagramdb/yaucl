@@ -475,6 +475,40 @@ std::unique_ptr<HierarchicalListView<Key, Value>> ViewFactory<Key, Value>::creat
             parent = nullptr;
             is_globally_detached = true;
         }
+
+        // NUOVO OPERATORE SINGOLO: Aggiornamento con trasmissione all'antenato profondo
+        void broadcast_update(const Key& key, Value new_value) {
+            // STATO FLAT: Se siamo in modalità flat pura (<= 2000 elementi) e isolati
+            if (is_pure_flat_mode) {
+                auto it = flat_lookup.find(key);
+                if (it != flat_lookup.end()) {
+                    flat_list.erase(it->second);
+                    flat_list.emplace_back(key, new_value);
+                    auto new_it = flat_list.end(); --new_it;
+                    flat_lookup[key] = new_it;
+                }
+                return;
+            }             // FASE GERARCHICA: Risalita ricorsiva fino al Deepest Ancestor (Root)
+            else if (parent != nullptr) {
+                // Delega l'operazione all'antenato più antico risalendo la catena
+                parent->broadcast_update(key, new_value);
+                return;
+            } else {
+                // AZIONE SULLA RADICE (Deepest Ancestor): Modifica il valore in loco
+                auto it = local_lookup.find(key);
+                if (it != local_lookup.end()) {
+                    MultiNodeV2<Key, Value>* node = it->second;
+                    node->value = new_value;
+
+                    // Requisito 5: Muove il nodo in coda alla vista radice per preservare l'ordine lineare
+                    detach_local_internal(node);
+                    append_local_internal(node);
+                } else {
+                    // Se la chiave non esisteva nell'antenato, la crea localmente alla radice
+                    emplace(key, new_value);
+                }
+            }
+        }
     };
 
 
@@ -491,6 +525,8 @@ std::unique_ptr<HierarchicalListView<Key, Value>> ViewFactory<Key, Value>::creat
         return std::unique_ptr<HierarchicalListView<Key, Value> >(
             new HierarchicalListView<Key, Value>(generate_id(), *this, &parent));
     }
+
+
 
     // namespace logds::yaucl::gamma_context
 }

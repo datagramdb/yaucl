@@ -74,7 +74,7 @@ struct DataRepo {
         }
         init_matrix(elements, W, subFeatures_X, Y);
         for (auto iteration = 0; iteration<iterations; iteration++ ) {
-            Eigen::VectorXd initial_a = Eigen::VectorXd::Random(vars.size() + 1).array() - 0.5;
+            auto initial_a = optimize::Vector::Random(vars.size() + 1).array() - 0.5;
 //            std::cout << subFeatures_X << std::endl;
             // With C++17 or greater we can omit the "<>"
             WODT f{subFeatures_X, Y, maxClass};
@@ -87,7 +87,7 @@ struct DataRepo {
 //        std::cout << "x = " << state.x().transpose() << std::endl; // Argmin x of f(x)
 
             auto a = state.x();
-            Eigen::VectorXd paras = a.tail(a.size() - 1);
+            auto paras = a.tail(a.size() - 1);
             auto weight = a.coeffRef(0);
 
             std::unordered_map<std::string,double> w;
@@ -335,7 +335,7 @@ private:
                             optimize::Matrix& X_out, optimize::Vector& Y_out) {
         size_t colSize = numerical_dimensions.size();
         size_t N = records.size();
-        X_out = Eigen::MatrixXd::Zero(N, colSize);
+        X_out = optimize::Matrix::Zero(N, colSize);
         Y_out = optimize::Vector::Zero(N);
 //        forthegain.init(max_class_id);
         for (size_t i = 0; i<N; i++) {
@@ -358,7 +358,7 @@ private:
         } else {
             size_t colSize = numerical_dimensions.size();
             size_t N = selected_records.size();
-            X_out = Eigen::MatrixXd::Zero(N, colSize);
+            X_out = optimize::Matrix::Zero(N, colSize);
             Y_out = optimize::Vector::Zero(N);
             size_t offsetElem = 0;
 //            forthegain.init(max_class_id);

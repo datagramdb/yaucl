@@ -10,7 +10,7 @@
 
 #include <lbfgsb.h>
 
-static inline double sigmoid(double z) {
+static inline float sigmoid(float z) {
     if (z<-500) z=-500;
     return 1.0/(std::exp(-z)+1.0);
 }
@@ -23,7 +23,7 @@ private:
     const optimize::Vector& Y;
     int maxClass;
     static constexpr double epsilonepsilon = std::numeric_limits<double>::epsilon();
-    static Eigen::IOFormat HeavyFmt;
+
 
 public:
     WODT(const optimize::Matrix& subFeatures_X,

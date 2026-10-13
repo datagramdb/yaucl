@@ -8,7 +8,13 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../../../../../../zsv_cpp.h"
+//#include <yaucl/data/csv/csv.h>
+
+struct local_zsv {
+    // void* zsv_opts_data;
+    FILE* f;
+    void* parser;
+};
 
 unsigned char open_csv_parser(const char* filename, struct local_zsv *zsv, char delimiter) {
     if (!zsv) {

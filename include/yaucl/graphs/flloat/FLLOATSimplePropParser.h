@@ -13,7 +13,7 @@ class FLLOATPropLexer;
 class FLLOATPropParser;
 #include <yaucl/graphs/flloat/FLLOATPropVisitor.h>
 #include <sstream>
-#include <magic_enum.hpp>
+#include <magic_enum/magic_enum.hpp>
 #include <fstream>
 #ifndef CLASSIFIERS_PAIR_HASH_H
 #define CLASSIFIERS_PAIR_HASH_H
