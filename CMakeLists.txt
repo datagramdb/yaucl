@@ -179,3 +179,5 @@ add_library(yaucl_graph OBJECT
 target_link_libraries(yaucl_graph  yaucl_hashing roaring antlr4_static)
 
 add_executable(natural_join_examples src/examples/natural_join_examples.cpp include/yaucl/data/smart_malloc.h)
+
+add_executable(gamma_context src/examples/gamma_context.cpp)

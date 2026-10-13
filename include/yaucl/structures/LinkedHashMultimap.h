@@ -11,9 +11,11 @@
 namespace yaucl {
     namespace structures {
         template <typename K, typename V>
-        struct LinkedHashMultimap {
+        class  LinkedHashMultimap {
             std::vector<K> data;
             std::map<K, std::vector<V>> map;
+
+        public:
             void put(K key, V value) {
                 auto it = map.find(key);
                 if (it == map.end()) {
