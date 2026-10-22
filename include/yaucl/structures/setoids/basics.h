@@ -9,6 +9,7 @@
 #include <unordered_set>
 #include <ostream>
 #include <algorithm>
+#include <vector>
 
 template <typename T>
 std::vector<T> common_shared_subvector(const std::vector<T>& l,
@@ -399,5 +400,99 @@ void reorder(std::vector<T>& vA, std::vector<size_t>& vI)
     }
     std::swap(vA, slowReorder);
 }
+
+static inline
+std::vector<std::vector<int>> generate_all_indipendent_maximal_sets(
+    int N, const std::set<std::pair<int, int>>& C) {
+
+    std::vector<std::unordered_set<int>> conflitti(N);
+    for (const auto& uv : C) {
+        int u = uv.first;
+        int v = uv.second;
+        conflitti[u].insert(v);
+        conflitti[v].insert(u);
+    }
+
+    std::vector<std::unordered_set<int>> compatibilita(N);
+    for (int i = 0; i < N; ++i) {
+        for (int j = 0; j < N; ++j) {
+            if (i != j && conflitti[i].find(j) == conflitti[i].end()) {
+                compatibilita[i].insert(j);
+            }
+        }
+    }
+
+    std::vector<std::vector<int>> risultato;
+
+    std::function<void(std::unordered_set<int>, std::unordered_set<int>, std::unordered_set<int>)> bronKerbosch;
+    bronKerbosch = [&](std::unordered_set<int> R, std::unordered_set<int> P, std::unordered_set<int> X) {
+        if (P.empty() && X.empty()) {
+            std::vector<int> clique(R.begin(), R.end());
+            std::sort(clique.begin(), clique.end());
+            risultato.push_back(clique);
+            return;
+        }
+
+        std::unordered_set<int> unionePX = P;
+        unionePX.insert(X.begin(), X.end());
+
+        // pivot = max(unione_px, key=lambda x: len(compatibilita[x] & P))
+        // First maximal element in iteration order is kept (strict '>').
+        int pivot = -1;
+        std::size_t bestScore = 0;
+        bool firstElement = true;
+        for (int x : unionePX) {
+            std::size_t score = 0;
+            for (int p : P) {
+                if (compatibilita[x].find(p) != compatibilita[x].end()) {
+                    ++score;
+                }
+            }
+            if (firstElement || score > bestScore) {
+                pivot = x;
+                bestScore = score;
+                firstElement = false;
+            }
+        }
+
+        // candidati_da_esplorare = list(P - compatibilita[pivot])
+        std::vector<int> candidatiDaEsplorare;
+        for (int p : P) {
+            if (compatibilita[pivot].find(p) == compatibilita[pivot].end()) {
+                candidatiDaEsplorare.push_back(p);
+            }
+        }
+
+        for (int nodo : candidatiDaEsplorare) {
+            std::unordered_set<int> nuovoP;
+            for (int p : P) {
+                if (compatibilita[nodo].find(p) != compatibilita[nodo].end()) {
+                    nuovoP.insert(p);
+                }
+            }
+            std::unordered_set<int> nuovoX;
+            for (int x : X) {
+                if (compatibilita[nodo].find(x) != compatibilita[nodo].end()) {
+                    nuovoX.insert(x);
+                }
+            }
+
+            std::unordered_set<int> nuovoR = R;
+            nuovoR.insert(nodo);
+            bronKerbosch(nuovoR, nuovoP, nuovoX);
+
+            P.erase(nodo);
+            X.insert(nodo);
+        }
+    };
+
+    std::unordered_set<int> allNodes;
+    for (int i = 0; i < N; ++i) {
+        allNodes.insert(i);
+    }
+    bronKerbosch(std::unordered_set<int>{}, allNodes, std::unordered_set<int>{});
+    return risultato;
+}
+
 
 #endif //KNOBAB_SERVER_BASICS_H
