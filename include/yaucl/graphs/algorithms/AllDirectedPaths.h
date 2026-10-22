@@ -106,7 +106,7 @@ private:
             if (edge_id != -1) {
 //#ifdef DEBUG
 //                if (path_index == 0)
-//                    DEBUG_ASSERT(graph.g.edge_ids.at((size_t)edge_id).first == src);
+//                    DEBUG_ASSERT(graph.g.edge_ids.at((size_t)edge_id).first == sources);
 //#endif
                 path[path_index] = (size_t)edge_id;
                 path_index++;

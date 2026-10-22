@@ -55,7 +55,7 @@ struct BellmanFordAlgorithm {
             auto it = dst_to_path.find(t);
             if (it != dst_to_path.end()) return it->second;
             if (d[t] == INF) {
-                // No path from src to t!
+                // No path from sources to t!
                 dst_to_path[t] = {};
             } else {
                 std::vector<size_t> path;
@@ -77,7 +77,7 @@ struct BellmanFordAlgorithm {
      * This function computes the paths from source and destination using the Bellman-Ford Algorithm, where previously
      * computed results are cached for later use.
      *
-     * @param src       The source of the path
+     * @param sources       The source of the path
      * @param dst       The tatget of the path
      * @return The path is empty if there exists no path between source and destination, and empty otherwise
      */

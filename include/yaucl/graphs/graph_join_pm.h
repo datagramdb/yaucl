@@ -90,7 +90,7 @@ graph_join_pm replace_labels(const graph_join_pm &g, const std::unordered_map<st
 
 /**
  * Adds the graph join node
- * @param src
+ * @param sources
  * @param dst
  * @param max_id
  * @param map

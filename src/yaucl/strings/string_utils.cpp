@@ -36,9 +36,9 @@ std::string yaucl::strings::utf8_tolower(const std::string &src) {
 //    for (std::wstring::iterator it = str.begin(); it != str.end(); ++it)
 //        *it = towupper(*it);
     static std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converterX;
-//    std::wstring wsTmp(src.begin(), src.end());
+//    std::wstring wsTmp(sources.begin(), sources.end());
 //    std::wstring result;
-//    std::transform( src.begin(), src.end(), std::back_inserter( result ), lowcase );
+//    std::transform( sources.begin(), sources.end(), std::back_inserter( result ), lowcase );
     return converterX.to_bytes(wstrTest);
 }
 
@@ -55,8 +55,8 @@ std::wstring yaucl::strings::utf8_towlower(const std::string &src) {
 //    for (std::wstring::iterator it = str.begin(); it != str.end(); ++it)
 //        *it = towupper(*it);
 //    static std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converterX;
-////    std::wstring wsTmp(src.begin(), src.end());
+////    std::wstring wsTmp(sources.begin(), sources.end());
 ////    std::wstring result;
-////    std::transform( src.begin(), src.end(), std::back_inserter( result ), lowcase );
+////    std::transform( sources.begin(), sources.end(), std::back_inserter( result ), lowcase );
 //    return converterX.to_bytes(wstrTest);
 }

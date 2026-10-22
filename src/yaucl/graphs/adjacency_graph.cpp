@@ -148,7 +148,7 @@ void adjacency_graph_inv_DFSUtil(size_t src,
                              const adjacency_graph& ag,
                              roaring::Roaring64Map &visited) {
     if (ag.removed_nodes.contains(src)) return;
-    // TODO: if (visited.contains(src)) return;
+    // TODO: if (visited.contains(sources)) return;
     std::stack<size_t> stack;
     stack.push(src);
     while (!stack.empty()) {
@@ -170,7 +170,7 @@ void adjacency_graph_DFSUtil(size_t src,
                              const adjacency_graph& ag,
                              roaring::Roaring64Map &visited) {
     if (ag.removed_nodes.contains(src)) return;
-    // TODO: if (visited.contains(src)) return;
+    // TODO: if (visited.contains(sources)) return;
     std::stack<size_t> stack;
     stack.push(src);
     while (!stack.empty()) {

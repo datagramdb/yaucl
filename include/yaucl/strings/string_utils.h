@@ -10,6 +10,8 @@
 #include <algorithm>
 #include <cctype>
 #include <locale>
+#include <numeric>
+
 namespace yaucl {
     namespace strings {
         /** Compares two strings having different lengths
@@ -26,7 +28,7 @@ namespace yaucl {
 
         /**
  * Converts to uppercase a string that might be in unicode
- * @param src   Unicode raw string
+ * @param sources   Unicode raw string
  * @return
  */
         std::string utf8_tolower(const std::string &src);
@@ -105,6 +107,46 @@ namespace yaucl {
             trim(s);
             return s;
         }
+
+        // Default transformer: identity function if already a string-like object
+        struct IdentityTransform {
+            template <typename T>
+            auto operator()(const T& val) const {
+                if constexpr (std::is_convertible_v<T, std::string>) {
+                    return std::string(val);
+                } else {
+                    // Fallback for primitive types (ints, floats) if no custom mapper is provided
+                    return std::to_string(val);
+                }
+            }
+        };
+
+        template <typename Container, typename Transform = IdentityTransform>
+        std::string join(const Container& elements,
+                         const std::string& delimiter = "",
+                         const Transform& transform = {},
+                         const std::string& prefix = "",
+                         const std::string& suffix = "") {
+
+            if (elements.empty()) return prefix + suffix;
+
+            // First element transformation
+            auto it = elements.begin();
+            std::string result = prefix + transform(*it);
+
+            // Accumulate the rest using the transformation function
+            result = std::accumulate(std::next(it), elements.end(), std::move(result),
+                [&delimiter, &transform](std::string acc, const auto& element) {
+                    return std::move(acc) + delimiter + transform(element);
+                });
+
+            return result + suffix;
+        }
+
+        static inline std::string joinStrings(const std::vector<std::string>& elements, const std::string& separator ) {
+            return join(elements, separator);
+        }
+
     }
 }
 

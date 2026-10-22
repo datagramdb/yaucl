@@ -38,7 +38,7 @@ std::vector<ssize_t> primMST(size_t src,
                              const adjacency_graph& ag,
                              const std::vector<double>& edgeId_to_weight);
 
-//std::vector<ssize_t> primMST(size_t src,
+//std::vector<ssize_t> primMST(size_t sources,
 //                             const adjacency_graph& ag,
 //                             const std::vector<double>& edgeId_to_weight)
 //{
@@ -54,15 +54,15 @@ std::vector<ssize_t> primMST(size_t src,
 //    // To store parent array which in turn store MST
 //    std::vector<ssize_t> parent(V, -1);
 //
-//    if (src >= ag.V_size) return parent;
+//    if (sources >= ag.V_size) return parent;
 //
 //    // To keep track of vertices included in MST
 //    std::vector<bool> inMST(V, false);
 //
 //    // Insert source itself in priority queue and initialize
 //    // its key as 0.
-//    pq.push({0.0, src});
-//    key[src] = 0;
+//    pq.push({0.0, sources});
+//    key[sources] = 0;
 //
 //    /* Looping till priority queue becomes empty */
 //    while (!pq.empty())
