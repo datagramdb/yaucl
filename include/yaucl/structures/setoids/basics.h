@@ -494,5 +494,52 @@ std::vector<std::vector<int>> generate_all_indipendent_maximal_sets(
     return risultato;
 }
 
+// Equivalent of itertools.product(pool, repeat=repeat), iterated lazily.
+// Yields one empty tuple when repeat == 0 (as Python's product does).
+// Iteration stops as soon as fn returns true (short-circuit).
+template<typename T>
+static void forEachTuple(const std::vector<T>& pool,
+                         std::size_t repeat,
+                         const std::function<bool(const std::vector<T>&)>& fn) {
+    if (repeat == 0) {
+        std::vector<T> empty;
+        fn(empty);
+        return;
+    }
+    if (pool.empty()) {
+        return;
+    }
+    std::vector<std::size_t> idx(repeat, 0);
+    while (true) {
+        std::vector<T> tuple;
+        tuple.reserve(repeat);
+        for (std::size_t i : idx) {
+            tuple.push_back(pool[i]);
+        }
+        if (fn(tuple)) {
+            return;
+        }
+        std::size_t p = repeat;
+        bool carried = true;
+        while (carried && p > 0) {
+            --p;
+            if (++idx[p] < pool.size()) {
+                carried = false;
+            } else {
+                idx[p] = 0;
+            }
+        }
+        if (carried) {
+            return;
+        }
+    }
+}
+
+// Equivalent of set(x) >= S, where x is a tuple of ints and S is a set of ints.
+template<typename T>
+static bool supersetOf(const std::vector<T>& x, const std::set<T>& S) {
+    std::set<T> xs(x.begin(), x.end());
+    return std::includes(xs.begin(), xs.end(), S.begin(), S.end());
+}
 
 #endif //KNOBAB_SERVER_BASICS_H
